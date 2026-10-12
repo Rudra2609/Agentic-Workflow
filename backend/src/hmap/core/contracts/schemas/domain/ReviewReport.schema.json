@@ -1,0 +1,238 @@
+{
+  "$defs": {
+    "ContextRef": {
+      "description": "Pinned immutable context snapshot ``CTX-42@3`` (research \u00a714).",
+      "properties": {
+        "context_id": {
+          "minLength": 1,
+          "title": "Context Id",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "context_id",
+        "version"
+      ],
+      "title": "ContextRef",
+      "type": "object"
+    },
+    "RequirementResult": {
+      "properties": {
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "rationale": {
+          "default": "",
+          "title": "Rationale",
+          "type": "string"
+        },
+        "req_id": {
+          "minLength": 1,
+          "title": "Req Id",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "PASS",
+            "PARTIAL",
+            "FAIL"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "req_id",
+        "verdict"
+      ],
+      "title": "RequirementResult",
+      "type": "object"
+    },
+    "ReviewFailure": {
+      "properties": {
+        "category": {
+          "enum": [
+            "MISSING",
+            "INCORRECT",
+            "UNTESTED",
+            "UNSUPPORTED_CLAIM",
+            "DOC_MISMATCH",
+            "QUALITY"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "requirement_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Requirement Id"
+        },
+        "responsible_task_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Responsible Task Id"
+        }
+      },
+      "required": [
+        "category",
+        "description"
+      ],
+      "title": "ReviewFailure",
+      "type": "object"
+    },
+    "RevisionPlan": {
+      "properties": {
+        "action": {
+          "enum": [
+            "revise",
+            "rerun",
+            "replan",
+            "escalate"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "context_refs": {
+          "items": {
+            "$ref": "#/$defs/ContextRef"
+          },
+          "title": "Context Refs",
+          "type": "array"
+        },
+        "required_changes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Changes",
+          "type": "array"
+        },
+        "task_id": {
+          "minLength": 1,
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "action"
+      ],
+      "title": "RevisionPlan",
+      "type": "object"
+    },
+    "RubricScore": {
+      "properties": {
+        "criterion_id": {
+          "minLength": 1,
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "max_marks": {
+          "minimum": 0,
+          "title": "Max Marks",
+          "type": "number"
+        },
+        "score": {
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "score",
+        "max_marks"
+      ],
+      "title": "RubricScore",
+      "type": "object"
+    }
+  },
+  "$id": "hmap:ReviewReport:1.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "failures": {
+      "items": {
+        "$ref": "#/$defs/ReviewFailure"
+      },
+      "title": "Failures",
+      "type": "array"
+    },
+    "overall": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Overall",
+      "type": "number"
+    },
+    "project_id": {
+      "minLength": 1,
+      "title": "Project Id",
+      "type": "string"
+    },
+    "recommendation": {
+      "enum": [
+        "PASS",
+        "REVISE",
+        "ESCALATE"
+      ],
+      "title": "Recommendation",
+      "type": "string"
+    },
+    "requirement_results": {
+      "items": {
+        "$ref": "#/$defs/RequirementResult"
+      },
+      "title": "Requirement Results",
+      "type": "array"
+    },
+    "revision_requests": {
+      "items": {
+        "$ref": "#/$defs/RevisionPlan"
+      },
+      "title": "Revision Requests",
+      "type": "array"
+    },
+    "rubric_scores": {
+      "items": {
+        "$ref": "#/$defs/RubricScore"
+      },
+      "title": "Rubric Scores",
+      "type": "array"
+    }
+  },
+  "required": [
+    "project_id",
+    "requirement_results",
+    "overall",
+    "recommendation"
+  ],
+  "title": "ReviewReport",
+  "type": "object",
+  "x-schema-version": "1.0"
+}

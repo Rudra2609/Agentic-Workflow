@@ -1,0 +1,48 @@
+{
+  "$id": "hmap:task.cancel:1.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "execution_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Execution Id"
+    },
+    "grace_deadline": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Grace Deadline"
+    },
+    "reason": {
+      "minLength": 1,
+      "title": "Reason",
+      "type": "string"
+    },
+    "task_id": {
+      "minLength": 1,
+      "title": "Task Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "task_id",
+    "reason"
+  ],
+  "title": "task.cancel",
+  "type": "object",
+  "x-schema-version": "1.0"
+}

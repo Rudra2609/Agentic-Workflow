@@ -1,0 +1,434 @@
+{
+  "$defs": {
+    "ArtifactRef": {
+      "description": "Immutable, content-addressed artifact reference (research \u00a715). A correction is a new version.",
+      "properties": {
+        "access_scope": {
+          "minLength": 1,
+          "title": "Access Scope",
+          "type": "string"
+        },
+        "artifact_id": {
+          "minLength": 1,
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_type": {
+          "minLength": 1,
+          "title": "Artifact Type",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "created_by": {
+          "minLength": 1,
+          "title": "Created By",
+          "type": "string"
+        },
+        "media_type": {
+          "minLength": 1,
+          "title": "Media Type",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "supersedes": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "previous version this one replaces",
+          "title": "Supersedes"
+        },
+        "uri": {
+          "minLength": 1,
+          "title": "Uri",
+          "type": "string"
+        },
+        "version": {
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_type",
+        "version",
+        "uri",
+        "sha256",
+        "media_type",
+        "size_bytes",
+        "created_by",
+        "created_at",
+        "access_scope"
+      ],
+      "title": "ArtifactRef",
+      "type": "object"
+    },
+    "Constraint": {
+      "properties": {
+        "id": {
+          "pattern": "^C\\d+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "default": "other",
+          "enum": [
+            "technology",
+            "format",
+            "process",
+            "resource",
+            "other"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "source_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "Constraint",
+      "type": "object"
+    },
+    "Deliverable": {
+      "properties": {
+        "format": {
+          "default": "",
+          "title": "Format",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^D\\d+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "source_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Deliverable",
+      "type": "object"
+    },
+    "EvaluationCriterion": {
+      "properties": {
+        "criterion": {
+          "minLength": 1,
+          "title": "Criterion",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^E\\d+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "max_marks": {
+          "minimum": 0,
+          "title": "Max Marks",
+          "type": "number"
+        },
+        "rubric_levels": {
+          "items": {
+            "$ref": "#/$defs/RubricLevel"
+          },
+          "title": "Rubric Levels",
+          "type": "array"
+        },
+        "source_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "criterion",
+        "max_marks"
+      ],
+      "title": "EvaluationCriterion",
+      "type": "object"
+    },
+    "Requirement": {
+      "properties": {
+        "confidence": {
+          "default": 1.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "id": {
+          "pattern": "^R\\d+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "priority": {
+          "default": "must",
+          "enum": [
+            "must",
+            "should",
+            "could"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "source_ref": {
+          "$ref": "#/$defs/SourceRef"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "type": {
+          "default": "functional",
+          "enum": [
+            "functional",
+            "non_functional"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "source_ref"
+      ],
+      "title": "Requirement",
+      "type": "object"
+    },
+    "RubricLevel": {
+      "properties": {
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "marks": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Marks"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "title": "RubricLevel",
+      "type": "object"
+    },
+    "SourceRef": {
+      "description": "Where an item came from in the source document (traceability, Sprint 2).",
+      "properties": {
+        "block_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Block Ids",
+          "type": "array"
+        },
+        "char_span": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Char Span"
+        },
+        "doc_id": {
+          "minLength": 1,
+          "title": "Doc Id",
+          "type": "string"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "verbatim text; verified by string match",
+          "title": "Quote"
+        }
+      },
+      "required": [
+        "doc_id"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    }
+  },
+  "$id": "hmap:RequirementSet:1.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "constraints": {
+      "items": {
+        "$ref": "#/$defs/Constraint"
+      },
+      "title": "Constraints",
+      "type": "array"
+    },
+    "deliverables": {
+      "items": {
+        "$ref": "#/$defs/Deliverable"
+      },
+      "title": "Deliverables",
+      "type": "array"
+    },
+    "evaluation_criteria": {
+      "items": {
+        "$ref": "#/$defs/EvaluationCriterion"
+      },
+      "title": "Evaluation Criteria",
+      "type": "array"
+    },
+    "open_questions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Open Questions",
+      "type": "array"
+    },
+    "project_id": {
+      "minLength": 1,
+      "title": "Project Id",
+      "type": "string"
+    },
+    "requirements": {
+      "items": {
+        "$ref": "#/$defs/Requirement"
+      },
+      "title": "Requirements",
+      "type": "array"
+    },
+    "source_docs": {
+      "items": {
+        "$ref": "#/$defs/ArtifactRef"
+      },
+      "title": "Source Docs",
+      "type": "array"
+    },
+    "total_marks": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "total stated in the document, if any",
+      "title": "Total Marks"
+    }
+  },
+  "required": [
+    "project_id",
+    "requirements"
+  ],
+  "title": "RequirementSet",
+  "type": "object",
+  "x-schema-version": "1.0"
+}

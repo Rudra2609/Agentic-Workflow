@@ -1,0 +1,1555 @@
+{
+  "_format": "Each gold item is found if ANY of its alternative keyword sets is fully contained (case-insensitive) in one extracted item's text. Full credit when found in the expected category, half credit when found in another category. 'marks' is the multiset of criterion marks; 'alt_marks' lists other acceptable multisets. 'forbidden' items must NOT be extracted as requirements or constraints (each one found costs 0.15).",
+  "e01_tcp_chat": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "10",
+            "concurrent"
+          ],
+          [
+            "10",
+            "clients"
+          ],
+          [
+            "ten",
+            "clients"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "unique",
+            "username"
+          ],
+          [
+            "duplicate",
+            "username"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "broadcast"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "/msg"
+          ],
+          [
+            "private"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "join"
+          ],
+          [
+            "leave"
+          ],
+          [
+            "leaves"
+          ]
+        ]
+      },
+      {
+        "id": "R6",
+        "any": [
+          [
+            "/who"
+          ],
+          [
+            "online"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "standard library"
+          ],
+          [
+            "stdlib"
+          ],
+          [
+            "third-party"
+          ],
+          [
+            "third party"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "5050"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "source"
+          ],
+          [
+            "server.py"
+          ],
+          [
+            "zip"
+          ]
+        ]
+      },
+      {
+        "id": "D2",
+        "any": [
+          [
+            "readme"
+          ]
+        ]
+      },
+      {
+        "id": "D3",
+        "any": [
+          [
+            "report"
+          ]
+        ]
+      },
+      {
+        "id": "D4",
+        "any": [
+          [
+            "video"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      25,
+      15,
+      15,
+      10,
+      15,
+      20
+    ]
+  },
+  "e02_library_api": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "add",
+            "book"
+          ],
+          [
+            "delete",
+            "book"
+          ],
+          [
+            "update",
+            "book"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "search"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "borrow"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "3",
+            "books"
+          ],
+          [
+            "three",
+            "books"
+          ],
+          [
+            "more than 3"
+          ],
+          [
+            "more than three"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "fine"
+          ]
+        ]
+      },
+      {
+        "id": "R6",
+        "any": [
+          [
+            "json"
+          ],
+          [
+            "rest"
+          ]
+        ]
+      },
+      {
+        "id": "R7",
+        "any": [
+          [
+            "300"
+          ]
+        ]
+      },
+      {
+        "id": "R8",
+        "any": [
+          [
+            "hash"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "fastapi"
+          ],
+          [
+            "flask"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "sqlite"
+          ],
+          [
+            "postgres"
+          ]
+        ]
+      },
+      {
+        "id": "C3",
+        "any": [
+          [
+            "openapi"
+          ],
+          [
+            "swagger"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "repository"
+          ],
+          [
+            "git"
+          ],
+          [
+            "source"
+          ]
+        ]
+      },
+      {
+        "id": "D2",
+        "any": [
+          [
+            "postman"
+          ],
+          [
+            "collection"
+          ]
+        ]
+      },
+      {
+        "id": "D3",
+        "any": [
+          [
+            "test"
+          ]
+        ]
+      },
+      {
+        "id": "D4",
+        "any": [
+          [
+            "design"
+          ],
+          [
+            "er diagram"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      30,
+      20,
+      20,
+      15,
+      15
+    ]
+  },
+  "e03_data_analysis": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "missing"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "monthly",
+            "pm2.5"
+          ],
+          [
+            "monthly average"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "plot"
+          ],
+          [
+            "heatmap"
+          ],
+          [
+            "box plot"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "worst"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "winter"
+          ],
+          [
+            "statistical test"
+          ],
+          [
+            "significan"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "pandas"
+          ],
+          [
+            "python"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "top-to-bottom"
+          ],
+          [
+            "fresh kernel"
+          ],
+          [
+            "without errors"
+          ]
+        ]
+      },
+      {
+        "id": "C3",
+        "any": [
+          [
+            "individual"
+          ],
+          [
+            "plagiarism"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "notebook"
+          ],
+          [
+            "ipynb"
+          ]
+        ]
+      },
+      {
+        "id": "D2",
+        "any": [
+          [
+            "html"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      10,
+      10,
+      20,
+      15,
+      25,
+      20
+    ]
+  },
+  "e04_research_report": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "agreement"
+          ],
+          [
+            "leader election"
+          ],
+          [
+            "how each algorithm"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "fault model"
+          ],
+          [
+            "byzantine",
+            "crash"
+          ],
+          [
+            "failures it tolerates"
+          ],
+          [
+            "tolerat"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "message complexity"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "real systems"
+          ],
+          [
+            "real-world"
+          ],
+          [
+            "systems that use"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "limitation"
+          ],
+          [
+            "failure case"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "3000"
+          ],
+          [
+            "4000"
+          ],
+          [
+            "words"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "8 sources"
+          ],
+          [
+            "eight sources"
+          ],
+          [
+            "at least 8"
+          ],
+          [
+            "peer-reviewed"
+          ],
+          [
+            "peer reviewed"
+          ]
+        ]
+      },
+      {
+        "id": "C3",
+        "any": [
+          [
+            "ieee"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "report"
+          ],
+          [
+            "pdf"
+          ]
+        ]
+      },
+      {
+        "id": "D2",
+        "any": [
+          [
+            "slide"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      40,
+      25,
+      15,
+      20
+    ]
+  },
+  "e05_sorting_lab": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "insertion"
+          ],
+          [
+            "merge sort"
+          ],
+          [
+            "quick sort"
+          ],
+          [
+            "heap sort"
+          ],
+          [
+            "implement"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "built-in"
+          ],
+          [
+            "builtin"
+          ],
+          [
+            "built in"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "running time"
+          ],
+          [
+            "measure"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "median"
+          ],
+          [
+            "5 times"
+          ],
+          [
+            "five times"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "log-log"
+          ],
+          [
+            "log log"
+          ],
+          [
+            "plot"
+          ]
+        ]
+      },
+      {
+        "id": "R6",
+        "any": [
+          [
+            "comparisons"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "c++"
+          ],
+          [
+            "java"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "python is not"
+          ],
+          [
+            "python not"
+          ],
+          [
+            "no python"
+          ],
+          [
+            "not permitted"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "source"
+          ]
+        ]
+      },
+      {
+        "id": "D2",
+        "any": [
+          [
+            "csv"
+          ]
+        ]
+      },
+      {
+        "id": "D3",
+        "any": [
+          [
+            "write-up"
+          ],
+          [
+            "writeup"
+          ],
+          [
+            "write up"
+          ],
+          [
+            "report"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      40,
+      20,
+      15,
+      25
+    ]
+  },
+  "e06_web_scraper": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "headline"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "robots.txt"
+          ],
+          [
+            "2 seconds"
+          ],
+          [
+            "two seconds"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "sqlite"
+          ],
+          [
+            "duplicate"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "--since"
+          ],
+          [
+            "since"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "retry"
+          ],
+          [
+            "backoff"
+          ]
+        ]
+      },
+      {
+        "id": "R6",
+        "any": [
+          [
+            "log"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "scrapy"
+          ],
+          [
+            "selenium"
+          ],
+          [
+            "beautifulsoup"
+          ],
+          [
+            "requests"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "3.10"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "code"
+          ],
+          [
+            "source"
+          ]
+        ]
+      },
+      {
+        "id": "D2",
+        "any": [
+          [
+            "requirements.txt"
+          ]
+        ]
+      },
+      {
+        "id": "D3",
+        "any": [
+          [
+            "readme"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      30,
+      20,
+      20,
+      10,
+      10,
+      10
+    ]
+  },
+  "e07_srs_hospital": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "book"
+          ],
+          [
+            "appointment"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "schedule"
+          ],
+          [
+            "completed"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "working hours"
+          ],
+          [
+            "administrator"
+          ],
+          [
+            "admin"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "reminder"
+          ],
+          [
+            "24 hours"
+          ],
+          [
+            "sms"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "ieee 830"
+          ],
+          [
+            "srs"
+          ],
+          [
+            "software requirements specification"
+          ]
+        ]
+      },
+      {
+        "id": "R6",
+        "any": [
+          [
+            "use-case"
+          ],
+          [
+            "use case"
+          ]
+        ]
+      },
+      {
+        "id": "R7",
+        "any": [
+          [
+            "class diagram"
+          ],
+          [
+            "sequence diagram"
+          ]
+        ]
+      },
+      {
+        "id": "R8",
+        "any": [
+          [
+            "traceability"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "uml tool"
+          ],
+          [
+            "draw.io"
+          ],
+          [
+            "staruml"
+          ],
+          [
+            "plantuml"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "png"
+          ],
+          [
+            "single pdf"
+          ]
+        ]
+      },
+      {
+        "id": "C3",
+        "any": [
+          [
+            "4 or 5"
+          ],
+          [
+            "team"
+          ],
+          [
+            "contribution"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "srs"
+          ],
+          [
+            "software requirements specification"
+          ],
+          [
+            "pdf"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      35,
+      25,
+      25,
+      15
+    ]
+  },
+  "e08_expression_compiler": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "operator"
+          ],
+          [
+            "parenthes"
+          ],
+          [
+            "unary"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "precedence"
+          ],
+          [
+            "associativ"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "syntax tree"
+          ],
+          [
+            "ast"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "syntax error"
+          ],
+          [
+            "line number"
+          ],
+          [
+            "column"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "division by zero"
+          ]
+        ]
+      },
+      {
+        "id": "R6",
+        "any": [
+          [
+            "variable"
+          ],
+          [
+            "assignment"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "by hand"
+          ],
+          [
+            "hand-written"
+          ],
+          [
+            "handwritten"
+          ],
+          [
+            "antlr"
+          ],
+          [
+            "parser generator"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "c, c++"
+          ],
+          [
+            "c++"
+          ],
+          [
+            "java"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "source"
+          ]
+        ]
+      },
+      {
+        "id": "D2",
+        "any": [
+          [
+            "test expressions"
+          ],
+          [
+            "20"
+          ],
+          [
+            "expected output"
+          ]
+        ]
+      },
+      {
+        "id": "D3",
+        "any": [
+          [
+            "grammar"
+          ],
+          [
+            "explanation"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      20,
+      35,
+      20,
+      15,
+      10
+    ],
+    "alt_marks": [
+      [
+        20,
+        35,
+        20,
+        15,
+        10,
+        10
+      ]
+    ]
+  },
+  "e09_fitness_app_distractors": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "workout"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "weekly"
+          ],
+          [
+            "summary chart"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "8 pm"
+          ],
+          [
+            "8pm"
+          ],
+          [
+            "reminder"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "csv"
+          ],
+          [
+            "export"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "offline"
+          ]
+        ]
+      },
+      {
+        "id": "R6",
+        "any": [
+          [
+            "screen-reader"
+          ],
+          [
+            "screen reader"
+          ],
+          [
+            "accessib"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "flutter"
+          ],
+          [
+            "react native"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "paid"
+          ]
+        ]
+      },
+      {
+        "id": "C3",
+        "any": [
+          [
+            "50 mb"
+          ],
+          [
+            "50mb"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "apk"
+          ],
+          [
+            "ipa"
+          ],
+          [
+            "build"
+          ]
+        ]
+      },
+      {
+        "id": "D2",
+        "any": [
+          [
+            "repository"
+          ],
+          [
+            "source"
+          ]
+        ]
+      },
+      {
+        "id": "D3",
+        "any": [
+          [
+            "manual"
+          ]
+        ]
+      },
+      {
+        "id": "D4",
+        "any": [
+          [
+            "test report"
+          ],
+          [
+            "test"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      40,
+      20,
+      15,
+      15,
+      10
+    ],
+    "forbidden": [
+      {
+        "id": "F1",
+        "any": [
+          [
+            "smartwatch"
+          ]
+        ]
+      },
+      {
+        "id": "F2",
+        "any": [
+          [
+            "leaderboard"
+          ]
+        ]
+      },
+      {
+        "id": "F3",
+        "any": [
+          [
+            "social"
+          ]
+        ]
+      },
+      {
+        "id": "F4",
+        "any": [
+          [
+            "dark mode"
+          ]
+        ]
+      },
+      {
+        "id": "F5",
+        "any": [
+          [
+            "voice"
+          ]
+        ]
+      }
+    ]
+  },
+  "e10_shell_prose": {
+    "requirements": [
+      {
+        "id": "R1",
+        "any": [
+          [
+            "external"
+          ],
+          [
+            "arguments"
+          ]
+        ]
+      },
+      {
+        "id": "R2",
+        "any": [
+          [
+            "pipe"
+          ]
+        ]
+      },
+      {
+        "id": "R3",
+        "any": [
+          [
+            "redirect"
+          ]
+        ]
+      },
+      {
+        "id": "R4",
+        "any": [
+          [
+            "background"
+          ]
+        ]
+      },
+      {
+        "id": "R5",
+        "any": [
+          [
+            "cd"
+          ],
+          [
+            "built-in"
+          ],
+          [
+            "builtin"
+          ]
+        ]
+      },
+      {
+        "id": "R6",
+        "any": [
+          [
+            "history"
+          ]
+        ]
+      },
+      {
+        "id": "R7",
+        "any": [
+          [
+            "ctrl+c"
+          ],
+          [
+            "ctrl-c"
+          ],
+          [
+            "sigint"
+          ],
+          [
+            "signal"
+          ]
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "C1",
+        "any": [
+          [
+            "fork"
+          ],
+          [
+            "exec"
+          ],
+          [
+            "system()"
+          ],
+          [
+            "system"
+          ]
+        ]
+      },
+      {
+        "id": "C2",
+        "any": [
+          [
+            "in c"
+          ],
+          [
+            " c "
+          ],
+          [
+            "c language"
+          ],
+          [
+            "written in c"
+          ]
+        ]
+      }
+    ],
+    "deliverables": [
+      {
+        "id": "D1",
+        "any": [
+          [
+            "source"
+          ],
+          [
+            "makefile"
+          ]
+        ]
+      },
+      {
+        "id": "D2",
+        "any": [
+          [
+            "demo"
+          ],
+          [
+            "viva"
+          ]
+        ]
+      }
+    ],
+    "marks": [
+      50,
+      20,
+      15,
+      15
+    ]
+  }
+}

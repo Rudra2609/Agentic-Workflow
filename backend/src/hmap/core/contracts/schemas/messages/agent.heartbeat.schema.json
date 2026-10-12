@@ -1,0 +1,54 @@
+{
+  "$id": "hmap:agent.heartbeat:1.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "agent_id": {
+      "minLength": 1,
+      "title": "Agent Id",
+      "type": "string"
+    },
+    "available_slots": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Available Slots"
+    },
+    "current_execution_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Current Execution Ids",
+      "type": "array"
+    },
+    "observed_at": {
+      "format": "date-time",
+      "title": "Observed At",
+      "type": "string"
+    },
+    "state": {
+      "enum": [
+        "AVAILABLE",
+        "BUSY",
+        "DRAINING",
+        "RECOVERING"
+      ],
+      "title": "State",
+      "type": "string"
+    }
+  },
+  "required": [
+    "agent_id",
+    "state",
+    "observed_at"
+  ],
+  "title": "agent.heartbeat",
+  "type": "object",
+  "x-schema-version": "1.0"
+}

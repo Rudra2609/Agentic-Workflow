@@ -1,0 +1,115 @@
+{
+  "$id": "hmap:ModelSpec:1.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "backend": {
+      "default": "ollama",
+      "enum": [
+        "ollama",
+        "llamacpp",
+        "mlx",
+        "cloud"
+      ],
+      "title": "Backend",
+      "type": "string"
+    },
+    "ctx": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ctx"
+    },
+    "family": {
+      "default": "",
+      "title": "Family",
+      "type": "string"
+    },
+    "id": {
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "mem_gb": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Mem Gb"
+    },
+    "params_b": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Params B"
+    },
+    "quant": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Quant"
+    },
+    "roles_ok": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Roles Ok",
+      "type": "array"
+    },
+    "status": {
+      "default": "installed",
+      "enum": [
+        "installed",
+        "available",
+        "missing",
+        "disabled"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "tok_s": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tok S"
+    }
+  },
+  "required": [
+    "id"
+  ],
+  "title": "ModelSpec",
+  "type": "object",
+  "x-schema-version": "1.0"
+}

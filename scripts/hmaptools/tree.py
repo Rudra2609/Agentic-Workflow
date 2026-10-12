@@ -1,0 +1,90 @@
+"""Snapshot a project tree as {relative_path: sha256} so two folders (or a folder and a git ref) can be compared
+without git. ``make_handoff.sh`` writes this as MANIFEST.json into every handoff folder."""
+
+import fnmatch
+import hashlib
+import json
+import os
+from dataclasses import dataclass, field
+from pathlib import Path
+
+# Never part of the comparable source tree (environments, caches, data, secrets, generated output).
+EXCLUDE_DIRS = {".git", ".venv", "node_modules", ".next", "__pycache__", ".mypy_cache", ".ruff_cache",
+                ".pytest_cache", "data", "logs", "reports", ".turbo", "coverage", "dist", "build", "out"}
+EXCLUDE_GLOBS = ["MANIFEST.json", ".env", ".env.*", "*.pyc", ".DS_Store", "*.gguf", "*.safetensors",
+                 "samples/model_bakeoff/results/*/coding_work/*", "samples/model_bakeoff/results/_gen/*",
+                 "samples/model_bakeoff/finetune/eval_work/*", "samples/model_bakeoff/finetune/adapter/*",
+                 "samples/model_bakeoff/results/_experiments/*/work/*"]
+KEEP = {".env.example"}
+
+
+def is_excluded(rel: str) -> bool:
+    if rel in KEEP:
+        return False
+    parts = rel.split("/")
+    if any(p in EXCLUDE_DIRS for p in parts[:-1]):
+        return True
+    name = parts[-1]
+    return any(fnmatch.fnmatch(name, g) or fnmatch.fnmatch(rel, g) for g in EXCLUDE_GLOBS)
+
+
+def sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def manifest(root: Path) -> dict[str, str]:
+    out: dict[str, str] = {}
+    root = root.resolve()
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in EXCLUDE_DIRS]
+        for name in filenames:
+            p = Path(dirpath) / name
+            rel = p.relative_to(root).as_posix()
+            if p.is_file() and not p.is_symlink() and not is_excluded(rel):
+                out[rel] = sha256_file(p)
+    return dict(sorted(out.items()))
+
+
+def load_manifest(root: Path) -> dict[str, str]:
+    """Use MANIFEST.json if the folder is a handoff snapshot, else compute it."""
+    m = root / "MANIFEST.json"
+    if m.exists():
+        return dict(json.loads(m.read_text())["files"])
+    return manifest(root)
+
+
+@dataclass
+class TreeDiff:
+    added: list[str] = field(default_factory=list)
+    removed: list[str] = field(default_factory=list)
+    modified: list[str] = field(default_factory=list)
+
+    @property
+    def changed(self) -> list[str]:
+        return sorted(self.added + self.removed + self.modified)
+
+    def to_dict(self) -> dict[str, list[str]]:
+        return {"added": self.added, "removed": self.removed, "modified": self.modified}
+
+
+def diff(base: dict[str, str], current: dict[str, str]) -> TreeDiff:
+    d = TreeDiff()
+    for path in sorted(set(base) | set(current)):
+        if path not in base:
+            d.added.append(path)
+        elif path not in current:
+            d.removed.append(path)
+        elif base[path] != current[path]:
+            d.modified.append(path)
+    return d
+
+
+def write_manifest(root: Path, extra: dict[str, object] | None = None) -> Path:
+    data = {"format": 1, **(extra or {}), "files": manifest(root)}
+    path = root / "MANIFEST.json"
+    path.write_text(json.dumps(data, indent=1) + "\n")
+    return path

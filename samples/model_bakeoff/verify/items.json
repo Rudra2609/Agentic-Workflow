@@ -1,0 +1,221 @@
+{
+  "_format": "Claim + evidence quote. Label: SUPPORTED (quote entails claim), NOT_SUPPORTED (quote is related but does not establish the claim), CONTRADICTED (quote says the opposite). The verifier sees only claim and quote.",
+  "items": [
+    {
+      "id": "v01",
+      "claim": "Raft elects a single leader that handles all client requests.",
+      "quote": "Raft first elects a distinguished leader, then gives the leader complete responsibility for managing the replicated log; clients send all their requests to the leader.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v02",
+      "claim": "Raft tolerates Byzantine (malicious) nodes.",
+      "quote": "Raft assumes a crash-stop failure model: servers may fail by stopping and may later recover, but they never behave arbitrarily or maliciously.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v03",
+      "claim": "PBFT needs at least 3f+1 replicas to tolerate f faulty replicas.",
+      "quote": "The algorithm guarantees safety and liveness provided that at most f out of a total of 3f+1 replicas are simultaneously faulty.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v04",
+      "claim": "Paxos was first published in 1998.",
+      "quote": "Paxos is a family of protocols for solving consensus in a network of unreliable processors, introduced by Leslie Lamport.",
+      "label": "NOT_SUPPORTED"
+    },
+    {
+      "id": "v05",
+      "claim": "asyncio runs coroutines in parallel on multiple CPU cores.",
+      "quote": "asyncio uses a single-threaded event loop; coroutines take turns running on one thread and yield control at await points.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v06",
+      "claim": "Python threads can be used to handle many clients in a TCP server.",
+      "quote": "A common design for a small TCP server is to start a new thread for every accepted connection, so that one slow client does not block the others.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v07",
+      "claim": "The GIL makes multithreaded CPU-bound Python code run faster on multi-core machines.",
+      "quote": "Because of the global interpreter lock, only one thread executes Python bytecode at a time, so CPU-bound threads do not run in parallel.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v08",
+      "claim": "SQLite supports concurrent writes from many processes without any locking.",
+      "quote": "SQLite allows many readers at once, but only one writer can hold the database write lock at any moment.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v09",
+      "claim": "Merge sort runs in O(n log n) time in the worst case.",
+      "quote": "Merge sort divides the array into halves, sorts each half recursively and merges them; its running time is O(n log n) in the best, average and worst case.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v10",
+      "claim": "Quick sort is always faster than heap sort.",
+      "quote": "In practice, quick sort is often faster than heap sort on random inputs because of better cache behaviour.",
+      "label": "NOT_SUPPORTED"
+    },
+    {
+      "id": "v11",
+      "claim": "Insertion sort is efficient on nearly sorted inputs.",
+      "quote": "Insertion sort runs in O(n + d) time, where d is the number of inversions, which makes it fast when the input is already almost sorted.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v12",
+      "claim": "The study measured PM2.5 in 12 cities.",
+      "quote": "Hourly PM2.5 and NO2 readings were collected from monitoring stations in five cities during 2025.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v13",
+      "claim": "Winter PM2.5 levels were higher than summer levels in every city.",
+      "quote": "Average winter PM2.5 exceeded the summer average in four of the five cities; the coastal city showed no seasonal difference.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v14",
+      "claim": "PM2.5 is linked to respiratory illness.",
+      "quote": "PM2.5 particles are smaller than 2.5 micrometres in diameter.",
+      "label": "NOT_SUPPORTED"
+    },
+    {
+      "id": "v15",
+      "claim": "robots.txt lets site owners indicate which paths crawlers should not fetch.",
+      "quote": "The robots exclusion protocol allows a website to tell crawlers which parts of the site they are not allowed to access by listing Disallow rules in a robots.txt file.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v16",
+      "claim": "robots.txt technically prevents crawlers from downloading disallowed pages.",
+      "quote": "Compliance with robots.txt is voluntary; the file cannot technically stop a crawler from requesting a page.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v17",
+      "claim": "Exponential backoff reduces load on a failing server.",
+      "quote": "With exponential backoff, the client waits progressively longer between retries, for example 1, 2 and then 4 seconds.",
+      "label": "NOT_SUPPORTED"
+    },
+    {
+      "id": "v18",
+      "claim": "FastAPI generates OpenAPI documentation automatically.",
+      "quote": "FastAPI automatically generates an OpenAPI schema for your API and serves interactive documentation at /docs.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v19",
+      "claim": "Flask was released in 2015.",
+      "quote": "Flask is a lightweight WSGI web application framework written in Python.",
+      "label": "NOT_SUPPORTED"
+    },
+    {
+      "id": "v20",
+      "claim": "bcrypt is a suitable algorithm for storing passwords.",
+      "quote": "Password hashing functions such as bcrypt, scrypt and Argon2 are deliberately slow, which makes brute-force attacks on stolen hashes expensive; they are recommended for password storage.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v21",
+      "claim": "Raft commits a log entry once it is stored on a majority of servers.",
+      "quote": "An entry is committed once the leader has replicated it on a majority of the servers.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v22",
+      "claim": "PM2.5 exceeded the WHO guideline in every city in every month.",
+      "quote": "Monthly averages exceeded the WHO guideline in every city except the coastal one during the monsoon months.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v23",
+      "claim": "The library API must respond within 200 ms.",
+      "quote": "Every endpoint should respond within 300 ms for a database of 10,000 books.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v24",
+      "claim": "Merge sort on arrays needs only O(1) extra memory.",
+      "quote": "The standard array implementation of merge sort needs an auxiliary array of size n.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v25",
+      "claim": "More than half of the surveyed students preferred asyncio.",
+      "quote": "Of the 40 students surveyed, 18 preferred asyncio, 15 preferred threads and 7 had no preference.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v26",
+      "claim": "HotStuff has linear communication complexity in the common case.",
+      "quote": "HotStuff achieves linear communication complexity for the leader to drive a decision in the common case.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v27",
+      "claim": "PBFT was designed only for the crash-fault model.",
+      "quote": "PBFT tolerates arbitrary (Byzantine) behaviour of up to f replicas.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v28",
+      "claim": "The scraper assignment requires Scrapy.",
+      "quote": "You may use requests and BeautifulSoup; do not use Scrapy or Selenium.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v29",
+      "claim": "The free-threaded CPython build is enabled by default in Python 3.13.",
+      "quote": "PEP 703 introduced an optional free-threaded build of CPython, available as an experimental option in Python 3.13.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v30",
+      "claim": "The air-quality data covers all twelve months of 2025.",
+      "quote": "Readings were collected hourly from January to June 2025.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v31",
+      "claim": "Heap sort is a stable sorting algorithm.",
+      "quote": "Heap sort runs in O(n log n) time in the worst case and sorts in place.",
+      "label": "NOT_SUPPORTED"
+    },
+    {
+      "id": "v32",
+      "claim": "The SRS must contain at least 15 functional requirements.",
+      "quote": "A Software Requirements Specification following the IEEE 830 structure, including at least 15 functional and 5 non-functional requirements.",
+      "label": "SUPPORTED"
+    },
+    {
+      "id": "v33",
+      "claim": "bcrypt is preferred for passwords because it is faster than SHA-256.",
+      "quote": "Password hashing functions such as bcrypt are deliberately slow, which makes brute-force attacks on stolen hashes expensive.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v34",
+      "claim": "The chat server listens on port 8080 by default.",
+      "quote": "The server must listen on port 5050 by default; the port may be changed with a command-line argument.",
+      "label": "CONTRADICTED"
+    },
+    {
+      "id": "v35",
+      "claim": "The dataset contains readings for exactly five cities.",
+      "quote": "Hourly readings were collected from monitoring stations in several Indian cities.",
+      "label": "NOT_SUPPORTED"
+    },
+    {
+      "id": "v36",
+      "claim": "Raft was designed to be easier to understand than Paxos.",
+      "quote": "Raft is a consensus algorithm for managing a replicated log; it produces a result equivalent to multi-Paxos.",
+      "label": "NOT_SUPPORTED"
+    }
+  ]
+}

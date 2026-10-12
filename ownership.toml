@@ -1,0 +1,95 @@
+# Who owns which paths (doc 01 §2 "ownership rule"). Used by scripts/ownership_check.py and the regression report.
+# A member may change only their own paths. Paths listed under [shared] belong to Member 1 and need Member 1's
+# sign-off (a note in docs/members/<n>/core-requests.md); changing another member's paths is an error.
+# Globs are matched against repo-relative POSIX paths ("**" = any depth).
+
+[members.1]
+name = "Communication layer, Manager, platform skeleton"
+paths = [
+  "backend/src/hmap/core/**", "backend/src/hmap/manager/**", "backend/src/hmap/services/**",
+  "backend/src/hmap/api/**", "backend/src/hmap/db/**", "backend/src/hmap/system.py", "backend/src/hmap/__init__.py",
+  "backend/src/hmap/agents/__init__.py", "backend/src/hmap/agents/stubs/**", "backend/src/hmap/agents/pipeline/**",
+  "backend/tests/core/**", "backend/tests/manager/**", "backend/tests/services/**", "backend/tests/api/**",
+  "backend/tests/e2e/**", "backend/tests/db/**", "backend/tests/contracts/**", "backend/tests/tooling/**",
+  "backend/tests/agents/stubs/**", "backend/tests/agents/__init__.py", "backend/tests/__init__.py",
+  "backend/tests/conftest.py", "backend/alembic/versions/001_*", "backend/alembic/env.py",
+  "backend/alembic/script.py.mako", "backend/alembic.ini", "backend/pyproject.toml", "backend/uv.lock",
+  "frontend/**", "infra/**", "scripts/**", "docs/**", "samples/model_bakeoff/**", "samples/llm_cache/stubs/**",
+  "samples/demo/**", "samples/README.md", "samples/llm_cache/README.md",
+  "Makefile", "README.md", ".env.example", ".gitignore", "ownership.toml", ".superdesign/**",
+]
+# frontend/src/features/<other member>/ and docs/members/<other member>/ are carved out below (more specific wins)
+
+[members.2]
+name = "Document intelligence"
+plugin = "doc_intel"
+paths = ["backend/src/hmap/agents/doc_intel/**", "backend/tests/doc_intel/**", "frontend/src/features/doc_intel/**",
+         "docs/members/2/**", "samples/doc_intel/**", "samples/llm_cache/doc_intel/**",
+         "backend/alembic/versions/002_*"]
+
+[members.3]
+name = "Planning & task decomposition"
+plugin = "planning"
+paths = ["backend/src/hmap/agents/planning/**", "backend/tests/planning/**", "frontend/src/features/planning/**",
+         "docs/members/3/**", "samples/planning/**", "samples/llm_cache/planning/**", "backend/alembic/versions/003_*"]
+
+[members.4]
+name = "Self-reflection & refinement (+ observability)"
+plugin = "refine"
+paths = ["backend/src/hmap/agents/refine/**", "backend/tests/refine/**", "frontend/src/features/refine/**",
+         "docs/members/4/**", "samples/refine/**", "samples/llm_cache/refine/**", "backend/alembic/versions/004_*"]
+
+[members.5]
+name = "Autonomous research"
+plugin = "research"
+paths = ["backend/src/hmap/agents/research/**", "backend/tests/research/**", "frontend/src/features/research/**",
+         "docs/members/5/**", "samples/research/**", "samples/llm_cache/research/**", "backend/alembic/versions/005_*"]
+
+[members.6]
+name = "Research verification (+ security)"
+plugin = "verify"
+paths = ["backend/src/hmap/agents/verify/**", "backend/tests/verify/**", "frontend/src/features/verify/**",
+         "docs/members/6/**", "samples/verify/**", "samples/llm_cache/verify/**", "backend/alembic/versions/006_*"]
+
+[members.7]
+name = "Autonomous coding"
+plugin = "coding"
+paths = ["backend/src/hmap/agents/coding/**", "backend/tests/coding/**", "frontend/src/features/coding/**",
+         "docs/members/7/**", "samples/coding/**", "samples/llm_cache/coding/**", "backend/alembic/versions/007_*"]
+
+[members.8]
+name = "Testing & execution"
+plugin = "testing"
+paths = ["backend/src/hmap/agents/testing/**", "backend/tests/testing/**", "frontend/src/features/testing/**",
+         "docs/members/8/**", "samples/testing/**", "samples/llm_cache/testing/**", "backend/alembic/versions/008_*"]
+
+[members.9]
+name = "Technical documentation (+ demo packaging)"
+plugin = "docgen"
+paths = ["backend/src/hmap/agents/docgen/**", "backend/tests/docgen/**", "frontend/src/features/docgen/**",
+         "docs/members/9/**", "samples/docgen/**", "samples/llm_cache/docgen/**", "backend/alembic/versions/009_*"]
+
+[members.10]
+name = "Final review & recovery (+ end-to-end integration)"
+plugin = "review"
+paths = ["backend/src/hmap/agents/review/**", "backend/tests/review/**", "frontend/src/features/review/**",
+         "docs/members/10/**", "samples/review/**", "samples/llm_cache/review/**", "backend/alembic/versions/010_*"]
+
+[members.11]
+name = "Local LLMs, routing, benchmarking (+ release gate)"
+plugin = "models"
+paths = ["backend/src/hmap/agents/models/**", "backend/tests/models/**", "frontend/src/features/models/**",
+         "docs/members/11/**", "samples/models/**", "samples/llm_cache/models/**", "backend/alembic/versions/011_*"]
+
+# Files every member may touch (never an ownership error).
+[common]
+paths = ["docs/members/*/core-requests.md"]
+
+# Cross-cutting work that the sprint plan assigns to a member but that lives in Member 1's tree: allowed for that
+# member, reported as "needs Member 1 sign-off" instead of an error.
+[cross_cutting]
+4 = ["infra/docker-compose.obs.yml", "infra/observability/**"]
+6 = ["backend/src/hmap/core/policy.py", "scripts/security_check.sh"]
+9 = ["Makefile", "scripts/demo*", "scripts/seed.sh", "scripts/reset*", "docs/README.md"]
+10 = ["backend/tests/e2e/**", "scripts/demo_final.sh"]
+11 = ["scripts/pull_models.sh", "infra/**"]

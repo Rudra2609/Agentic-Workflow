@@ -1,0 +1,6 @@
+{
+  "model": "qwen3.5:9b",
+  "cold_load_s": 12.67,
+  "resident_gb": 5.77,
+  "wall_s": 7232.0
+}
