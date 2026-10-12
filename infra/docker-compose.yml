@@ -1,0 +1,49 @@
+# hmap infrastructure (Sprint 1 item 1.2). Infra only: the app itself runs natively (doc 02 §3).
+#   make infra-up    -> postgres + rabbitmq, waits until healthy
+#   make infra-down
+# Everything binds to 127.0.0.1. Credentials are dev-only defaults (match .env.example).
+name: hmap
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: hmap
+      POSTGRES_PASSWORD: hmap
+      POSTGRES_DB: hmap
+    ports: ["127.0.0.1:5433:5432"]   # host 5433: 5432 is often taken by a local Homebrew Postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data      # no bind mounts: Colima only shares $HOME, the repo may live elsewhere
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hmap -d hmap"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    deploy:
+      resources:
+        limits: {memory: 512m}
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    environment:
+      RABBITMQ_DEFAULT_USER: hmap
+      RABBITMQ_DEFAULT_PASS: hmap
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"   # management UI: http://127.0.0.1:15672 (hmap/hmap)
+    volumes:
+      - rabbitdata:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    deploy:
+      resources:
+        limits: {memory: 512m}
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  rabbitdata:

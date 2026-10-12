@@ -1,0 +1,17 @@
+Python Programming — Mini Project 2: Polite News Scraper
+
+Build a command-line tool that collects headlines from three news websites chosen from the approved list on the course page.
+
+The tool shall:
+1. Fetch the home page of each site and extract every headline together with its link.
+2. Respect robots.txt and wait at least 2 seconds between requests to the same site.
+3. Store the results in a SQLite database, avoiding duplicate headlines across runs.
+4. Provide a --since option that prints only headlines collected after a given date.
+5. Retry a failed request up to 3 times with exponential backoff.
+6. Write errors to a log file instead of crashing.
+
+Restrictions: you may use requests and BeautifulSoup; do not use Scrapy or Selenium. The program must run on Python 3.10 or newer.
+
+Please hand in your code, a requirements.txt, and a short README with example commands.
+
+Rubric: scraping correctness 30, politeness (robots.txt and delays) 20, database and duplicates 20, CLI options 10, error handling and logging 10, code style 10. Total = 100.

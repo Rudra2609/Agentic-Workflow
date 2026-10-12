@@ -1,0 +1,65 @@
+{
+  "_format": "Critic test. 'planted' empty = clean control (expected verdict ok, no major/critical issue). Otherwise the critic must answer needs_revision AND one issue's description must match one of the keyword sets.",
+  "items": [
+    {
+      "id": "k01_missing_requirement",
+      "context": "Extract all functional requirements from this assignment text: 'The server must accept 10 concurrent clients. Each client must register a unique username. Messages must be broadcast to all other clients. The server must support private messages with /msg <user> <text>. Users can list who is online with /who.'",
+      "artifact": "{\"requirements\": [{\"id\": \"R1\", \"text\": \"Accept 10 concurrent clients\"}, {\"id\": \"R2\", \"text\": \"Unique username registration\"}, {\"id\": \"R3\", \"text\": \"Broadcast messages to all other clients\"}, {\"id\": \"R4\", \"text\": \"/who lists online users\"}]}",
+      "planted": [{"category": "OMISSION", "any": [["/msg"], ["private"]]}]
+    },
+    {
+      "id": "k02_wrong_dependency",
+      "context": "Produce a task plan for: implement a CSV parser and test it. Each task lists the tasks it depends on.",
+      "artifact": "{\"tasks\": [{\"id\": \"T1\", \"title\": \"Design parser API\", \"depends_on\": []}, {\"id\": \"T2\", \"title\": \"Implement CSV parser\", \"depends_on\": [\"T1\", \"T3\"]}, {\"id\": \"T3\", \"title\": \"Run unit tests on the CSV parser\", \"depends_on\": [\"T1\"]}, {\"id\": \"T4\", \"title\": \"Final review\", \"depends_on\": [\"T2\"]}]}",
+      "planted": [{"category": "LOGIC", "any": [["depend"], ["order"], ["before"], ["after"]]}]
+    },
+    {
+      "id": "k03_off_by_one",
+      "context": "Write a Python function mean(xs) that returns the arithmetic mean of a non-empty list of numbers.",
+      "artifact": "def mean(xs):\n    \"\"\"Return the arithmetic mean of xs.\"\"\"\n    total = 0\n    for x in xs:\n        total += x\n    return total / (len(xs) - 1)",
+      "planted": [{"category": "LOGIC", "any": [["len"], ["divid"], ["off-by-one"], ["off by one"], ["- 1"], ["-1"], ["denominator"]]}]
+    },
+    {
+      "id": "k04_factual_error",
+      "context": "Summarize the fault model of the Raft consensus algorithm in two sentences.",
+      "artifact": "Raft tolerates Byzantine faults as long as fewer than one third of the nodes are malicious. It elects a leader that replicates log entries to followers.",
+      "planted": [{"category": "FACTUAL", "any": [["byzantine"], ["crash"], ["malicious"]]}]
+    },
+    {
+      "id": "k05_hallucinated_tech",
+      "context": "Write the 'Architecture' paragraph of a README. Facts extracted from the repository: language=Python, framework=FastAPI, database=SQLite, dependencies=[fastapi, uvicorn, sqlalchemy, pydantic]. No other services exist.",
+      "artifact": "The service is built with FastAPI and stores data in SQLite through SQLAlchemy. Frequently requested books are cached in Redis to keep response times under 300 ms.",
+      "planted": [{"category": "HALLUCINATION", "any": [["redis"], ["cache"], ["caching"]]}]
+    },
+    {
+      "id": "k06_marks_mismatch",
+      "context": "Extract the evaluation criteria with marks. The document states the total is 100 marks: Implementation 40, Testing 25, Report 20, Presentation 15.",
+      "artifact": "{\"evaluation_criteria\": [{\"criterion\": \"Implementation\", \"max_marks\": 40}, {\"criterion\": \"Testing\", \"max_marks\": 25}, {\"criterion\": \"Report\", \"max_marks\": 10}, {\"criterion\": \"Presentation\", \"max_marks\": 15}]}",
+      "planted": [{"category": "CONSISTENCY", "any": [["90"], ["sum"], ["total"], ["add up"], ["report"], ["20"]]}]
+    },
+    {
+      "id": "k07_forbidden_eval",
+      "context": "Assignment rule: write the expression parser by hand; using Python's eval or any parser generator is not allowed. Task: implement evaluate(expr: str) -> float for + - * / and parentheses.",
+      "artifact": "def evaluate(expr: str) -> float:\n    allowed = set('0123456789+-*/(). ')\n    if not set(expr) <= allowed:\n        raise ValueError('bad character')\n    return float(eval(expr))",
+      "planted": [{"category": "REQUIREMENT_VIOLATION", "any": [["eval"], ["by hand"], ["not allowed"]]}]
+    },
+    {
+      "id": "k08_clean_function",
+      "context": "Write a Python function is_palindrome(s) that ignores case and non-alphanumeric characters.",
+      "artifact": "def is_palindrome(s: str) -> bool:\n    \"\"\"Return True if s reads the same forwards and backwards, ignoring case and non-alphanumerics.\"\"\"\n    cleaned = [c.lower() for c in s if c.isalnum()]\n    return cleaned == cleaned[::-1]",
+      "planted": []
+    },
+    {
+      "id": "k09_clean_requirements",
+      "context": "Extract all functional requirements: 'The tool fetches headlines from three sites, respects robots.txt with a 2-second delay, stores results in SQLite without duplicates, offers a --since option, retries failed requests 3 times with exponential backoff, and logs errors instead of crashing.'",
+      "artifact": "{\"requirements\": [{\"id\": \"R1\", \"text\": \"Fetch headlines and links from three news sites\"}, {\"id\": \"R2\", \"text\": \"Respect robots.txt and wait 2 seconds between requests\"}, {\"id\": \"R3\", \"text\": \"Store results in SQLite without duplicates\"}, {\"id\": \"R4\", \"text\": \"--since option filters headlines by date\"}, {\"id\": \"R5\", \"text\": \"Retry failed requests up to 3 times with exponential backoff\"}, {\"id\": \"R6\", \"text\": \"Log errors instead of crashing\"}]}",
+      "planted": []
+    },
+    {
+      "id": "k10_clean_plan",
+      "context": "Produce a task plan for: implement a CSV parser and test it. Each task lists the tasks it depends on.",
+      "artifact": "{\"tasks\": [{\"id\": \"T1\", \"title\": \"Design parser API\", \"depends_on\": []}, {\"id\": \"T2\", \"title\": \"Implement CSV parser\", \"depends_on\": [\"T1\"]}, {\"id\": \"T3\", \"title\": \"Write and run unit tests for the parser\", \"depends_on\": [\"T2\"]}, {\"id\": \"T4\", \"title\": \"Final review\", \"depends_on\": [\"T3\"]}]}",
+      "planted": []
+    }
+  ]
+}

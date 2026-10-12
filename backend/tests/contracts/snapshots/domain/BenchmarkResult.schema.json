@@ -1,0 +1,87 @@
+{
+  "$id": "hmap:BenchmarkResult:1.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "mem_gb": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Mem Gb"
+    },
+    "model": {
+      "minLength": 1,
+      "title": "Model",
+      "type": "string"
+    },
+    "quality_score": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Quality Score",
+      "type": "number"
+    },
+    "quant": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Quant"
+    },
+    "role": {
+      "minLength": 1,
+      "title": "Role",
+      "type": "string"
+    },
+    "task": {
+      "minLength": 1,
+      "title": "Task",
+      "type": "string"
+    },
+    "tok_s": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tok S"
+    },
+    "ttft_s": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ttft S"
+    }
+  },
+  "required": [
+    "model",
+    "role",
+    "task",
+    "quality_score"
+  ],
+  "title": "BenchmarkResult",
+  "type": "object",
+  "x-schema-version": "1.0"
+}

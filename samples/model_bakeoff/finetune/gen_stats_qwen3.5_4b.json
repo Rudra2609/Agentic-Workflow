@@ -1,0 +1,92 @@
+[
+  {
+    "task": "c01_parse_log_line",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 1
+  },
+  {
+    "task": "c02_top_words",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 5
+  },
+  {
+    "task": "c03_is_valid_ipv4",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 2
+  },
+  {
+    "task": "c04_matmul",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 4
+  },
+  {
+    "task": "c05_lru_cache",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 4
+  },
+  {
+    "task": "c06_merge_intervals",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 2
+  },
+  {
+    "task": "c07_column_means",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 0
+  },
+  {
+    "task": "c08_tokenize",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 3
+  },
+  {
+    "task": "c09_evaluate",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 0
+  },
+  {
+    "task": "c10_topo_order",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 2
+  },
+  {
+    "task": "c11_bank_account",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 2
+  },
+  {
+    "task": "c12_token_bucket",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 5
+  },
+  {
+    "task": "c13_validate",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 5
+  },
+  {
+    "task": "c14_vigenere",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 3
+  },
+  {
+    "task": "c15_binary_search",
+    "samples": 6,
+    "unique": 6,
+    "accepted": 4
+  }
+]

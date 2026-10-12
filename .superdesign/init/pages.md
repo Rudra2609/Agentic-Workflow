@@ -1,0 +1,302 @@
+# Pages and dependency trees
+
+## / (Workspace)
+Entry: `frontend/src/app/(app)/page.tsx`
+Dependencies:
+- frontend/src/views/WorkspaceView.tsx
+  - frontend/src/components/AppShell.tsx
+    - frontend/src/components/EventStreamProvider.tsx
+      - frontend/src/lib/useEventStream.ts
+        - frontend/src/lib/api.ts
+          - frontend/src/lib/config.ts
+          - frontend/src/lib/types.ts
+        - frontend/src/lib/config.ts (see above)
+        - frontend/src/lib/eventStream.ts
+          - frontend/src/lib/config.ts (see above)
+          - frontend/src/lib/types.ts (see above)
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/components/ui.tsx
+      - frontend/src/lib/api.ts (see above)
+      - frontend/src/lib/config.ts (see above)
+      - frontend/src/lib/plain.ts
+        - frontend/src/lib/format.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/api.ts (see above)
+    - frontend/src/lib/auth.tsx
+      - frontend/src/components/ui.tsx (see above)
+      - frontend/src/lib/api.ts (see above)
+      - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/eventStream.ts (see above)
+    - frontend/src/lib/featureRegistry.ts
+      - frontend/src/lib/features.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/plain.ts (see above)
+    - frontend/src/lib/preferences.tsx
+    - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/useApiQuery.ts
+    - frontend/src/lib/useEventStream.ts (see above)
+  - frontend/src/components/Toast.tsx
+    - frontend/src/components/ui.tsx (see above)
+  - frontend/src/components/ui.tsx (see above)
+  - frontend/src/lib/api.ts (see above)
+  - frontend/src/lib/auth.tsx (see above)
+  - frontend/src/lib/format.ts (see above)
+  - frontend/src/lib/plain.ts (see above)
+  - frontend/src/lib/preferences.tsx (see above)
+  - frontend/src/lib/types.ts (see above)
+  - frontend/src/lib/useApiQuery.ts (see above)
+
+## /projects/[id] (Project workspace)
+Entry: `frontend/src/app/(app)/projects/[id]/page.tsx`
+Dependencies:
+- frontend/src/views/ProjectDetailView.tsx
+  - frontend/src/components/ActivityTimeline.tsx
+    - frontend/src/components/ui.tsx
+      - frontend/src/lib/api.ts
+        - frontend/src/lib/config.ts
+        - frontend/src/lib/types.ts
+      - frontend/src/lib/config.ts (see above)
+      - frontend/src/lib/plain.ts
+        - frontend/src/lib/format.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/format.ts (see above)
+    - frontend/src/lib/plain.ts (see above)
+    - frontend/src/lib/types.ts (see above)
+  - frontend/src/components/ErrorBoundary.tsx
+  - frontend/src/components/EventLog.tsx
+    - frontend/src/components/ui.tsx (see above)
+    - frontend/src/lib/eventStream.ts
+      - frontend/src/lib/config.ts (see above)
+      - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/format.ts (see above)
+    - frontend/src/lib/types.ts (see above)
+  - frontend/src/components/Tabs.tsx
+    - frontend/src/components/ui.tsx (see above)
+  - frontend/src/components/TaskInspector.tsx
+    - frontend/src/components/StateChip.tsx
+      - frontend/src/components/ui.tsx (see above)
+      - frontend/src/lib/format.ts (see above)
+      - frontend/src/lib/types.ts (see above)
+    - frontend/src/components/ui.tsx (see above)
+    - frontend/src/lib/api.ts (see above)
+    - frontend/src/lib/format.ts (see above)
+    - frontend/src/lib/plain.ts (see above)
+    - frontend/src/lib/preferences.tsx
+    - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/useApiQuery.ts
+    - frontend/src/lib/useEventStream.ts
+      - frontend/src/lib/api.ts (see above)
+      - frontend/src/lib/config.ts (see above)
+      - frontend/src/lib/eventStream.ts (see above)
+      - frontend/src/lib/types.ts (see above)
+  - frontend/src/components/Toast.tsx
+    - frontend/src/components/ui.tsx (see above)
+  - frontend/src/components/Workflow.tsx
+    - frontend/src/components/ui.tsx (see above)
+    - frontend/src/lib/plain.ts (see above)
+    - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/workflow.ts
+      - frontend/src/lib/plain.ts (see above)
+      - frontend/src/lib/types.ts (see above)
+  - frontend/src/components/ui.tsx (see above)
+  - frontend/src/lib/api.ts (see above)
+  - frontend/src/lib/featureRegistry.ts
+    - frontend/src/lib/features.ts
+      - frontend/src/lib/types.ts (see above)
+  - frontend/src/lib/format.ts (see above)
+  - frontend/src/lib/plain.ts (see above)
+  - frontend/src/lib/preferences.tsx (see above)
+  - frontend/src/lib/types.ts (see above)
+  - frontend/src/lib/useApiQuery.ts (see above)
+  - frontend/src/lib/useEventStream.ts (see above)
+  - frontend/src/lib/workflow.ts (see above)
+
+## /team
+Entry: `frontend/src/app/(app)/team/page.tsx`
+Dependencies:
+- frontend/src/views/TeamView.tsx
+  - frontend/src/components/EventStreamProvider.tsx
+    - frontend/src/lib/useEventStream.ts
+      - frontend/src/lib/api.ts
+        - frontend/src/lib/config.ts
+        - frontend/src/lib/types.ts
+      - frontend/src/lib/config.ts (see above)
+      - frontend/src/lib/eventStream.ts
+        - frontend/src/lib/config.ts (see above)
+        - frontend/src/lib/types.ts (see above)
+      - frontend/src/lib/types.ts (see above)
+  - frontend/src/components/StateChip.tsx
+    - frontend/src/components/ui.tsx
+      - frontend/src/lib/api.ts (see above)
+      - frontend/src/lib/config.ts (see above)
+      - frontend/src/lib/plain.ts
+        - frontend/src/lib/format.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/format.ts (see above)
+    - frontend/src/lib/types.ts (see above)
+  - frontend/src/components/ui.tsx (see above)
+  - frontend/src/lib/api.ts (see above)
+  - frontend/src/lib/format.ts (see above)
+  - frontend/src/lib/plain.ts (see above)
+  - frontend/src/lib/preferences.tsx
+  - frontend/src/lib/types.ts (see above)
+  - frontend/src/lib/useApiQuery.ts
+  - frontend/src/lib/useEventStream.ts (see above)
+  - frontend/src/lib/useNow.ts
+
+## /activity
+Entry: `frontend/src/app/(app)/activity/page.tsx`
+Dependencies:
+- frontend/src/views/ActivityView.tsx
+  - frontend/src/components/ActivityTimeline.tsx
+    - frontend/src/components/ui.tsx
+      - frontend/src/lib/api.ts
+        - frontend/src/lib/config.ts
+        - frontend/src/lib/types.ts
+      - frontend/src/lib/config.ts (see above)
+      - frontend/src/lib/plain.ts
+        - frontend/src/lib/format.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/format.ts (see above)
+    - frontend/src/lib/plain.ts (see above)
+    - frontend/src/lib/types.ts (see above)
+  - frontend/src/components/AppShell.tsx
+    - frontend/src/components/EventStreamProvider.tsx
+      - frontend/src/lib/useEventStream.ts
+        - frontend/src/lib/api.ts (see above)
+        - frontend/src/lib/config.ts (see above)
+        - frontend/src/lib/eventStream.ts
+          - frontend/src/lib/config.ts (see above)
+          - frontend/src/lib/types.ts (see above)
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/components/ui.tsx (see above)
+    - frontend/src/lib/api.ts (see above)
+    - frontend/src/lib/auth.tsx
+      - frontend/src/components/ui.tsx (see above)
+      - frontend/src/lib/api.ts (see above)
+      - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/eventStream.ts (see above)
+    - frontend/src/lib/featureRegistry.ts
+      - frontend/src/lib/features.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/plain.ts (see above)
+    - frontend/src/lib/preferences.tsx
+    - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/useApiQuery.ts
+    - frontend/src/lib/useEventStream.ts (see above)
+  - frontend/src/components/EventLog.tsx
+    - frontend/src/components/ui.tsx (see above)
+    - frontend/src/lib/eventStream.ts (see above)
+    - frontend/src/lib/format.ts (see above)
+    - frontend/src/lib/types.ts (see above)
+  - frontend/src/components/EventStreamProvider.tsx (see above)
+  - frontend/src/components/ui.tsx (see above)
+  - frontend/src/lib/eventStream.ts (see above)
+  - frontend/src/lib/preferences.tsx (see above)
+
+## /issues
+Entry: `frontend/src/app/(app)/issues/page.tsx`
+Dependencies:
+- frontend/src/views/IssuesView.tsx
+  - frontend/src/components/AppShell.tsx
+    - frontend/src/components/EventStreamProvider.tsx
+      - frontend/src/lib/useEventStream.ts
+        - frontend/src/lib/api.ts
+          - frontend/src/lib/config.ts
+          - frontend/src/lib/types.ts
+        - frontend/src/lib/config.ts (see above)
+        - frontend/src/lib/eventStream.ts
+          - frontend/src/lib/config.ts (see above)
+          - frontend/src/lib/types.ts (see above)
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/components/ui.tsx
+      - frontend/src/lib/api.ts (see above)
+      - frontend/src/lib/config.ts (see above)
+      - frontend/src/lib/plain.ts
+        - frontend/src/lib/format.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/api.ts (see above)
+    - frontend/src/lib/auth.tsx
+      - frontend/src/components/ui.tsx (see above)
+      - frontend/src/lib/api.ts (see above)
+      - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/eventStream.ts (see above)
+    - frontend/src/lib/featureRegistry.ts
+      - frontend/src/lib/features.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/plain.ts (see above)
+    - frontend/src/lib/preferences.tsx
+    - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/useApiQuery.ts
+    - frontend/src/lib/useEventStream.ts (see above)
+  - frontend/src/components/ui.tsx (see above)
+  - frontend/src/lib/api.ts (see above)
+  - frontend/src/lib/format.ts (see above)
+  - frontend/src/lib/plain.ts (see above)
+  - frontend/src/lib/preferences.tsx (see above)
+  - frontend/src/lib/types.ts (see above)
+  - frontend/src/lib/useApiQuery.ts (see above)
+  - frontend/src/lib/workflow.ts
+    - frontend/src/lib/plain.ts (see above)
+    - frontend/src/lib/types.ts (see above)
+
+## /settings
+Entry: `frontend/src/app/(app)/settings/page.tsx`
+Dependencies:
+- frontend/src/views/SettingsView.tsx
+  - frontend/src/components/AppShell.tsx
+    - frontend/src/components/EventStreamProvider.tsx
+      - frontend/src/lib/useEventStream.ts
+        - frontend/src/lib/api.ts
+          - frontend/src/lib/config.ts
+          - frontend/src/lib/types.ts
+        - frontend/src/lib/config.ts (see above)
+        - frontend/src/lib/eventStream.ts
+          - frontend/src/lib/config.ts (see above)
+          - frontend/src/lib/types.ts (see above)
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/components/ui.tsx
+      - frontend/src/lib/api.ts (see above)
+      - frontend/src/lib/config.ts (see above)
+      - frontend/src/lib/plain.ts
+        - frontend/src/lib/format.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/api.ts (see above)
+    - frontend/src/lib/auth.tsx
+      - frontend/src/components/ui.tsx (see above)
+      - frontend/src/lib/api.ts (see above)
+      - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/eventStream.ts (see above)
+    - frontend/src/lib/featureRegistry.ts
+      - frontend/src/lib/features.ts
+        - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/plain.ts (see above)
+    - frontend/src/lib/preferences.tsx
+    - frontend/src/lib/types.ts (see above)
+    - frontend/src/lib/useApiQuery.ts
+    - frontend/src/lib/useEventStream.ts (see above)
+  - frontend/src/components/Toast.tsx
+    - frontend/src/components/ui.tsx (see above)
+  - frontend/src/components/ui.tsx (see above)
+  - frontend/src/lib/api.ts (see above)
+  - frontend/src/lib/auth.tsx (see above)
+  - frontend/src/lib/format.ts (see above)
+
+## /login
+Entry: `frontend/src/app/(auth)/login/page.tsx`
+Dependencies:
+- frontend/src/views/AuthViews.tsx
+  - frontend/src/components/ui.tsx
+    - frontend/src/lib/api.ts
+      - frontend/src/lib/config.ts
+      - frontend/src/lib/types.ts
+    - frontend/src/lib/config.ts (see above)
+    - frontend/src/lib/plain.ts
+      - frontend/src/lib/format.ts
+      - frontend/src/lib/types.ts (see above)
+  - frontend/src/lib/api.ts (see above)
+  - frontend/src/lib/auth.tsx
+    - frontend/src/components/ui.tsx (see above)
+    - frontend/src/lib/api.ts (see above)
+    - frontend/src/lib/types.ts (see above)
+

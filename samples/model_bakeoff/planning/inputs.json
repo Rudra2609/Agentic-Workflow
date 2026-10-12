@@ -1,0 +1,335 @@
+{
+  "_format": "Each item is a requirement set the model must turn into a task graph. Scoring is fully programmatic (see scripts/model_bakeoff.py: score_planning). expects_code=false means the plan must not contain code.implement/test.run tasks. Optional 'must_precede' pairs [a, b]: every task covering requirement b must have a task covering a among its ancestors (or cover a itself). 'notes' are given to the planner.",
+  "items": [
+    {
+      "id": "p01_tcp_chat",
+      "expects_code": true,
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Server accepts at least 10 concurrent clients."
+        },
+        {
+          "id": "R2",
+          "text": "Clients register a unique username; duplicates are rejected."
+        },
+        {
+          "id": "R3",
+          "text": "Messages are broadcast to all other clients with the sender's username."
+        },
+        {
+          "id": "R4",
+          "text": "Private messages via /msg <user> <text>."
+        },
+        {
+          "id": "R5",
+          "text": "All clients are notified when a user joins or leaves."
+        },
+        {
+          "id": "R6",
+          "text": "/who lists online users."
+        }
+      ],
+      "constraints": [
+        "Python 3 standard library only",
+        "Default port 5050, configurable"
+      ],
+      "deliverables": [
+        "server.py and client.py (zip)",
+        "README",
+        "2-page concurrency report (PDF)",
+        "demo video"
+      ]
+    },
+    {
+      "id": "p02_library_api",
+      "expects_code": true,
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Librarians add, update and delete books."
+        },
+        {
+          "id": "R2",
+          "text": "Members search books by title or author."
+        },
+        {
+          "id": "R3",
+          "text": "Members borrow and return books when copies are available."
+        },
+        {
+          "id": "R4",
+          "text": "A member may hold at most 3 books."
+        },
+        {
+          "id": "R5",
+          "text": "Late returns are fined Rs. 5 per day after 14 days."
+        },
+        {
+          "id": "R6",
+          "text": "All operations are JSON REST endpoints documented with OpenAPI."
+        },
+        {
+          "id": "R7",
+          "text": "Passwords are stored hashed."
+        }
+      ],
+      "constraints": [
+        "FastAPI or Flask",
+        "SQLite or PostgreSQL",
+        "70% test coverage"
+      ],
+      "deliverables": [
+        "Git repository",
+        "Postman collection",
+        "unit tests",
+        "design document with ER diagram"
+      ]
+    },
+    {
+      "id": "p03_air_quality",
+      "expects_code": true,
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Handle and document missing values."
+        },
+        {
+          "id": "R2",
+          "text": "Table of monthly average PM2.5 per city."
+        },
+        {
+          "id": "R3",
+          "text": "Time-series, box plot and correlation heatmap."
+        },
+        {
+          "id": "R4",
+          "text": "Identify and justify the worst city."
+        },
+        {
+          "id": "R5",
+          "text": "Statistical test: winter vs summer PM2.5 at 5% significance."
+        }
+      ],
+      "constraints": [
+        "Python with pandas, matplotlib/seaborn, scipy",
+        "Notebook runs top-to-bottom"
+      ],
+      "deliverables": [
+        "Jupyter notebook",
+        "HTML export"
+      ]
+    },
+    {
+      "id": "p04_consensus_report",
+      "expects_code": false,
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Explain how Paxos, Raft and one BFT protocol reach agreement."
+        },
+        {
+          "id": "R2",
+          "text": "State each algorithm's fault model and tolerance."
+        },
+        {
+          "id": "R3",
+          "text": "Compare message complexity."
+        },
+        {
+          "id": "R4",
+          "text": "Two real systems each for Paxos and Raft."
+        },
+        {
+          "id": "R5",
+          "text": "One limitation per algorithm."
+        }
+      ],
+      "constraints": [
+        "3000-4000 words",
+        "at least 8 sources, 4 peer-reviewed",
+        "IEEE citations"
+      ],
+      "deliverables": [
+        "report PDF",
+        "one-slide summary"
+      ]
+    },
+    {
+      "id": "p05_news_scraper",
+      "expects_code": true,
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Extract headlines and links from three news sites."
+        },
+        {
+          "id": "R2",
+          "text": "Respect robots.txt and wait 2 seconds between requests per site."
+        },
+        {
+          "id": "R3",
+          "text": "Store results in SQLite without duplicates across runs."
+        },
+        {
+          "id": "R4",
+          "text": "--since option prints headlines collected after a date."
+        },
+        {
+          "id": "R5",
+          "text": "Retry failed requests up to 3 times with exponential backoff."
+        },
+        {
+          "id": "R6",
+          "text": "Log errors instead of crashing."
+        }
+      ],
+      "constraints": [
+        "requests + BeautifulSoup only",
+        "Python 3.10+"
+      ],
+      "deliverables": [
+        "code",
+        "requirements.txt",
+        "README"
+      ]
+    },
+    {
+      "id": "p06_attendance_system",
+      "expects_code": true,
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Define the REST API specification (endpoints, payloads) for the attendance service."
+        },
+        {
+          "id": "R2",
+          "text": "Implement the face-registration endpoint that stores a student's face embedding."
+        },
+        {
+          "id": "R3",
+          "text": "Implement the attendance-marking endpoint that matches a camera frame against registered faces."
+        },
+        {
+          "id": "R4",
+          "text": "Compare at least two open-source face-recognition libraries and choose one."
+        },
+        {
+          "id": "R5",
+          "text": "Build a web dashboard for teachers showing attendance per lecture."
+        },
+        {
+          "id": "R6",
+          "text": "Export attendance reports as CSV."
+        },
+        {
+          "id": "R7",
+          "text": "Integration tests covering every endpoint."
+        },
+        {
+          "id": "R8",
+          "text": "User manual for teachers."
+        },
+        {
+          "id": "R9",
+          "text": "A privacy note explaining how biometric data is stored and deleted, based on current data-protection guidance."
+        },
+        {
+          "id": "R10",
+          "text": "Load test showing the marking endpoint handles 100 requests per second."
+        }
+      ],
+      "notes": "The face library must be chosen (R4) before registration (R2) is built. The dashboard (R5) consumes the API defined in R1. Attendance marking (R3) needs faces registered by R2. The privacy note (R9) needs research on data-protection guidance first.",
+      "constraints": [
+        "Python backend",
+        "open-source libraries only"
+      ],
+      "deliverables": [
+        "source repository",
+        "user manual",
+        "privacy note",
+        "test and load-test report"
+      ],
+      "must_precede": [
+        [
+          "R4",
+          "R2"
+        ],
+        [
+          "R1",
+          "R5"
+        ],
+        [
+          "R2",
+          "R3"
+        ],
+        [
+          "R3",
+          "R10"
+        ]
+      ]
+    },
+    {
+      "id": "p07_expression_compiler",
+      "expects_code": true,
+      "requirements": [
+        {
+          "id": "R1",
+          "text": "Write the expression grammar (precedence and associativity rules)."
+        },
+        {
+          "id": "R2",
+          "text": "Hand-written lexer producing tokens with line and column."
+        },
+        {
+          "id": "R3",
+          "text": "Recursive-descent parser that builds an AST."
+        },
+        {
+          "id": "R4",
+          "text": "Evaluator that walks the AST."
+        },
+        {
+          "id": "R5",
+          "text": "Syntax errors reported with line and column, continuing with the next line."
+        },
+        {
+          "id": "R6",
+          "text": "File of at least 20 test expressions with expected outputs."
+        },
+        {
+          "id": "R7",
+          "text": "One-page explanation of the grammar."
+        }
+      ],
+      "notes": "The parser is derived from the grammar and consumes the lexer's tokens; the evaluator walks the parser's AST; the explanation document describes the final grammar.",
+      "constraints": [
+        "no parser generators",
+        "C, C++, Java or Python"
+      ],
+      "deliverables": [
+        "source code",
+        "test expression file",
+        "grammar explanation"
+      ],
+      "must_precede": [
+        [
+          "R1",
+          "R3"
+        ],
+        [
+          "R2",
+          "R3"
+        ],
+        [
+          "R3",
+          "R4"
+        ],
+        [
+          "R1",
+          "R7"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+# Node / Next.js
+node_modules/
+.next/
+frontend/out/
+*.tsbuildinfo
+# Secrets and local config (keys live ONLY in .env — see CLAUDE.md)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+# Runtime data and logs (artifact store, dev mailbox, Postgres volume, server logs)
+data/
+logs/
+*.log
+# Local experiment outputs (keep datasets and summaries, drop bulky run artefacts; mirrors scripts/hmaptools/tree.py)
+samples/model_bakeoff/results/*/coding_work/
+samples/model_bakeoff/results/_gen/
+samples/model_bakeoff/results/_experiments/*/work/
+samples/model_bakeoff/finetune/eval_work/
+samples/model_bakeoff/finetune/adapter/
+# Model weights
+*.gguf
+*.safetensors
+# Handoff manifests and regression / pre-commit reports (local)
+MANIFEST.json
+reports/
+# Per-user tool state
+.superdesign/tmp/
+.superdesign/resume.json
+.idea/
+.vscode/
+# OS
+.DS_Store
+# Kept local, not in the team repo: Claude Code config and Member 1's working notes
+CLAUDE.md
+.claude/
+HANDOFF.md
+CONTRIBUTING.md

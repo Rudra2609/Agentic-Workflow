@@ -1,0 +1,30 @@
+{
+  "$id": "hmap:task.started:1.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "estimated_finish": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Estimated Finish"
+    },
+    "execution_id": {
+      "minLength": 1,
+      "title": "Execution Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "execution_id"
+  ],
+  "title": "task.started",
+  "type": "object",
+  "x-schema-version": "1.0"
+}

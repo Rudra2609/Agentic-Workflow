@@ -1,0 +1,88 @@
+{
+  "$defs": {
+    "ResearchBudget": {
+      "properties": {
+        "max_rounds": {
+          "default": 3,
+          "minimum": 1,
+          "title": "Max Rounds",
+          "type": "integer"
+        },
+        "max_seconds": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Seconds"
+        },
+        "max_sources": {
+          "default": 20,
+          "minimum": 1,
+          "title": "Max Sources",
+          "type": "integer"
+        },
+        "max_tokens": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Tokens"
+        }
+      },
+      "title": "ResearchBudget",
+      "type": "object"
+    }
+  },
+  "$id": "hmap:ResearchBrief:1.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "budget": {
+      "$ref": "#/$defs/ResearchBudget"
+    },
+    "constraints": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Constraints",
+      "type": "array"
+    },
+    "questions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Questions",
+      "type": "array"
+    },
+    "scope": {
+      "default": "",
+      "title": "Scope",
+      "type": "string"
+    },
+    "task_id": {
+      "minLength": 1,
+      "title": "Task Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "task_id",
+    "questions"
+  ],
+  "title": "ResearchBrief",
+  "type": "object",
+  "x-schema-version": "1.0"
+}
