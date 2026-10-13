@@ -85,7 +85,7 @@ describe("gen-features", () => {
 
     const err = (await scanFeatures(root).catch((e: unknown) => e)) as Error;
     expect(err.message).toContain("`id` must be a plain string literal");
-    expect(err.message).toContain('id "Two" must be lower-case kebab-case');
+    expect(err.message).toContain('id "Two" must be lower case');
     expect(err.message).toContain('both use route "x"');
     expect(err.message).toContain("must provide a ProjectPanel and/or a Page");
   });

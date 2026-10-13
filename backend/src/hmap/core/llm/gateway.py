@@ -25,7 +25,9 @@ for mapped roles, and the legacy provider is not.
 """
 
 import asyncio
+import base64
 import copy
+import hashlib
 import time
 from typing import Any, TypeVar
 
@@ -44,7 +46,7 @@ from hmap.core.llm.cache import (
     validate_plugin_name,
 )
 from hmap.core.llm.cloud import CloudRouter
-from hmap.core.llm.errors import LLMConfigError, ReplayMissError
+from hmap.core.llm.errors import LLMConfigError, ReplayMissError, VisionUnavailable
 from hmap.core.llm.fake import FakeLLM
 from hmap.core.llm.providers.base import ChatProvider, ChatRequest, LocalProvider
 from hmap.core.llm.providers.ollama import OllamaProvider
@@ -94,7 +96,7 @@ class _Shared:
     @property
     def local(self) -> LocalProvider:
         if self._local is None:  # built lazily so replay/fake never touch the network stack
-            self._local = OllamaProvider(self.settings.ollama_base_url)
+            self._local = OllamaProvider(self.settings.ollama_base_url, num_ctx=self.settings.ollama_num_ctx)
         return self._local
 
 
@@ -227,6 +229,44 @@ class Gateway:
         resp = await self.generate("classify", _classify.build_messages(state, questions), schema=schema,
                                    temperature=0.0, max_tokens=64 + 48 * len(questions))
         return _classify.to_answers(resp.parsed, questions)
+
+    async def read_images(self, prompt: str, images: list[bytes], *, max_tokens: int = 4096) -> LLMResponse:
+        """Role ``vision`` (cloud only, doc 02 §2.5): ``prompt`` plus PNG/JPEG ``images`` to a vision model. The replay
+        cache key holds the images' SHA-256, never the bytes. Raises :class:`VisionUnavailable` when no vision route
+        can answer (none configured, cloud not allowed for this client, every key failed)."""
+        if self.mode == "fake":
+            return await self._fake().read_images(prompt, images, max_tokens=max_tokens)
+        msgs = [Message(role="user", content=prompt)]
+        ingredients = key_ingredients(plugin=self.plugin, role="vision", messages=msgs, schema=None, temperature=0.0,
+                                      max_tokens=max_tokens, seed=None, think=False)
+        ingredients["images"] = [hashlib.sha256(img).hexdigest() for img in images]
+        key = cache_key(ingredients)
+        started = time.perf_counter()
+        if self.mode == "replay":
+            record = self._replay_record(key, ingredients)
+            response = record.get("response") or {}
+            usage = LLMUsage.model_validate(response.get("usage") or {}).model_copy(
+                update={"cached": True, "provider": "cache", "latency_s": 0.0})
+            self._log("vision", usage.model, "cache", usage, started)
+            return LLMResponse(text=str(response.get("text", "")), usage=usage)
+        router = self._shared.router
+        if router is None or not router.handles("vision") or not self._cloud_permitted(None, legacy=False):
+            raise VisionUnavailable("no vision model available (needs a vision route in the team key pool and a "
+                                    "project that allows cloud models)")
+        request = ChatRequest(model="-", messages=self._with_preamble(msgs), role="vision", max_tokens=max_tokens,
+                              temperature=0.0, images=[base64.b64encode(img).decode() for img in images])
+        resp = await router.chat(request, plugin=self.plugin)
+        if resp is None:
+            raise VisionUnavailable("every vision route failed or is rate limited")
+        if self.mode == "record":
+            self.cache.save(self.plugin, key, {
+                "role": "vision", "prompt_version": self.prompt_version, "key_ingredients": ingredients,
+                "model": resp.usage.model, "model_digest": None, "provider": resp.usage.provider,
+                "request": {"messages": request.messages, "images": ingredients["images"],
+                            "options": {"temperature": 0.0, "num_predict": max_tokens}},
+                "response": {"text": resp.text, "usage": resp.usage.model_dump(mode="json")}})
+        self._log("vision", resp.usage.model, resp.usage.provider, resp.usage, started)
+        return resp
 
     # ------------------------------------------------------------------ internals
     def _fake(self) -> FakeLLM:

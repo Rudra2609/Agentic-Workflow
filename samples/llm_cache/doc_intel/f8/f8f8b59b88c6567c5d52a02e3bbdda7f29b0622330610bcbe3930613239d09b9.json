@@ -1,0 +1,240 @@
+{
+  "format": 1,
+  "key": "f8f8b59b88c6567c5d52a02e3bbdda7f29b0622330610bcbe3930613239d09b9",
+  "key_ingredients": {
+    "max_tokens": 3000,
+    "messages": [
+      {
+        "content": "You extract requirements from a course assignment, lab sheet or project brief.\n\nReturn JSON with \"items\" and \"open_questions\". Each item:\n- kind: \"requirement\" = something the solution or the work must do or be: a feature, a behaviour, a task to carry\n  out, or a quality such as speed, reliability, usability, security, test quality. It may name a tool or a format\n  (\"Draw an ER diagram\", \"Each test must check one behaviour\", \"The schema must be in third normal form\").\n  \"constraint\" = a limit on how or with what you work: programming language, libraries, framework or version, team\n  size, deadline, page or time limits, things you must not change, reusing the result of another part.\n  \"deliverable\" = something to hand in (\"Submit X as a PDF\" is the deliverable X, format PDF).\n- text: the item as one clear sentence, close to the source wording.\n- quote: the exact source sentence or list item, copied character for character from the text.\n- priority: \"must\" (must, shall, required, or a plain instruction), \"should\" (should, recommended),\n  \"could\" (may, could, optional, extra credit).\n- req_type: \"functional\" or \"non_functional\" (performance, reliability, usability, security, code quality).\n- constraint_kind: technology, format, process, resource or other.\n- deliverable_name and deliverable_format: a short name and the file format, for deliverables.\n\nRules:\n- One item per sentence or list item. Never merge two sentences or split one.\n- A sentence ending with \":\" that introduces a list (\"At minimum, your code needs to support:\") is not an item.\n  Each list item under it is one, with the lead-in's kind and priority, written as a full sentence (\"The code must\n  support booking confirmation.\"); quote the list item itself.\n- Only use what the text says. Never invent requirements, numbers or file formats.\n- Skip background, motivation, reading instructions, and setup steps that are not marked or checked.\n- Marking tables and footnotes are handled elsewhere: do not turn them into items.\n- open_questions: short questions about anything ambiguous or contradictory (an empty list if nothing is unclear).",
+        "role": "system"
+      },
+      {
+        "content": "Document: part_b.docx (folder: Part B)\n# Part B: REST API\n- Implement endpoints to create, list and cancel bookings.\n- Every endpoint must return JSON and proper HTTP status codes.\n- Protect the endpoints with token authentication.\n- Use the schema from Part A.\nTotal: 20 marks\n\nSentences that contain requirement keywords (a hint only: some may not be items, and items may be missing):\n- Implement endpoints to create, list and cancel bookings.\n- Every endpoint must return JSON and proper HTTP status codes.\n- Protect the endpoints with token authentication.\n- Use the schema from Part A.",
+        "role": "user"
+      }
+    ],
+    "plugin": "doc_intel",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "ExtractedItem": {
+          "properties": {
+            "constraint_kind": {
+              "default": "other",
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Constraint Kind",
+              "type": "string"
+            },
+            "deliverable_format": {
+              "default": "",
+              "title": "Deliverable Format",
+              "type": "string"
+            },
+            "deliverable_name": {
+              "default": "",
+              "title": "Deliverable Name",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "requirement",
+                "constraint",
+                "deliverable"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "priority": {
+              "default": "must",
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "quote": {
+              "description": "the exact source sentence, copied character for character",
+              "title": "Quote",
+              "type": "string"
+            },
+            "req_type": {
+              "default": "functional",
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Req Type",
+              "type": "string"
+            },
+            "text": {
+              "description": "the item as one clear sentence, close to the source wording",
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "text",
+            "quote"
+          ],
+          "title": "ExtractedItem",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/$defs/ExtractedItem"
+          },
+          "title": "Items",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        }
+      },
+      "title": "ChunkExtraction",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "doc_intel",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-12T11:53:50.505199+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "items": {
+          "items": {
+            "properties": {
+              "constraint_kind": {
+                "default": "other",
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Constraint Kind",
+                "type": "string"
+              },
+              "deliverable_format": {
+                "default": "",
+                "title": "Deliverable Format",
+                "type": "string"
+              },
+              "deliverable_name": {
+                "default": "",
+                "title": "Deliverable Name",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "requirement",
+                  "constraint",
+                  "deliverable"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "priority": {
+                "default": "must",
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "quote": {
+                "description": "the exact source sentence, copied character for character",
+                "title": "Quote",
+                "type": "string"
+              },
+              "req_type": {
+                "default": "functional",
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Req Type",
+                "type": "string"
+              },
+              "text": {
+                "description": "the item as one clear sentence, close to the source wording",
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "text",
+              "quote"
+            ],
+            "title": "ExtractedItem",
+            "type": "object"
+          },
+          "title": "Items",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        }
+      },
+      "title": "ChunkExtraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract requirements from a course assignment, lab sheet or project brief.\n\nReturn JSON with \"items\" and \"open_questions\". Each item:\n- kind: \"requirement\" = something the solution or the work must do or be: a feature, a behaviour, a task to carry\n  out, or a quality such as speed, reliability, usability, security, test quality. It may name a tool or a format\n  (\"Draw an ER diagram\", \"Each test must check one behaviour\", \"The schema must be in third normal form\").\n  \"constraint\" = a limit on how or with what you work: programming language, libraries, framework or version, team\n  size, deadline, page or time limits, things you must not change, reusing the result of another part.\n  \"deliverable\" = something to hand in (\"Submit X as a PDF\" is the deliverable X, format PDF).\n- text: the item as one clear sentence, close to the source wording.\n- quote: the exact source sentence or list item, copied character for character from the text.\n- priority: \"must\" (must, shall, required, or a plain instruction), \"should\" (should, recommended),\n  \"could\" (may, could, optional, extra credit).\n- req_type: \"functional\" or \"non_functional\" (performance, reliability, usability, security, code quality).\n- constraint_kind: technology, format, process, resource or other.\n- deliverable_name and deliverable_format: a short name and the file format, for deliverables.\n\nRules:\n- One item per sentence or list item. Never merge two sentences or split one.\n- A sentence ending with \":\" that introduces a list (\"At minimum, your code needs to support:\") is not an item.\n  Each list item under it is one, with the lead-in's kind and priority, written as a full sentence (\"The code must\n  support booking confirmation.\"); quote the list item itself.\n- Only use what the text says. Never invent requirements, numbers or file formats.\n- Skip background, motivation, reading instructions, and setup steps that are not marked or checked.\n- Marking tables and footnotes are handled elsewhere: do not turn them into items.\n- open_questions: short questions about anything ambiguous or contradictory (an empty list if nothing is unclear).",
+        "role": "system"
+      },
+      {
+        "content": "Document: part_b.docx (folder: Part B)\n# Part B: REST API\n- Implement endpoints to create, list and cancel bookings.\n- Every endpoint must return JSON and proper HTTP status codes.\n- Protect the endpoints with token authentication.\n- Use the schema from Part A.\nTotal: 20 marks\n\nSentences that contain requirement keywords (a hint only: some may not be items, and items may be missing):\n- Implement endpoints to create, list and cancel bookings.\n- Every endpoint must return JSON and proper HTTP status codes.\n- Protect the endpoints with token authentication.\n- Use the schema from Part A.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 3000,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"items\": [\n    {\n      \"kind\": \"requirement\",\n      \"text\": \"Implement endpoints to create, list and cancel bookings.\",\n      \"quote\": \"Implement endpoints to create, list and cancel bookings.\",\n      \"priority\": \"must\",\n      \"req_type\": \"functional\"\n    },\n    {\n      \"kind\": \"requirement\",\n      \"text\": \"Every endpoint must return JSON and proper HTTP status codes.\",\n      \"quote\": \"Every endpoint must return JSON and proper HTTP status codes.\",\n      \"priority\": \"must\",\n      \"req_type\": \"functional\"\n    },\n    {\n      \"kind\": \"requirement\",\n      \"text\": \"Protect the endpoints with token authentication.\",\n      \"quote\": \"Protect the endpoints with token authentication.\",\n      \"priority\": \"must\",\n      \"req_type\": \"functional\"\n    },\n    {\n      \"kind\": \"requirement\",\n      \"text\": \"Use the schema from Part A.\",\n      \"quote\": \"Use the schema from Part A.\",\n      \"priority\": \"must\",\n      \"req_type\": \"functional\"\n    }\n  ],\n  \"open_questions\": []\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1066,
+      "latency_s": 1.1874,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 297,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

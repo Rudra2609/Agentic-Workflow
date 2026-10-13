@@ -29,6 +29,8 @@ class SourceRef(Contract):
     block_ids: list[str] = Field(default_factory=list)
     char_span: tuple[int, int] | None = None
     quote: str | None = Field(default=None, description="verbatim text; verified by string match")
+    folder: str | None = Field(default=None, description="upload folder of the source document (e.g. 'Part A'); "
+                               "the planner may treat one folder as one part of the work")
 
 
 class Requirement(Contract):

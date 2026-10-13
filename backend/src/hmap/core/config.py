@@ -12,8 +12,9 @@ REPO_ROOT = Path(os.environ.get("HMAP_ROOT") or Path(__file__).resolve().parents
 
 LLMMode = Literal["live", "record", "replay", "fake"]
 LLM_ROLES = ("fast", "reasoner", "coder", "judge", "embed", "classify")
-# Roles that may be sent to a cloud chat model (``embed`` always stays local).
-CLOUD_CHAT_ROLES = ("fast", "reasoner", "coder", "judge", "classify")
+# Roles that may be sent to a cloud chat model (``embed`` always stays local; ``vision`` is cloud-only: image reading
+# such as OCR of scanned pages, with no local fallback model).
+CLOUD_CHAT_ROLES = ("fast", "reasoner", "coder", "judge", "classify", "vision")
 # Cloud providers known to ``HMAP_CLOUD_ROLE_MAP``. ``cloud`` is the deprecated single legacy provider
 # (``HMAP_CLOUD_BASE_URL`` + ``HMAP_CLOUD_API_KEY``).
 CLOUD_PROVIDERS = ("groq", "gemini", "cloud")
@@ -23,7 +24,8 @@ CloudRoute = tuple[str, str]  # (provider, model)
 # Used when HMAP_CLOUD_ROLE_MAP is unset or empty; ``none`` turns the key pool off (doc 02 §2.5). Each provider rate-
 # limits per model, so the roles are spread over different models. Quality roles go to the strongest free model;
 # the judge uses a model family that neither the reasoner nor the coder uses. fast/classify go to small, quick
-# models. Without keys for a provider its routes are dropped, and every role falls back to the local model.
+# models; vision (scanned pages) goes to Gemini, the only provider here whose free models read images. Without keys
+# for a provider its routes are dropped, and every role falls back to the local model (vision has no local model).
 # Checked on both free tiers on 2026-10-12 (gemini-3.8-flash and gemini-flash-latest were left out: they kept
 # answering 503 "overloaded"; the Pro models have no free quota).
 DEFAULT_CLOUD_ROLE_MAP = (
@@ -31,7 +33,8 @@ DEFAULT_CLOUD_ROLE_MAP = (
     "coder=groq:openai/gpt-oss-120b|gemini:gemini-3.6-flash|gemini:gemini-3.5-flash,"
     "judge=groq:qwen/qwen3.8-27b|gemini:gemini-3.5-flash,"
     "fast=groq:openai/gpt-oss-20b|gemini:gemini-3.5-flash-lite,"
-    "classify=groq:openai/gpt-oss-20b|gemini:gemini-3.5-flash-lite"
+    "classify=groq:openai/gpt-oss-20b|gemini:gemini-3.5-flash-lite,"
+    "vision=gemini:gemini-3.6-flash|gemini:gemini-3.5-flash"
 )
 
 
@@ -142,6 +145,8 @@ class Settings(BaseModel):
     llm_cache_dir: Path = Field(default=Path("samples/llm_cache"), validate_default=True)
     role_map: dict[str, str] = Field(default_factory=dict)
     ollama_base_url: str = "http://127.0.0.1:11434"
+    # context window sent to Ollama (its server default is 4096: too small for a 3K-token prompt plus the answer)
+    ollama_num_ctx: int | None = 8192
     llm_max_concurrency: int = 1
     # --- team cloud key pool (doc 02 §2.5, item 1.14b). Keys are SecretStr and hidden from repr/str/dumps.
     groq_api_keys: list[SecretStr] = Field(default_factory=list, repr=False)
@@ -196,7 +201,8 @@ class Settings(BaseModel):
             "HMAP_RABBITMQ_URL": "rabbitmq_url", "HMAP_STORE": "store", "HMAP_DATABASE_URL": "database_url",
             "HMAP_ARTIFACT_ROOT": "artifact_root", "HMAP_PLUGINS": "plugins", "HMAP_LLM_MODE": "llm_mode",
             "HMAP_LLM_CACHE_DIR": "llm_cache_dir", "OLLAMA_BASE_URL": "ollama_base_url",
-            "HMAP_LLM_MAX_CONCURRENCY": "llm_max_concurrency", "HMAP_CLOUD_BASE_URL": "cloud_base_url",
+            "HMAP_LLM_MAX_CONCURRENCY": "llm_max_concurrency", "HMAP_OLLAMA_NUM_CTX": "ollama_num_ctx",
+            "HMAP_CLOUD_BASE_URL": "cloud_base_url",
             "HMAP_CLOUD_API_KEY": "cloud_api_key", "HMAP_GROQ_BASE_URL": "groq_base_url",
             "HMAP_GEMINI_BASE_URL": "gemini_base_url", "HMAP_PUBLIC_URL": "public_url",
             "HMAP_SESSION_DAYS": "session_days", "HMAP_SMTP_HOST": "smtp_host", "HMAP_SMTP_PORT": "smtp_port",

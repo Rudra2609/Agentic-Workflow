@@ -64,12 +64,30 @@ def parse_retry_after(value: str | None, *, now: datetime | None = None) -> floa
     return max(0.0, (when - (now or datetime.now(UTC))).total_seconds())
 
 
+def image_mime(b64: str) -> str:
+    return "image/jpeg" if b64.startswith("/9j/") else "image/png"
+
+
+def with_images(messages: list[dict[str, Any]], images: list[str]) -> list[dict[str, Any]]:
+    """OpenAI-style vision content parts: the last user message becomes ``[text, image_url...]`` (data URIs)."""
+    out = list(messages)
+    idx = max((i for i, m in enumerate(out) if m.get("role") == "user"), default=None)
+    if idx is None:
+        out.append({"role": "user", "content": ""})
+        idx = len(out) - 1
+    parts: list[dict[str, Any]] = [{"type": "text", "text": str(out[idx].get("content", ""))}]
+    parts += [{"type": "image_url", "image_url": {"url": f"data:{image_mime(b)};base64,{b}"}} for b in images]
+    out[idx] = {"role": "user", "content": parts}
+    return out
+
+
 class OpenAICompatProvider:
     def __init__(self, base_url: str, api_key: str | None, client: httpx.AsyncClient | None = None, *,
                  name: str = "cloud",
                  model_map: Mapping[str, str] | None = None, default_model: str | None = None,
                  max_retries: int = 2, max_retry_wait_s: float = 30.0, backoff_s: float = 2.0,
-                 json_mode: JsonMode = "json_object",
+                 json_mode: JsonMode = "json_object", send_seed: bool = True,
+                 no_think: Mapping[str, Mapping[str, Any]] | None = None,
                  sleep: Callable[[float], Awaitable[None]] = asyncio.sleep,
                  timeout: httpx.Timeout = DEFAULT_TIMEOUT) -> None:
         """``model_map``: role -> cloud model name (cloud names differ from Ollama tags); falls back to
@@ -86,6 +104,9 @@ class OpenAICompatProvider:
         self.max_retry_wait_s = max_retry_wait_s
         self.backoff_s = backoff_s
         self.json_mode = json_mode
+        self.send_seed = send_seed
+        # model-name prefix -> body fields that turn reasoning off (or down) when think=False
+        self.no_think = {prefix: dict(fields) for prefix, fields in (no_think or {}).items()}
         self._sleep = sleep
 
     def __repr__(self) -> str:  # never show the key
@@ -99,11 +120,18 @@ class OpenAICompatProvider:
         return self.model_map.get(request.role) or self.default_model or request.model
 
     def chat_body(self, request: ChatRequest, model: str | None = None) -> dict[str, Any]:
-        messages: list[dict[str, str]] = list(request.messages)
+        messages: list[dict[str, Any]] = list(request.messages)
+        if request.images:
+            messages = with_images(messages, request.images)
         body: dict[str, Any] = {"model": model or self.model_for(request), "temperature": request.temperature,
                                 "max_tokens": request.max_tokens}
-        if request.seed is not None:
+        if request.seed is not None and self.send_seed:
             body["seed"] = request.seed
+        if not request.think:
+            for prefix, fields in self.no_think.items():
+                if body["model"].startswith(prefix):
+                    body.update(fields)
+                    break
         if request.json_schema is not None:
             if self.json_mode == "json_schema":
                 body["response_format"] = {"type": "json_schema", "json_schema": {

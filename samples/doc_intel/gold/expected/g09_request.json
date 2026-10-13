@@ -1,0 +1,42 @@
+{
+  "id": "g09_request",
+  "title": "Typed request (no upload)",
+  "needs_ocr": false,
+  "files": [
+    {
+      "path": "g09_request/request.txt",
+      "name": "request.txt",
+      "folder": null,
+      "sections": [],
+      "total_marks": null,
+      "reference_text": "Build a to-do list web app where I can add tasks, mark them as done and delete them.\nTasks should be saved so they are still there after I refresh the page.\nUse React for the front end."
+    }
+  ],
+  "total_marks": null,
+  "requirements": [
+    {
+      "text": "Build a to-do list web app where I can add tasks, mark them as done and delete them.",
+      "priority": "must",
+      "type": "functional",
+      "file": "request.txt",
+      "folder": null
+    },
+    {
+      "text": "Tasks should be saved so they are still there after I refresh the page.",
+      "priority": "should",
+      "type": "functional",
+      "file": "request.txt",
+      "folder": null
+    }
+  ],
+  "constraints": [
+    {
+      "text": "Use React for the front end.",
+      "kind": "technology",
+      "file": "request.txt",
+      "folder": null
+    }
+  ],
+  "deliverables": [],
+  "evaluation_criteria": []
+}

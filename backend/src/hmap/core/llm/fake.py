@@ -21,7 +21,7 @@ from pydantic import BaseModel
 
 from hmap.core.llm import classify as _classify
 from hmap.core.llm.base import ClassifyAnswer, ClassifyQuestion, LLMResponse, LLMUsage, Message, Role
-from hmap.core.llm.errors import FakeLLMError
+from hmap.core.llm.errors import FakeLLMError, VisionUnavailable
 from hmap.core.llm.structured import MAX_REPAIRS, generate_structured
 
 T = TypeVar("T", bound=BaseModel)
@@ -65,6 +65,8 @@ class FakeLLM:
     _by_role: dict[str, _Script] = field(default_factory=dict)
     _by_schema: dict[type[BaseModel], _Script] = field(default_factory=dict)
     _classify: dict[str, str] = field(default_factory=dict)
+    _vision: _Script | None = None
+    vision_calls: list[tuple[str, int]] = field(default_factory=list)  # (prompt, number of images)
 
     # ------------------------------------------------------------------ scripting
     def on_role(self, role: str, *replies: Reply) -> "FakeLLM":
@@ -73,6 +75,12 @@ class FakeLLM:
 
     def on_schema(self, schema: type[BaseModel], *replies: Reply) -> "FakeLLM":
         self._by_schema[schema] = _Script(self._require(replies))
+        return self
+
+    def on_vision(self, *replies: Reply) -> "FakeLLM":
+        """Script ``read_images`` answers (str, or a callable taking ``(prompt, images)``). Unscripted calls raise
+        :class:`VisionUnavailable`, like a gateway without a vision route."""
+        self._vision = _Script(self._require(replies))
         return self
 
     def on_classify(self, name: str, answer: str) -> "FakeLLM":
@@ -89,6 +97,9 @@ class FakeLLM:
         self.calls.clear()
         self.embed_calls.clear()
         self.classify_calls.clear()
+        self.vision_calls.clear()
+        if self._vision is not None:
+            self._vision.index = 0
         for script in (*self._by_role.values(), *self._by_schema.values()):
             script.index = 0
 
@@ -124,6 +135,14 @@ class FakeLLM:
             answer = self._classify.get(q.name, options[0])
             out.append(ClassifyAnswer(name=q.name, answer=answer, probabilities={answer: 1.0}))
         return out
+
+    async def read_images(self, prompt: str, images: list[bytes], *, max_tokens: int = 4096) -> LLMResponse:
+        self.vision_calls.append((prompt, len(images)))
+        if self._vision is None:
+            raise VisionUnavailable("FakeLLM: no vision answer scripted (use fake.on_vision(...))")
+        reply = self._vision.next()
+        text = str(reply(prompt, images) if callable(reply) else reply)
+        return LLMResponse(text=text, usage=LLMUsage(output_tokens=len(text.split()), model="fake", provider="fake"))
 
     # ------------------------------------------------------------------ internals
     def _pick(self, call: FakeCall) -> Reply:

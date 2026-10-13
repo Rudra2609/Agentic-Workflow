@@ -1,0 +1,55 @@
+{
+  "id": "g05_photo",
+  "title": "Phone photo of a handout (PNG)",
+  "needs_ocr": true,
+  "files": [
+    {
+      "path": "g05_photo/quiz_handout_photo.png",
+      "name": "quiz_handout_photo.png",
+      "folder": null,
+      "sections": [
+        {
+          "level": 1,
+          "title": "Quiz Practice Task"
+        }
+      ],
+      "total_marks": null,
+      "reference_text": "Quiz Practice Task\nWrite a function that returns the largest of three numbers.\nThe function must work for negative numbers.\nAdd at least three test cases.\nSend the file as answer.py."
+    }
+  ],
+  "total_marks": null,
+  "requirements": [
+    {
+      "text": "Write a function that returns the largest of three numbers.",
+      "priority": "must",
+      "type": "functional",
+      "file": "quiz_handout_photo.png",
+      "folder": null
+    },
+    {
+      "text": "The function must work for negative numbers.",
+      "priority": "must",
+      "type": "functional",
+      "file": "quiz_handout_photo.png",
+      "folder": null
+    },
+    {
+      "text": "Add at least three test cases.",
+      "priority": "must",
+      "type": "functional",
+      "file": "quiz_handout_photo.png",
+      "folder": null
+    }
+  ],
+  "constraints": [],
+  "deliverables": [
+    {
+      "name": "Answer file",
+      "format": "Python file",
+      "text": "Send the file as answer.py.",
+      "file": "quiz_handout_photo.png",
+      "folder": null
+    }
+  ],
+  "evaluation_criteria": []
+}

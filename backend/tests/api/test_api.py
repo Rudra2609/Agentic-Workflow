@@ -122,7 +122,8 @@ def test_project_can_be_kept_on_this_computer(client: TestClient) -> None:
 def test_agents_capabilities_health(client: TestClient) -> None:
     poll(client, "/api/agents", lambda a: len(a) >= 9)
     caps = {c["capability"]: c["status"] for c in client.get("/api/agents/capabilities").json()}
-    assert caps["document.extract"] == "stub"
+    assert caps["document.extract"] == "real"   # Member 2's doc_intel agent (Sprint 2) replaced the stub
+    assert caps["plan.generate"] == "stub"
     assert client.get("/api/health").json()["status"] == "ok"
     assert client.get("/openapi.json").status_code == 200
 

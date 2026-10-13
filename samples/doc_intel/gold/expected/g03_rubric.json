@@ -1,0 +1,173 @@
+{
+  "id": "g03_rubric",
+  "title": "Rubric-heavy marking scheme, merged cells (PDF)",
+  "needs_ocr": false,
+  "files": [
+    {
+      "path": "g03_rubric/marking_scheme.pdf",
+      "name": "marking_scheme.pdf",
+      "folder": null,
+      "sections": [
+        {
+          "level": 1,
+          "title": "Software Design Project: Marking Scheme"
+        },
+        {
+          "level": 2,
+          "title": "Rules"
+        }
+      ],
+      "total_marks": 50,
+      "reference_text": "Software Design Project: Marking Scheme\nThis document explains how the final project is marked.\nThe project is worth 50 marks in total.\nUse-case diagram covers all actors 6\nRequirements are testable 8\nClass diagram matches the code 10\nDesign patterns are justified 6\nWorking implementation 12\nAutomated tests 8\nTotal: 50 marks\nRules\nThe design document must be submitted as a single PDF file.\nThe demo video must not be longer than five minutes.\nEvery team member must present part of the demo."
+    }
+  ],
+  "total_marks": 50,
+  "requirements": [
+    {
+      "text": "Every team member must present part of the demo.",
+      "priority": "must",
+      "type": "functional",
+      "file": "marking_scheme.pdf",
+      "folder": null
+    }
+  ],
+  "constraints": [
+    {
+      "text": "The demo video must not be longer than five minutes.",
+      "kind": "format",
+      "file": "marking_scheme.pdf",
+      "folder": null
+    }
+  ],
+  "deliverables": [
+    {
+      "name": "Design document",
+      "format": "PDF",
+      "text": "The design document must be submitted as a single PDF file.",
+      "file": "marking_scheme.pdf",
+      "folder": null
+    }
+  ],
+  "evaluation_criteria": [
+    {
+      "criterion": "Use-case diagram covers all actors",
+      "max_marks": 6,
+      "rubric_levels": [
+        {
+          "label": "Excellent",
+          "marks": 6
+        },
+        {
+          "label": "Adequate",
+          "marks": 4
+        },
+        {
+          "label": "Weak",
+          "marks": 1
+        }
+      ],
+      "file": "marking_scheme.pdf",
+      "folder": null
+    },
+    {
+      "criterion": "Requirements are testable",
+      "max_marks": 8,
+      "rubric_levels": [
+        {
+          "label": "Excellent",
+          "marks": 8
+        },
+        {
+          "label": "Adequate",
+          "marks": 5
+        },
+        {
+          "label": "Weak",
+          "marks": 2
+        }
+      ],
+      "file": "marking_scheme.pdf",
+      "folder": null
+    },
+    {
+      "criterion": "Class diagram matches the code",
+      "max_marks": 10,
+      "rubric_levels": [
+        {
+          "label": "Excellent",
+          "marks": 10
+        },
+        {
+          "label": "Adequate",
+          "marks": 6
+        },
+        {
+          "label": "Weak",
+          "marks": 2
+        }
+      ],
+      "file": "marking_scheme.pdf",
+      "folder": null
+    },
+    {
+      "criterion": "Design patterns are justified",
+      "max_marks": 6,
+      "rubric_levels": [
+        {
+          "label": "Excellent",
+          "marks": 6
+        },
+        {
+          "label": "Adequate",
+          "marks": 3
+        },
+        {
+          "label": "Weak",
+          "marks": 0
+        }
+      ],
+      "file": "marking_scheme.pdf",
+      "folder": null
+    },
+    {
+      "criterion": "Working implementation",
+      "max_marks": 12,
+      "rubric_levels": [
+        {
+          "label": "Excellent",
+          "marks": 12
+        },
+        {
+          "label": "Adequate",
+          "marks": 7
+        },
+        {
+          "label": "Weak",
+          "marks": 2
+        }
+      ],
+      "file": "marking_scheme.pdf",
+      "folder": null
+    },
+    {
+      "criterion": "Automated tests",
+      "max_marks": 8,
+      "rubric_levels": [
+        {
+          "label": "Excellent",
+          "marks": 8
+        },
+        {
+          "label": "Adequate",
+          "marks": 4
+        },
+        {
+          "label": "Weak",
+          "marks": 0
+        }
+      ],
+      "file": "marking_scheme.pdf",
+      "folder": null
+    }
+  ]
+}

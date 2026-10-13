@@ -12,6 +12,7 @@ from hmap.core.llm.errors import (
     LLMProviderError,
     ReplayMissError,
     StructuredOutputError,
+    VisionUnavailable,
 )
 from hmap.core.llm.fake import FakeCall, FakeLLM
 from hmap.core.llm.gateway import Gateway, build_llm, resolve_model
@@ -45,6 +46,7 @@ __all__ = [
     "ReplayMissError",
     "Role",
     "StructuredOutputError",
+    "VisionUnavailable",
     "build_llm",
     "cache_key",
     "fingerprint",

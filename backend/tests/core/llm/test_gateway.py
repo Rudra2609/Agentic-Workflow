@@ -281,3 +281,10 @@ def test_default_cloud_built_only_with_url_and_key(tmp_path: Path) -> None:
     configured = base.model_copy(update={"cloud_base_url": "https://h/v1", "cloud_api_key": "k"})
     assert isinstance(Gateway(configured)._shared.cloud, OpenAICompatProvider)
     assert Gateway(configured.model_copy(update={"llm_mode": "replay"}))._shared.cloud is None
+
+
+def test_local_provider_gets_the_configured_context_window() -> None:
+    assert Settings().ollama_num_ctx == 8192  # Ollama's own default (4096) cuts a 3K-token prompt plus its answer
+    assert Settings.from_env({"HMAP_OLLAMA_NUM_CTX": "16384"}).ollama_num_ctx == 16384
+    gw = Gateway(Settings(llm_mode="live", ollama_num_ctx=12000))
+    assert gw._shared.local.num_ctx == 12000  # type: ignore[attr-defined]
