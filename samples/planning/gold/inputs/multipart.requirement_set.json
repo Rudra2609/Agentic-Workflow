@@ -1,0 +1,323 @@
+{
+  "project_id": "P-multipart",
+  "source_docs": [],
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Draw an ER diagram for the hostel booking system.",
+      "type": "functional",
+      "priority": "must",
+      "source_ref": {
+        "doc_id": "doc-1",
+        "page": 1,
+        "block_ids": [
+          "b2"
+        ],
+        "char_span": [
+          25,
+          74
+        ],
+        "quote": "Draw an ER diagram for the hostel booking system.",
+        "folder": "Part A"
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "R2",
+      "text": "The schema must be in third normal form.",
+      "type": "non_functional",
+      "priority": "must",
+      "source_ref": {
+        "doc_id": "doc-1",
+        "page": 1,
+        "block_ids": [
+          "b3"
+        ],
+        "char_span": [
+          76,
+          116
+        ],
+        "quote": "The schema must be in third normal form.",
+        "folder": "Part A"
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "R3",
+      "text": "Implement endpoints to create, list and cancel bookings.",
+      "type": "functional",
+      "priority": "must",
+      "source_ref": {
+        "doc_id": "doc-2",
+        "page": null,
+        "block_ids": [
+          "b2"
+        ],
+        "char_span": [
+          18,
+          74
+        ],
+        "quote": "Implement endpoints to create, list and cancel bookings.",
+        "folder": "Part B"
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "R4",
+      "text": "Every endpoint must return JSON and proper HTTP status codes.",
+      "type": "functional",
+      "priority": "must",
+      "source_ref": {
+        "doc_id": "doc-2",
+        "page": null,
+        "block_ids": [
+          "b3"
+        ],
+        "char_span": [
+          76,
+          137
+        ],
+        "quote": "Every endpoint must return JSON and proper HTTP status codes.",
+        "folder": "Part B"
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "R5",
+      "text": "Protect the endpoints with token authentication.",
+      "type": "functional",
+      "priority": "must",
+      "source_ref": {
+        "doc_id": "doc-2",
+        "page": null,
+        "block_ids": [
+          "b4"
+        ],
+        "char_span": [
+          139,
+          187
+        ],
+        "quote": "Protect the endpoints with token authentication.",
+        "folder": "Part B"
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "R6",
+      "text": "Use the schema from Part A.",
+      "type": "functional",
+      "priority": "must",
+      "source_ref": {
+        "doc_id": "doc-2",
+        "page": null,
+        "block_ids": [
+          "b5"
+        ],
+        "char_span": [
+          189,
+          216
+        ],
+        "quote": "Use the schema from Part A.",
+        "folder": "Part B"
+      },
+      "confidence": 0.9
+    },
+    {
+      "id": "R7",
+      "text": "Write integration tests for every endpoint of Part B.",
+      "type": "functional",
+      "priority": "must",
+      "source_ref": {
+        "doc_id": "doc-3",
+        "page": null,
+        "block_ids": [
+          "b2"
+        ],
+        "char_span": [
+          17,
+          70
+        ],
+        "quote": "Write integration tests for every endpoint of Part B.",
+        "folder": "Part C"
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "R8",
+      "text": "Tests should run in the CI pipeline.",
+      "type": "functional",
+      "priority": "should",
+      "source_ref": {
+        "doc_id": "doc-3",
+        "page": null,
+        "block_ids": [
+          "b3"
+        ],
+        "char_span": [
+          72,
+          108
+        ],
+        "quote": "Tests should run in the CI pipeline.",
+        "folder": "Part C"
+      },
+      "confidence": 0.95
+    }
+  ],
+  "constraints": [],
+  "deliverables": [
+    {
+      "id": "D1",
+      "name": "diagram",
+      "format": "PDF",
+      "source_ref": {
+        "doc_id": "doc-1",
+        "page": 1,
+        "block_ids": [
+          "b4"
+        ],
+        "char_span": [
+          118,
+          146
+        ],
+        "quote": "Submit the diagram as a PDF.",
+        "folder": "Part A"
+      }
+    },
+    {
+      "id": "D2",
+      "name": "test report",
+      "format": "PDF",
+      "source_ref": {
+        "doc_id": "doc-3",
+        "page": null,
+        "block_ids": [
+          "b4"
+        ],
+        "char_span": [
+          110,
+          142
+        ],
+        "quote": "Submit the test report as a PDF.",
+        "folder": "Part C"
+      }
+    }
+  ],
+  "evaluation_criteria": [
+    {
+      "id": "E1",
+      "criterion": "ER diagram",
+      "max_marks": 10.0,
+      "rubric_levels": [],
+      "source_ref": {
+        "doc_id": "doc-1",
+        "page": 1,
+        "block_ids": [
+          "b5"
+        ],
+        "char_span": [
+          148,
+          221
+        ],
+        "quote": "ER diagram",
+        "folder": "Part A"
+      }
+    },
+    {
+      "id": "E2",
+      "criterion": "Normalisation",
+      "max_marks": 5.0,
+      "rubric_levels": [],
+      "source_ref": {
+        "doc_id": "doc-1",
+        "page": 1,
+        "block_ids": [
+          "b5"
+        ],
+        "char_span": [
+          148,
+          221
+        ],
+        "quote": "Normalisation",
+        "folder": "Part A"
+      }
+    },
+    {
+      "id": "E3",
+      "criterion": "Endpoints",
+      "max_marks": 15.0,
+      "rubric_levels": [],
+      "source_ref": {
+        "doc_id": "doc-2",
+        "page": null,
+        "block_ids": [
+          "b6"
+        ],
+        "char_span": [
+          218,
+          291
+        ],
+        "quote": "Endpoints",
+        "folder": "Part B"
+      }
+    },
+    {
+      "id": "E4",
+      "criterion": "Authentication",
+      "max_marks": 5.0,
+      "rubric_levels": [],
+      "source_ref": {
+        "doc_id": "doc-2",
+        "page": null,
+        "block_ids": [
+          "b6"
+        ],
+        "char_span": [
+          218,
+          291
+        ],
+        "quote": "Authentication",
+        "folder": "Part B"
+      }
+    },
+    {
+      "id": "E5",
+      "criterion": "Integration tests",
+      "max_marks": 10.0,
+      "rubric_levels": [],
+      "source_ref": {
+        "doc_id": "doc-3",
+        "page": null,
+        "block_ids": [
+          "b5"
+        ],
+        "char_span": [
+          144,
+          222
+        ],
+        "quote": "Integration tests",
+        "folder": "Part C"
+      }
+    },
+    {
+      "id": "E6",
+      "criterion": "CI pipeline",
+      "max_marks": 5.0,
+      "rubric_levels": [],
+      "source_ref": {
+        "doc_id": "doc-3",
+        "page": null,
+        "block_ids": [
+          "b5"
+        ],
+        "char_span": [
+          144,
+          222
+        ],
+        "quote": "CI pipeline",
+        "folder": "Part C"
+      }
+    }
+  ],
+  "open_questions": [],
+  "total_marks": 50.0
+}

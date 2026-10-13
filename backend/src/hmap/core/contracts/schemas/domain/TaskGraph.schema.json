@@ -33,6 +33,19 @@
           "title": "Name",
           "type": "string"
         },
+        "parent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "the enclosing phase / group (plan hierarchy, Sprint 3); tasks stay executable leaves, groups are never run",
+          "title": "Parent Id"
+        },
         "task_ids": {
           "items": {
             "type": "string"

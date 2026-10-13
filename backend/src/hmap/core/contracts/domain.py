@@ -115,6 +115,8 @@ class Phase(Contract):
     id: NonEmptyStr
     name: NonEmptyStr
     task_ids: list[str] = Field(default_factory=list)
+    parent_id: str | None = Field(default=None, description="the enclosing phase / group (plan hierarchy, Sprint 3); "
+                                  "tasks stay executable leaves, groups are never run")
 
 
 class Milestone(Contract):

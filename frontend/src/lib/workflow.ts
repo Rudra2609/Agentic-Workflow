@@ -65,7 +65,7 @@ export function stagesOf(project: Project, tasks: readonly Task[], run: number):
   const runRec = project.runs?.find((r) => r.number === run);
   const extract = mine.filter((t) => t.capability === "document.extract").at(-1);
   const plan = mine.filter((t) => t.capability === "plan.generate").at(-1);
-  const work = mine.filter((t) => t.plan_task_id !== null);
+  const work = mine.filter((t) => t.plan_task_id !== null && !t.replaced);
   const approvals = approvalsOfRun(project.approvals ?? [], project.runs ?? [], run);
   const approval = approvals.at(-1);
 

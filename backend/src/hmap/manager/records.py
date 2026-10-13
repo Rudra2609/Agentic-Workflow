@@ -79,6 +79,8 @@ class TaskRecord(Record):
     retry_at: datetime | None = None
     last_error: dict[str, Any] | None = None
     blocked_by: list[str] = Field(default_factory=list)
+    replaced: bool = Field(default=False, description="graph task dropped by a replan (Sprint 3): kept as history, "
+                                                     "ignored by the executor and the project outcome")
     created_at: datetime
     updated_at: datetime
 

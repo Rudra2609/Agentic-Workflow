@@ -107,6 +107,10 @@ class InvalidProjectState(ValueError):
     pass
 
 
+class StaleGraph(InvalidProjectState):
+    """An approval or replan refers to a plan version that is no longer the project's current one."""
+
+
 class _Unit:
     """A store transaction plus the events written in it (dispatched to hooks after commit)."""
 
@@ -436,9 +440,11 @@ class Manager:
                                          data={"graph_version": graph.version, "task_count": len(order)})
         await self._after_change([project_id])
 
-    async def approve(self, project_id: str, approved: bool, comment: str | None = None) -> None:
+    async def approve(self, project_id: str, approved: bool, comment: str | None = None, *,
+                      graph_version: int | None = None) -> None:
         """Human plan-approval gate. Approve -> graph tasks may start; reject -> they are cancelled and the project
-        goes back to PLANNING (a new graph can be submitted)."""
+        goes back to PLANNING (a new graph can be submitted). With ``graph_version``, a decision about an older plan
+        (replanned meanwhile) raises :class:`StaleGraph`."""
         now = self._now()
         async with self._unit() as u:
             project = await u.tx.get_project(project_id)
@@ -446,12 +452,15 @@ class Manager:
                 raise UnknownProject(project_id)
             if project.state != ProjectState.AWAITING_APPROVAL:
                 raise InvalidProjectState(f"project {project_id} is {project.state}, not AWAITING_APPROVAL")
+            if graph_version is not None and graph_version != project.graph_version:
+                raise StaleGraph(f"plan version {graph_version} was replaced by version {project.graph_version}")
             pending = [a for a in await u.tx.list_approvals(project_id=project_id) if a.status == "pending"]
             for a in pending:
                 await u.tx.update_approval(a.model_copy(update={
                     "status": "approved" if approved else "rejected", "comment": comment, "decided_at": now}))
             await u.emit(self._project_event(EventType.APPROVAL_DECIDED.value, project, {
-                "approved": approved, "comment": comment, "approval_ids": [a.approval_id for a in pending]}))
+                "approved": approved, "comment": comment, "approval_ids": [a.approval_id for a in pending],
+                "graph_version": project.graph_version}))
             for t in await u.tx.list_tasks(project_id=project_id):
                 if not t.needs_approval:
                     continue
@@ -463,6 +472,108 @@ class Manager:
                                      data={"reason": "plan rejected", "comment": comment})
             await self._move_project(u, project, ProjectState.EXECUTING if approved else ProjectState.PLANNING)
         await self._after_change([project_id])
+
+    async def replace_graph(self, project_id: str, graph: TaskGraph, *,
+                            require_approval: bool = True) -> dict[str, str]:
+        """Replanning (Sprint 3): swap the current run's plan for ``graph`` and keep finished work. A plan task whose
+        id is still in ``graph`` and that is COMPLETED or in flight keeps its task (and result); every other
+        unfinished task of the old plan is cancelled ("replanned"), and all dropped tasks are marked ``replaced`` so
+        the executor and the project outcome ignore them. New tasks are created, and the approval gate applies again
+        (auto-approve projects continue at once). ``graph.version`` must be newer than the current plan's
+        (:class:`StaleGraph`). Without a current plan this is :meth:`submit_graph`. Returns plan id -> task id."""
+        project = await self.store.get_project(project_id)
+        if project is None:
+            raise UnknownProject(project_id)
+        self._ensure_not_stopped(project)
+        if project.graph_version is None:
+            await self.submit_graph(project_id, graph, require_approval=require_approval)
+            return dict((await self.store.get_project(project_id) or project).plan_task_map)
+        if graph.version <= project.graph_version:
+            raise StaleGraph(f"plan version {graph.version} is not newer than the current version "
+                             f"{project.graph_version}")
+        auto = require_approval and project.auto_approve
+        gated = require_approval and not auto
+        order = self.executor.order(graph)
+        keep_states = {S.COMPLETED} | IN_FLIGHT_STATES | {S.RESULT_SUBMITTED, S.REVIEWING, S.NEEDS_REVISION,
+                                                         S.RETRY_SCHEDULED}
+        now = self._now()
+        reason = f"replanned (plan version {graph.version})"
+        async with self._unit() as u:
+            current = await u.tx.get_project(project_id)
+            assert current is not None
+            self._ensure_not_stopped(current)
+            run = current.current_run
+            old = [t for t in await u.tx.list_tasks(project_id=project_id)
+                   if t.run == run and t.plan_task_id is not None and not t.replaced]
+            new_ids = {t.id for t in graph.tasks}
+            kept = {t.plan_task_id: t for t in old if t.plan_task_id in new_ids and t.state in keep_states}
+            mapping = {pid: kept[pid].task_id if pid in kept else new_task_id() for pid in order}
+            for t in old:
+                if t.plan_task_id in kept:
+                    await u.tx.update_task(t.model_copy(update={
+                        "inputs": {**t.inputs, "graph_version": graph.version}, "updated_at": now}),
+                        expected_version=t.state_version)
+                    continue
+                if is_terminal(t.state):
+                    await u.tx.update_task(t.model_copy(update={"replaced": True, "updated_at": now}),
+                                           expected_version=t.state_version)
+                    continue
+                agent_id = None
+                if t.active_execution_id:
+                    exe = await u.tx.get_execution(t.active_execution_id)
+                    if exe is not None and exe.status in IN_FLIGHT_EXECUTIONS:
+                        agent_id = exe.agent_id
+                        await self._save_execution(u, exe, status=ExecutionStatus.CANCELLED,
+                                                   error={"code": ErrorCode.CANCELLED.value, "message": reason})
+                await self._move(u, t, S.CANCELLED, needs_approval=False, replaced=True,
+                                 data={"reason": reason, "agent_id": agent_id, "replanned": True})
+            for pid in order:
+                if pid in kept:
+                    continue
+                pt = graph.task(pid)
+                task = TaskRecord(
+                    task_id=mapping[pid], project_id=project_id, capability=pt.agent_capability,
+                    objective=pt.description or pt.title, title=pt.title,
+                    acceptance_criteria=list(pt.acceptance_criteria),
+                    inputs={"plan_task_id": pid, "requirement_ids": list(pt.requirement_ids), "phase": pt.phase,
+                            "research_questions": list(pt.research_questions), "graph_version": graph.version},
+                    depends_on=[mapping[d] for d in pt.depends_on], plan_task_id=pid, priority=pt.priority,
+                    run=run, needs_approval=gated, created_at=now, updated_at=now)
+                saved = await u.tx.insert_task(task)
+                await u.emit(self._task_event(EventType.TASK_CREATED.value, saved))
+            for a in await u.tx.list_approvals(project_id=project_id):
+                if a.status == "pending":
+                    await u.tx.update_approval(a.model_copy(update={
+                        "status": "rejected", "comment": f"superseded by plan version {graph.version}",
+                        "decided_at": now}))
+            current = await u.tx.get_project(project_id)
+            assert current is not None
+            runs = list(current.runs)
+            if runs and runs[-1].outcome is not None:      # a finished run is working again
+                runs[-1] = runs[-1].model_copy(update={"outcome": None, "finished_at": None})
+            changes: dict[str, Any] = {"graph_version": graph.version, "plan_task_map": mapping, "runs": runs}
+            info = {"graph_version": graph.version, "task_count": len(order), "replanned": True,
+                    "kept_tasks": len(kept)}
+            if auto:
+                approval = ApprovalRecord(approval_id=new_uuid(), project_id=project_id, graph_version=graph.version,
+                                          status="approved", comment="auto-approved (project setting)",
+                                          requested_at=now, decided_at=now)
+                await u.tx.insert_approval(approval)
+                await u.emit(self._project_event(EventType.APPROVAL_DECIDED.value, current, {
+                    "approved": True, "auto": True, "comment": approval.comment,
+                    "approval_ids": [approval.approval_id], "graph_version": graph.version}))
+                await self._move_project(u, current, ProjectState.EXECUTING, **changes,
+                                         data={**info, "auto_approved": True})
+            elif gated:
+                approval = ApprovalRecord(approval_id=new_uuid(), project_id=project_id,
+                                          graph_version=graph.version, requested_at=now)
+                await u.tx.insert_approval(approval)
+                await self._move_project(u, current, ProjectState.AWAITING_APPROVAL, **changes,
+                                         data={**info, "approval_id": approval.approval_id})
+            else:
+                await self._move_project(u, current, ProjectState.EXECUTING, **changes, data=info)
+        await self._after_change([project_id])
+        return mapping
 
     async def cancel_task(self, task_id: str, reason: str) -> bool:
         """CANCELLED + ``task.cancelled`` event (agents listen for it and stop cooperatively). A result that
@@ -855,7 +966,7 @@ class Manager:
 
     async def _reconcile_project(self, project_id: str) -> None:
         for _ in range(1000):  # each pass changes >= 1 task; bounded for safety
-            tasks = await self.store.list_tasks(project_id=project_id)
+            tasks = [t for t in await self.store.list_tasks(project_id=project_id) if not t.replaced]
             blocked = self.executor.blocked(tasks)
             ready = self.executor.ready(tasks)
             if not blocked and not ready:
@@ -880,7 +991,7 @@ class Manager:
             if project is None or project.state not in (ProjectState.EXECUTING, ProjectState.INGESTING):
                 return
             run = project.current_run
-            tasks = [t for t in await u.tx.list_tasks(project_id=project_id) if t.run == run]
+            tasks = [t for t in await u.tx.list_tasks(project_id=project_id) if t.run == run and not t.replaced]
             outcome = self.executor.outcome(tasks)
             if project.state == ProjectState.INGESTING and outcome != ProjectState.FAILED:
                 return      # still understanding the request; only a failure settles it (the plan moves it on)
