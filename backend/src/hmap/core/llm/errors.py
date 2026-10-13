@@ -31,6 +31,11 @@ class FakeLLMError(LLMError):
     """``FakeLLM`` has no scripted answer for a call."""
 
 
+class VisionUnavailable(LLMError):
+    """No vision model can answer right now (no ``vision`` cloud route, cloud not allowed, or every key failed).
+    There is no local vision fallback: callers use their own (e.g. Tesseract OCR)."""
+
+
 class CloudRateLimited(ModelTransientError):
     """Cloud provider kept answering 429 after bounded retries (the gateway then falls back to local)."""
 
@@ -44,4 +49,5 @@ __all__ = [
     "ModelTransientError",
     "ReplayMissError",
     "StructuredOutputError",
+    "VisionUnavailable",
 ]

@@ -56,3 +56,9 @@ class LLMClient(Protocol):
 
     async def classify(self, state: str, questions: list[ClassifyQuestion]) -> list[ClassifyAnswer]:
         """Short typed decisions (doc 02 §2.2 ``classify`` role). Sprint 1: an enum-schema ``generate`` call."""
+
+    async def read_images(self, prompt: str, images: list[bytes], *, max_tokens: int = 4096) -> LLMResponse:
+        """Ask a vision model about PNG/JPEG ``images`` (role ``vision``, e.g. OCR of a scanned page). Cloud only:
+        raises :class:`~hmap.core.llm.errors.VisionUnavailable` when no vision route is configured, the cloud is not
+        allowed (local-only project / ``HMAP_CLOUD_OK=false``) or every key failed — the caller falls back
+        (e.g. to Tesseract)."""

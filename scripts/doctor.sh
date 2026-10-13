@@ -19,5 +19,5 @@ if command -v ollama >/dev/null; then
     ok "ollama server at $url ($n models)"
   else warn "ollama server not reachable at $url (only needed for HMAP_LLM_MODE=live|record)"; fi
 else warn "ollama not installed (only needed for live LLM runs)"; fi
-command -v tesseract >/dev/null && ok "tesseract" || warn "tesseract (Sprint 2 OCR: brew install tesseract poppler)"
+command -v tesseract >/dev/null && ok "tesseract" || warn "tesseract (Sprint 2 local OCR of scans: brew install tesseract)"
 exit $missing

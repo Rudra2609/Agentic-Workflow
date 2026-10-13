@@ -474,3 +474,22 @@ async def test_record_mode_cache_holds_no_key(pool_settings: Settings, server: F
     assert not any(k in raw for k in ALL_KEYS) and "Bearer" not in raw
     replay = Gateway(s.model_copy(update={"llm_mode": "replay"})).for_plugin("coder_agent")
     assert (await replay.generate("coder", MSG)).text == resp.text
+
+
+async def test_gemini_never_gets_a_seed(pool_settings: Settings, server: FakeOllamaServer, cloud: FakeCloud,
+                                        clock: FakeClock) -> None:
+    """Gemini's OpenAI-compatible API rejects `seed` (400): it must not be sent, or seeded calls skip Gemini."""
+    s = pool_settings.model_copy(update={"cloud_role_map": {"reasoner": [("gemini", "gemini-x"), ("groq", "g")]}})
+    resp = await make_gateway(s, server, cloud, clock).generate("reasoner", MSG, seed=7)
+    assert resp.usage.provider == "gemini"
+    sent = json.loads(cloud.requests[0].content)
+    assert "seed" not in sent and sent["reasoning_effort"] == "none"  # thinking off unless asked for
+    groq_only = s.model_copy(update={"cloud_role_map": {"reasoner": [("groq", "g")]}})
+    await make_gateway(groq_only, server, cloud, clock).generate("reasoner", MSG, seed=7)
+    groq_sent = json.loads(cloud.requests[-1].content)
+    assert groq_sent["seed"] == 7 and "reasoning_effort" not in groq_sent  # model "g" is not gpt-oss
+    oss = s.model_copy(update={"cloud_role_map": {"reasoner": [("groq", "openai/gpt-oss-120b")]}})
+    await make_gateway(oss, server, cloud, clock).generate("reasoner", MSG)
+    assert json.loads(cloud.requests[-1].content)["reasoning_effort"] == "low"
+    await make_gateway(s, server, cloud, clock).generate("reasoner", MSG, think=True)
+    assert "reasoning_effort" not in json.loads(cloud.requests[-1].content)

@@ -25,12 +25,14 @@ from hmap.core.plugins import Plugin
 from hmap.core.runtime.base import BaseAgent
 
 
-class DocIntel(BaseAgent):
-    name = "doc-intel"
+class FakeExtractor(BaseAgent):
+    name = "fake-extractor"
     capabilities = ("document.extract", "document.summarise")
 
 
-PLUGIN = Plugin(name="{name}", agents=[DocIntel], priority=100)
+# priority 200: above the stubs (0) and above any member's real plug-in (100), so this test keeps working as the
+# real agents arrive sprint by sprint
+PLUGIN = Plugin(name="{name}", agents=[FakeExtractor], priority=200)
 '''
 
 
@@ -45,8 +47,8 @@ def fake_pkg(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> str:
     """A package ``<pkg>`` with: a real plug-in, a broken one, one without PLUGIN, a helper without plugin.py."""
     pkg = f"hmap_fake_agents_{uuid.uuid4().hex[:8]}"
     _write(tmp_path, f"{pkg}/__init__.py")
-    _write(tmp_path, f"{pkg}/doc_intel/__init__.py")
-    _write(tmp_path, f"{pkg}/doc_intel/plugin.py", REAL_PLUGIN.format(name="doc_intel"))
+    _write(tmp_path, f"{pkg}/fake_extract/__init__.py")
+    _write(tmp_path, f"{pkg}/fake_extract/plugin.py", REAL_PLUGIN.format(name="fake_extract"))
     _write(tmp_path, f"{pkg}/broken/__init__.py")
     _write(tmp_path, f"{pkg}/broken/plugin.py", "import does_not_exist_anywhere\n")
     _write(tmp_path, f"{pkg}/no_plugin_attr/__init__.py")
@@ -76,7 +78,7 @@ def test_enabled_filter_and_unknown_name() -> None:
 
 def test_errors_reported_without_hiding_others(fake_pkg: str) -> None:
     result = discover_all(packages=("hmap.agents", fake_pkg))
-    assert {p.name for p in result.plugins} >= {"stubs", "doc_intel"}  # plus any other built-in plug-ins
+    assert {p.name for p in result.plugins} >= {"stubs", "fake_extract"}  # plus any other built-in plug-ins
     errors = {e.package.rsplit(".", 1)[-1]: e.error for e in result.errors}
     assert set(errors) == {"broken", "no_plugin_attr"}
     assert "does_not_exist_anywhere" in errors["broken"] and "PLUGIN" in errors["no_plugin_attr"]
@@ -89,17 +91,17 @@ def test_real_plugin_wins_over_stub(fake_pkg: str) -> None:
     plugins = discover(packages=("hmap.agents", fake_pkg))
     resolved = resolve_capabilities(plugins)
     plugin, agent_cls = resolved["document.extract"]
-    assert plugin.name == "doc_intel" and agent_cls.name == "doc-intel" and not agent_cls.is_stub
+    assert plugin.name == "fake_extract" and agent_cls.name == "fake-extractor" and not agent_cls.is_stub
     assert resolved["plan.generate"][0].name == "stubs"
 
     rows = {r.capability: r for r in capability_table(plugins)}
-    assert rows["document.extract"].status == "real" and rows["document.extract"].shadowed == ("stubs",)
+    assert rows["document.extract"].status == "real" and "stubs" in rows["document.extract"].shadowed
     assert rows["plan.generate"].status == "stub"
     assert rows["document.summarise"].status == "real"
 
     runs = {cls.name: caps for _, cls, caps in agents_to_run(plugins)}
     assert "stub-document-extract" not in runs  # the stub yielded its only capability
-    assert set(runs["doc-intel"]) == {"document.extract", "document.summarise"}
+    assert set(runs["fake-extractor"]) == {"document.extract", "document.summarise"}
     assert runs["stub-plan-generate"] == ("plan.generate",)
 
 

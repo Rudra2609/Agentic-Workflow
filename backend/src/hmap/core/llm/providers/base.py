@@ -18,6 +18,7 @@ class ChatRequest:
     temperature: float = 0.2
     seed: int | None = None
     think: bool = False
+    images: list[str] = field(default_factory=list)  # base64 PNG/JPEG, attached to the last user message
 
 
 class ChatProvider(Protocol):

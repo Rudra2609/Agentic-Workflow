@@ -80,6 +80,9 @@ class _UnavailableLLM:
     async def classify(self, *args: Any, **kwargs: Any) -> Any:
         raise self._fail()
 
+    async def read_images(self, *args: Any, **kwargs: Any) -> Any:
+        raise self._fail()
+
 
 def make_llm(settings: Settings) -> LLMClient:
     try:

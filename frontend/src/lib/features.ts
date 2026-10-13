@@ -24,7 +24,7 @@ export interface FeaturePageProps {
 }
 
 export interface FeatureManifest {
-  /** Unique kebab-case id; must equal the folder name. */
+  /** Unique id (lower case, digits, - or _); must equal the folder name, e.g. "doc_intel". */
   id: string;
   /** Tab label on the project page / sidebar label for the Page. */
   title: string;
@@ -57,7 +57,7 @@ export function validateFeatures(manifests: readonly unknown[]): FeatureManifest
     }
     const m = raw as Partial<FeatureManifest>;
     const label = typeof m.id === "string" ? `"${m.id}"` : `#${i}`;
-    if (typeof m.id !== "string" || !/^[a-z][a-z0-9-]*$/.test(m.id)) problems.push(`feature ${label}: bad id`);
+    if (typeof m.id !== "string" || !/^[a-z][a-z0-9_-]*$/.test(m.id)) problems.push(`feature ${label}: bad id`);
     else if (ids.has(m.id)) problems.push(`feature ${label}: duplicate id`);
     if (typeof m.title !== "string" || !m.title.trim()) problems.push(`feature ${label}: missing title`);
     if (m.ProjectPanel === undefined && m.Page === undefined) problems.push(`feature ${label}: no ProjectPanel or Page`);

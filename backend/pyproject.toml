@@ -14,6 +14,13 @@ dependencies = [
     "psycopg[binary]>=3.2",
     "aio-pika>=9.4",
     "python-multipart>=0.0.9",
+    # document intelligence (Member 2, Sprint 2): PDF text/tables, page rendering, DOCX, OCR. Tesseract itself is a
+    # system binary (`brew install tesseract`); without it OCR falls back to the vision model or reports the page.
+    "pdfplumber>=0.11",
+    "pypdfium2>=4.30",
+    "python-docx>=1.1",
+    "pytesseract>=0.3.13",
+    "Pillow>=10.4",
 ]
 
 [project.optional-dependencies]
@@ -30,6 +37,7 @@ dev = [
     "jsonschema>=4.22",
     "ruff>=0.6",
     "mypy>=1.11",
+    "reportlab>=4.2",
 ]
 
 [build-system]

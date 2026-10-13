@@ -16,7 +16,8 @@ import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-export const ID_PATTERN = /^[a-z][a-z0-9-]*$/;
+// lower case, digits, "-" or "_": folder names follow the backend plug-in names (e.g. doc_intel, ownership.toml)
+export const ID_PATTERN = /^[a-z][a-z0-9_-]*$/;
 export const ROUTE_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
 export const GENERATED_FILENAME = "_registry.generated.ts";
 
@@ -78,7 +79,7 @@ export async function scanFeatures(featuresDir) {
 
     if (id === undefined) problems.push(`${where}: manifest has no \`id\` (use id: "${dir}").`);
     else if (id === null) problems.push(`${where}: \`id\` must be a plain string literal, e.g. id: "${dir}".`);
-    else if (!ID_PATTERN.test(id)) problems.push(`${where}: id "${id}" must be lower-case kebab-case (${ID_PATTERN}).`);
+    else if (!ID_PATTERN.test(id)) problems.push(`${where}: id "${id}" must be lower case (letters, digits, - or _: ${ID_PATTERN}).`);
     else if (id !== dir) problems.push(`${where}: id "${id}" must equal its folder name "${dir}".`);
 
     if (title === undefined) problems.push(`${where}: manifest has no \`title\`.`);

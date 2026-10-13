@@ -1,0 +1,631 @@
+{
+  "mode": "rules",
+  "local_only": false,
+  "summary": {
+    "fields": {
+      "requirements": {
+        "precision": 1.0,
+        "recall": 0.921,
+        "f1": 0.959,
+        "tp": 58,
+        "fp": 0,
+        "fn": 5
+      },
+      "constraints": {
+        "precision": 0.762,
+        "recall": 0.941,
+        "f1": 0.842,
+        "tp": 16,
+        "fp": 5,
+        "fn": 1
+      },
+      "deliverables": {
+        "precision": 0.941,
+        "recall": 0.941,
+        "f1": 0.941,
+        "tp": 16,
+        "fp": 1,
+        "fn": 1
+      },
+      "evaluation_criteria": {
+        "precision": 1.0,
+        "recall": 0.971,
+        "f1": 0.985,
+        "tp": 33,
+        "fp": 0,
+        "fn": 1
+      }
+    },
+    "priority_accuracy": 1.0,
+    "rubric_marks_accuracy": 1.0,
+    "total_marks_correct": "9/10",
+    "quote_verified_rate": 1.0,
+    "ocr_gate_correct": "10/10",
+    "ocr_word_accuracy": 0.974,
+    "heading_recall": 1.0,
+    "seconds_total": 1.6,
+    "seconds_per_page": 0.13
+  },
+  "documents": {
+    "g01_tcp_chat": {
+      "fields": {
+        "requirements": {
+          "f1": 1.0,
+          "tp": 8,
+          "fp": 0,
+          "fn": 0
+        },
+        "constraints": {
+          "f1": 0.857,
+          "tp": 3,
+          "fp": 0,
+          "fn": 1
+        },
+        "deliverables": {
+          "f1": 0.857,
+          "tp": 3,
+          "fp": 1,
+          "fn": 0
+        },
+        "evaluation_criteria": {
+          "f1": 1.0,
+          "tp": 6,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "marks": "6/6",
+      "total_marks_ok": true,
+      "quotes": "8/8",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": null,
+      "heading_recall": 1.0,
+      "seconds": 0.03,
+      "misses": [
+        "constraints: Submit everything on the course portal before 23:59 on Friday of week 6."
+      ],
+      "extras": [
+        "deliverables: Submit everything on the course portal before 23:59 on Friday of week 6."
+      ],
+      "stats": {
+        "documents": 1,
+        "pages": 1,
+        "ocr_pages": 0,
+        "chunks": 1,
+        "llm_chunks": 0,
+        "rules_only_chunks": 1,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them."
+      ]
+    },
+    "g02_lab_manual": {
+      "fields": {
+        "requirements": {
+          "f1": 0.909,
+          "tp": 5,
+          "fp": 0,
+          "fn": 1
+        },
+        "constraints": {
+          "f1": 1.0,
+          "tp": 3,
+          "fp": 0,
+          "fn": 0
+        },
+        "deliverables": {
+          "f1": 1.0,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        "evaluation_criteria": {
+          "f1": 1.0,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "marks": "4/4",
+      "total_marks_ok": true,
+      "quotes": "5/5",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": null,
+      "heading_recall": 1.0,
+      "seconds": 0.01,
+      "misses": [
+        "requirements: Use pytest.mark.parametrize for the tests of valid dates."
+      ],
+      "extras": [],
+      "stats": {
+        "documents": 1,
+        "pages": 1,
+        "ocr_pages": 0,
+        "chunks": 1,
+        "llm_chunks": 0,
+        "rules_only_chunks": 1,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them."
+      ]
+    },
+    "g03_rubric": {
+      "fields": {
+        "requirements": {
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 1
+        },
+        "constraints": {
+          "f1": 0.5,
+          "tp": 1,
+          "fp": 2,
+          "fn": 0
+        },
+        "deliverables": {
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 1
+        },
+        "evaluation_criteria": {
+          "f1": 1.0,
+          "tp": 6,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "marks": "6/6",
+      "total_marks_ok": true,
+      "quotes": "0/0",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": null,
+      "heading_recall": 1.0,
+      "seconds": 0.02,
+      "misses": [
+        "requirements: Every team member must present part of the demo.",
+        "deliverables: The design document must be submitted as a single PDF file."
+      ],
+      "extras": [
+        "constraints: The design document must be submitted as a single PDF file.",
+        "constraints: Every team member must present part of the demo."
+      ],
+      "stats": {
+        "documents": 1,
+        "pages": 1,
+        "ocr_pages": 0,
+        "chunks": 1,
+        "llm_chunks": 0,
+        "rules_only_chunks": 1,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [
+          "no_requirements"
+        ],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them.",
+        "No requirements were found in the uploaded documents. Is this the right file?"
+      ]
+    },
+    "g04_scanned": {
+      "fields": {
+        "requirements": {
+          "f1": 1.0,
+          "tp": 6,
+          "fp": 0,
+          "fn": 0
+        },
+        "constraints": {
+          "f1": 1.0,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        "deliverables": {
+          "f1": 1.0,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        "evaluation_criteria": {
+          "f1": 0.857,
+          "tp": 3,
+          "fp": 0,
+          "fn": 1
+        }
+      },
+      "marks": "3/3",
+      "total_marks_ok": false,
+      "quotes": "6/6",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": 0.98,
+      "heading_recall": 1.0,
+      "seconds": 1.2,
+      "misses": [
+        "evaluation_criteria: User guide"
+      ],
+      "extras": [],
+      "stats": {
+        "documents": 1,
+        "pages": 1,
+        "ocr_pages": 1,
+        "chunks": 1,
+        "llm_chunks": 0,
+        "rules_only_chunks": 1,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [
+          "marks_sum_mismatch"
+        ],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them.",
+        "The marking criteria add up to 25 marks, but the document states a total of 30. Which is right?"
+      ]
+    },
+    "g05_photo": {
+      "fields": {
+        "requirements": {
+          "f1": 1.0,
+          "tp": 3,
+          "fp": 0,
+          "fn": 0
+        },
+        "constraints": {
+          "f1": 1.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        "deliverables": {
+          "f1": 1.0,
+          "tp": 1,
+          "fp": 0,
+          "fn": 0
+        },
+        "evaluation_criteria": {
+          "f1": 1.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "marks": "0/0",
+      "total_marks_ok": true,
+      "quotes": "3/3",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": 0.967741935483871,
+      "heading_recall": 1.0,
+      "seconds": 0.24,
+      "misses": [],
+      "extras": [],
+      "stats": {
+        "documents": 1,
+        "pages": 1,
+        "ocr_pages": 1,
+        "chunks": 1,
+        "llm_chunks": 0,
+        "rules_only_chunks": 1,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them."
+      ]
+    },
+    "g06_project_brief": {
+      "fields": {
+        "requirements": {
+          "f1": 1.0,
+          "tp": 9,
+          "fp": 0,
+          "fn": 0
+        },
+        "constraints": {
+          "f1": 1.0,
+          "tp": 3,
+          "fp": 0,
+          "fn": 0
+        },
+        "deliverables": {
+          "f1": 1.0,
+          "tp": 3,
+          "fp": 0,
+          "fn": 0
+        },
+        "evaluation_criteria": {
+          "f1": 1.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "marks": "0/0",
+      "total_marks_ok": true,
+      "quotes": "9/9",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": null,
+      "heading_recall": 1.0,
+      "seconds": 0.01,
+      "misses": [],
+      "extras": [],
+      "stats": {
+        "documents": 1,
+        "pages": 1,
+        "ocr_pages": 0,
+        "chunks": 1,
+        "llm_chunks": 0,
+        "rules_only_chunks": 1,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them."
+      ]
+    },
+    "g07_messy": {
+      "fields": {
+        "requirements": {
+          "f1": 0.889,
+          "tp": 4,
+          "fp": 0,
+          "fn": 1
+        },
+        "constraints": {
+          "f1": 0.667,
+          "tp": 1,
+          "fp": 1,
+          "fn": 0
+        },
+        "deliverables": {
+          "f1": 1.0,
+          "tp": 1,
+          "fp": 0,
+          "fn": 0
+        },
+        "evaluation_criteria": {
+          "f1": 1.0,
+          "tp": 3,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "marks": "3/3",
+      "total_marks_ok": true,
+      "quotes": "4/4",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": null,
+      "heading_recall": 1.0,
+      "seconds": 0.02,
+      "misses": [
+        "requirements: The dashboard must open in under five seconds for one month of data."
+      ],
+      "extras": [
+        "constraints: The dashboard must open in under five seconds for one month of data."
+      ],
+      "stats": {
+        "documents": 1,
+        "pages": 1,
+        "ocr_pages": 0,
+        "chunks": 1,
+        "llm_chunks": 0,
+        "rules_only_chunks": 1,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them."
+      ]
+    },
+    "g08_multipart": {
+      "fields": {
+        "requirements": {
+          "f1": 1.0,
+          "tp": 7,
+          "fp": 0,
+          "fn": 0
+        },
+        "constraints": {
+          "f1": 1.0,
+          "tp": 1,
+          "fp": 0,
+          "fn": 0
+        },
+        "deliverables": {
+          "f1": 1.0,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        "evaluation_criteria": {
+          "f1": 1.0,
+          "tp": 6,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "marks": "6/6",
+      "total_marks_ok": true,
+      "quotes": "7/7",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": null,
+      "heading_recall": 1.0,
+      "seconds": 0.01,
+      "misses": [],
+      "extras": [],
+      "stats": {
+        "documents": 3,
+        "pages": 3,
+        "ocr_pages": 0,
+        "chunks": 3,
+        "llm_chunks": 0,
+        "rules_only_chunks": 3,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them."
+      ]
+    },
+    "g09_request": {
+      "fields": {
+        "requirements": {
+          "f1": 1.0,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        "constraints": {
+          "f1": 1.0,
+          "tp": 1,
+          "fp": 0,
+          "fn": 0
+        },
+        "deliverables": {
+          "f1": 1.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        },
+        "evaluation_criteria": {
+          "f1": 1.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "marks": "0/0",
+      "total_marks_ok": true,
+      "quotes": "2/2",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": null,
+      "heading_recall": 1.0,
+      "seconds": 0.0,
+      "misses": [],
+      "extras": [],
+      "stats": {
+        "documents": 1,
+        "pages": 1,
+        "ocr_pages": 0,
+        "chunks": 1,
+        "llm_chunks": 0,
+        "rules_only_chunks": 1,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them."
+      ]
+    },
+    "g10_long_lab": {
+      "fields": {
+        "requirements": {
+          "f1": 0.933,
+          "tp": 14,
+          "fp": 0,
+          "fn": 2
+        },
+        "constraints": {
+          "f1": 0.5,
+          "tp": 1,
+          "fp": 2,
+          "fn": 0
+        },
+        "deliverables": {
+          "f1": 1.0,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        "evaluation_criteria": {
+          "f1": 1.0,
+          "tp": 5,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "marks": "5/5",
+      "total_marks_ok": true,
+      "quotes": "14/14",
+      "ocr_gate_ok": true,
+      "ocr_word_accuracy": null,
+      "heading_recall": 1.0,
+      "seconds": 0.09,
+      "misses": [
+        "requirements: For each actor, describe at least two goals in one sentence each.",
+        "requirements: Write unit tests for the spot assignment and the fee calculation."
+      ],
+      "extras": [
+        "constraints: The examples in the lecture slides use a simpler garage with only one level, which is a good starting point for your own thinking.",
+        "constraints: Discuss your ideas with your lab partner, sketch them on paper first, and only then move on to the computer."
+      ],
+      "stats": {
+        "documents": 1,
+        "pages": 2,
+        "ocr_pages": 0,
+        "chunks": 2,
+        "llm_chunks": 0,
+        "rules_only_chunks": 2,
+        "quotes": {
+          "exact": 0,
+          "approximate": 0,
+          "unverified": 0
+        },
+        "issues": [],
+        "answered_by": {}
+      },
+      "open_questions": [
+        "The language model did not answer for part of the documents, so some items were found by keyword rules only. Please review them."
+      ]
+    }
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "id": "g08_multipart",
+  "title": "Multi-part assignment uploaded as folders",
+  "needs_ocr": false,
+  "files": [
+    {
+      "path": "g08_multipart/Part A/part_a.pdf",
+      "name": "part_a.pdf",
+      "folder": "Part A",
+      "sections": [
+        {
+          "level": 1,
+          "title": "Part A: Database Design"
+        }
+      ],
+      "total_marks": 15,
+      "reference_text": "Part A: Database Design\nDraw an ER diagram for the hostel booking system.\nThe schema must be in third normal form.\nSubmit the diagram as a PDF.\nER diagram 10\nNormalisation 5\nTotal: 15 marks"
+    },
+    {
+      "path": "g08_multipart/Part B/part_b.docx",
+      "name": "part_b.docx",
+      "folder": "Part B",
+      "sections": [
+        {
+          "level": 1,
+          "title": "Part B: REST API"
+        }
+      ],
+      "total_marks": 20,
+      "reference_text": "Part B: REST API\nImplement endpoints to create, list and cancel bookings.\nEvery endpoint must return JSON and proper HTTP status codes.\nProtect the endpoints with token authentication.\nUse the schema from Part A.\nEndpoints 15\nAuthentication 5\nTotal: 20 marks"
+    },
+    {
+      "path": "g08_multipart/Part C/part_c.md",
+      "name": "part_c.md",
+      "folder": "Part C",
+      "sections": [
+        {
+          "level": 1,
+          "title": "Part C: Testing"
+        }
+      ],
+      "total_marks": 15,
+      "reference_text": "Part C: Testing\nWrite integration tests for every endpoint of Part B.\nTests should run in the CI pipeline.\nSubmit the test report as a PDF.\nIntegration tests 10\nCI pipeline 5\nTotal: 15 marks"
+    }
+  ],
+  "total_marks": 50,
+  "requirements": [
+    {
+      "text": "Draw an ER diagram for the hostel booking system.",
+      "priority": "must",
+      "type": "functional",
+      "file": "part_a.pdf",
+      "folder": "Part A"
+    },
+    {
+      "text": "The schema must be in third normal form.",
+      "priority": "must",
+      "type": "non_functional",
+      "file": "part_a.pdf",
+      "folder": "Part A"
+    },
+    {
+      "text": "Implement endpoints to create, list and cancel bookings.",
+      "priority": "must",
+      "type": "functional",
+      "file": "part_b.docx",
+      "folder": "Part B"
+    },
+    {
+      "text": "Every endpoint must return JSON and proper HTTP status codes.",
+      "priority": "must",
+      "type": "functional",
+      "file": "part_b.docx",
+      "folder": "Part B"
+    },
+    {
+      "text": "Protect the endpoints with token authentication.",
+      "priority": "must",
+      "type": "non_functional",
+      "file": "part_b.docx",
+      "folder": "Part B"
+    },
+    {
+      "text": "Write integration tests for every endpoint of Part B.",
+      "priority": "must",
+      "type": "functional",
+      "file": "part_c.md",
+      "folder": "Part C"
+    },
+    {
+      "text": "Tests should run in the CI pipeline.",
+      "priority": "should",
+      "type": "functional",
+      "file": "part_c.md",
+      "folder": "Part C"
+    }
+  ],
+  "constraints": [
+    {
+      "text": "Use the schema from Part A.",
+      "kind": "process",
+      "file": "part_b.docx",
+      "folder": "Part B"
+    }
+  ],
+  "deliverables": [
+    {
+      "name": "ER diagram",
+      "format": "PDF",
+      "text": "Submit the diagram as a PDF.",
+      "file": "part_a.pdf",
+      "folder": "Part A"
+    },
+    {
+      "name": "Test report",
+      "format": "PDF",
+      "text": "Submit the test report as a PDF.",
+      "file": "part_c.md",
+      "folder": "Part C"
+    }
+  ],
+  "evaluation_criteria": [
+    {
+      "criterion": "ER diagram",
+      "max_marks": 10,
+      "rubric_levels": [],
+      "file": "part_a.pdf",
+      "folder": "Part A"
+    },
+    {
+      "criterion": "Normalisation",
+      "max_marks": 5,
+      "rubric_levels": [],
+      "file": "part_a.pdf",
+      "folder": "Part A"
+    },
+    {
+      "criterion": "Endpoints",
+      "max_marks": 15,
+      "rubric_levels": [],
+      "file": "part_b.docx",
+      "folder": "Part B"
+    },
+    {
+      "criterion": "Authentication",
+      "max_marks": 5,
+      "rubric_levels": [],
+      "file": "part_b.docx",
+      "folder": "Part B"
+    },
+    {
+      "criterion": "Integration tests",
+      "max_marks": 10,
+      "rubric_levels": [],
+      "file": "part_c.md",
+      "folder": "Part C"
+    },
+    {
+      "criterion": "CI pipeline",
+      "max_marks": 5,
+      "rubric_levels": [],
+      "file": "part_c.md",
+      "folder": "Part C"
+    }
+  ]
+}

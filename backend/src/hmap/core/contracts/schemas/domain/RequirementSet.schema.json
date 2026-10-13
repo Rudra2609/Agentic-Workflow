@@ -325,6 +325,19 @@
           "title": "Doc Id",
           "type": "string"
         },
+        "folder": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "upload folder of the source document (e.g. 'Part A'); the planner may treat one folder as one part of the work",
+          "title": "Folder"
+        },
         "page": {
           "anyOf": [
             {

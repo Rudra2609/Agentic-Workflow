@@ -35,6 +35,16 @@ log = get_logger("hmap.llm.cloud")
 # schema as a system hint only (its schema dialect rejects some JSON-Schema keywords); the gateway validates and
 # repairs either way.
 JSON_MODES: dict[str, JsonMode] = {"groq": "json_object", "gemini": "none", "cloud": "json_object"}
+# Gemini's OpenAI-compatible endpoint answers 400 "Unknown name seed": without this every seeded call skipped Gemini
+SEEDS: dict[str, bool] = {"groq": True, "gemini": False, "cloud": True}
+# Gemini's thinking models count hidden reasoning against max_tokens: with think=False (the gateway default) ask for
+# none, or the visible answer gets cut off (seen: 117 of 3000 tokens visible, JSON truncated)
+# keyed by provider, then by model-name prefix ("" = every model). gpt-oss cannot switch reasoning off: "low" keeps
+# it short (a 2.5K-token prompt with 20+ items ran out of tokens and Groq answered 400 json_validate_failed)
+NO_THINK: dict[str, dict[str, dict[str, str]]] = {
+    "gemini": {"": {"reasoning_effort": "none"}},
+    "groq": {"openai/gpt-oss": {"reasoning_effort": "low"}},
+}
 
 Outcome = str  # ok | rate_limited | auth_error | rejected | error | fallback_local
 
@@ -92,7 +102,8 @@ class CloudRouter:
         backends = {
             provider: CloudBackend(
                 OpenAICompatProvider(base_url, None, shared, name=provider,
-                                     json_mode=JSON_MODES.get(provider, "json_object")),
+                                     json_mode=JSON_MODES.get(provider, "json_object"),
+                                     send_seed=SEEDS.get(provider, True), no_think=NO_THINK.get(provider)),
                 KeyPool(provider, keys, clock=clock))
             for provider, base_url, keys in specs}
         router = cls(backends, settings.cloud_role_map, client=shared, owns_client=owns)
@@ -185,4 +196,4 @@ class CloudRouter:
             await self._client.aclose()
 
 
-__all__ = ["JSON_MODES", "CloudBackend", "CloudRouter"]
+__all__ = ["JSON_MODES", "NO_THINK", "SEEDS", "CloudBackend", "CloudRouter"]
