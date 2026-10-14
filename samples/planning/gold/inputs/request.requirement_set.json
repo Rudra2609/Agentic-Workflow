@@ -1,0 +1,70 @@
+{
+  "project_id": "P-request",
+  "source_docs": [],
+  "requirements": [
+    {
+      "id": "R1",
+      "text": "Build a to-do list web app where I can add tasks, mark them as done and delete them.",
+      "type": "functional",
+      "priority": "should",
+      "source_ref": {
+        "doc_id": "doc-1",
+        "page": null,
+        "block_ids": [
+          "b1"
+        ],
+        "char_span": [
+          0,
+          84
+        ],
+        "quote": "Build a to-do list web app where I can add tasks, mark them as done and delete them.",
+        "folder": null
+      },
+      "confidence": 0.95
+    },
+    {
+      "id": "R2",
+      "text": "Tasks should be saved so they are still there after I refresh the page.",
+      "type": "functional",
+      "priority": "should",
+      "source_ref": {
+        "doc_id": "doc-1",
+        "page": null,
+        "block_ids": [
+          "b1"
+        ],
+        "char_span": [
+          85,
+          156
+        ],
+        "quote": "Tasks should be saved so they are still there after I refresh the page.",
+        "folder": null
+      },
+      "confidence": 0.95
+    }
+  ],
+  "constraints": [
+    {
+      "id": "C1",
+      "text": "Use React for the front end.",
+      "kind": "technology",
+      "source_ref": {
+        "doc_id": "doc-1",
+        "page": null,
+        "block_ids": [
+          "b1"
+        ],
+        "char_span": [
+          157,
+          185
+        ],
+        "quote": "Use React for the front end.",
+        "folder": null
+      }
+    }
+  ],
+  "deliverables": [],
+  "evaluation_criteria": [],
+  "open_questions": [],
+  "total_marks": null
+}

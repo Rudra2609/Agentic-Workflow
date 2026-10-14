@@ -1,0 +1,1670 @@
+{
+ "mode": "rules",
+ "local_only": false,
+ "summary": {
+  "cases": 9,
+  "validity": 1.0,
+  "coverage": 1.0,
+  "fully_covered_or_flagged": 9,
+  "flags": {
+   "precision": 1.0,
+   "recall": 1.0
+  },
+  "steps": {
+   "precision": 0.742,
+   "recall": 0.767,
+   "f1": 0.754
+  },
+  "dependencies": {
+   "precision": 0.935,
+   "recall": 0.894,
+   "f1": 0.914
+  },
+  "must_edge_recall": 0.886,
+  "invented_capabilities": 0,
+  "kind_correct": 9,
+  "repairs": 0,
+  "tasks_mean": 10.9,
+  "llm_calls": 0,
+  "fallbacks": 0,
+  "answered_by": {},
+  "seconds_total": 0.0,
+  "seconds_mean": 0.0,
+  "replans": {
+   "applied": 2,
+   "kept": 2,
+   "valid": 2,
+   "total": 2
+  }
+ },
+ "replans": [
+  {
+   "case": "tcp_chat",
+   "feedback": "Don't use threads; use asyncio for all networking.",
+   "method": "rules",
+   "fallbacks": [],
+   "valid": true,
+   "finished_kept": true,
+   "covered": true,
+   "applied": true,
+   "steps_before": 11,
+   "steps_after": 11,
+   "repairs": [
+    "added \"Do not use threads\" to every unfinished design, build and test step"
+   ],
+   "seconds": 0.0
+  },
+  {
+   "case": "long_lab",
+   "feedback": "Merge the command-line interface steps into a single build step.",
+   "method": "rules",
+   "fallbacks": [],
+   "valid": true,
+   "finished_kept": true,
+   "covered": true,
+   "applied": true,
+   "steps_before": 20,
+   "steps_after": 20,
+   "repairs": [
+    "added \"Follow this feedback: Merge the command-line interface steps into a single build step.\" to every unfinished design, build and test step"
+   ],
+   "seconds": 0.0
+  }
+ ],
+ "cases": [
+  {
+   "case": "tcp_chat",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 12,
+   "must_ok": 11,
+   "must_missed": [
+    "build:R2 -> build:R5"
+   ],
+   "invented": 0,
+   "tasks": 11,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.857,
+    "recall": 0.667,
+    "f1": 0.75,
+    "tp": 6,
+    "fp": 1,
+    "fn": 3
+   },
+   "deps": {
+    "precision": 0.976,
+    "recall": 0.952,
+    "f1": 0.964,
+    "tp": 40,
+    "fp": 1,
+    "fn": 2
+   }
+  },
+  {
+   "case": "lab_manual",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 12,
+   "must_ok": 12,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 12,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.75,
+    "recall": 1.0,
+    "f1": 0.857,
+    "tp": 6,
+    "fp": 2,
+    "fn": 0
+   },
+   "deps": {
+    "precision": 0.973,
+    "recall": 0.878,
+    "f1": 0.923,
+    "tp": 36,
+    "fp": 1,
+    "fn": 5
+   }
+  },
+  {
+   "case": "rubric",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 2,
+   "must_ok": 2,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 5,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 1,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 1,
+    "fp": 0,
+    "fn": 0
+   },
+   "deps": {
+    "precision": 1.0,
+    "recall": 0.7,
+    "f1": 0.824,
+    "tp": 7,
+    "fp": 0,
+    "fn": 3
+   }
+  },
+  {
+   "case": "project_brief",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 13,
+   "must_ok": 11,
+   "must_missed": [
+    "build:R2 -> build:R5",
+    "build:R4 -> build:R1"
+   ],
+   "invented": 0,
+   "tasks": 11,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.857,
+    "recall": 0.6,
+    "f1": 0.706,
+    "tp": 6,
+    "fp": 1,
+    "fn": 4
+   },
+   "deps": {
+    "precision": 0.878,
+    "recall": 0.947,
+    "f1": 0.911,
+    "tp": 36,
+    "fp": 5,
+    "fn": 2
+   }
+  },
+  {
+   "case": "multipart",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 14,
+   "must_ok": 14,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 15,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.727,
+    "recall": 0.8,
+    "f1": 0.762,
+    "tp": 8,
+    "fp": 3,
+    "fn": 2
+   },
+   "deps": {
+    "precision": 0.915,
+    "recall": 1.0,
+    "f1": 0.956,
+    "tp": 54,
+    "fp": 5,
+    "fn": 0
+   }
+  },
+  {
+   "case": "request",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 7,
+   "must_ok": 7,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 7,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.857,
+    "tp": 3,
+    "fp": 0,
+    "fn": 1
+   },
+   "deps": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 21,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  {
+   "case": "long_lab",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 27,
+   "must_ok": 19,
+   "must_missed": [
+    "build:R3 -> build:R7",
+    "build:R4 -> build:R7",
+    "build:R5 -> build:R7",
+    "build:R6 -> build:R7",
+    "build:R8 -> build:R13",
+    "build:R10 -> build:R14",
+    "build:R8 -> build:R16",
+    "build:R10 -> build:R16"
+   ],
+   "invented": 0,
+   "tasks": 20,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.562,
+    "recall": 0.9,
+    "f1": 0.692,
+    "tp": 9,
+    "fp": 7,
+    "fn": 1
+   },
+   "deps": {
+    "precision": 0.885,
+    "recall": 0.687,
+    "f1": 0.773,
+    "tp": 46,
+    "fp": 6,
+    "fn": 21
+   }
+  },
+  {
+   "case": "adversarial",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 8,
+   "must_ok": 8,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 8,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 2,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.75,
+    "recall": 0.6,
+    "f1": 0.667,
+    "tp": 3,
+    "fp": 1,
+    "fn": 2
+   },
+   "deps": {
+    "precision": 0.905,
+    "recall": 1.0,
+    "f1": 0.95,
+    "tp": 19,
+    "fp": 2,
+    "fn": 0
+   }
+  },
+  {
+   "case": "essay",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 10,
+   "must_ok": 9,
+   "must_missed": [
+    "build:R2 -> build:R4"
+   ],
+   "invented": 0,
+   "tasks": 9,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.8,
+    "recall": 0.8,
+    "f1": 0.8,
+    "tp": 4,
+    "fp": 1,
+    "fn": 1
+   },
+   "deps": {
+    "precision": 1.0,
+    "recall": 0.964,
+    "f1": 0.982,
+    "tp": 27,
+    "fp": 0,
+    "fn": 1
+   }
+  }
+ ],
+ "plans": {
+  "tcp_chat": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement: The server must accept at least 10 clients conn\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Implement: The server shall announce when a client joins o\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R4",
+      "R5",
+      "R6"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Check: The server must accept at least 10 clients connec\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Check: The server shall announce when a client joins or\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R4",
+      "R5",
+      "R6"
+     ],
+     "after": [
+      "T3"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Check quality of the work",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R7",
+      "R8"
+     ],
+     "after": [
+      "T1",
+      "T3"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Prepare README",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T4",
+      "T5"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Prepare Design and test report",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T4",
+      "T5"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T6",
+      "T7"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  },
+  "lab_manual": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement: Write at least five unit tests for the function\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Implement: Use pytest.mark.parametrize for the tests of va\u2026 (+1)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R4",
+      "R6"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Implement: All tests must run with the single command pyte\u2026",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R7"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Check: Write at least five unit tests for the function p\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Check: Use pytest.mark.parametrize for the tests of vali\u2026 (+1)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R4",
+      "R6"
+     ],
+     "after": [
+      "T3"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Check: All tests must run with the single command pytest\u2026",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R7"
+     ],
+     "after": [
+      "T5"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Check quality of the work",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R5"
+     ],
+     "after": [
+      "T1",
+      "T3",
+      "T5"
+     ]
+    },
+    {
+     "id": "T8",
+     "title": "Prepare coverage report screenshot",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T4",
+      "T6",
+      "T7"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T8"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": [
+    "Should the extra credit property-based tests be counted towards the minimum of five unit tests?"
+   ]
+  },
+  "rubric": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "T1",
+     "title": "Prepare design document",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T1",
+      "design"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  },
+  "project_brief": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement: Students must be able to browse upcoming events\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Implement: Organisers must be able to create and edit thei\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R4",
+      "R5",
+      "R6"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Check: Students must be able to browse upcoming events b\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Check: Organisers must be able to create and edit their\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R4",
+      "R5",
+      "R6"
+     ],
+     "after": [
+      "T3"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Check quality of the work",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R7",
+      "R8",
+      "R9"
+     ],
+     "after": [
+      "T1",
+      "T3"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Prepare Requirements specification",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T4",
+      "T5"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Prepare Test report",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T4",
+      "T5"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T6",
+      "T7"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": [
+    "Is there a specific email service or library that must be used for sending reminder emails?"
+   ]
+  },
+  "multipart": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Part A: Implement: Draw an ER diagram for the hostel booking system",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Part B: Implement: Implement endpoints to create, list and cancel\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R3",
+      "R4",
+      "R5"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Part A: Check: Draw an ER diagram for the hostel booking system",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Check quality of Part A",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R2"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Part B: Implement: Use the schema from Part A",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R6"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T8",
+     "title": "Part C: Implement: Write integration tests for every endpoint of P\u2026 (+1)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R7",
+      "R8"
+     ],
+     "after": [
+      "T4",
+      "T6"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Part B: Check: Implement endpoints to create, list and cancel bo\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R3",
+      "R4",
+      "R5"
+     ],
+     "after": [
+      "T4"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Part B: Check: Use the schema from Part A",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R6"
+     ],
+     "after": [
+      "T6"
+     ]
+    },
+    {
+     "id": "T9",
+     "title": "Part C: Check: Write integration tests for every endpoint of Par\u2026 (+1)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R7",
+      "R8"
+     ],
+     "after": [
+      "T8"
+     ]
+    },
+    {
+     "id": "T10",
+     "title": "Prepare diagram",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T3",
+      "T5",
+      "T7",
+      "T9"
+     ]
+    },
+    {
+     "id": "T11",
+     "title": "Prepare test report",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T3",
+      "T5",
+      "T7",
+      "T9"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T10",
+      "T11"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  },
+  "request": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement: Build a to-do list web app where I can add task\u2026 (+1)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1",
+      "R2"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Check: Build a to-do list web app where I can add tasks,\u2026 (+1)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R2"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Write the README",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T3"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  },
+  "long_lab": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement: Identify the actors that interact with the gara\u2026 (+1)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1",
+      "R2"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T11",
+     "title": "Implement: The command\u2011line interface must support parking\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R13",
+      "R14",
+      "R15"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T14",
+     "title": "Implement: Write unit tests for the spot assignment and th\u2026",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R16"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Implement: The domain model must cover levels and parking\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R3",
+      "R4",
+      "R5"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Implement: The domain model must cover payments for a tick\u2026",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R6"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Implement: Implement the domain model in an object\u2011oriente\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R7",
+      "R8",
+      "R9"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T9",
+     "title": "Implement: Calculate the fee from the entry and exit times (+1)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R10",
+      "R11"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T10",
+     "title": "Check: Calculate the fee from the entry and exit times (+1)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R10",
+      "R11"
+     ],
+     "after": [
+      "T9"
+     ]
+    },
+    {
+     "id": "T12",
+     "title": "Check: The command\u2011line interface must support parking a\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R13",
+      "R14",
+      "R15"
+     ],
+     "after": [
+      "T11"
+     ]
+    },
+    {
+     "id": "T15",
+     "title": "Check: Write unit tests for the spot assignment and the\u2026",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R16"
+     ],
+     "after": [
+      "T14"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Check: Identify the actors that interact with the garage\u2026 (+1)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R2"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Check: The domain model must cover levels and parking sp\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R3",
+      "R4",
+      "R5"
+     ],
+     "after": [
+      "T3"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Check: The domain model must cover payments for a ticket",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R6"
+     ],
+     "after": [
+      "T5"
+     ]
+    },
+    {
+     "id": "T8",
+     "title": "Check: Implement the domain model in an object\u2011oriented\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R7",
+      "R8",
+      "R9"
+     ],
+     "after": [
+      "T7"
+     ]
+    },
+    {
+     "id": "T13",
+     "title": "Check quality of the work",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R12"
+     ],
+     "after": [
+      "T1",
+      "T3",
+      "T5",
+      "T7",
+      "T9",
+      "T11",
+      "T14"
+     ]
+    },
+    {
+     "id": "T16",
+     "title": "Prepare class diagram",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T4",
+      "T6",
+      "T8",
+      "T10",
+      "T12",
+      "T13",
+      "T15"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T16"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  },
+  "adversarial": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement: The web app must let users register with an ema\u2026 (+2)",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Check: The web app must let users register with an email\u2026 (+2)",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Check quality of the work",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R6"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Prepare User guide",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T3"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T4"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": [
+    "Which email provider may be used?",
+    "Is R3 right? It was read with low confidence: \"The app should be deployed to AWS.\""
+   ]
+  },
+  "essay": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the topic",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Outline the document",
+     "phase": "design",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Write: Write a 2000-word report comparing two version\u2026 (+2)",
+     "phase": "implement",
+     "capability": "docs.generate",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Write: Summarise the findings in a conclusion section (+1)",
+     "phase": "implement",
+     "capability": "docs.generate",
+     "requirements": [
+      "R4",
+      "R5"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Check: Write a 2000-word report comparing two version co\u2026 (+2)",
+     "phase": "test",
+     "capability": "verify.claims",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "T1",
+      "T3"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Check: Summarise the findings in a conclusion section (+1)",
+     "phase": "test",
+     "capability": "verify.claims",
+     "requirements": [
+      "R4",
+      "R5"
+     ],
+     "after": [
+      "T3",
+      "T1"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Prepare Report",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T4"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T5"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  }
+ }
+}
