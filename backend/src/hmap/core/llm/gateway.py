@@ -4,6 +4,8 @@ Modes (``HMAP_LLM_MODE``):
 - ``live``   — provider only.
 - ``record`` — provider, and every raw request/response is written to the replay cache (overwriting).
 - ``replay`` — cache only; no provider is constructed, zero network; a miss raises :class:`ReplayMissError`.
+  Exception (Sprint 4): plug-ins listed in ``HMAP_LLM_RECORD_MISSING`` fetch a *missing* answer live and record it
+  (existing recordings are never overwritten) — for filling in one plug-in's recordings while the rest replays.
 - ``fake``   — every call is delegated to a :class:`FakeLLM`.
 
 Role -> model comes from ``settings.role_map`` (all roles may alias one model). A missing role falls back to
@@ -18,6 +20,10 @@ Cloud (doc 02 §2.5, never required):
   (and ``embed``) always stay local.
 - **Legacy single provider** (deprecated ``HMAP_CLOUD_BASE_URL`` + ``HMAP_CLOUD_API_KEY``, or ``cloud=``): opt-in per
   call (``allow_cloud=True``) or per client (``cloud_ok=True``) for roles in ``cloud_roles``; any failure -> local.
+
+Telemetry (Sprint 4): every ``generate`` / ``embed`` / ``read_images`` call is a ``chat <role>`` (etc.) client span
+with the model, provider, token counts and whether the cache answered — never the prompt or the answer — and feeds
+the ``hmap_llm_*`` metrics (latency, tokens, calls by outcome).
 
 Permission (both lanes): ``HMAP_CLOUD_OK=false`` or a client bound with ``cloud_ok=False`` (a local-only project) is a
 hard "never call the cloud"; otherwise ``allow_cloud`` decides per call; when neither is given the key pool is used
@@ -53,6 +59,8 @@ from hmap.core.llm.providers.ollama import OllamaProvider
 from hmap.core.llm.providers.openai_compat import OpenAICompatProvider
 from hmap.core.llm.structured import MAX_REPAIRS, generate_structured, inline_refs
 from hmap.core.tracing import get_logger
+from hmap.obs import metrics as obs_metrics
+from hmap.obs import telemetry
 
 log = get_logger("hmap.llm")
 
@@ -113,7 +121,8 @@ class Gateway:
         cloud, ``True`` = also opt in to the legacy lane. ``preamble`` is gateway-injected system text: sent to the
         model and stored in the cache file, but never part of the cache key."""
         resolved_mode: LLMMode = mode or settings.llm_mode
-        networked = resolved_mode in ("live", "record")
+        networked = resolved_mode in ("live", "record") or (resolved_mode == "replay"
+                                                             and bool(settings.llm_record_missing))
         if cloud is None and settings.cloud_base_url and settings.cloud_api_key and networked:
             cloud = OpenAICompatProvider(settings.cloud_base_url, settings.cloud_api_key)
         if cloud_router is None and networked:
@@ -183,6 +192,23 @@ class Gateway:
     async def generate(self, role: Role, messages: list[Message] | list[dict[str, str]], *,
                        schema: type[T] | None = None, max_tokens: int = 1024, temperature: float = 0.2,
                        think: bool = False, seed: int | None = None, allow_cloud: bool | None = None) -> LLMResponse:
+        with telemetry.span(f"chat {role}", kind="client", attrs={
+                "gen_ai.operation.name": "chat", "hmap.llm.role": role, "hmap.plugin": self.plugin,
+                "hmap.llm.mode": self.mode, "hmap.llm.structured": schema is not None,
+                "gen_ai.request.max_tokens": max_tokens, "gen_ai.request.temperature": temperature}) as span:
+            try:
+                resp = await self._generate(role, messages, schema=schema, max_tokens=max_tokens,
+                                            temperature=temperature, think=think, seed=seed, allow_cloud=allow_cloud)
+            except Exception as exc:
+                obs_metrics.LLM_CALLS.labels(role, "none", "error").inc()
+                span.error(exc, code=str(getattr(exc, "code", "")) or None)
+                raise
+            _span_usage(span, resp.usage)
+            return resp
+
+    async def _generate(self, role: Role, messages: list[Message] | list[dict[str, str]], *,
+                        schema: type[T] | None, max_tokens: int, temperature: float, think: bool, seed: int | None,
+                        allow_cloud: bool | None) -> LLMResponse:
         msgs = normalize_messages(messages)
         if self.mode == "fake":
             return await self._fake().generate(role, msgs, schema=schema, max_tokens=max_tokens,
@@ -200,6 +226,12 @@ class Gateway:
         return await generate_structured(call, msgs, schema, max_repairs=self.max_repairs)
 
     async def embed(self, texts: list[str]) -> list[list[float]]:
+        with telemetry.span("embeddings", kind="client", attrs={
+                "gen_ai.operation.name": "embeddings", "hmap.llm.role": "embed", "hmap.plugin": self.plugin,
+                "hmap.llm.mode": self.mode, "hmap.llm.inputs": len(texts)}):
+            return await self._embed(texts)
+
+    async def _embed(self, texts: list[str]) -> list[list[float]]:
         if self.mode == "fake":
             return await self._fake().embed(texts)
         ingredients = embed_key_ingredients(plugin=self.plugin, texts=texts)
@@ -226,11 +258,21 @@ class Gateway:
         if self.mode == "fake":
             return await self._fake().classify(state, questions)
         schema = _classify.build_schema(questions)
+        # cloud reasoning models (gpt-oss, Gemini) think before answering: with a small budget they return nothing
+        # (Groq: 400 json_validate_failed) and every call fell back to the local model (found in Sprint 4)
         resp = await self.generate("classify", _classify.build_messages(state, questions), schema=schema,
-                                   temperature=0.0, max_tokens=64 + 48 * len(questions))
+                                   temperature=0.0, max_tokens=320 + 64 * len(questions))
         return _classify.to_answers(resp.parsed, questions)
 
     async def read_images(self, prompt: str, images: list[bytes], *, max_tokens: int = 4096) -> LLMResponse:
+        with telemetry.span("chat vision", kind="client", attrs={
+                "gen_ai.operation.name": "chat", "hmap.llm.role": "vision", "hmap.plugin": self.plugin,
+                "hmap.llm.mode": self.mode, "hmap.llm.images": len(images)}) as span:
+            resp = await self._read_images(prompt, images, max_tokens=max_tokens)
+            _span_usage(span, resp.usage)
+            return resp
+
+    async def _read_images(self, prompt: str, images: list[bytes], *, max_tokens: int = 4096) -> LLMResponse:
         """Role ``vision`` (cloud only, doc 02 §2.5): ``prompt`` plus PNG/JPEG ``images`` to a vision model. The replay
         cache key holds the images' SHA-256, never the bytes. Raises :class:`VisionUnavailable` when no vision route
         can answer (none configured, cloud not allowed for this client, every key failed)."""
@@ -301,18 +343,23 @@ class Gateway:
         key = cache_key(ingredients)
         started = time.perf_counter()
         if self.mode == "replay":
-            record = self._replay_record(key, ingredients)
-            response = record.get("response") or {}
-            usage = LLMUsage.model_validate(response.get("usage") or {}).model_copy(
-                update={"cached": True, "provider": "cache", "latency_s": 0.0})
-            self._log(role, usage.model, "cache", usage, started)
-            return LLMResponse(text=str(response.get("text", "")), usage=usage)
+            try:
+                record = self._replay_record(key, ingredients)
+            except ReplayMissError:
+                if not self._records_missing:
+                    raise
+            else:
+                response = record.get("response") or {}
+                usage = LLMUsage.model_validate(response.get("usage") or {}).model_copy(
+                    update={"cached": True, "provider": "cache", "latency_s": 0.0})
+                self._log(role, usage.model, "cache", usage, started)
+                return LLMResponse(text=str(response.get("text", "")), usage=usage)
 
         request = ChatRequest(model=self.model_for(role), messages=self._with_preamble(msgs), role=role,
                               json_schema=send_format, max_tokens=max_tokens, temperature=temperature, seed=seed,
                               think=think)
         resp, provider = await self._dispatch(request, allow_cloud)
-        if self.mode == "record":
+        if self.mode == "record" or (self.mode == "replay" and self._records_missing):
             self.cache.save(self.plugin, key, {
                 "role": role, "prompt_version": self.prompt_version, "key_ingredients": ingredients,
                 "model": resp.usage.model or request.model, "model_digest": None, "provider": provider,
@@ -322,6 +369,11 @@ class Gateway:
                 "response": {"text": resp.text, "usage": resp.usage.model_dump(mode="json")}})
         self._log(role, resp.usage.model or request.model, provider, resp.usage, started)
         return resp
+
+    @property
+    def _records_missing(self) -> bool:
+        wanted = self._shared.settings.llm_record_missing
+        return "all" in wanted or self.plugin in wanted
 
     def _cloud_permitted(self, allow_cloud: bool | None, *, legacy: bool) -> bool:
         if not self._shared.settings.cloud_ok or self.cloud_ok is False:
@@ -354,10 +406,17 @@ class Gateway:
             return await local.chat(request), local.name
 
     def _log(self, role: str, model: str, provider: str, usage: LLMUsage, started: float, n_texts: int = 0) -> None:
+        obs_metrics.llm_call(role, provider, time.perf_counter() - started, usage.input_tokens, usage.output_tokens)
         log.info("llm.call", plugin=self.plugin, mode=self.mode, role=role, model=model, provider=provider,
                  input_tokens=usage.input_tokens, output_tokens=usage.output_tokens,
                  latency_s=round(time.perf_counter() - started, 4), cached=usage.cached,
                  **({"texts": n_texts} if n_texts else {}))
+
+
+def _span_usage(span: telemetry.SpanHandle, usage: LLMUsage) -> None:
+    span.update({"gen_ai.response.model": usage.model, "gen_ai.provider.name": usage.provider,
+                 "gen_ai.usage.input_tokens": usage.input_tokens, "gen_ai.usage.output_tokens": usage.output_tokens,
+                 "hmap.llm.cached": usage.cached, "hmap.llm.latency_s": round(usage.latency_s, 4)})
 
 
 def build_llm(settings: Settings | None = None, plugin: str = "default", **kwargs: Any) -> Gateway:

@@ -7,7 +7,6 @@ import pytest
 from fastapi.testclient import TestClient
 
 from hmap.api.app import create_app
-from hmap.core.contracts.examples import TASK_GRAPH
 from hmap.system import HmapSystem, SystemConfig
 from tests.api.helpers import signed_in
 
@@ -32,6 +31,11 @@ def poll(client: TestClient, url: str, pred, timeout: float = 10.0):
     raise AssertionError(f"timeout waiting on {url}: {body}")
 
 
+
+def plan_size(client: TestClient, pid: str) -> int:
+    """Steps in the project's plan (Member 3's planner decides how many; Sprint 1 used a fixed stub plan)."""
+    return len(client.get(f"/api/planning/plan/{pid}").json()["graph"]["tasks"])
+
 def test_upload_runs_stub_pipeline_with_approval_gate(client: TestClient) -> None:
     pid = client.post("/api/projects", json={"name": "TCP chat"}).json()["project_id"]
     r = client.post(f"/api/projects/{pid}/documents",
@@ -46,7 +50,7 @@ def test_upload_runs_stub_pipeline_with_approval_gate(client: TestClient) -> Non
     client.post(f"/api/projects/{pid}/approval", json={"approved": True, "comment": "ok"})
     poll(client, f"/api/projects/{pid}", lambda p: p["state"] == "COMPLETED")
     tasks = client.get(f"/api/projects/{pid}/tasks").json()
-    assert len(tasks) == 2 + len(TASK_GRAPH.tasks) and all(t["state"] == "COMPLETED" for t in tasks)
+    assert len(tasks) == 2 + plan_size(client, pid) and all(t["state"] == "COMPLETED" for t in tasks)
 
     events = client.get("/api/events", params={"project_id": pid}).json()
     types = [e["event_type"] for e in events]
@@ -123,7 +127,8 @@ def test_agents_capabilities_health(client: TestClient) -> None:
     poll(client, "/api/agents", lambda a: len(a) >= 9)
     caps = {c["capability"]: c["status"] for c in client.get("/api/agents/capabilities").json()}
     assert caps["document.extract"] == "real"   # Member 2's doc_intel agent (Sprint 2) replaced the stub
-    assert caps["plan.generate"] == "stub"
+    assert caps["plan.generate"] == "real"      # Member 3's planner (Sprint 3) replaced the stub
+    assert caps["review.final"] == "stub"
     assert client.get("/api/health").json()["status"] == "ok"
     assert client.get("/openapi.json").status_code == 200
 
@@ -171,7 +176,7 @@ def test_auto_approve_project_runs_the_whole_pipeline_without_approval(client: T
     project = poll(client, f"/api/projects/{pid}", lambda p: p["state"] == "COMPLETED")
     assert project["auto_approve"] is True
     assert [a["status"] for a in project["approvals"]] == ["approved"]           # recorded, nobody clicked
-    assert len(client.get(f"/api/projects/{pid}/tasks").json()) == 7             # extract + plan + 5 plan tasks
+    assert len(client.get(f"/api/projects/{pid}/tasks").json()) == 2 + plan_size(client, pid)  # extract + plan
 
 
 def test_stop_button_cancels_the_run_and_a_new_run_can_start(client: TestClient) -> None:
@@ -179,7 +184,7 @@ def test_stop_button_cancels_the_run_and_a_new_run_can_start(client: TestClient)
     client.post(f"/api/projects/{pid}/documents", files={"file": ("a.txt", b"x", "text/plain")})
     poll(client, f"/api/projects/{pid}", lambda p: p["state"] == "AWAITING_APPROVAL")
     r = client.post(f"/api/projects/{pid}/stop", json={"reason": "changed my mind"})
-    assert r.status_code == 200 and r.json()["cancelled_tasks"] == 5
+    assert r.status_code == 200 and r.json()["cancelled_tasks"] == plan_size(client, pid)
     project = r.json()["project"]
     assert project["state"] == "CANCELLED" and project["stopped_reason"] == "changed my mind"
     tasks = client.get(f"/api/projects/{pid}/tasks").json()

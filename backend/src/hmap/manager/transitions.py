@@ -11,6 +11,9 @@ Rules encoded here:
 - Replies may arrive out of order (at-least-once delivery), so ``ASSIGNED`` may jump to ``RUNNING`` (started before
   ack) and ``ASSIGNED``/``ACCEPTED`` may jump to ``RESULT_SUBMITTED`` (result before started).
 - In Sprint 1 there is no reviewer, so ``RESULT_SUBMITTED → COMPLETED`` is allowed directly.
+- ``OPERATOR_TRANSITIONS`` (Sprint 4, plan D18) are allowed only through an explicit, audited operator action
+  (``Manager.replay_dead_letter``): ``DEAD_LETTERED → READY`` (a new execution) and, for the tasks that were waiting
+  on it, ``BLOCKED → CREATED``. Agent reports and the watchdog can never take these edges.
 - A report that points *backwards* along the happy path, or arrives after a terminal state (e.g. a late
   ``task.started`` after ``COMPLETED``), is :func:`is_stale`: the Manager records it as evidence and changes nothing.
 """
@@ -44,6 +47,12 @@ ALLOWED: dict[TaskState, set[TaskState]] = {
     S.CANCELLED: set(),
     S.FAILED: set(),
     S.DEAD_LETTERED: set(),
+}
+
+# Edges only an operator may take, never an agent report or the watchdog (DLQ replay, research §26).
+OPERATOR_TRANSITIONS: dict[TaskState, set[TaskState]] = {
+    S.DEAD_LETTERED: {S.READY},
+    S.BLOCKED: {S.CREATED},
 }
 
 # Domain event emitted when a task ENTERS a state.
@@ -87,9 +96,14 @@ def can_transition(from_state: TaskState, to_state: TaskState) -> bool:
     return to_state in ALLOWED[from_state]
 
 
-def check_transition(from_state: TaskState, to_state: TaskState, task_id: str | None = None) -> None:
-    if not can_transition(from_state, to_state):
-        raise TransitionError(from_state, to_state, task_id)
+def check_transition(from_state: TaskState, to_state: TaskState, task_id: str | None = None, *,
+                     operator: bool = False) -> None:
+    """``operator=True`` also allows :data:`OPERATOR_TRANSITIONS` (only ``Manager.replay_dead_letter`` passes it)."""
+    if can_transition(from_state, to_state):
+        return
+    if operator and to_state in OPERATOR_TRANSITIONS.get(from_state, set()):
+        return
+    raise TransitionError(from_state, to_state, task_id)
 
 
 def is_stale(current: TaskState, reported: TaskState) -> bool:

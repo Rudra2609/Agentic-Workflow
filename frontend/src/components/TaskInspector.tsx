@@ -5,6 +5,7 @@
  * files and any problem. Developer mode adds ids, capability, agent, inputs, attempts, executions and events.
  * Nothing is estimated: no progress percentage is shown unless the agent reported one.
  */
+import Link from "next/link";
 import { useState } from "react";
 
 import { api } from "@/lib/api";
@@ -178,6 +179,9 @@ export function TaskInspector({
               <div className="border-l-2 border-danger bg-danger-soft px-3 py-2 text-sm">
                 <p className="font-medium">What went wrong</p>
                 <p className="mt-0.5 text-fg-2">{problem}</p>
+                <Link href={`/features/ops?task=${encodeURIComponent(taskId)}`} className="mt-1 inline-block text-xs font-medium text-accent-ink hover:underline">
+                  Why did this step fail?
+                </Link>
               </div>
             )}
             <div>

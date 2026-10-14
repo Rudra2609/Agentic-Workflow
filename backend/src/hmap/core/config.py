@@ -148,6 +148,23 @@ class Settings(BaseModel):
     # context window sent to Ollama (its server default is 4096: too small for a 3K-token prompt plus the answer)
     ollama_num_ctx: int | None = 8192
     llm_max_concurrency: int = 1
+    # replay mode only: plug-ins whose MISSING answers are fetched live and recorded (``all`` = every plug-in); the
+    # others stay strict replay. For filling in a new plug-in's recordings without re-recording anyone else's.
+    llm_record_missing: frozenset[str] = Field(default_factory=frozenset)
+    # --- planning (Sprint 3) and demos ---
+    plan_max_parallel: int = Field(default=4, ge=1, description="graph steps of one project that may run at once")
+    stub_delay_s: float = Field(default=0.0, ge=0, description="minimum simulated work per stub step (demos)")
+    retry_delays_s: tuple[float, ...] | None = Field(default=None, description="Manager backoff per retry "
+                                                     "(HMAP_RETRY_DELAYS_S=5,30,120); unset = the default")
+    # --- refinement and observability (Sprint 4, Member 4) ---
+    refine_default: bool = Field(default=False, description="new projects check and improve results (refine=true)")
+    otel_endpoint: str | None = Field(default=None, description="OTLP/HTTP base URL (Jaeger), e.g. "
+                                                               "http://127.0.0.1:4318; unset = no traces")
+    metrics_port: int = Field(default=9464, ge=0, le=65535, description="/metrics port of the agents process; 0 = off")
+    metrics_interval_s: float = Field(default=5.0, gt=0, description="how often the metric gauges are refreshed")
+    jaeger_url: str = Field(default="http://127.0.0.1:16686", description="Jaeger UI (links from the Ops page)")
+    grafana_url: str = Field(default="http://127.0.0.1:3001", description="Grafana (links from the Ops page)")
+    prometheus_url: str = Field(default="http://127.0.0.1:9090", description="Prometheus (alerts, links)")
     # --- team cloud key pool (doc 02 §2.5, item 1.14b). Keys are SecretStr and hidden from repr/str/dumps.
     groq_api_keys: list[SecretStr] = Field(default_factory=list, repr=False)
     gemini_api_keys: list[SecretStr] = Field(default_factory=list, repr=False)
@@ -202,6 +219,10 @@ class Settings(BaseModel):
             "HMAP_ARTIFACT_ROOT": "artifact_root", "HMAP_PLUGINS": "plugins", "HMAP_LLM_MODE": "llm_mode",
             "HMAP_LLM_CACHE_DIR": "llm_cache_dir", "OLLAMA_BASE_URL": "ollama_base_url",
             "HMAP_LLM_MAX_CONCURRENCY": "llm_max_concurrency", "HMAP_OLLAMA_NUM_CTX": "ollama_num_ctx",
+            "HMAP_PLAN_MAX_PARALLEL": "plan_max_parallel", "HMAP_STUB_DELAY_S": "stub_delay_s",
+            "HMAP_OTEL_ENDPOINT": "otel_endpoint", "HMAP_METRICS_PORT": "metrics_port",
+            "HMAP_METRICS_INTERVAL_S": "metrics_interval_s", "HMAP_JAEGER_URL": "jaeger_url",
+            "HMAP_GRAFANA_URL": "grafana_url", "HMAP_PROMETHEUS_URL": "prometheus_url",
             "HMAP_CLOUD_BASE_URL": "cloud_base_url",
             "HMAP_CLOUD_API_KEY": "cloud_api_key", "HMAP_GROQ_BASE_URL": "groq_base_url",
             "HMAP_GEMINI_BASE_URL": "gemini_base_url", "HMAP_PUBLIC_URL": "public_url",
@@ -218,8 +239,14 @@ class Settings(BaseModel):
                            ("HMAP_SMTP_STARTTLS", "smtp_starttls")):
             if (value := get(key)) is not None:
                 data[field] = value.strip().lower() in ("1", "true", "yes", "on")
+        if (value := get("HMAP_REFINE_DEFAULT")) is not None:
+            data["refine_default"] = value.strip().lower() in ("1", "true", "yes", "on")
         if (value := get("HMAP_CLOUD_OK")) is not None:
             data["cloud_ok"] = value.strip().lower() in ("1", "true", "yes", "on")
+        if (value := get("HMAP_RETRY_DELAYS_S")) is not None:
+            data["retry_delays_s"] = tuple(float(x) for x in value.split(",") if x.strip())
+        if (value := get("HMAP_LLM_RECORD_MISSING")) is not None:
+            data["llm_record_missing"] = frozenset(p.strip() for p in value.split(",") if p.strip())
         if (value := get("HMAP_ROLE_MAP")) is not None:
             data["role_map"] = parse_role_map(value)
         if (value := get("HMAP_CLOUD_ROLE_MAP")) is not None:

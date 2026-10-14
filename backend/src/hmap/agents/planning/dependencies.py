@@ -66,3 +66,4 @@ def infer(plan: WorkingPlan, parts: list[Part], part_tasks: dict[str, list[str]]
                 for b in builds.get(part.id, []):
                     for ob in builds.get(other.id, []):
                         plan.add_edge(ob, b, "rule")
+

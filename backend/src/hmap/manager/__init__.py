@@ -4,7 +4,14 @@ Other members extend it only through plug-in hooks and strategy slots (``hmap.co
 
 from hmap.manager.config import ManagerConfig
 from hmap.manager.executor import GraphExecutor, NaiveTopologicalExecutor
-from hmap.manager.manager import InvalidProjectState, Manager, StaleGraph, UnknownProject, UnknownTask
+from hmap.manager.manager import (
+    InvalidProjectState,
+    InvalidTaskState,
+    Manager,
+    StaleGraph,
+    UnknownProject,
+    UnknownTask,
+)
 from hmap.manager.records import ApprovalRecord, ExecutionRecord, ProjectRecord, TaskRecord
 from hmap.manager.store import (
     ConcurrencyConflict,
@@ -19,7 +26,7 @@ from hmap.manager.transitions import ALLOWED, TransitionError, can_transition, c
 
 __all__ = [
     "ALLOWED", "ApprovalRecord", "ConcurrencyConflict", "ExecutionRecord", "GraphExecutor", "InMemoryTaskStore",
-    "InvalidProjectState", "Manager", "ManagerConfig", "NaiveTopologicalExecutor", "ProjectRecord",
+    "InvalidProjectState", "InvalidTaskState", "Manager", "ManagerConfig", "NaiveTopologicalExecutor", "ProjectRecord",
     "RecordNotFound", "StaleGraph", "StoreError", "TaskRecord", "TaskStore", "TaskStoreTx", "TransitionError",
     "UniqueViolation",
     "UnknownProject", "UnknownTask", "can_transition", "check_transition", "is_stale",

@@ -67,6 +67,8 @@ from hmap.manager.retry import FailureAction, decide
 from hmap.manager.store import StoreError, TaskStore, TaskStoreTx
 from hmap.manager.transitions import IN_FLIGHT_STATES, STATE_EVENT, check_transition, classify, is_terminal
 from hmap.manager.watchdog import ack_timed_out, scan_orphans
+from hmap.obs import metrics as obs_metrics
+from hmap.obs import telemetry
 from hmap.services.artifact.base import ArtifactStore
 from hmap.services.context.base import ContextStore
 from hmap.services.registry.base import Registry
@@ -109,6 +111,10 @@ class InvalidProjectState(ValueError):
 
 class StaleGraph(InvalidProjectState):
     """An approval or replan refers to a plan version that is no longer the project's current one."""
+
+
+class InvalidTaskState(ValueError):
+    """An operator action that does not fit the task's state (e.g. replaying a task that is not dead-lettered)."""
 
 
 class _Unit:
@@ -216,12 +222,14 @@ class Manager:
         )
 
     async def _move(self, u: _Unit, task: TaskRecord, to: TaskState, *, data: dict[str, Any] | None = None,
-                    **changes: Any) -> TaskRecord:
-        """Guarded transition: ALLOWED check + CAS + event in the same unit of work."""
-        check_transition(task.state, to, task.task_id)
+                    operator: bool = False, **changes: Any) -> TaskRecord:
+        """Guarded transition: ALLOWED check + CAS + event in the same unit of work. ``operator=True`` (only
+        :meth:`replay_dead_letter`) also allows the operator-only edges."""
+        check_transition(task.state, to, task.task_id, operator=operator)
         new = task.model_copy(update={"state": to, "updated_at": self._now(), **changes})
         saved = await u.tx.update_task(new, expected_version=task.state_version)
         await u.emit(self._task_event(STATE_EVENT[to].value, saved, data))
+        obs_metrics.task_transition(saved.capability, to.value)
         return saved
 
     async def _move_project(self, u: _Unit, project: ProjectRecord, to: ProjectState, *,
@@ -248,18 +256,19 @@ class Manager:
 
     async def create_project(self, name: str, *, project_id: str | None = None, auto_approve: bool = False,
                              owner_id: str | None = None, description: str | None = None,
-                             cloud_ok: bool = True) -> str:
+                             cloud_ok: bool = True, refine: bool = False) -> str:
         """``auto_approve``: the plan is still created and shown, then approved automatically (no human gate); the
         human keeps the Stop button (:meth:`stop_project`). ``owner_id`` is the user the API will allow.
-        ``cloud_ok=False`` keeps every step of the project on local models."""
+        ``cloud_ok=False`` keeps every step of the project on local models. ``refine=True`` checks and improves each
+        result before it is reported (Sprint 4; copied into ``TaskAssign.refine``)."""
         now = self._now()
         project = ProjectRecord(project_id=project_id or new_project_id(), name=name, created_at=now, updated_at=now,
                                 auto_approve=auto_approve, owner_id=owner_id, description=description,
-                                cloud_ok=cloud_ok)
+                                cloud_ok=cloud_ok, refine=refine)
         async with self._unit() as u:
             saved = await u.tx.insert_project(project)
             await u.emit(self._project_event(EventType.PROJECT_CREATED.value, saved,
-                                             {"auto_approve": auto_approve, "cloud_ok": cloud_ok}))
+                                             {"auto_approve": auto_approve, "cloud_ok": cloud_ok, "refine": refine}))
         return saved.project_id
 
     async def list_projects(self, *, owner_id: str | None = None) -> list[dict[str, Any]]:
@@ -309,8 +318,9 @@ class Manager:
                                       expected_version=project.state_version)
 
     async def update_project(self, project_id: str, *, name: str | None = None, archived: bool | None = None,
-                             cloud_ok: bool | None = None) -> dict[str, Any]:
-        """Rename, archive, or switch cloud models on/off. A cloud switch applies to steps assigned after it."""
+                             cloud_ok: bool | None = None, refine: bool | None = None) -> dict[str, Any]:
+        """Rename, archive, or switch cloud models / refinement on or off. Both switches apply to steps assigned
+        after the change."""
         async with self._unit() as u:
             project = await u.tx.get_project(project_id)
             if project is None or project.deleted_at is not None:
@@ -322,6 +332,8 @@ class Manager:
                 changes["archived"] = archived
             if cloud_ok is not None:
                 changes["cloud_ok"] = cloud_ok
+            if refine is not None:
+                changes["refine"] = refine
             saved = await u.tx.update_project(project.model_copy(update=changes),
                                               expected_version=project.state_version)
             await u.emit(self._project_event("project.updated", saved,
@@ -631,6 +643,74 @@ class Manager:
         await self._after_change([project_id])
         return cancelled
 
+    async def replay_dead_letter(self, task_id: str, *, operator: str, reason: str) -> dict[str, Any]:
+        """An operator replays a dead-lettered task (Sprint 4 item 4.18, plan D18; research §26: never automatic,
+        never blind). The task goes ``DEAD_LETTERED → READY`` (an operator-only edge) with its retry budget reset; the
+        assignment that follows creates a NEW execution (the attempt counter continues, the dead-lettered execution
+        keeps its record). Tasks that were blocked waiting on it go ``BLOCKED → CREATED`` and are re-evaluated; a
+        project that had failed because of it goes back to EXECUTING. Audited with ``task.replayed {by, reason}``.
+
+        Raises :class:`UnknownTask`, :class:`InvalidTaskState` (not dead-lettered, replaced by a newer plan, or from
+        an earlier run) and :class:`ProjectStopped` (the project was stopped)."""
+        if not reason.strip():
+            raise ValueError("a replay needs a reason (it is kept in the audit trail)")
+        now = self._now()
+        async with self._unit() as u:
+            task = await u.tx.get_task(task_id)
+            if task is None:
+                raise UnknownTask(task_id)
+            project = await u.tx.get_project(task.project_id)
+            if project is None or project.deleted_at is not None:
+                raise UnknownTask(task_id)
+            self._ensure_not_stopped(project)
+            if task.state != S.DEAD_LETTERED:
+                raise InvalidTaskState(f"task {task_id} is {task.state}, not DEAD_LETTERED: only dead letters can be "
+                                       "replayed")
+            if task.replaced:
+                raise InvalidTaskState(f"task {task_id} was replaced by a newer plan; replan instead of replaying")
+            if task.run != project.current_run:
+                raise InvalidTaskState(f"task {task_id} belongs to run {task.run}; the project is on run "
+                                       f"{project.current_run} (run it again instead)")
+            replay = task.replays + 1
+            info = {"by": operator, "reason": reason.strip()[:500], "replay": replay,
+                    "previous_attempts": task.attempts, "last_error": task.last_error}
+            saved = await self._move(u, task, S.READY, operator=True, retries=0, rejections=0, rejected_by=[],
+                                     retry_at=None, blocked_by=[], replays=replay,
+                                     data={"reason": "replayed by an operator", "replay": replay})
+            await u.emit(self._task_event(EventType.TASK_REPLAYED.value, saved, info))
+            obs_metrics.REPLAYS.labels(saved.capability).inc()
+            # tasks that were waiting on it (directly or through another blocked task) are evaluated again
+            tasks = [t for t in await u.tx.list_tasks(project_id=task.project_id) if not t.replaced]
+            closure = {task_id}
+            changed = True
+            while changed:
+                changed = False
+                for t in tasks:
+                    # blocked by a dependency (blocked_by = task ids), not by its own error (blocked_by = a code)
+                    if t.task_id not in closure and t.state == S.BLOCKED and set(t.depends_on) & closure \
+                            and set(t.blocked_by) <= set(t.depends_on):
+                        closure.add(t.task_id)
+                        changed = True
+            unblocked = []
+            for t in tasks:
+                if t.task_id in closure and t.task_id != task_id:
+                    await self._move(u, t, S.CREATED, operator=True, blocked_by=[],
+                                     data={"reason": f"dependency {task_id} replayed", "replayed": task_id})
+                    unblocked.append(t.task_id)
+            current = await u.tx.get_project(task.project_id)
+            assert current is not None
+            if current.state == ProjectState.FAILED:
+                runs = list(current.runs)
+                if runs and runs[-1].outcome is not None:
+                    runs[-1] = runs[-1].model_copy(update={"outcome": None, "finished_at": None})
+                await self._move_project(u, current, ProjectState.EXECUTING, runs=runs,
+                                         data={"reason": "dead letter replayed", "task_id": task_id})
+        await self._after_change([task.project_id])
+        log.info("task %s replayed by %s (replay %d, %d dependants re-evaluated)", task_id, operator, replay,
+                 len(unblocked))
+        return {"task_id": task_id, "replay": replay, "unblocked": unblocked, "replayed_at": now.isoformat(),
+                "task": await self.get_task(task_id)}
+
     @staticmethod
     def _ensure_not_stopped(project: ProjectRecord) -> None:
         if project.state == ProjectState.CANCELLED:
@@ -645,6 +725,7 @@ class Manager:
             await delivery.ack()
             return
         if self._inbox is not None and await self._inbox.seen(CONSUMER_ID, body.message_id):
+            obs_metrics.DEDUP_HITS.labels(CONSUMER_ID).inc()
             await delivery.ack()
             return
         try:
@@ -652,8 +733,16 @@ class Manager:
         except (ValidationError, HmapError) as exc:
             await delivery.reject(f"invalid payload: {exc}")
             return
+        obs_metrics.REPORTS.labels(body.message_type).inc()
         try:
-            await self.handle_message(body, payload)
+            if body.task_id and body.message_type not in ("agent.heartbeat", "task.progress"):
+                with telemetry.span(f"manager.handle {body.message_type}", kind="consumer", parent=body.traceparent,
+                                    attrs={"hmap.task_id": body.task_id, "hmap.execution_id": body.execution_id,
+                                           "messaging.message.id": body.message_id,
+                                           "hmap.sender": body.sender.agent_id}):
+                    await self.handle_message(body, payload)
+            else:
+                await self.handle_message(body, payload)
         except StoreError as exc:      # CAS lost to a concurrent writer: redeliver, the guards make it idempotent
             log.warning("store conflict on %s %s: %s", body.message_type, body.message_id, exc)
             await delivery.nack(requeue=True)
@@ -1028,6 +1117,22 @@ class Manager:
                     log.info("assignment of %s lost a race: %s", task.task_id, exc)
 
     async def _assign(self, task: TaskRecord, agent_id: str) -> bool:
+        with telemetry.span(f"manager.assign {task.capability}", trace_id=telemetry.task_trace_id(task.task_id),
+                            attrs={"hmap.task_id": task.task_id, "hmap.capability": task.capability,
+                                   "hmap.agent_id": agent_id, "hmap.attempt": task.attempts + 1,
+                                   "hmap.replays": task.replays}) as span:
+            return await self._assign_traced(task, agent_id, span.traceparent()
+                                             or telemetry.task_traceparent(task.task_id))
+
+    @staticmethod
+    def _refine_flag(task: TaskRecord, project: ProjectRecord | None) -> bool:
+        """``inputs["refine"]`` (a bool) overrides the project setting for one task (plan D3)."""
+        override = task.inputs.get("refine")
+        if isinstance(override, bool):
+            return override
+        return bool(project.refine) if project is not None else False
+
+    async def _assign_traced(self, task: TaskRecord, agent_id: str, traceparent: str) -> bool:
         now = self._now()
         async with self._unit() as u:
             t = await u.tx.get_task(task.task_id)
@@ -1050,10 +1155,10 @@ class Manager:
                 acceptance_criteria=t.acceptance_criteria, context_refs=t.context_refs, project_id=t.project_id,
                 artifact_refs=[*t.artifact_refs, *refs], inputs={**t.inputs, "dependency_artifacts": upstream},
                 dependencies=t.depends_on, priority=t.priority,
-                cloud_ok=project.cloud_ok if project is not None else True)
+                cloud_ok=project.cloud_ok if project is not None else True, refine=self._refine_flag(t, project))
             env = make_envelope(assign, sender=self.config.manager_id, receiver=agent_id,
                                 correlation_id=t.project_id, task_id=t.task_id, execution_id=execution_id,
-                                project_id=t.project_id)
+                                project_id=t.project_id, traceparent=traceparent)
             await u.tx.add_command(t.capability, env)
             await self._move(u, t, S.ASSIGNED, active_execution_id=execution_id, attempts=attempt,
                              data={"agent_id": agent_id, "attempt": attempt, "execution_id": execution_id})

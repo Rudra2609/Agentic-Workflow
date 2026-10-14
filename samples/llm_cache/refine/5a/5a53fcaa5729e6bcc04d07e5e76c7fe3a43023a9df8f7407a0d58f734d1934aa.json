@@ -1,0 +1,275 @@
+{
+  "format": 1,
+  "key": "5a53fcaa5729e6bcc04d07e5e76c7fe3a43023a9df8f7407a0d58f734d1934aa",
+  "key_ingredients": {
+    "max_tokens": 2000,
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a project plan: steps with dependencies, made from a list of requirements against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: a step id (T3), a missing dependency written 'T3 -> T5', or a requirement id (R2); it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- P1: Dependencies: does every step come after the steps whose results it needs? If a requirement of step B uses something that a requirement of step A creates (a name, a command, a connection, data, a schema, a part that is reused), B needs A. Name each missing dependency as 'A -> B' (A must finish before B) and say what B needs from A.\n- P2: Coverage: is each requirement's work done by build and test steps that really do it?\n- P3: Acceptance criteria: are they concrete and checkable?\n- P4: Granularity: no duplicated steps and no step split into trivial pieces?\n\nThe research, verify, design and review steps and the order research -> design -> build -> test -> documents -> review come from a template and are correct. Steps listed as 'after: X' already depend on X (directly); a dependency through other steps also counts.\n\nMaterial:\nRequirements:\nR1 [must] Draw an ER diagram for the hostel booking system.\nR2 [must] The schema must be in third normal form.\nR3 [must] Implement endpoints to create, list and cancel bookings.\nR4 [must] Every endpoint must return JSON and proper HTTP status codes.\nR5 [must] Protect the endpoints with token authentication.\nR6 [must] Use the schema from Part A.\nR7 [must] Write integration tests for every endpoint of Part B.\nR8 [should] Tests should run in the CI pipeline.\n\nPlan steps:\nresearch [research] Research the approach (requirements: -; after: -) criteria: every research question has an answer with sources; the answers name the options considered\nverify [research] Check the research findings (requirements: -; after: research) criteria: every claim the design uses is supported by a source; unsupported claims are marked\ndesign [design] Design the solution (requirements: -; after: verify) criteria: each part has a module and an interface; the skeleton runs; the design follows the constraints\nT1 [implement] Part A: Implement: Draw an ER diagram for the hostel booking system (requirements: R1; after: design) criteria: R1: Draw an ER diagram for the hostel booking system.\nT4 [implement] Part B: Implement: Implement endpoints to create, list and cancel… (+2) (requirements: R3, R4, R5; after: T1) criteria: R3: Implement endpoints to create, list and cancel bookings.; R4: Every endpoint must return JSON and proper HTTP status codes.; R5: Protect the endpoints with token authentication.\nT2 [test] Part A: Check: Draw an ER diagram for the hostel booking system (requirements: R1; after: T1) criteria: R1 works as stated\nT3 [test] Check quality of Part A (requirements: R2; after: T1) criteria: R2: The schema must be in third normal form.\nT6 [implement] Part B: Implement: Use the schema from Part A (requirements: R6; after: T1) criteria: R6: Use the schema from Part A.\nT8 [implement] Part C: Implement: Write integration tests for every endpoint of P… (+1) (requirements: R7, R8; after: T4, T6) criteria: R7: Write integration tests for every endpoint of Part B.; R8: Tests should run in the CI pipeline.\nT5 [test] Part B: Check: Implement endpoints to create, list and cancel bo… (+2) (requirements: R3, R4, R5; after: T4) criteria: R3 works as stated; R4 works as stated; R5 works as stated\nT7 [test] Part B: Check: Use the schema from Part A (requirements: R6; after: T6) criteria: R6 works as stated\nT9 [test] Part C: Check: Write integration tests for every endpoint of Par… (+1) (requirements: R7, R8; after: T8) criteria: R7 works as stated; R8 works as stated\nT10 [document] Prepare diagram (requirements: -; after: T2, T3, T5, T7, T9) criteria: D1 exists: diagram as PDF; it matches the finished, tested work\nT11 [document] Prepare test report (requirements: -; after: T2, T3, T5, T7, T9) criteria: D2 exists: test report as PDF; it matches the finished, tested work\nreview [review] Final review (requirements: -; after: T10, T11) criteria: every must requirement is met; every deliverable is present; D1 handed in: diagram (PDF); D2 handed in: test report (PDF)",
+        "role": "user"
+      }
+    ],
+    "plugin": "refine",
+    "role": "judge",
+    "schema": {
+      "$defs": {
+        "CriterionScore": {
+          "properties": {
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material that supports the score",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "score": {
+              "description": "1 = fails the criterion, 5 = fully meets it",
+              "maximum": 5,
+              "minimum": 1,
+              "title": "Score",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "score"
+          ],
+          "title": "CriterionScore",
+          "type": "object"
+        },
+        "RubricIssue": {
+          "properties": {
+            "category": {
+              "default": "REQUIREMENT_VIOLATION",
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Category",
+              "type": "string"
+            },
+            "criterion": {
+              "default": "",
+              "title": "Criterion",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "fix_hint": {
+              "default": "",
+              "description": "what to change",
+              "title": "Fix Hint",
+              "type": "string"
+            },
+            "location": {
+              "default": "",
+              "description": "where: an id or path that appears in the material",
+              "title": "Location",
+              "type": "string"
+            },
+            "severity": {
+              "default": "major",
+              "enum": [
+                "minor",
+                "major",
+                "critical"
+              ],
+              "title": "Severity",
+              "type": "string"
+            }
+          },
+          "required": [
+            "description"
+          ],
+          "title": "RubricIssue",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CriterionScore"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/RubricIssue"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "refine",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-14T05:25:42.459971+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "criteria": {
+          "items": {
+            "properties": {
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material that supports the score",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "score": {
+                "description": "1 = fails the criterion, 5 = fully meets it",
+                "maximum": 5,
+                "minimum": 1,
+                "title": "Score",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id",
+              "score"
+            ],
+            "title": "CriterionScore",
+            "type": "object"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "properties": {
+              "category": {
+                "default": "REQUIREMENT_VIOLATION",
+                "enum": [
+                  "FORMAT",
+                  "SCHEMA",
+                  "OMISSION",
+                  "HALLUCINATION",
+                  "FACTUAL",
+                  "LOGIC",
+                  "REQUIREMENT_VIOLATION",
+                  "CONSISTENCY",
+                  "STYLE",
+                  "SAFETY"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "criterion": {
+                "default": "",
+                "title": "Criterion",
+                "type": "string"
+              },
+              "description": {
+                "title": "Description",
+                "type": "string"
+              },
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "fix_hint": {
+                "default": "",
+                "description": "what to change",
+                "title": "Fix Hint",
+                "type": "string"
+              },
+              "location": {
+                "default": "",
+                "description": "where: an id or path that appears in the material",
+                "title": "Location",
+                "type": "string"
+              },
+              "severity": {
+                "default": "major",
+                "enum": [
+                  "minor",
+                  "major",
+                  "critical"
+                ],
+                "title": "Severity",
+                "type": "string"
+              }
+            },
+            "required": [
+              "description"
+            ],
+            "title": "RubricIssue",
+            "type": "object"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a project plan: steps with dependencies, made from a list of requirements against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: a step id (T3), a missing dependency written 'T3 -> T5', or a requirement id (R2); it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- P1: Dependencies: does every step come after the steps whose results it needs? If a requirement of step B uses something that a requirement of step A creates (a name, a command, a connection, data, a schema, a part that is reused), B needs A. Name each missing dependency as 'A -> B' (A must finish before B) and say what B needs from A.\n- P2: Coverage: is each requirement's work done by build and test steps that really do it?\n- P3: Acceptance criteria: are they concrete and checkable?\n- P4: Granularity: no duplicated steps and no step split into trivial pieces?\n\nThe research, verify, design and review steps and the order research -> design -> build -> test -> documents -> review come from a template and are correct. Steps listed as 'after: X' already depend on X (directly); a dependency through other steps also counts.\n\nMaterial:\nRequirements:\nR1 [must] Draw an ER diagram for the hostel booking system.\nR2 [must] The schema must be in third normal form.\nR3 [must] Implement endpoints to create, list and cancel bookings.\nR4 [must] Every endpoint must return JSON and proper HTTP status codes.\nR5 [must] Protect the endpoints with token authentication.\nR6 [must] Use the schema from Part A.\nR7 [must] Write integration tests for every endpoint of Part B.\nR8 [should] Tests should run in the CI pipeline.\n\nPlan steps:\nresearch [research] Research the approach (requirements: -; after: -) criteria: every research question has an answer with sources; the answers name the options considered\nverify [research] Check the research findings (requirements: -; after: research) criteria: every claim the design uses is supported by a source; unsupported claims are marked\ndesign [design] Design the solution (requirements: -; after: verify) criteria: each part has a module and an interface; the skeleton runs; the design follows the constraints\nT1 [implement] Part A: Implement: Draw an ER diagram for the hostel booking system (requirements: R1; after: design) criteria: R1: Draw an ER diagram for the hostel booking system.\nT4 [implement] Part B: Implement: Implement endpoints to create, list and cancel… (+2) (requirements: R3, R4, R5; after: T1) criteria: R3: Implement endpoints to create, list and cancel bookings.; R4: Every endpoint must return JSON and proper HTTP status codes.; R5: Protect the endpoints with token authentication.\nT2 [test] Part A: Check: Draw an ER diagram for the hostel booking system (requirements: R1; after: T1) criteria: R1 works as stated\nT3 [test] Check quality of Part A (requirements: R2; after: T1) criteria: R2: The schema must be in third normal form.\nT6 [implement] Part B: Implement: Use the schema from Part A (requirements: R6; after: T1) criteria: R6: Use the schema from Part A.\nT8 [implement] Part C: Implement: Write integration tests for every endpoint of P… (+1) (requirements: R7, R8; after: T4, T6) criteria: R7: Write integration tests for every endpoint of Part B.; R8: Tests should run in the CI pipeline.\nT5 [test] Part B: Check: Implement endpoints to create, list and cancel bo… (+2) (requirements: R3, R4, R5; after: T4) criteria: R3 works as stated; R4 works as stated; R5 works as stated\nT7 [test] Part B: Check: Use the schema from Part A (requirements: R6; after: T6) criteria: R6 works as stated\nT9 [test] Part C: Check: Write integration tests for every endpoint of Par… (+1) (requirements: R7, R8; after: T8) criteria: R7 works as stated; R8 works as stated\nT10 [document] Prepare diagram (requirements: -; after: T2, T3, T5, T7, T9) criteria: D1 exists: diagram as PDF; it matches the finished, tested work\nT11 [document] Prepare test report (requirements: -; after: T2, T3, T5, T7, T9) criteria: D2 exists: test report as PDF; it matches the finished, tested work\nreview [review] Final review (requirements: -; after: T10, T11) criteria: every must requirement is met; every deliverable is present; D1 handed in: diagram (PDF); D2 handed in: test report (PDF)",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 2000,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"criteria\": [\n    {\n      \"id\": \"P1\",\n      \"score\": 5,\n      \"evidence\": \"T4 [implement] ... after: T1; T8 [implement] ... after: T4, T6\"\n    },\n    {\n      \"id\": \"P2\",\n      \"score\": 5,\n      \"evidence\": \"T1 (R1), T4 (R3, R4, R5), T6 (R6), T8 (R7, R8) cover all requirements.\"\n    },\n    {\n      \"id\": \"P3\",\n      \"score\": 5,\n      \"evidence\": \"criteria: R3 works as stated; R4 works as stated; R5 works as stated\"\n    },\n    {\n      \"id\": \"P4\",\n      \"score\": 5,\n      \"evidence\": \"Steps are distinct: T1 (ER), T4 (Endpoints), T6 (Schema usage), T8 (Tests).\"\n    }\n  ],\n  \"issues\": []\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1763,
+      "latency_s": 1.2493,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 246,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

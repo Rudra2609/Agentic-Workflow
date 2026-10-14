@@ -92,17 +92,17 @@ def test_real_plugin_wins_over_stub(fake_pkg: str) -> None:
     resolved = resolve_capabilities(plugins)
     plugin, agent_cls = resolved["document.extract"]
     assert plugin.name == "fake_extract" and agent_cls.name == "fake-extractor" and not agent_cls.is_stub
-    assert resolved["plan.generate"][0].name == "stubs"
+    assert resolved["review.final"][0].name == "stubs"
 
     rows = {r.capability: r for r in capability_table(plugins)}
     assert rows["document.extract"].status == "real" and "stubs" in rows["document.extract"].shadowed
-    assert rows["plan.generate"].status == "stub"
+    assert rows["review.final"].status == "stub"
     assert rows["document.summarise"].status == "real"
 
     runs = {cls.name: caps for _, cls, caps in agents_to_run(plugins)}
     assert "stub-document-extract" not in runs  # the stub yielded its only capability
     assert set(runs["fake-extractor"]) == {"document.extract", "document.summarise"}
-    assert runs["stub-plan-generate"] == ("plan.generate",)
+    assert runs["stub-review-final"] == ("review.final",)
 
 
 def test_missing_capability_listed() -> None:

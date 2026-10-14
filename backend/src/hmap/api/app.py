@@ -14,7 +14,7 @@ import os
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from hmap.api.deps import current_session
@@ -22,6 +22,9 @@ from hmap.api.feed import EventFeed
 from hmap.api.routers import auth, projects, system
 from hmap.core.config import REPO_ROOT, Settings
 from hmap.core.tracing import configure_logging
+from hmap.obs import configure as configure_tracing
+from hmap.obs import metrics as obs_metrics
+from hmap.obs import shutdown as shutdown_tracing
 from hmap.services.accounts.mailer import FileMailer, Mailer, SmtpMailer
 from hmap.services.accounts.service import AccountService
 from hmap.system import HmapSystem
@@ -50,6 +53,9 @@ def create_app(hmap_system: HmapSystem | None = None, *, run_agents: bool | None
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        # Sprint 4: traces to Jaeger only when HMAP_OTEL_ENDPOINT is set (no-op otherwise)
+        configure_tracing(service_name="hmap-api", endpoint=settings.otel_endpoint or "")
+        obs_metrics.set_process_name("hmap-api")
         s = hmap_system or HmapSystem.from_settings(settings)
         app.state.system = s
         await s.start(with_agents=run_agents)
@@ -66,6 +72,7 @@ def create_app(hmap_system: HmapSystem | None = None, *, run_agents: bool | None
         finally:
             await feed.stop()
             await s.stop()
+            shutdown_tracing()
 
     app = FastAPI(title="hmap", version="0.2.0", lifespan=lifespan,
                   description="Hierarchical multi-agent project execution platform (IT-314 Group 23)")
@@ -78,6 +85,13 @@ def create_app(hmap_system: HmapSystem | None = None, *, run_agents: bool | None
     app.include_router(system.router, prefix="/api")
     app.include_router(projects.router, prefix="/api")
     _mount_plugin_routers(app, hmap_system)
+
+    @app.get("/metrics", include_in_schema=False)
+    async def metrics() -> Response:
+        """Prometheus scrape target (Sprint 4 item 4.17). Counts and durations only: no project, user or text."""
+        body, content_type = obs_metrics.exposition()
+        return Response(body, media_type=content_type)
+
     return app
 
 

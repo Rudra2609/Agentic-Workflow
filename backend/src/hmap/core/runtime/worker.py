@@ -12,6 +12,14 @@ Message sequence per worker (all agent -> manager reports go through ``Bus.send_
     stop():   DRAINING (heartbeat) -> wait for in-flight work (deadline) -> cooperative cancel -> hard cancel
               -> cancel consumers (unsettled deliveries are requeued) -> agent.deregister -> on_stop() -> OFFLINE
 
+Refinement (Sprint 4, plan D1): when ``task.refine`` is true and a plug-in registered a ``RefineAdapter`` for the
+task's capability (``Plugin.refiners``), the adapter gets the handler's successful result before it is reported and
+returns the result to report (improved artifacts + a refinement trace). An adapter failure reports the original
+result; the agent's own code never knows.
+
+Telemetry (Sprint 4, item 4.15): each execution is a ``consume`` span (parent: the assignment's ``traceparent``) with
+an ``agent.handle`` child; replies carry the handle span as their ``traceparent``. No-ops when tracing is off.
+
 Dedup (research §24): ``inbox.seen`` is checked first and ``inbox.record`` happens after the reply was sent, so a
 crash mid-handler leads to redelivery (at-least-once) rather than lost work; concurrent duplicates are guarded by
 ``execution_id``. Replies carry the incoming ``correlation_id``, a per-execution ``sequence_number`` and a child
@@ -20,9 +28,11 @@ crash mid-handler leads to redelivery (at-least-once) rather than lost work; con
 
 import asyncio
 import contextlib
+import dataclasses
 import itertools
+import time
 from collections import deque
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -32,6 +42,7 @@ from hmap.core.contracts import (
     AgentDeregister,
     AgentHeartbeat,
     AgentRegister,
+    ArtifactRef,
     CapabilityDescriptor,
     Contract,
     DomainEvent,
@@ -51,9 +62,12 @@ from hmap.core.contracts.states import AgentState
 from hmap.core.errors import Cancelled, ErrorCode, HmapError, classify, is_retryable
 from hmap.core.ids import new_agent_instance_id
 from hmap.core.llm.base import LLMClient
+from hmap.core.plugins import RefineAdapter
 from hmap.core.runtime.base import AgentContext, BaseAgent
 from hmap.core.runtime.lifecycle import ACCEPTING_STATES, HEARTBEAT_STATES, AgentLifecycle
 from hmap.core.tracing import bind_log_context, child_traceparent, get_logger, set_current_traceparent
+from hmap.obs import metrics as obs_metrics
+from hmap.obs import telemetry
 from hmap.services.artifact.base import ArtifactStore
 from hmap.services.context.base import ContextStore
 
@@ -68,6 +82,24 @@ def _local_only(llm: LLMClient) -> LLMClient:
         return llm
     bound: LLMClient = bind()
     return bound
+
+
+def _for_plugin(llm: LLMClient, plugin: str) -> LLMClient:
+    """The same client bound to ``plugin``'s replay cache (``Gateway.for_plugin``); duck-typed like ``_local_only``.
+    A local-only client stays local-only (the binding copies it)."""
+    bind = getattr(llm, "for_plugin", None)
+    if bind is None:
+        return llm
+    bound: LLMClient = bind(plugin)
+    return bound
+
+
+@dataclass(frozen=True)
+class Refiner:
+    """A refine adapter and the plug-in that registered it (its replay cache is used for the adapter's calls)."""
+
+    plugin: str
+    adapter: RefineAdapter
 
 
 @dataclass
@@ -88,7 +120,8 @@ class AgentWorker:
                  contexts: ContextStore, inbox: InboxStore, *, heartbeat_s: float = 5.0, agent_id: str | None = None,
                  capabilities: Sequence[str] | None = None, plugin: str | None = None,
                  drain_timeout_s: float = 30.0, cancel_grace_s: float = 2.0,
-                 register_retry_delays_s: Sequence[float] = (0.5, 2.0, 5.0)) -> None:
+                 register_retry_delays_s: Sequence[float] = (0.5, 2.0, 5.0),
+                 refiners: Mapping[str, Refiner] | None = None) -> None:
         if not agent.name:
             raise ValueError(f"{type(agent).__name__} has no name")
         caps = tuple(capabilities) if capabilities is not None else tuple(agent.capabilities)
@@ -111,6 +144,7 @@ class AgentWorker:
         self.drain_timeout_s = drain_timeout_s
         self.cancel_grace_s = cancel_grace_s
         self.register_retry_delays_s = tuple(register_retry_delays_s)
+        self.refiners = {cap: r for cap, r in (refiners or {}).items() if cap in caps}
         self.consumer_id = f"agent:{agent.name}"  # stable across restarts -> redelivery after completion is deduped
         self.lifecycle = AgentLifecycle()
         self.log = get_logger("hmap.runtime.worker").bind(agent_id=self.agent_id, agent=agent.name)
@@ -317,10 +351,12 @@ class AgentWorker:
         log = self.log.bind(task_id=task.task_id, execution_id=task.execution_id, message_id=env.message_id)
         if await self.inbox.seen(self.consumer_id, env.message_id):
             log.info("duplicate delivery skipped (inbox)")
+            obs_metrics.DEDUP_HITS.labels(self.consumer_id).inc()
             await delivery.ack()
             return
         if task.execution_id in self._running:
             log.info("duplicate delivery skipped (execution already running)")
+            obs_metrics.DEDUP_HITS.labels(self.consumer_id).inc()
             await delivery.ack()
             return
         if self.state not in ACCEPTING_STATES:
@@ -351,9 +387,10 @@ class AgentWorker:
     def _make_context(self, exe: _Execution, log: Any) -> AgentContext:
         task = exe.task
 
-        async def progress(percent: int, summary: str) -> None:  # at-most-once telemetry
-            try:
-                await self._reply(exe, TaskProgress(execution_id=task.execution_id, percent=percent, summary=summary))
+        async def progress(percent: int, summary: str, artifact_refs: list[ArtifactRef] | None = None) -> None:
+            try:  # at-most-once telemetry
+                await self._reply(exe, TaskProgress(execution_id=task.execution_id, percent=percent, summary=summary,
+                                                    artifact_refs=list(artifact_refs or [])))
             except Exception as exc:
                 log.warning("progress not sent", error=repr(exc))
 
@@ -384,14 +421,37 @@ class AgentWorker:
         task, ctx = exe.task, exe.ctx
         assert ctx is not None
         log = ctx.logger
+        attrs = {"messaging.system": "hmap", "messaging.destination.name": capability_queue(task.capability),
+                 "messaging.message.id": exe.envelope.message_id, "messaging.operation.type": "process",
+                 "hmap.task_id": task.task_id, "hmap.execution_id": task.execution_id,
+                 "hmap.capability": task.capability, "hmap.agent_id": self.agent_id,
+                 "hmap.refine": task.refine, "hmap.redelivered": bool(getattr(delivery, "redelivered", False))}
+        with telemetry.span(f"process {capability_queue(task.capability)}", kind="consumer",
+                            parent=exe.envelope.traceparent, attrs=attrs), \
+                telemetry.span(f"agent.handle {task.capability}",
+                               attrs={"hmap.agent": self.agent.name, "hmap.task_id": task.task_id}) as span:
+            exe.traceparent = span.traceparent() or exe.traceparent
+            await self._execute_traced(delivery, exe, ctx, log, span)
+
+    async def _execute_traced(self, delivery: Delivery, exe: _Execution, ctx: AgentContext, log: Any,
+                              span: telemetry.SpanHandle) -> None:
+        task = exe.task
         set_current_traceparent(exe.traceparent)
         bind_log_context(agent_id=self.agent_id, task_id=task.task_id, execution_id=task.execution_id,
                          message_id=exe.envelope.message_id)
+        started = time.perf_counter()
         try:
             await self._reply(exe, TaskAck(execution_id=task.execution_id, decision="accepted",
                                            available_slots=self.available_slots))
             await self._reply(exe, TaskStarted(execution_id=task.execution_id))
             outcome = await self._run_handler(exe, ctx, log)
+            kind = outcome.outcome if isinstance(outcome, TaskResult) else "error"
+            obs_metrics.HANDLER_SECONDS.labels(task.capability, kind).observe(time.perf_counter() - started)
+            if isinstance(outcome, ErrorPayload):
+                span.error(outcome.error_code.value, code=outcome.error_code.value)
+                span.set("hmap.retryable", outcome.retryable)
+            else:
+                span.update({"hmap.outcome": outcome.outcome, "hmap.artifacts": len(outcome.artifact_refs)})
             await self._reply(exe, outcome)
         except asyncio.CancelledError:
             log.warning("execution hard-cancelled; delivery left unsettled for redelivery")
@@ -417,10 +477,13 @@ class AgentWorker:
                 timeout = max(0.0, (task.deadline - utcnow()).total_seconds())
             async with asyncio.timeout(timeout):
                 result = await self.agent.handle(task, ctx)
-            if not isinstance(result, TaskResult):
-                raise HmapError(f"handler returned {type(result).__name__}, expected TaskResult")
-            if result.execution_id != task.execution_id:
-                result = result.model_copy(update={"execution_id": task.execution_id})
+                if not isinstance(result, TaskResult):
+                    raise HmapError(f"handler returned {type(result).__name__}, expected TaskResult")
+                if result.execution_id != task.execution_id:
+                    result = result.model_copy(update={"execution_id": task.execution_id})
+                refiner = self.refiners.get(task.capability)
+                if task.refine and refiner is not None and result.outcome == "success":
+                    result = await self._refine(refiner, task, result, ctx, log)
             return result
         except Exception as exc:
             code = classify(exc)
@@ -431,6 +494,25 @@ class AgentWorker:
             log.warning("handler failed", error_code=code.value, retryable=retryable, error=repr(exc))
             return ErrorPayload(execution_id=task.execution_id, error_code=code, message=message[:2000],
                                 retryable=retryable)
+
+    async def _refine(self, refiner: Refiner, task: TaskAssign, result: TaskResult, ctx: AgentContext,
+                      log: Any) -> TaskResult:
+        """Run the capability's refine adapter (plan D1). Its model calls use the adapter plug-in's replay cache.
+        Any failure except cancellation / timeout reports the original result."""
+        rctx = dataclasses.replace(ctx, llm=_for_plugin(ctx.llm, refiner.plugin))
+        try:
+            with telemetry.span(f"refine {task.capability}", attrs={"hmap.refine_plugin": refiner.plugin}):
+                refined = await refiner.adapter(task, result, rctx)
+        except (Cancelled, TimeoutError, asyncio.CancelledError):
+            raise
+        except Exception as exc:
+            log.warning("refinement failed; reporting the unrefined result", plugin=refiner.plugin,
+                        error=type(exc).__name__, detail=str(exc)[:300])
+            return result
+        if not isinstance(refined, TaskResult):
+            log.warning("refine adapter returned no TaskResult; reporting the unrefined result", plugin=refiner.plugin)
+            return result
+        return refined.model_copy(update={"execution_id": task.execution_id})
 
     # ------------------------------------------------------------------ cancellation
 

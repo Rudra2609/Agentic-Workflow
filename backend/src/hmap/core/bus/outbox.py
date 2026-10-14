@@ -13,9 +13,10 @@ from collections.abc import Sequence
 
 import structlog
 
-from hmap.core.bus.base import Bus
+from hmap.core.bus.base import Bus, capability_queue
 from hmap.core.bus.stores import OutboxRow, OutboxStore
 from hmap.core.contracts import DomainEvent, Envelope, utcnow
+from hmap.obs import telemetry
 
 _log = structlog.get_logger(__name__)
 
@@ -104,7 +105,14 @@ class OutboxPublisher:
         if row.kind == KIND_EVENT and isinstance(row.body, DomainEvent):
             await self.bus.publish_event(row.body)
         elif row.kind == KIND_COMMAND and isinstance(row.body, Envelope) and row.capability:
-            await self.bus.send_command(row.capability, row.body)
+            env = row.body
+            # Sprint 4 (item 4.15): a producer span in the command's trace (no-op when tracing is off)
+            with telemetry.span(f"send {capability_queue(row.capability)}", kind="producer", parent=env.traceparent,
+                                attrs={"messaging.system": "hmap", "messaging.operation.type": "send",
+                                       "messaging.destination.name": capability_queue(row.capability),
+                                       "messaging.message.id": env.message_id, "hmap.task_id": env.task_id,
+                                       "hmap.execution_id": env.execution_id, "hmap.outbox_seq": row.seq}):
+                await self.bus.send_command(row.capability, env)
         else:
             raise ValueError(f"malformed outbox row seq={row.seq} kind={row.kind!r}")
 

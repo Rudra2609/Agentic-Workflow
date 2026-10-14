@@ -2,23 +2,54 @@
 
 Each returns the canned contract example from ``DOMAIN_EXAMPLES`` with ``project_id``/``task_id`` rewritten to the
 real task, stored as a JSON artifact, so the whole pipeline runs before the real agents exist. They report progress
-and honour cancellation. ``inputs["stub_delay_s"]`` (<= 30 s) simulates work, for cancellation / chaos tests.
+and honour cancellation. ``inputs["stub_delay_s"]`` (<= 30 s) simulates work, for cancellation / chaos tests; the
+environment variable ``HMAP_STUB_DELAY_S`` sets a floor for every stub task (demos: parallel steps visibly overlap).
+``inputs["stub_fail"]`` (an error code, e.g. ``TOOL_TRANSIENT``) makes the first ``inputs["stub_fail_times"]`` attempts
+of that task fail with it (Sprint 4: retries, dead letters, replay and alerts in demos and the soak test).
 """
 
 import asyncio
 from typing import Any, ClassVar
 
+from hmap.core.config import Settings
 from hmap.core.contracts import TaskAssign, TaskResult
 from hmap.core.contracts import capabilities as caps
 from hmap.core.contracts.common import Contract
 from hmap.core.contracts.examples import DOMAIN_EXAMPLES
+from hmap.core.errors import ErrorCode, HmapError
 from hmap.core.runtime.base import AgentContext, BaseAgent
 
 MAX_DELAY_S = 30.0
+_FAILED: dict[str, int] = {}     # task id -> injected failures so far (this process)
+
+
+def env_delay() -> float:
+    """``HMAP_STUB_DELAY_S`` (environment or .env); 0 when unset or invalid."""
+    try:
+        return Settings.from_env().stub_delay_s
+    except ValueError:
+        return 0.0
+
+
+def maybe_fail(task: TaskAssign) -> None:
+    """Injected failure (``inputs["stub_fail"]``) for the first ``stub_fail_times`` attempts (default: all)."""
+    code = task.inputs.get("stub_fail")
+    if not code:
+        return
+    try:
+        error = ErrorCode(str(code))
+    except ValueError:
+        error = ErrorCode.INTERNAL_AGENT
+    times = int(task.inputs.get("stub_fail_times") or 1_000_000)
+    done = _FAILED.get(task.task_id, 0)
+    if done < times:
+        _FAILED[task.task_id] = done + 1
+        raise HmapError(f"stub failure injected ({error.value}, {done + 1} of {times})", code=error)
 
 
 async def simulate_work(task: TaskAssign, ctx: AgentContext) -> None:
-    delay = min(float(task.inputs.get("stub_delay_s", 0) or 0), MAX_DELAY_S)
+    maybe_fail(task)
+    delay = min(max(float(task.inputs.get("stub_delay_s", 0) or 0), env_delay()), MAX_DELAY_S)
     loop = asyncio.get_running_loop()
     end = loop.time() + delay
     while (left := end - loop.time()) > 0:

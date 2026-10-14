@@ -53,6 +53,12 @@ def own() -> ownership.Ownership:
     (2, "some/new/top_level_file.txt", "unowned"),
     (2, "backend/alembic/versions/002_sprint_2_doc_intel.py", "own"),
     (2, "backend/alembic/versions/003_sprint_3_planning.py", "foreign"),
+    (4, "backend/src/hmap/obs/telemetry.py", "own"),                 # Sprint 4: observability + ops are Member 4's
+    (4, "backend/src/hmap/agents/ops/router.py", "own"),
+    (4, "frontend/src/features/ops/index.ts", "own"),
+    (4, "infra/docker-compose.obs.yml", "cross_cutting"),
+    (4, "backend/src/hmap/core/runtime/worker.py", "shared"),
+    (5, "backend/src/hmap/obs/metrics.py", "foreign"),
 ])
 def test_ownership_rules(own, member, path, kind) -> None:
     assert own.classify(member, path) == kind

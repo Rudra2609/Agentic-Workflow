@@ -1,0 +1,889 @@
+{
+ "producer": "rules",
+ "mode": "live",
+ "refine_local": true,
+ "extraction": {
+  "summary": {
+   "base": {
+    "f1": {
+     "requirements": 0.947,
+     "constraints": 0.824,
+     "deliverables": 0.933,
+     "evaluation_criteria": 1.0
+    },
+    "precision": {
+     "requirements": 1.0,
+     "constraints": 0.778,
+     "deliverables": 0.875,
+     "evaluation_criteria": 1.0
+    },
+    "recall": {
+     "requirements": 0.9,
+     "constraints": 0.875,
+     "deliverables": 1.0,
+     "evaluation_criteria": 1.0
+    },
+    "priority_accuracy": 1.0
+   },
+   "self_refine": {
+    "f1": {
+     "requirements": 0.947,
+     "constraints": 0.824,
+     "deliverables": 0.933,
+     "evaluation_criteria": 1.0
+    },
+    "precision": {
+     "requirements": 1.0,
+     "constraints": 0.778,
+     "deliverables": 0.875,
+     "evaluation_criteria": 1.0
+    },
+    "recall": {
+     "requirements": 0.9,
+     "constraints": 0.875,
+     "deliverables": 1.0,
+     "evaluation_criteria": 1.0
+    },
+    "priority_accuracy": 1.0,
+    "loop": {
+     "cases": 3,
+     "iterations_mean": 0.33,
+     "tokens_total": 12641,
+     "tokens_mean": 4214,
+     "calls_total": 5,
+     "seconds_total": 407.4,
+     "seconds_median": 41.72,
+     "stop_reasons": {
+      "threshold": 2,
+      "budget": 1
+     },
+     "improved": 0,
+     "score_base_mean": 0.95,
+     "score_best_mean": 0.95,
+     "judge": {
+      "omission_right": 0,
+      "omission_wrong": 0,
+      "drop_right": 1,
+      "drop_wrong": 0,
+      "other": 1,
+      "both": 0,
+      "programmatic_only": 0,
+      "judge_only": 2
+     },
+     "strategies": {
+      "targeted": 1
+     },
+     "errors": []
+    }
+   },
+   "reflexion": {
+    "f1": {
+     "requirements": 0.947,
+     "constraints": 0.824,
+     "deliverables": 0.933,
+     "evaluation_criteria": 1.0
+    },
+    "precision": {
+     "requirements": 1.0,
+     "constraints": 0.778,
+     "deliverables": 0.875,
+     "evaluation_criteria": 1.0
+    },
+    "recall": {
+     "requirements": 0.9,
+     "constraints": 0.875,
+     "deliverables": 1.0,
+     "evaluation_criteria": 1.0
+    },
+    "priority_accuracy": 1.0,
+    "loop": {
+     "cases": 3,
+     "iterations_mean": 0.33,
+     "tokens_total": 13001,
+     "tokens_mean": 4334,
+     "calls_total": 6,
+     "seconds_total": 385.3,
+     "seconds_median": 60.59,
+     "stop_reasons": {
+      "threshold": 2,
+      "budget": 1
+     },
+     "improved": 0,
+     "score_base_mean": 0.95,
+     "score_best_mean": 0.95,
+     "judge": {
+      "omission_right": 0,
+      "omission_wrong": 0,
+      "drop_right": 1,
+      "drop_wrong": 0,
+      "other": 1,
+      "both": 0,
+      "programmatic_only": 0,
+      "judge_only": 2
+     },
+     "strategies": {
+      "targeted": 1
+     },
+     "errors": []
+    }
+   }
+  },
+  "cases": {
+   "g01_tcp_chat": {
+    "base": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 0.857,
+      "deliverables": 0.857,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       8,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       1
+      ],
+      "deliverables": [
+       3,
+       1,
+       0
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "8/8",
+     "misses": [
+      "constraints: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "extras": [
+      "deliverables: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ]
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 0.857,
+      "deliverables": 0.857,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       8,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       1
+      ],
+      "deliverables": [
+       3,
+       1,
+       0
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "8/8",
+     "misses": [
+      "constraints: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "extras": [
+      "deliverables: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 41.72,
+      "iterations": 0,
+      "tokens": 1837,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 0.857,
+      "deliverables": 0.857,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       8,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       1
+      ],
+      "deliverables": [
+       3,
+       1,
+       0
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "8/8",
+     "misses": [
+      "constraints: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "extras": [
+      "deliverables: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 19.18,
+      "iterations": 0,
+      "tokens": 1837,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "g02_lab_manual": {
+    "base": {
+     "f1": {
+      "requirements": 0.909,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       5,
+       0,
+       1
+      ],
+      "constraints": [
+       3,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       4,
+       0,
+       0
+      ]
+     },
+     "priority": "5/5",
+     "misses": [
+      "requirements: Use pytest.mark.parametrize for the tests of valid dates."
+     ],
+     "extras": []
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 0.909,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       5,
+       0,
+       1
+      ],
+      "constraints": [
+       3,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       4,
+       0,
+       0
+      ]
+     },
+     "priority": "5/5",
+     "misses": [
+      "requirements: Use pytest.mark.parametrize for the tests of valid dates."
+     ],
+     "extras": [],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 33.96,
+      "iterations": 0,
+      "tokens": 1491,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 0.909,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       5,
+       0,
+       1
+      ],
+      "constraints": [
+       3,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       4,
+       0,
+       0
+      ]
+     },
+     "priority": "5/5",
+     "misses": [
+      "requirements: Use pytest.mark.parametrize for the tests of valid dates."
+     ],
+     "extras": [],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 60.59,
+      "iterations": 0,
+      "tokens": 1491,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "g10_long_lab": {
+    "base": {
+     "f1": {
+      "requirements": 0.933,
+      "constraints": 0.5,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       14,
+       0,
+       2
+      ],
+      "constraints": [
+       1,
+       2,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       5,
+       0,
+       0
+      ]
+     },
+     "priority": "14/14",
+     "misses": [
+      "requirements: For each actor, describe at least two goals in one sentence each.",
+      "requirements: Write unit tests for the spot assignment and the fee calculation."
+     ],
+     "extras": [
+      "constraints: The examples in the lecture slides use a simpler garage with only one level, which is a good starting point for your own thinking.",
+      "constraints: Discuss your ideas with your lab partner, sketch them on paper first, and only then move on to the computer."
+     ]
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 0.933,
+      "constraints": 0.5,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       14,
+       0,
+       2
+      ],
+      "constraints": [
+       1,
+       2,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       5,
+       0,
+       0
+      ]
+     },
+     "priority": "14/14",
+     "misses": [
+      "requirements: For each actor, describe at least two goals in one sentence each.",
+      "requirements: Write unit tests for the spot assignment and the fee calculation."
+     ],
+     "extras": [
+      "constraints: The examples in the lecture slides use a simpler garage with only one level, which is a good starting point for your own thinking.",
+      "constraints: Discuss your ideas with your lab partner, sketch them on paper first, and only then move on to the computer."
+     ],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 331.72,
+      "iterations": 1,
+      "tokens": 9313,
+      "calls": 3,
+      "stop": "budget",
+      "base_score": 0.85,
+      "best_score": 0.85,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 1,
+       "drop_wrong": 0,
+       "other": 1,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 2
+      },
+      "errors": [],
+      "strategies": [
+       "targeted"
+      ]
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 0.933,
+      "constraints": 0.5,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       14,
+       0,
+       2
+      ],
+      "constraints": [
+       1,
+       2,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       5,
+       0,
+       0
+      ]
+     },
+     "priority": "14/14",
+     "misses": [
+      "requirements: For each actor, describe at least two goals in one sentence each.",
+      "requirements: Write unit tests for the spot assignment and the fee calculation."
+     ],
+     "extras": [
+      "constraints: The examples in the lecture slides use a simpler garage with only one level, which is a good starting point for your own thinking.",
+      "constraints: Discuss your ideas with your lab partner, sketch them on paper first, and only then move on to the computer."
+     ],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 305.5,
+      "iterations": 1,
+      "tokens": 9673,
+      "calls": 4,
+      "stop": "budget",
+      "base_score": 0.85,
+      "best_score": 0.85,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 1,
+       "drop_wrong": 0,
+       "other": 1,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 2
+      },
+      "errors": [],
+      "strategies": [
+       "targeted"
+      ]
+     }
+    }
+   }
+  }
+ },
+ "plan": {
+  "summary": {
+   "base": {
+    "validity": 1.0,
+    "coverage": 1.0,
+    "dependencies": {
+     "precision": 0.925,
+     "recall": 0.789,
+     "f1": 0.851
+    },
+    "must_edge_recall": 0.769,
+    "steps_f1": 0.714
+   },
+   "self_refine": {
+    "validity": 1.0,
+    "coverage": 1.0,
+    "dependencies": {
+     "precision": 0.925,
+     "recall": 0.789,
+     "f1": 0.851
+    },
+    "must_edge_recall": 0.769,
+    "steps_f1": 0.714,
+    "loop": {
+     "cases": 2,
+     "iterations_mean": 0.0,
+     "tokens_total": 4661,
+     "tokens_mean": 2330,
+     "calls_total": 4,
+     "seconds_total": 276.9,
+     "seconds_median": 217.38,
+     "stop_reasons": {
+      "threshold": 1,
+      "budget": 1
+     },
+     "improved": 0,
+     "score_base_mean": 0.8,
+     "score_best_mean": 0.8,
+     "judge": {
+      "dependency_right": 0,
+      "dependency_wrong": 2,
+      "dependency_unmatched": 0,
+      "other": 3,
+      "both": 0,
+      "programmatic_only": 0,
+      "judge_only": 3
+     },
+     "strategies": {},
+     "errors": []
+    }
+   },
+   "reflexion": {
+    "validity": 1.0,
+    "coverage": 1.0,
+    "dependencies": {
+     "precision": 0.925,
+     "recall": 0.789,
+     "f1": 0.851
+    },
+    "must_edge_recall": 0.769,
+    "steps_f1": 0.714,
+    "loop": {
+     "cases": 2,
+     "iterations_mean": 0.0,
+     "tokens_total": 4661,
+     "tokens_mean": 2330,
+     "calls_total": 4,
+     "seconds_total": 225.9,
+     "seconds_median": 183.18,
+     "stop_reasons": {
+      "threshold": 1,
+      "budget": 1
+     },
+     "improved": 0,
+     "score_base_mean": 0.8,
+     "score_best_mean": 0.8,
+     "judge": {
+      "dependency_right": 0,
+      "dependency_wrong": 2,
+      "dependency_unmatched": 0,
+      "other": 3,
+      "both": 0,
+      "programmatic_only": 0,
+      "judge_only": 3
+     },
+     "strategies": {},
+     "errors": []
+    }
+   }
+  },
+  "cases": {
+   "tcp_chat": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.964,
+     "deps_p": 0.976,
+     "deps_r": 0.952,
+     "must": "11/12",
+     "must_missed": [
+      "build:R2 -> build:R5"
+     ],
+     "steps_f1": 0.75,
+     "tasks": 11
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.964,
+     "deps_p": 0.976,
+     "deps_r": 0.952,
+     "must": "11/12",
+     "must_missed": [
+      "build:R2 -> build:R5"
+     ],
+     "steps_f1": 0.75,
+     "tasks": 11,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 59.49,
+      "iterations": 0,
+      "tokens": 1562,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.964,
+     "deps_p": 0.976,
+     "deps_r": 0.952,
+     "must": "11/12",
+     "must_missed": [
+      "build:R2 -> build:R5"
+     ],
+     "steps_f1": 0.75,
+     "tasks": 11,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 42.7,
+      "iterations": 0,
+      "tokens": 1562,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "long_lab": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.773,
+     "deps_p": 0.885,
+     "deps_r": 0.687,
+     "must": "19/27",
+     "must_missed": [
+      "build:R3 -> build:R7",
+      "build:R4 -> build:R7",
+      "build:R5 -> build:R7",
+      "build:R6 -> build:R7",
+      "build:R8 -> build:R13",
+      "build:R10 -> build:R14",
+      "build:R8 -> build:R16",
+      "build:R10 -> build:R16"
+     ],
+     "steps_f1": 0.692,
+     "tasks": 20
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.773,
+     "deps_p": 0.885,
+     "deps_r": 0.687,
+     "must": "19/27",
+     "must_missed": [
+      "build:R3 -> build:R7",
+      "build:R4 -> build:R7",
+      "build:R5 -> build:R7",
+      "build:R6 -> build:R7",
+      "build:R8 -> build:R13",
+      "build:R10 -> build:R14",
+      "build:R8 -> build:R16",
+      "build:R10 -> build:R16"
+     ],
+     "steps_f1": 0.692,
+     "tasks": 20,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 217.38,
+      "iterations": 0,
+      "tokens": 3099,
+      "calls": 3,
+      "stop": "budget",
+      "base_score": 0.6,
+      "best_score": 0.6,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 2,
+       "dependency_unmatched": 0,
+       "other": 3,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 3
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.773,
+     "deps_p": 0.885,
+     "deps_r": 0.687,
+     "must": "19/27",
+     "must_missed": [
+      "build:R3 -> build:R7",
+      "build:R4 -> build:R7",
+      "build:R5 -> build:R7",
+      "build:R6 -> build:R7",
+      "build:R8 -> build:R13",
+      "build:R10 -> build:R14",
+      "build:R8 -> build:R16",
+      "build:R10 -> build:R16"
+     ],
+     "steps_f1": 0.692,
+     "tasks": 20,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 183.18,
+      "iterations": 0,
+      "tokens": 3099,
+      "calls": 3,
+      "stop": "budget",
+      "base_score": 0.6,
+      "best_score": 0.6,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 2,
+       "dependency_unmatched": 0,
+       "other": 3,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 3
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   }
+  }
+ }
+}

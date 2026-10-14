@@ -3,7 +3,8 @@
 /**
  * The sign-in hero: HMAP's hierarchy as three floating plates in CSS 3D space. Your goal enters on the top plate (you
  * and the Manager), is broken down on the middle plate (Analyst, Planner) and handed to the specialists on the bottom
- * plate. Task blocks fall through the layers; the stack tilts toward the pointer. Decorative (aria-hidden); still under
+ * plate. Task blocks fall through the layers; the stack turns to face the pointer (pointer right: its left side shows; up / down:
+ * it tips to show the layers). Decorative (aria-hidden); still under
  * prefers-reduced-motion.
  */
 import { useEffect, useRef, type CSSProperties } from "react";
@@ -56,16 +57,19 @@ export function HierarchyStack() {
     const el = stage.current;
     const target = stack.current;
     if (!el || !target || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const clamp = (v: number) => Math.max(-1, Math.min(1, v));
     const onMove = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width / 2)) / r.width;   // -0.5 … 0.5
-      const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
-      target.style.setProperty("--hm-tilt-z", `${-38 + dx * 14}deg`);
-      target.style.setProperty("--hm-tilt-x", `${58 - dy * 10}deg`);
+      const r = target.getBoundingClientRect();
+      // pointer relative to the stack's centre, -1 … 1 (about one stack-width away counts as fully to the side)
+      const dx = clamp((e.clientX - (r.left + r.width / 2)) / Math.max(1, r.width));
+      const dy = clamp((e.clientY - (r.top + r.height / 2)) / Math.max(1, r.height));
+      // face the pointer: rotateY > 0 turns the top face to the right, rotateX > 0 turns it upwards
+      target.style.setProperty("--hm-face-y", `${dx * 22}deg`);
+      target.style.setProperty("--hm-face-x", `${-dy * 18}deg`);
     };
     const onLeave = () => {
-      target.style.removeProperty("--hm-tilt-z");
-      target.style.removeProperty("--hm-tilt-x");
+      target.style.removeProperty("--hm-face-y");
+      target.style.removeProperty("--hm-face-x");
     };
     window.addEventListener("pointermove", onMove);
     document.addEventListener("pointerleave", onLeave);
@@ -77,7 +81,7 @@ export function HierarchyStack() {
 
   return (
     <div ref={stage} aria-hidden="true" className="hm-stage relative mx-auto mt-6 h-[460px] w-full max-w-[540px] select-none">
-      <div className="absolute top-[70%] left-1/2 h-[220px] w-[300px] -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute top-[70%] left-1/2 h-[220px] w-[300px] -translate-x-1/2 -translate-y-1/2 [transform-style:preserve-3d]">
         <div ref={stack} className="hm-stack relative h-full w-full">
           {/* floor shadow */}
           <div className="absolute inset-[-12%] rounded-[40px] bg-[radial-gradient(closest-side,rgb(var(--hm-shadow)/0.28),transparent)] blur-md" style={{ transform: "translateZ(-30px)" }} />
