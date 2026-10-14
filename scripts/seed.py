@@ -4,7 +4,7 @@ upload the sample assignment and stop at the human approval gate, so the present
 dashboard and the audience watches the tasks run.
 
 Usage: scripts/seed.sh [API base URL, default http://127.0.0.1:8000] [document, default samples/demo/...]
-Account: HMAP_SEED_EMAIL / HMAP_SEED_PASSWORD (default demo@example.test / "hmap local demo"; local demo only —
+Account: HMAP_SEED_EMAIL / HMAP_SEED_PASSWORD (default demo@example.test / "hmap local walkthrough"; local demo only —
 sign in to the dashboard with the same account to see the project).
 (Full one-command demo packaging with reset is Member 9's Sprint 9 work.)
 """
@@ -27,7 +27,7 @@ def main() -> None:
     except OSError:
         raise SystemExit(f"FAIL: API not reachable at {demo.API} (start it with `make api`)") from None
     email = os.environ.get("HMAP_SEED_EMAIL", "demo@example.test")
-    password = os.environ.get("HMAP_SEED_PASSWORD", "hmap local demo")
+    password = os.environ.get("HMAP_SEED_PASSWORD", "hmap local walkthrough")
     try:
         demo.call("POST", "/auth/login", {"email": email, "password": password})
     except urllib.error.HTTPError:

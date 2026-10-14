@@ -202,6 +202,20 @@ function MoreMenu({ project, onChanged }: { project: Project; onChanged: () => v
           >
             {project.cloud_ok === false ? "Allow cloud models" : "Keep on this computer"}
           </button>
+          <button
+            type="button"
+            className="block w-full rounded px-2 py-1.5 text-left text-sm hover:bg-hover"
+            onClick={() =>
+              void run(async () => {
+                const on = !project.refine;
+                await api.updateProject(project.project_id, { refine: on });
+                toast(on ? "Results will be checked and improved from the next step on (slower)." : "Results are no longer checked and improved.");
+                onChanged();
+              })
+            }
+          >
+            {project.refine ? "Stop checking results" : "Check and improve results"}
+          </button>
           <button type="button" className="block w-full rounded px-2 py-1.5 text-left text-sm text-danger hover:bg-danger-soft" onClick={() => setDeleting(true)}>
             Delete…
           </button>
@@ -288,7 +302,7 @@ function ReviewPanel({ project, planTasks, onDecided }: { project: Project; plan
     setBusy(approved ? "approve" : "reject");
     setError(null);
     try {
-      await api.decideApproval(project.project_id, approved, comment);
+      await api.decideApproval(project.project_id, approved, comment, project.graph_version);
       setComment("");
       onDecided();
     } catch (err) {
@@ -451,9 +465,12 @@ function UploadedDocuments({ documents }: { documents: readonly string[] }) {
 
 // ------------------------------------------------------------------ results
 
+const INTERNAL_TYPES: ReadonlySet<string> = new Set(["refine-output", "refinement-progress", "reflection-memory"]);
+
 function Results({ projectId, items, run, stubCapabilities }: { projectId: string; items: readonly ArtifactItem[]; run: number; stubCapabilities: ReadonlySet<string> }) {
   const { developer } = usePreferences();
-  const mine = items.filter((a) => (a.produced_by ? a.produced_by.run === run : true));
+  // the refinement's working files (per-round outputs, progress, memory) are shown in its own tab; developers see all
+  const mine = items.filter((a) => (a.produced_by ? a.produced_by.run === run : true) && (developer || !INTERNAL_TYPES.has(a.artifact_type)));
   if (mine.length === 0) return <EmptyState title="No files yet">Results appear here as steps finish.</EmptyState>;
   return (
     <ul className="divide-y divide-line">
@@ -532,7 +549,7 @@ export function ProjectDetailView({ projectId }: { projectId: string }) {
 
   const allTasks = useMemo(() => tasks.data ?? [], [tasks.data]);
   const runTasks = useMemo(() => allTasks.filter((t) => runOf(t) === run), [allTasks, run]);
-  const planTasks = runTasks.filter((t) => t.plan_task_id !== null);
+  const planTasks = runTasks.filter((t) => t.plan_task_id !== null && !t.replaced);
   const titles = useMemo(() => new Map(allTasks.map((t) => [t.task_id, t.title || t.objective])), [allTasks]);
 
   if (project.loading) return <LoadingState label="Opening project…" />;
@@ -643,6 +660,7 @@ export function ProjectDetailView({ projectId }: { projectId: string }) {
           <p className="mt-1 flex flex-wrap gap-x-4 gap-y-0.5 text-2xs text-muted">
             <span>{p.auto_approve ? "Runs automatically (no review step)" : "Pauses for your review of each plan"}</span>
             <span>{p.cloud_ok === false ? "Kept on this computer (no cloud models)" : "Cloud models allowed"}</span>
+            {p.refine && <span>Results are checked and improved</span>}
             {p.archived && <span>Archived</span>}
             {developer && <Mono>{p.project_id}</Mono>}
           </p>

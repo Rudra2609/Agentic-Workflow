@@ -29,6 +29,7 @@ from hmap.core.tracing import get_logger
 from hmap.manager.config import ManagerConfig
 from hmap.manager.manager import Manager
 from hmap.manager.store import InMemoryTaskStore, TaskStore
+from hmap.obs.metrics import Sampler
 from hmap.services.artifact.base import ArtifactStore
 from hmap.services.artifact.local import LocalFSArtifactStore
 from hmap.services.artifact.memory import InMemoryArtifactStore
@@ -47,6 +48,7 @@ class SystemConfig:
     watchdog_interval_s: float = 1.0
     outbox_interval_s: float = 0.05
     manager: ManagerConfig = field(default_factory=ManagerConfig)
+    metrics_interval_s: float | None = None   # refresh the Prometheus gauges (Sprint 4); None = off (tests)
 
 
 @dataclass
@@ -111,6 +113,7 @@ class HmapSystem:
         self.publisher = OutboxPublisher(self.outbox, bus)
         self.host: AgentHost | None = None
         self._publisher_task: asyncio.Task[None] | None = None
+        self.sampler: Sampler | None = None
 
     # ------------------------------------------------------------------ builders
 
@@ -128,7 +131,8 @@ class HmapSystem:
                       rabbit_namespace: str = "", plugins: list[Plugin] | None = None) -> "HmapSystem":
         from hmap.core.llm import build_llm
 
-        cfg = config or SystemConfig()
+        cfg = config or SystemConfig(metrics_interval_s=settings.metrics_interval_s, manager=ManagerConfig(
+            retry_delays_s=settings.retry_delays_s) if settings.retry_delays_s else ManagerConfig())
         bus: Bus
         if settings.bus == "rabbitmq":
             from hmap.core.bus.rabbitmq import RabbitBus
@@ -153,6 +157,10 @@ class HmapSystem:
         await self.bus.start()
         await self.manager.start(watchdog_interval_s=self.config.watchdog_interval_s)
         self._publisher_task = asyncio.create_task(self.publisher.run_forever(self.config.outbox_interval_s))
+        if self.config.metrics_interval_s:
+            self.sampler = Sampler(bus=self.bus, store=self.store, registry=self.registry,
+                                   interval_s=self.config.metrics_interval_s)
+            self.sampler.start()
         if with_agents:
             await self.start_agents()
 
@@ -165,6 +173,8 @@ class HmapSystem:
         return self.host
 
     async def stop(self) -> None:
+        if self.sampler is not None:
+            await self.sampler.stop()
         if self.host is not None:
             await self.host.stop()
         await self.manager.stop()

@@ -1,0 +1,275 @@
+{
+  "format": 1,
+  "key": "376f6147c89f0a8a6cadf3f30e72b8c9178940218e5e622e918bcdd884d58428",
+  "key_ingredients": {
+    "max_tokens": 2000,
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a project plan: steps with dependencies, made from a list of requirements against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: a step id (T3), a missing dependency written 'T3 -> T5', or a requirement id (R2); it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- P1: Dependencies: does every step come after the steps whose results it needs? If a requirement of step B uses something that a requirement of step A creates (a name, a command, a connection, data, a schema, a part that is reused), B needs A. Name each missing dependency as 'A -> B' (A must finish before B) and say what B needs from A.\n- P2: Coverage: is each requirement's work done by build and test steps that really do it?\n- P3: Acceptance criteria: are they concrete and checkable?\n- P4: Granularity: no duplicated steps and no step split into trivial pieces?\n\nThe research, verify, design and review steps and the order research -> design -> build -> test -> documents -> review come from a template and are correct. Steps listed as 'after: X' already depend on X (directly); a dependency through other steps also counts.\n\nMaterial:\nRequirements:\nR1 [must] The server must accept at least 10 clients connected at the same time.\nR2 [must] Each client must choose a unique nickname when it connects.\nR3 [must] A message sent by one client must be delivered to every other connected client.\nR4 [must] The server shall announce when a client joins or leaves the chat.\nR5 [should] Clients should be able to send a private message with the command /msg.\nR6 [could] The server may keep a history of the last 50 messages for new clients.\nR7 [must] The server must not crash when a client disconnects without warning.\nR8 [should] Messages should reach other clients within one second on a local network.\n\nPlan steps:\nresearch [research] Research the approach (requirements: -; after: -) criteria: every research question has an answer with sources; the answers name the options considered\nverify [research] Check the research findings (requirements: -; after: research) criteria: every claim the design uses is supported by a source; unsupported claims are marked\ndesign [design] Design the solution (requirements: -; after: verify) criteria: each part has a module and an interface; the skeleton runs; the design follows the constraints; C1 respected: Use Python 3.11 and the standard library only.\nT1 [implement] Implement: The server must accept at least 10 clients conn… (+2) (requirements: R1, R2, R3; after: design) criteria: R1: The server must accept at least 10 clients connected at the same time.; R2: Each client must choose a unique nickname when it connects.; R3: A message sent by one client must be delivered to every other connected client.\nT3 [implement] Implement: The server shall announce when a client joins o… (+2) (requirements: R4, R5, R6; after: design) criteria: R4: The server shall announce when a client joins or leaves the chat.; R5: Clients should be able to send a private message with the command /msg.; R6: The server may keep a history of the last 50 messages for new clients.\nT2 [test] Check: The server must accept at least 10 clients connec… (+2) (requirements: R1, R2, R3; after: T1) criteria: R1 works as stated; R2 works as stated; R3 works as stated\nT4 [test] Check: The server shall announce when a client joins or… (+2) (requirements: R4, R5, R6; after: T3) criteria: R4 works as stated; R5 works as stated; R6 works as stated\nT5 [test] Check quality of the work (requirements: R7, R8; after: T1, T3) criteria: R7: The server must not crash when a client disconnects without warning.; R8: Messages should reach other clients within one second on a local network.\nT6 [document] Prepare README (requirements: -; after: T2, T4, T5) criteria: D2 exists: README; it matches the finished, tested work\nT7 [document] Prepare Design and test report (requirements: -; after: T2, T4, T5) criteria: D3 exists: Design and test report; it matches the finished, tested work\nreview [review] Final review (requirements: -; after: T6, T7) criteria: every must requirement is met; every deliverable is present; C1 respected: Use Python 3.11 and the standard library only.; C2 respected: Use TCP sockets; do not use a web framework.",
+        "role": "user"
+      }
+    ],
+    "plugin": "refine",
+    "role": "judge",
+    "schema": {
+      "$defs": {
+        "CriterionScore": {
+          "properties": {
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material that supports the score",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "score": {
+              "description": "1 = fails the criterion, 5 = fully meets it",
+              "maximum": 5,
+              "minimum": 1,
+              "title": "Score",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "score"
+          ],
+          "title": "CriterionScore",
+          "type": "object"
+        },
+        "RubricIssue": {
+          "properties": {
+            "category": {
+              "default": "REQUIREMENT_VIOLATION",
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Category",
+              "type": "string"
+            },
+            "criterion": {
+              "default": "",
+              "title": "Criterion",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "fix_hint": {
+              "default": "",
+              "description": "what to change",
+              "title": "Fix Hint",
+              "type": "string"
+            },
+            "location": {
+              "default": "",
+              "description": "where: an id or path that appears in the material",
+              "title": "Location",
+              "type": "string"
+            },
+            "severity": {
+              "default": "major",
+              "enum": [
+                "minor",
+                "major",
+                "critical"
+              ],
+              "title": "Severity",
+              "type": "string"
+            }
+          },
+          "required": [
+            "description"
+          ],
+          "title": "RubricIssue",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CriterionScore"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/RubricIssue"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "refine",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-14T05:25:35.383015+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "criteria": {
+          "items": {
+            "properties": {
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material that supports the score",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "score": {
+                "description": "1 = fails the criterion, 5 = fully meets it",
+                "maximum": 5,
+                "minimum": 1,
+                "title": "Score",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id",
+              "score"
+            ],
+            "title": "CriterionScore",
+            "type": "object"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "properties": {
+              "category": {
+                "default": "REQUIREMENT_VIOLATION",
+                "enum": [
+                  "FORMAT",
+                  "SCHEMA",
+                  "OMISSION",
+                  "HALLUCINATION",
+                  "FACTUAL",
+                  "LOGIC",
+                  "REQUIREMENT_VIOLATION",
+                  "CONSISTENCY",
+                  "STYLE",
+                  "SAFETY"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "criterion": {
+                "default": "",
+                "title": "Criterion",
+                "type": "string"
+              },
+              "description": {
+                "title": "Description",
+                "type": "string"
+              },
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "fix_hint": {
+                "default": "",
+                "description": "what to change",
+                "title": "Fix Hint",
+                "type": "string"
+              },
+              "location": {
+                "default": "",
+                "description": "where: an id or path that appears in the material",
+                "title": "Location",
+                "type": "string"
+              },
+              "severity": {
+                "default": "major",
+                "enum": [
+                  "minor",
+                  "major",
+                  "critical"
+                ],
+                "title": "Severity",
+                "type": "string"
+              }
+            },
+            "required": [
+              "description"
+            ],
+            "title": "RubricIssue",
+            "type": "object"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a project plan: steps with dependencies, made from a list of requirements against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: a step id (T3), a missing dependency written 'T3 -> T5', or a requirement id (R2); it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- P1: Dependencies: does every step come after the steps whose results it needs? If a requirement of step B uses something that a requirement of step A creates (a name, a command, a connection, data, a schema, a part that is reused), B needs A. Name each missing dependency as 'A -> B' (A must finish before B) and say what B needs from A.\n- P2: Coverage: is each requirement's work done by build and test steps that really do it?\n- P3: Acceptance criteria: are they concrete and checkable?\n- P4: Granularity: no duplicated steps and no step split into trivial pieces?\n\nThe research, verify, design and review steps and the order research -> design -> build -> test -> documents -> review come from a template and are correct. Steps listed as 'after: X' already depend on X (directly); a dependency through other steps also counts.\n\nMaterial:\nRequirements:\nR1 [must] The server must accept at least 10 clients connected at the same time.\nR2 [must] Each client must choose a unique nickname when it connects.\nR3 [must] A message sent by one client must be delivered to every other connected client.\nR4 [must] The server shall announce when a client joins or leaves the chat.\nR5 [should] Clients should be able to send a private message with the command /msg.\nR6 [could] The server may keep a history of the last 50 messages for new clients.\nR7 [must] The server must not crash when a client disconnects without warning.\nR8 [should] Messages should reach other clients within one second on a local network.\n\nPlan steps:\nresearch [research] Research the approach (requirements: -; after: -) criteria: every research question has an answer with sources; the answers name the options considered\nverify [research] Check the research findings (requirements: -; after: research) criteria: every claim the design uses is supported by a source; unsupported claims are marked\ndesign [design] Design the solution (requirements: -; after: verify) criteria: each part has a module and an interface; the skeleton runs; the design follows the constraints; C1 respected: Use Python 3.11 and the standard library only.\nT1 [implement] Implement: The server must accept at least 10 clients conn… (+2) (requirements: R1, R2, R3; after: design) criteria: R1: The server must accept at least 10 clients connected at the same time.; R2: Each client must choose a unique nickname when it connects.; R3: A message sent by one client must be delivered to every other connected client.\nT3 [implement] Implement: The server shall announce when a client joins o… (+2) (requirements: R4, R5, R6; after: design) criteria: R4: The server shall announce when a client joins or leaves the chat.; R5: Clients should be able to send a private message with the command /msg.; R6: The server may keep a history of the last 50 messages for new clients.\nT2 [test] Check: The server must accept at least 10 clients connec… (+2) (requirements: R1, R2, R3; after: T1) criteria: R1 works as stated; R2 works as stated; R3 works as stated\nT4 [test] Check: The server shall announce when a client joins or… (+2) (requirements: R4, R5, R6; after: T3) criteria: R4 works as stated; R5 works as stated; R6 works as stated\nT5 [test] Check quality of the work (requirements: R7, R8; after: T1, T3) criteria: R7: The server must not crash when a client disconnects without warning.; R8: Messages should reach other clients within one second on a local network.\nT6 [document] Prepare README (requirements: -; after: T2, T4, T5) criteria: D2 exists: README; it matches the finished, tested work\nT7 [document] Prepare Design and test report (requirements: -; after: T2, T4, T5) criteria: D3 exists: Design and test report; it matches the finished, tested work\nreview [review] Final review (requirements: -; after: T6, T7) criteria: every must requirement is met; every deliverable is present; C1 respected: Use Python 3.11 and the standard library only.; C2 respected: Use TCP sockets; do not use a web framework.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 2000,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"criteria\": [\n    {\n      \"id\": \"P1\",\n      \"score\": 1,\n      \"evidence\": \"T3 [implement] ... (requirements: R4, R5, R6; after: design)\"\n    },\n    {\n      \"id\": \"P2\",\n      \"score\": 5,\n      \"evidence\": \"T1 ... (requirements: R1, R2, R3); T3 ... (requirements: R4, R5, R6); T5 ... (requirements: R7, R8)\"\n    },\n    {\n      \"id\": \"P3\",\n      \"score\": 5,\n      \"evidence\": \"R1: The server must accept at least 10 clients connected at the same time.\"\n    },\n    {\n      \"id\": \"P4\",\n      \"score\": 5,\n      \"evidence\": \"T1, T2, T3, T4, T5, T6, T7\"\n    }\n  ],\n  \"issues\": [\n    {\n      \"criterion\": \"P1\",\n      \"category\": \"LOGIC\",\n      \"severity\": \"critical\",\n      \"description\": \"Step T3 depends on the client connection and message handling infrastructure created in T1, but only depends on 'design'.\",\n      \"location\": \"T1 -> T3\",\n      \"evidence\": \"T3 [implement] ... (requirements: R4, R5, R6; after: design)\",\n      \"fix_hint\": \"Add T1 to the 'after' list for T3.\"\n    }\n  ]\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1734,
+      "latency_s": 1.0275,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 371,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

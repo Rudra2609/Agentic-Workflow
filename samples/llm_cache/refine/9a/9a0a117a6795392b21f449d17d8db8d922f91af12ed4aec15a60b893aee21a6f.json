@@ -1,0 +1,146 @@
+{
+  "format": 1,
+  "key": "9a0a117a6795392b21f449d17d8db8d922f91af12ed4aec15a60b893aee21a6f",
+  "key_ingredients": {
+    "max_tokens": 384,
+    "messages": [
+      {
+        "content": "You make short, typed decisions about the given state. For every question pick exactly one of the allowed options and give your confidence between 0 and 1. Reply only with the JSON object.",
+        "role": "system"
+      },
+      {
+        "content": "State:\nStep T7 (coverage check) depends on T5 (implementation of R7) but not on T2, T4, or T6 (the test steps for R1-R4), meaning it might measure coverage before all tests are verified to pass.\n\nQuestions:\n- category (choice); options: FORMAT | SCHEMA | OMISSION | HALLUCINATION | FACTUAL | LOGIC | REQUIREMENT_VIOLATION | CONSISTENCY | STYLE | SAFETY\n    CONSISTENCY: parts disagree with each other (duplicates, totals that do not add up, mismatched ids)\n    FACTUAL: a stated fact, number, date, name or attribute (priority, kind, type) is wrong\n    FORMAT: the output is not well-formed (unparseable JSON, broken markup, wrong layout)\n    HALLUCINATION: something is not supported by the source (invented item, quote not in the document)\n    LOGIC: the reasoning or structure is wrong (cycle, wrong order, missing dependency, impossible plan)\n    OMISSION: something that should be there is missing (a requirement, a step, a criterion, a section)\n    REQUIREMENT_VIOLATION: the output does not meet a stated requirement or acceptance criterion\n    SAFETY: unsafe content, leaked secrets or personal data, harmful instructions\n    SCHEMA: a field is missing, has the wrong type or breaks the contract / allowed values\n    STYLE: unclear, vague, untestable or badly worded, but not wrong",
+        "role": "user"
+      }
+    ],
+    "plugin": "refine",
+    "role": "classify",
+    "schema": {
+      "$defs": {
+        "Decision0": {
+          "properties": {
+            "answer": {
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Answer",
+              "type": "string"
+            },
+            "confidence": {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "title": "Confidence",
+              "type": "number"
+            }
+          },
+          "required": [
+            "answer",
+            "confidence"
+          ],
+          "title": "Decision0",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/Decision0"
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "title": "ClassifyAnswers",
+      "type": "object"
+    },
+    "seed": null,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "refine",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-14T05:26:27.543792+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "category": {
+          "properties": {
+            "answer": {
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Answer",
+              "type": "string"
+            },
+            "confidence": {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "title": "Confidence",
+              "type": "number"
+            }
+          },
+          "required": [
+            "answer",
+            "confidence"
+          ],
+          "title": "Decision0",
+          "type": "object"
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "title": "ClassifyAnswers",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You make short, typed decisions about the given state. For every question pick exactly one of the allowed options and give your confidence between 0 and 1. Reply only with the JSON object.",
+        "role": "system"
+      },
+      {
+        "content": "State:\nStep T7 (coverage check) depends on T5 (implementation of R7) but not on T2, T4, or T6 (the test steps for R1-R4), meaning it might measure coverage before all tests are verified to pass.\n\nQuestions:\n- category (choice); options: FORMAT | SCHEMA | OMISSION | HALLUCINATION | FACTUAL | LOGIC | REQUIREMENT_VIOLATION | CONSISTENCY | STYLE | SAFETY\n    CONSISTENCY: parts disagree with each other (duplicates, totals that do not add up, mismatched ids)\n    FACTUAL: a stated fact, number, date, name or attribute (priority, kind, type) is wrong\n    FORMAT: the output is not well-formed (unparseable JSON, broken markup, wrong layout)\n    HALLUCINATION: something is not supported by the source (invented item, quote not in the document)\n    LOGIC: the reasoning or structure is wrong (cycle, wrong order, missing dependency, impossible plan)\n    OMISSION: something that should be there is missing (a requirement, a step, a criterion, a section)\n    REQUIREMENT_VIOLATION: the output does not meet a stated requirement or acceptance criterion\n    SAFETY: unsafe content, leaked secrets or personal data, harmful instructions\n    SCHEMA: a field is missing, has the wrong type or breaks the contract / allowed values\n    STYLE: unclear, vague, untestable or badly worded, but not wrong",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 384,
+      "seed": null,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"category\":\"LOGIC\",\"confidence\":0.95}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 627,
+      "latency_s": 0.6133,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 80,
+      "provider": "groq"
+    }
+  },
+  "role": "classify"
+}

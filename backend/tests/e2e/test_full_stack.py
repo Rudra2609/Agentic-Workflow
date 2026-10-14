@@ -115,7 +115,8 @@ def test_auto_approve_and_stop_survive_in_postgres(system) -> None:
         client.post(f"/api/projects/{gated}/documents", files={"file": ("b.txt", b"Must work.", "text/plain")})
         poll(client, f"/api/projects/{gated}", lambda p: p["state"] == "AWAITING_APPROVAL")
         r = client.post(f"/api/projects/{gated}/stop", json={"reason": "e2e"})
-        assert r.status_code == 200 and r.json()["cancelled_tasks"] == 5
+        steps = len(client.get(f"/api/planning/plan/{gated}").json()["graph"]["tasks"])  # Member 3's plan
+        assert r.status_code == 200 and r.json()["cancelled_tasks"] == steps
         stopped = client.get(f"/api/projects/{gated}").json()
         assert stopped["state"] == "CANCELLED" and stopped["stopped_reason"] == "e2e"
         assert stopped["approvals"][0]["status"] == "rejected"

@@ -1,0 +1,322 @@
+{
+  "format": 1,
+  "key": "74d10699707994f1e0a9e577e34027affb303ea1129258afef94924773ba8b96",
+  "key_ingredients": {
+    "max_tokens": 2500,
+    "messages": [
+      {
+        "content": "You correct a list of items extracted from course or project documents, using a reviewer's issues.\n\nReturn {\"changes\": [...], \"notes\": \"...\"}. A change is one of:\n- {\"op\": \"add\", \"kind\": \"requirement\" | \"constraint\" | \"deliverable\", \"text\": \"<the item as one clear sentence>\",\n   \"quote\": \"<the exact sentence from the document, copied character for character>\", \"priority\", \"req_type\",\n   \"constraint_kind\", \"deliverable_name\", \"deliverable_format\", \"issue\": <issue number>}\n- {\"op\": \"drop\", \"id\": \"R4\", \"issue\": n}   (the item is not in the document, or is not an item at all)\n- {\"op\": \"set\", \"id\": \"R2\", \"field\": \"priority\" | \"req_type\" | \"kind\" | \"text\", \"value\": \"...\", \"issue\": n}\n\nRules: fix only the listed issues; one change per problem. Never invent: an added item must quote a sentence that\nis in the document. Do not add an item that is already listed under another wording. Setup steps that are not marked\nor checked (install, clone, create an environment), background and reading instructions are not items: if an issue\nasks to add one, skip it. If an issue is wrong, skip it and say so in notes. Marking criteria (E ids) are not yours\nto change.",
+        "role": "system"
+      },
+      {
+        "content": "Issues:\n1. [major OMISSION] at requirements: The requirement to use pytest.mark.parametrize for valid date tests is missing from the extracted items. (evidence: \"Use pytest.mark.parametrize for the tests of valid dates.\") (fix: Add a new requirement item for using pytest.mark.parametrize.)\n\nNotes from earlier attempts:\n- The extracted items omitted the requirement to use pytest.mark.parametrize for valid date tests, so the test suite lacks the necessary parameterization. Include a pytest.mark.parametrize decorator in the extracted items to generate tests for each valid date scenario.\n\n=== Document: lab4_unit_testing.docx\n## Lab 4: Unit Testing with pytest\n## Objectives\nIn this lab you practise writing small, independent unit tests.\n## Setup\n- Create a virtual environment for the lab.\n- Install pytest version 8 or newer in that environment.\n- Clone the starter repository from the course page.\n## Tasks\n- Write at least five unit tests for the function parse_date in dates.py.\n- Each test must check exactly one behaviour and have a descriptive name.\n- Add a test that checks parse_date raises ValueError for the input 31/02/2024.\n- Use pytest.mark.parametrize for the tests of valid dates.\n- Measure statement coverage and reach at least 80 % for dates.py.\n- You may also add property-based tests with Hypothesis for extra credit.\n## Rules\n- Do not change the code in dates.py; only add tests.\n- All tests must run with the single command pytest -q.\n## Hand-in\n- The tests folder as a ZIP file.\n- A screenshot of the coverage report.\n## Assessment\n| Criterion | Marks |\n|---|---|\n| Tests for valid dates | 4 |\n| Test for the invalid date | 2 |\n| Coverage of at least 80 % | 2 |\n| Test names and structure | 2 |\nTotal: 10 marks\n\n=== Extracted items\nR1 [requirement, must, functional] Write at least five unit tests for the function parse_date in dates.py. | quote: \"Write at least five unit tests for the function parse_date in dates.py.\"\nR2 [requirement, must, functional] Each test must check exactly one behaviour and have a descriptive name. | quote: \"Each test must check exactly one behaviour and have a descriptive name.\"\nR3 [requirement, must, functional] Add a test that checks parse_date raises ValueError for the input 31/02/2024. | quote: \"Add a test that checks parse_date raises ValueError for the input 31/02/2024.\"\nR4 [requirement, must, functional] Measure statement coverage and reach at least 80 % for dates.py. | quote: \"Measure statement coverage and reach at least 80 % for dates.py.\"\nR5 [requirement, could, functional] You may also add property-based tests with Hypothesis for extra credit. | quote: \"You may also add property-based tests with Hypothesis for extra credit.\"\nC1 [constraint, technology] Install pytest version 8 or newer in that environment. | quote: \"Install pytest version 8 or newer in that environment.\"\nC2 [constraint, process] Do not change the code in dates.py; only add tests. | quote: \"Do not change the code in dates.py; only add tests.\"\nC3 [constraint, technology] All tests must run with the single command pytest -q. | quote: \"All tests must run with the single command pytest -q.\"\nD1 [deliverable] The tests folder as a ZIP file. | quote: \"The tests folder as a ZIP file.\"\nD2 [deliverable] A screenshot of the coverage report. | quote: \"A screenshot of the coverage report.\"",
+        "role": "user"
+      }
+    ],
+    "plugin": "refine",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Change": {
+          "properties": {
+            "constraint_kind": {
+              "default": "other",
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Constraint Kind",
+              "type": "string"
+            },
+            "deliverable_format": {
+              "default": "",
+              "title": "Deliverable Format",
+              "type": "string"
+            },
+            "deliverable_name": {
+              "default": "",
+              "title": "Deliverable Name",
+              "type": "string"
+            },
+            "field": {
+              "default": "",
+              "enum": [
+                "priority",
+                "req_type",
+                "kind",
+                "text",
+                ""
+              ],
+              "title": "Field",
+              "type": "string"
+            },
+            "id": {
+              "default": "",
+              "title": "Id",
+              "type": "string"
+            },
+            "issue": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Issue"
+            },
+            "kind": {
+              "default": "requirement",
+              "enum": [
+                "requirement",
+                "constraint",
+                "deliverable"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "op": {
+              "enum": [
+                "add",
+                "drop",
+                "set"
+              ],
+              "title": "Op",
+              "type": "string"
+            },
+            "priority": {
+              "default": "must",
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "quote": {
+              "default": "",
+              "description": "for add: the exact sentence copied from the document",
+              "title": "Quote",
+              "type": "string"
+            },
+            "req_type": {
+              "default": "functional",
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Req Type",
+              "type": "string"
+            },
+            "text": {
+              "default": "",
+              "title": "Text",
+              "type": "string"
+            },
+            "value": {
+              "default": "",
+              "title": "Value",
+              "type": "string"
+            }
+          },
+          "required": [
+            "op"
+          ],
+          "title": "Change",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "changes": {
+          "items": {
+            "$ref": "#/$defs/Change"
+          },
+          "title": "Changes",
+          "type": "array"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "title": "ChangeAnswer",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "refine",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-14T05:25:06.406214+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "changes": {
+          "items": {
+            "properties": {
+              "constraint_kind": {
+                "default": "other",
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Constraint Kind",
+                "type": "string"
+              },
+              "deliverable_format": {
+                "default": "",
+                "title": "Deliverable Format",
+                "type": "string"
+              },
+              "deliverable_name": {
+                "default": "",
+                "title": "Deliverable Name",
+                "type": "string"
+              },
+              "field": {
+                "default": "",
+                "enum": [
+                  "priority",
+                  "req_type",
+                  "kind",
+                  "text",
+                  ""
+                ],
+                "title": "Field",
+                "type": "string"
+              },
+              "id": {
+                "default": "",
+                "title": "Id",
+                "type": "string"
+              },
+              "issue": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Issue"
+              },
+              "kind": {
+                "default": "requirement",
+                "enum": [
+                  "requirement",
+                  "constraint",
+                  "deliverable"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "op": {
+                "enum": [
+                  "add",
+                  "drop",
+                  "set"
+                ],
+                "title": "Op",
+                "type": "string"
+              },
+              "priority": {
+                "default": "must",
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "quote": {
+                "default": "",
+                "description": "for add: the exact sentence copied from the document",
+                "title": "Quote",
+                "type": "string"
+              },
+              "req_type": {
+                "default": "functional",
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Req Type",
+                "type": "string"
+              },
+              "text": {
+                "default": "",
+                "title": "Text",
+                "type": "string"
+              },
+              "value": {
+                "default": "",
+                "title": "Value",
+                "type": "string"
+              }
+            },
+            "required": [
+              "op"
+            ],
+            "title": "Change",
+            "type": "object"
+          },
+          "title": "Changes",
+          "type": "array"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "title": "ChangeAnswer",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You correct a list of items extracted from course or project documents, using a reviewer's issues.\n\nReturn {\"changes\": [...], \"notes\": \"...\"}. A change is one of:\n- {\"op\": \"add\", \"kind\": \"requirement\" | \"constraint\" | \"deliverable\", \"text\": \"<the item as one clear sentence>\",\n   \"quote\": \"<the exact sentence from the document, copied character for character>\", \"priority\", \"req_type\",\n   \"constraint_kind\", \"deliverable_name\", \"deliverable_format\", \"issue\": <issue number>}\n- {\"op\": \"drop\", \"id\": \"R4\", \"issue\": n}   (the item is not in the document, or is not an item at all)\n- {\"op\": \"set\", \"id\": \"R2\", \"field\": \"priority\" | \"req_type\" | \"kind\" | \"text\", \"value\": \"...\", \"issue\": n}\n\nRules: fix only the listed issues; one change per problem. Never invent: an added item must quote a sentence that\nis in the document. Do not add an item that is already listed under another wording. Setup steps that are not marked\nor checked (install, clone, create an environment), background and reading instructions are not items: if an issue\nasks to add one, skip it. If an issue is wrong, skip it and say so in notes. Marking criteria (E ids) are not yours\nto change.",
+        "role": "system"
+      },
+      {
+        "content": "Issues:\n1. [major OMISSION] at requirements: The requirement to use pytest.mark.parametrize for valid date tests is missing from the extracted items. (evidence: \"Use pytest.mark.parametrize for the tests of valid dates.\") (fix: Add a new requirement item for using pytest.mark.parametrize.)\n\nNotes from earlier attempts:\n- The extracted items omitted the requirement to use pytest.mark.parametrize for valid date tests, so the test suite lacks the necessary parameterization. Include a pytest.mark.parametrize decorator in the extracted items to generate tests for each valid date scenario.\n\n=== Document: lab4_unit_testing.docx\n## Lab 4: Unit Testing with pytest\n## Objectives\nIn this lab you practise writing small, independent unit tests.\n## Setup\n- Create a virtual environment for the lab.\n- Install pytest version 8 or newer in that environment.\n- Clone the starter repository from the course page.\n## Tasks\n- Write at least five unit tests for the function parse_date in dates.py.\n- Each test must check exactly one behaviour and have a descriptive name.\n- Add a test that checks parse_date raises ValueError for the input 31/02/2024.\n- Use pytest.mark.parametrize for the tests of valid dates.\n- Measure statement coverage and reach at least 80 % for dates.py.\n- You may also add property-based tests with Hypothesis for extra credit.\n## Rules\n- Do not change the code in dates.py; only add tests.\n- All tests must run with the single command pytest -q.\n## Hand-in\n- The tests folder as a ZIP file.\n- A screenshot of the coverage report.\n## Assessment\n| Criterion | Marks |\n|---|---|\n| Tests for valid dates | 4 |\n| Test for the invalid date | 2 |\n| Coverage of at least 80 % | 2 |\n| Test names and structure | 2 |\nTotal: 10 marks\n\n=== Extracted items\nR1 [requirement, must, functional] Write at least five unit tests for the function parse_date in dates.py. | quote: \"Write at least five unit tests for the function parse_date in dates.py.\"\nR2 [requirement, must, functional] Each test must check exactly one behaviour and have a descriptive name. | quote: \"Each test must check exactly one behaviour and have a descriptive name.\"\nR3 [requirement, must, functional] Add a test that checks parse_date raises ValueError for the input 31/02/2024. | quote: \"Add a test that checks parse_date raises ValueError for the input 31/02/2024.\"\nR4 [requirement, must, functional] Measure statement coverage and reach at least 80 % for dates.py. | quote: \"Measure statement coverage and reach at least 80 % for dates.py.\"\nR5 [requirement, could, functional] You may also add property-based tests with Hypothesis for extra credit. | quote: \"You may also add property-based tests with Hypothesis for extra credit.\"\nC1 [constraint, technology] Install pytest version 8 or newer in that environment. | quote: \"Install pytest version 8 or newer in that environment.\"\nC2 [constraint, process] Do not change the code in dates.py; only add tests. | quote: \"Do not change the code in dates.py; only add tests.\"\nC3 [constraint, technology] All tests must run with the single command pytest -q. | quote: \"All tests must run with the single command pytest -q.\"\nD1 [deliverable] The tests folder as a ZIP file. | quote: \"The tests folder as a ZIP file.\"\nD2 [deliverable] A screenshot of the coverage report. | quote: \"A screenshot of the coverage report.\"",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 2500,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"changes\":[{\"op\":\"add\",\"kind\":\"requirement\",\"text\":\"Use pytest.mark.parametrize for the tests of valid dates.\",\"quote\":\"Use pytest.mark.parametrize for the tests of valid dates.\",\"priority\":\"must\",\"req_type\":\"functional\",\"issue\":1}],\"notes\":\"\"}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1654,
+      "latency_s": 0.8004,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 121,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

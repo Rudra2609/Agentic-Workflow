@@ -21,6 +21,14 @@ dependencies = [
     "python-docx>=1.1",
     "pytesseract>=0.3.13",
     "Pillow>=10.4",
+    "networkx==3.6.1",
+    # observability (Member 4, Sprint 4): traces to Jaeger over OTLP/HTTP (off unless HMAP_OTEL_ENDPOINT is set),
+    # Prometheus /metrics, process + system RAM
+    "opentelemetry-api>=1.45,<1.46",
+    "opentelemetry-sdk>=1.45,<1.46",
+    "opentelemetry-exporter-otlp-proto-http>=1.45,<1.46",
+    "prometheus-client>=0.26,<0.27",
+    "psutil>=7.2,<8",
 ]
 
 [project.optional-dependencies]
@@ -38,6 +46,7 @@ dev = [
     "ruff>=0.6",
     "mypy>=1.11",
     "reportlab>=4.2",
+    "hypothesis>=6.169.0",
 ]
 
 [build-system]

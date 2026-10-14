@@ -53,6 +53,7 @@ function Composer() {
   const [name, setName] = useState("");
   const [auto, setAuto] = useState(false);
   const [local, setLocal] = useState(false);
+  const [refine, setRefine] = useState(false);
   const usage = useApiQuery("llm-usage", (sig) => api.llmUsage(sig), { intervalMs: 300_000 });
   const cloudKeys = Object.keys(usage.data?.cloud_keys ?? {}).length;
   const [busy, setBusy] = useState(false);
@@ -77,7 +78,7 @@ function Composer() {
     setBusy(true);
     try {
       const projectName = (name.trim() || suggestedName || "Untitled project").slice(0, 200);
-      const project = await api.createProject(projectName, auto, source === "text" ? goal : undefined, !local);
+      const project = await api.createProject(projectName, auto, source === "text" ? goal : undefined, !local, refine);
       if (source === "file") await api.uploadDocuments(project.project_id, withoutCommonRoot(docs));
       toast("Project created. Your AI team is reading the request.");
       router.push(`/projects/${encodeURIComponent(project.project_id)}`);
@@ -194,6 +195,15 @@ function Composer() {
                 {cloudKeys
                   ? "No step uses a cloud model; everything runs on the local model. Use it for private documents. It is slower and less capable."
                   : "No cloud keys are set up right now, so everything already runs here. This keeps it that way if keys are added later."}
+              </span>
+            </span>
+          </label>
+          <label className="flex cursor-pointer items-start gap-3">
+            <input type="checkbox" checked={refine} onChange={(e) => setRefine(e.target.checked)} aria-describedby={`${ids.name}-refine`} className="mt-1 size-4 accent-[var(--hm-accent)]" />
+            <span>
+              <span className="block text-sm font-semibold text-fg">Check and improve results</span>
+              <span id={`${ids.name}-refine`} className="mt-0.5 block text-xs text-muted">
+                A reviewer checks the requirements and the plan and fixes what it can before they are used. Slower: about two extra model calls per round. You can change it later.
               </span>
             </span>
           </label>

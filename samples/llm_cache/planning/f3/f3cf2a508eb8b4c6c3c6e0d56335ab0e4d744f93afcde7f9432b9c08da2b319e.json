@@ -1,0 +1,317 @@
+{
+  "format": 1,
+  "key": "f3cf2a508eb8b4c6c3c6e0d56335ab0e4d744f93afcde7f9432b9c08da2b319e",
+  "key_ingredients": {
+    "max_tokens": 4000,
+    "messages": [
+      {
+        "content": "You plan the work for one part of a course assignment or project. A team of AI agents will carry\nit out: a coding agent builds, a testing agent tests. Design, documentation and the final review are planned\nseparately, so do not add those steps.\n\nReturn JSON with \"steps\", \"research_questions\", \"not_plannable\" and \"open_questions\".\n\nEach step:\n- key: a short local name (\"b1\", \"b2\" for build steps, \"t1\", \"t2\" for test steps).\n- title: an imperative title of at most 8 words (\"Broadcast messages to all clients\").\n- description: one or two sentences on what to do.\n- phase: \"implement\" (build something) or \"test\" (check that it works).\n- requirement_ids: the ids of the requirements the step delivers or checks. Use only ids from the list.\n- acceptance_criteria: 1-4 concrete, checkable statements taken from the requirements, keeping their numbers\n  (\"at least 10 clients connected at the same time\").\n- effort_hours: a rough estimate for one student (0.5 to 16).\n- depends_on: keys of steps in your answer whose result this step needs (a test needs what it tests; the client\n  may need the server's protocol). Never depend on a later step in a circle.\n- group: a 1-3 word feature name shared by related steps (\"Messaging\").\n\nRules:\n- Every requirement id in the list must appear in at least one step, unless it is in not_plannable.\n- Use as few steps as the work needs: a build step covers 1-4 closely related requirements that one person would\n  build together; a test step checks one feature group (it may check several build steps).\n- Quality requirements (speed, robustness, usability) usually belong to test steps.\n- Writing tests, scripts or documents that a requirement asks for is a build step.\n- Dependencies: a step that uses, extends, tests or describes what another step makes depends on it (the command-line\n  interface needs the logic it calls; unit tests need the code they test; code implementing a model needs the model).\n- At most 12 steps. Never invent requirements, numbers, tools or extra features.\n- research_questions: 2-5 specific questions the team must answer before designing (techniques, libraries the\n  constraints allow, known pitfalls).\n- not_plannable: requirements an AI agent cannot carry out (a live demo, handing in on a portal), with a reason.\n- open_questions: anything unclear or contradictory (an empty list if nothing is).",
+        "role": "system"
+      },
+      {
+        "content": "Project kind: software.\nThe whole request is one part.\n\nRequirements:\nR16 [must, functional] Write unit tests for the spot assignment and the fee calculation. (section: Part E: Testing and submission)\n\nConstraints (respect them, do not make steps for them):\nC1 [process] Discuss your ideas with your lab partner, sketch them on paper first, and only then move on to the computer.\nC2 [technology] Use only the standard library of your language.",
+        "role": "user"
+      }
+    ],
+    "plugin": "planning",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "DraftStep": {
+          "properties": {
+            "acceptance_criteria": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Acceptance Criteria",
+              "type": "array"
+            },
+            "capability": {
+              "default": "",
+              "description": "optional; one of the allowed capabilities",
+              "title": "Capability",
+              "type": "string"
+            },
+            "depends_on": {
+              "description": "keys of steps in this answer",
+              "items": {
+                "type": "string"
+              },
+              "title": "Depends On",
+              "type": "array"
+            },
+            "description": {
+              "default": "",
+              "title": "Description",
+              "type": "string"
+            },
+            "effort_hours": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Effort Hours"
+            },
+            "group": {
+              "default": "",
+              "description": "a short feature name shared by related steps",
+              "title": "Group",
+              "type": "string"
+            },
+            "key": {
+              "description": "short local name, e.g. b1, t1",
+              "title": "Key",
+              "type": "string"
+            },
+            "phase": {
+              "default": "implement",
+              "enum": [
+                "implement",
+                "test"
+              ],
+              "title": "Phase",
+              "type": "string"
+            },
+            "requirement_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Requirement Ids",
+              "type": "array"
+            },
+            "title": {
+              "title": "Title",
+              "type": "string"
+            }
+          },
+          "required": [
+            "key",
+            "title"
+          ],
+          "title": "DraftStep",
+          "type": "object"
+        },
+        "NotPlannable": {
+          "properties": {
+            "reason": {
+              "default": "",
+              "title": "Reason",
+              "type": "string"
+            },
+            "requirement_id": {
+              "title": "Requirement Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "requirement_id"
+          ],
+          "title": "NotPlannable",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "not_plannable": {
+          "items": {
+            "$ref": "#/$defs/NotPlannable"
+          },
+          "title": "Not Plannable",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "research_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Research Questions",
+          "type": "array"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/DraftStep"
+          },
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "title": "DraftPlan",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "planning",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-13T08:23:46.033363+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "not_plannable": {
+          "items": {
+            "properties": {
+              "reason": {
+                "default": "",
+                "title": "Reason",
+                "type": "string"
+              },
+              "requirement_id": {
+                "title": "Requirement Id",
+                "type": "string"
+              }
+            },
+            "required": [
+              "requirement_id"
+            ],
+            "title": "NotPlannable",
+            "type": "object"
+          },
+          "title": "Not Plannable",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "research_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Research Questions",
+          "type": "array"
+        },
+        "steps": {
+          "items": {
+            "properties": {
+              "acceptance_criteria": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Acceptance Criteria",
+                "type": "array"
+              },
+              "capability": {
+                "default": "",
+                "description": "optional; one of the allowed capabilities",
+                "title": "Capability",
+                "type": "string"
+              },
+              "depends_on": {
+                "description": "keys of steps in this answer",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Depends On",
+                "type": "array"
+              },
+              "description": {
+                "default": "",
+                "title": "Description",
+                "type": "string"
+              },
+              "effort_hours": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Effort Hours"
+              },
+              "group": {
+                "default": "",
+                "description": "a short feature name shared by related steps",
+                "title": "Group",
+                "type": "string"
+              },
+              "key": {
+                "description": "short local name, e.g. b1, t1",
+                "title": "Key",
+                "type": "string"
+              },
+              "phase": {
+                "default": "implement",
+                "enum": [
+                  "implement",
+                  "test"
+                ],
+                "title": "Phase",
+                "type": "string"
+              },
+              "requirement_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Requirement Ids",
+                "type": "array"
+              },
+              "title": {
+                "title": "Title",
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "title"
+            ],
+            "title": "DraftStep",
+            "type": "object"
+          },
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "title": "DraftPlan",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You plan the work for one part of a course assignment or project. A team of AI agents will carry\nit out: a coding agent builds, a testing agent tests. Design, documentation and the final review are planned\nseparately, so do not add those steps.\n\nReturn JSON with \"steps\", \"research_questions\", \"not_plannable\" and \"open_questions\".\n\nEach step:\n- key: a short local name (\"b1\", \"b2\" for build steps, \"t1\", \"t2\" for test steps).\n- title: an imperative title of at most 8 words (\"Broadcast messages to all clients\").\n- description: one or two sentences on what to do.\n- phase: \"implement\" (build something) or \"test\" (check that it works).\n- requirement_ids: the ids of the requirements the step delivers or checks. Use only ids from the list.\n- acceptance_criteria: 1-4 concrete, checkable statements taken from the requirements, keeping their numbers\n  (\"at least 10 clients connected at the same time\").\n- effort_hours: a rough estimate for one student (0.5 to 16).\n- depends_on: keys of steps in your answer whose result this step needs (a test needs what it tests; the client\n  may need the server's protocol). Never depend on a later step in a circle.\n- group: a 1-3 word feature name shared by related steps (\"Messaging\").\n\nRules:\n- Every requirement id in the list must appear in at least one step, unless it is in not_plannable.\n- Use as few steps as the work needs: a build step covers 1-4 closely related requirements that one person would\n  build together; a test step checks one feature group (it may check several build steps).\n- Quality requirements (speed, robustness, usability) usually belong to test steps.\n- Writing tests, scripts or documents that a requirement asks for is a build step.\n- Dependencies: a step that uses, extends, tests or describes what another step makes depends on it (the command-line\n  interface needs the logic it calls; unit tests need the code they test; code implementing a model needs the model).\n- At most 12 steps. Never invent requirements, numbers, tools or extra features.\n- research_questions: 2-5 specific questions the team must answer before designing (techniques, libraries the\n  constraints allow, known pitfalls).\n- not_plannable: requirements an AI agent cannot carry out (a live demo, handing in on a portal), with a reason.\n- open_questions: anything unclear or contradictory (an empty list if nothing is).",
+        "role": "system"
+      },
+      {
+        "content": "Project kind: software.\nThe whole request is one part.\n\nRequirements:\nR16 [must, functional] Write unit tests for the spot assignment and the fee calculation. (section: Part E: Testing and submission)\n\nConstraints (respect them, do not make steps for them):\nC1 [process] Discuss your ideas with your lab partner, sketch them on paper first, and only then move on to the computer.\nC2 [technology] Use only the standard library of your language.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 4000,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"steps\": [\n    {\n      \"key\": \"b1\",\n      \"title\": \"Write unit tests for spot assignment and fee calculation\",\n      \"description\": \"Create unit test cases using the language's standard library to verify the spot assignment logic and the fee calculation functionality.\",\n      \"phase\": \"implement\",\n      \"requirement_ids\": [\"R16\"],\n      \"acceptance_criteria\": [\n        \"unit tests cover spot assignment logic\",\n        \"unit tests cover fee calculation logic\"\n      ],\n      \"effort_hours\": 4,\n      \"depends_on\": [],\n      \"group\": \"Testing\",\n      \"capability\": \"\",\n      \"effort_hours\": null,\n      \"group\": \"\",\n      \"capability\": \"\"\n    },\n    {\n      \"key\": \"t1\",\n      \"title\": \"Run unit tests and ensure they pass\",\n      \"description\": \"Execute the written unit tests and confirm that all assertions succeed without errors.\",\n      \"phase\": \"test\",\n      \"requirement_ids\": [\"R16\"],\n      \"acceptance_criteria\": [\n        \"all unit tests pass\",\n        \"no unexpected exceptions are raised during test execution\"\n      ],\n      \"effort_hours\": 2,\n      \"depends_on\": [\"b1\"],\n      \"group\": \"Testing\",\n      \"capability\": \"\",\n      \"effort_hours\": null,\n      \"group\": \"\",\n      \"capability\": \"\"\n    }\n  ],\n  \"research_questions\": [\n    \"Which standard library testing framework should be used for our language?\",\n    \"How to structure test cases to isolate spot assignment and fee calculation logic?\",\n    \"What are common pitfalls when testing fee calculation edge cases?\"\n  ],\n  \"not_plannable\": [],\n  \"open_questions\": []\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1256,
+      "latency_s": 2.0946,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 572,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

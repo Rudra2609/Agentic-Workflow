@@ -131,6 +131,8 @@ export interface Project {
   auto_approve: boolean;
   /** False keeps the project on this computer: no step uses a cloud model, even with team keys set. */
   cloud_ok: boolean;
+  /** Sprint 4: each result (requirements, plan) is checked and improved before it is used (slower). */
+  refine?: boolean;
   /** Set when a human pressed Stop (project state CANCELLED). */
   stopped_reason: string | null;
   /** Only present on `GET /projects/{id}` (and the create/approval responses). */
@@ -150,6 +152,8 @@ export interface Task {
   depends_on: string[];
   parent_task_id: string | null;
   plan_task_id: string | null;
+  /** A plan step dropped by a replan (Sprint 3): kept as history, not part of the current plan. */
+  replaced?: boolean;
   /** Run number this task belongs to. */
   run?: number;
   priority: string;

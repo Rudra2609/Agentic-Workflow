@@ -96,3 +96,22 @@ async def test_stub_honours_cancellation(agent_cls: type[BaseAgent]) -> None:
     with pytest.raises(Cancelled):
         await asyncio.wait_for(run, timeout=1.0)
     assert await ctx.artifacts.list(PROJECT) == []
+
+
+def test_injected_failures_for_demos_and_soak_tests() -> None:
+    """Sprint 4: ``inputs["stub_fail"]`` fails the first ``stub_fail_times`` attempts of a task, then it works."""
+    from hmap.agents.stubs.agents import maybe_fail
+    from hmap.core.contracts import TaskAssign
+    from hmap.core.errors import ErrorCode, HmapError
+
+    task = TaskAssign(task_id="T-FAIL", execution_id="E-1", capability="echo", objective="x", acceptance_criteria=[],
+                      context_refs=[], inputs={"stub_fail": "TOOL_TRANSIENT", "stub_fail_times": 2})
+    for _ in range(2):
+        try:
+            maybe_fail(task)
+        except HmapError as exc:
+            assert exc.code == ErrorCode.TOOL_TRANSIENT and exc.retryable
+        else:
+            raise AssertionError("expected an injected failure")
+    maybe_fail(task)                                            # the third attempt works
+    maybe_fail(task.model_copy(update={"task_id": "T-OK", "inputs": {}}))

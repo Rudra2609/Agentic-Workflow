@@ -26,7 +26,7 @@ from hmap.services.artifact.base import ArtifactStore
 from hmap.services.context.base import ContextStore
 
 M = TypeVar("M", bound=BaseModel)
-ProgressFn = Callable[[int, str], Awaitable[None]]
+ProgressFn = Callable[..., Awaitable[None]]  # (percent, summary, artifact_refs=None)
 
 
 @dataclass
@@ -46,10 +46,14 @@ class AgentContext:
     def project_id(self) -> str:
         return self.task.project_id or "default"
 
-    async def progress(self, percent: int, summary: str) -> None:
-        """Report progress (at-most-once telemetry, research §22)."""
+    async def progress(self, percent: int, summary: str, artifact_refs: list[ArtifactRef] | None = None) -> None:
+        """Report progress (at-most-once telemetry, research §22). ``artifact_refs`` (Sprint 4) travel with the
+        ``task.progress`` event, e.g. a refinement trace the UI can show while the task is still running."""
         if self._progress is not None:
-            await self._progress(max(0, min(100, percent)), summary)
+            if artifact_refs:
+                await self._progress(max(0, min(100, percent)), summary, artifact_refs)
+            else:
+                await self._progress(max(0, min(100, percent)), summary)
 
     def check_cancelled(self) -> None:
         """Call between steps; raises Cancelled so the runtime reports a cancelled execution."""

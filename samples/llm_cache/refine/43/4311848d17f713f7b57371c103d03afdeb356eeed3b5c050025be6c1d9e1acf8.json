@@ -1,0 +1,275 @@
+{
+  "format": 1,
+  "key": "4311848d17f713f7b57371c103d03afdeb356eeed3b5c050025be6c1d9e1acf8",
+  "key_ingredients": {
+    "max_tokens": 2000,
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a list of requirements, constraints and deliverables extracted from course or project documents against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: the item id (R3, C1, D2); for a missing item the list it belongs in: requirements, constraints or deliverables; it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- E1: Completeness: is every requirement, constraint and deliverable that the document states listed? For each missing one, quote its exact sentence from the document as evidence.\n- E2: Faithfulness: is every listed item actually required by the document (not invented, not background, not a reading instruction)?\n- E3: Kind: requirement = what the solution or the work must do or be; constraint = a limit on how or with what (language, library, team size, deadline, page limit); deliverable = what to hand in. Is each item the right kind?\n- E4: Priority: must (must, shall, required, a plain instruction), should (should, recommended), could (may, optional, extra credit). Is each requirement's priority right?\n\nConventions (the same as the extractor's): one item per sentence or list item; setup steps that are not marked or checked (install a tool, clone a repository, create an environment), background, motivation and reading instructions are NOT items; a sentence ending with ':' that introduces a list is not an item, the list items under it are. Marking tables and their criteria (E ids) are checked by code: do not report them.\n\nMaterial:\n=== Document: lab4_unit_testing.docx\n## Lab 4: Unit Testing with pytest\n## Objectives\nIn this lab you practise writing small, independent unit tests.\n## Setup\n- Create a virtual environment for the lab.\n- Install pytest version 8 or newer in that environment.\n- Clone the starter repository from the course page.\n## Tasks\n- Write at least five unit tests for the function parse_date in dates.py.\n- Each test must check exactly one behaviour and have a descriptive name.\n- Add a test that checks parse_date raises ValueError for the input 31/02/2024.\n- Use pytest.mark.parametrize for the tests of valid dates.\n- Measure statement coverage and reach at least 80 % for dates.py.\n- You may also add property-based tests with Hypothesis for extra credit.\n## Rules\n- Do not change the code in dates.py; only add tests.\n- All tests must run with the single command pytest -q.\n## Hand-in\n- The tests folder as a ZIP file.\n- A screenshot of the coverage report.\n## Assessment\n| Criterion | Marks |\n|---|---|\n| Tests for valid dates | 4 |\n| Test for the invalid date | 2 |\n| Coverage of at least 80 % | 2 |\n| Test names and structure | 2 |\nTotal: 10 marks\n\n=== Extracted items\nR1 [requirement, must, functional] Write at least five unit tests for the function parse_date in dates.py. | quote: \"Write at least five unit tests for the function parse_date in dates.py.\"\nR2 [requirement, must, functional] Each test must check exactly one behaviour and have a descriptive name. | quote: \"Each test must check exactly one behaviour and have a descriptive name.\"\nR3 [requirement, must, functional] Add a test that checks parse_date raises ValueError for the input 31/02/2024. | quote: \"Add a test that checks parse_date raises ValueError for the input 31/02/2024.\"\nR4 [requirement, must, functional] Measure statement coverage and reach at least 80 % for dates.py. | quote: \"Measure statement coverage and reach at least 80 % for dates.py.\"\nR5 [requirement, could, functional] You may also add property-based tests with Hypothesis for extra credit. | quote: \"You may also add property-based tests with Hypothesis for extra credit.\"\nC1 [constraint, technology] Install pytest version 8 or newer in that environment. | quote: \"Install pytest version 8 or newer in that environment.\"\nC2 [constraint, process] Do not change the code in dates.py; only add tests. | quote: \"Do not change the code in dates.py; only add tests.\"\nC3 [constraint, technology] All tests must run with the single command pytest -q. | quote: \"All tests must run with the single command pytest -q.\"\nD1 [deliverable] The tests folder as a ZIP file. | quote: \"The tests folder as a ZIP file.\"\nD2 [deliverable] A screenshot of the coverage report. | quote: \"A screenshot of the coverage report.\"",
+        "role": "user"
+      }
+    ],
+    "plugin": "refine",
+    "role": "judge",
+    "schema": {
+      "$defs": {
+        "CriterionScore": {
+          "properties": {
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material that supports the score",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "score": {
+              "description": "1 = fails the criterion, 5 = fully meets it",
+              "maximum": 5,
+              "minimum": 1,
+              "title": "Score",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "score"
+          ],
+          "title": "CriterionScore",
+          "type": "object"
+        },
+        "RubricIssue": {
+          "properties": {
+            "category": {
+              "default": "REQUIREMENT_VIOLATION",
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Category",
+              "type": "string"
+            },
+            "criterion": {
+              "default": "",
+              "title": "Criterion",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "fix_hint": {
+              "default": "",
+              "description": "what to change",
+              "title": "Fix Hint",
+              "type": "string"
+            },
+            "location": {
+              "default": "",
+              "description": "where: an id or path that appears in the material",
+              "title": "Location",
+              "type": "string"
+            },
+            "severity": {
+              "default": "major",
+              "enum": [
+                "minor",
+                "major",
+                "critical"
+              ],
+              "title": "Severity",
+              "type": "string"
+            }
+          },
+          "required": [
+            "description"
+          ],
+          "title": "RubricIssue",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CriterionScore"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/RubricIssue"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "refine",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-14T05:25:00.262153+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "criteria": {
+          "items": {
+            "properties": {
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material that supports the score",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "score": {
+                "description": "1 = fails the criterion, 5 = fully meets it",
+                "maximum": 5,
+                "minimum": 1,
+                "title": "Score",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id",
+              "score"
+            ],
+            "title": "CriterionScore",
+            "type": "object"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "properties": {
+              "category": {
+                "default": "REQUIREMENT_VIOLATION",
+                "enum": [
+                  "FORMAT",
+                  "SCHEMA",
+                  "OMISSION",
+                  "HALLUCINATION",
+                  "FACTUAL",
+                  "LOGIC",
+                  "REQUIREMENT_VIOLATION",
+                  "CONSISTENCY",
+                  "STYLE",
+                  "SAFETY"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "criterion": {
+                "default": "",
+                "title": "Criterion",
+                "type": "string"
+              },
+              "description": {
+                "title": "Description",
+                "type": "string"
+              },
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "fix_hint": {
+                "default": "",
+                "description": "what to change",
+                "title": "Fix Hint",
+                "type": "string"
+              },
+              "location": {
+                "default": "",
+                "description": "where: an id or path that appears in the material",
+                "title": "Location",
+                "type": "string"
+              },
+              "severity": {
+                "default": "major",
+                "enum": [
+                  "minor",
+                  "major",
+                  "critical"
+                ],
+                "title": "Severity",
+                "type": "string"
+              }
+            },
+            "required": [
+              "description"
+            ],
+            "title": "RubricIssue",
+            "type": "object"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a list of requirements, constraints and deliverables extracted from course or project documents against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: the item id (R3, C1, D2); for a missing item the list it belongs in: requirements, constraints or deliverables; it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- E1: Completeness: is every requirement, constraint and deliverable that the document states listed? For each missing one, quote its exact sentence from the document as evidence.\n- E2: Faithfulness: is every listed item actually required by the document (not invented, not background, not a reading instruction)?\n- E3: Kind: requirement = what the solution or the work must do or be; constraint = a limit on how or with what (language, library, team size, deadline, page limit); deliverable = what to hand in. Is each item the right kind?\n- E4: Priority: must (must, shall, required, a plain instruction), should (should, recommended), could (may, optional, extra credit). Is each requirement's priority right?\n\nConventions (the same as the extractor's): one item per sentence or list item; setup steps that are not marked or checked (install a tool, clone a repository, create an environment), background, motivation and reading instructions are NOT items; a sentence ending with ':' that introduces a list is not an item, the list items under it are. Marking tables and their criteria (E ids) are checked by code: do not report them.\n\nMaterial:\n=== Document: lab4_unit_testing.docx\n## Lab 4: Unit Testing with pytest\n## Objectives\nIn this lab you practise writing small, independent unit tests.\n## Setup\n- Create a virtual environment for the lab.\n- Install pytest version 8 or newer in that environment.\n- Clone the starter repository from the course page.\n## Tasks\n- Write at least five unit tests for the function parse_date in dates.py.\n- Each test must check exactly one behaviour and have a descriptive name.\n- Add a test that checks parse_date raises ValueError for the input 31/02/2024.\n- Use pytest.mark.parametrize for the tests of valid dates.\n- Measure statement coverage and reach at least 80 % for dates.py.\n- You may also add property-based tests with Hypothesis for extra credit.\n## Rules\n- Do not change the code in dates.py; only add tests.\n- All tests must run with the single command pytest -q.\n## Hand-in\n- The tests folder as a ZIP file.\n- A screenshot of the coverage report.\n## Assessment\n| Criterion | Marks |\n|---|---|\n| Tests for valid dates | 4 |\n| Test for the invalid date | 2 |\n| Coverage of at least 80 % | 2 |\n| Test names and structure | 2 |\nTotal: 10 marks\n\n=== Extracted items\nR1 [requirement, must, functional] Write at least five unit tests for the function parse_date in dates.py. | quote: \"Write at least five unit tests for the function parse_date in dates.py.\"\nR2 [requirement, must, functional] Each test must check exactly one behaviour and have a descriptive name. | quote: \"Each test must check exactly one behaviour and have a descriptive name.\"\nR3 [requirement, must, functional] Add a test that checks parse_date raises ValueError for the input 31/02/2024. | quote: \"Add a test that checks parse_date raises ValueError for the input 31/02/2024.\"\nR4 [requirement, must, functional] Measure statement coverage and reach at least 80 % for dates.py. | quote: \"Measure statement coverage and reach at least 80 % for dates.py.\"\nR5 [requirement, could, functional] You may also add property-based tests with Hypothesis for extra credit. | quote: \"You may also add property-based tests with Hypothesis for extra credit.\"\nC1 [constraint, technology] Install pytest version 8 or newer in that environment. | quote: \"Install pytest version 8 or newer in that environment.\"\nC2 [constraint, process] Do not change the code in dates.py; only add tests. | quote: \"Do not change the code in dates.py; only add tests.\"\nC3 [constraint, technology] All tests must run with the single command pytest -q. | quote: \"All tests must run with the single command pytest -q.\"\nD1 [deliverable] The tests folder as a ZIP file. | quote: \"The tests folder as a ZIP file.\"\nD2 [deliverable] A screenshot of the coverage report. | quote: \"A screenshot of the coverage report.\"",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 2000,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"criteria\": [\n    {\n      \"id\": \"E1\",\n      \"score\": 4,\n      \"evidence\": \"Use pytest.mark.parametrize for the tests of valid dates.\"\n    },\n    {\n      \"id\": \"E2\",\n      \"score\": 5,\n      \"evidence\": \"All listed items are directly supported by the document text.\"\n    },\n    {\n      \"id\": \"E3\",\n      \"score\": 5,\n      \"evidence\": \"Items are correctly categorized as requirements, constraints, or deliverables.\"\n    },\n    {\n      \"id\": \"E4\",\n      \"score\": 5,\n      \"evidence\": \"Priorities (must/could) align with the document's language (must/may).\"\n    }\n  ],\n  \"issues\": [\n    {\n      \"criterion\": \"E1\",\n      \"category\": \"OMISSION\",\n      \"severity\": \"major\",\n      \"description\": \"The requirement to use pytest.mark.parametrize for valid date tests is missing from the extracted items.\",\n      \"location\": \"requirements\",\n      \"evidence\": \"Use pytest.mark.parametrize for the tests of valid dates.\",\n      \"fix_hint\": \"Add a new requirement item for using pytest.mark.parametrize.\"\n    }\n  ]\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1698,
+      "latency_s": 1.1392,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 297,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

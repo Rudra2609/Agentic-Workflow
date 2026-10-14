@@ -1,0 +1,317 @@
+{
+  "format": 1,
+  "key": "50e0e0d91070abc9c5d5510700e003f0fc74fd55c257675b779c94bcef3d06cb",
+  "key_ingredients": {
+    "max_tokens": 4000,
+    "messages": [
+      {
+        "content": "You plan the work for one part of a course assignment or project. A team of AI agents will carry\nit out: a coding agent builds, a testing agent tests. Design, documentation and the final review are planned\nseparately, so do not add those steps.\n\nReturn JSON with \"steps\", \"research_questions\", \"not_plannable\" and \"open_questions\".\n\nEach step:\n- key: a short local name (\"b1\", \"b2\" for build steps, \"t1\", \"t2\" for test steps).\n- title: an imperative title of at most 8 words (\"Broadcast messages to all clients\").\n- description: one or two sentences on what to do.\n- phase: \"implement\" (build something) or \"test\" (check that it works).\n- requirement_ids: the ids of the requirements the step delivers or checks. Use only ids from the list.\n- acceptance_criteria: 1-4 concrete, checkable statements taken from the requirements, keeping their numbers\n  (\"at least 10 clients connected at the same time\").\n- effort_hours: a rough estimate for one student (0.5 to 16).\n- depends_on: keys of steps in your answer whose result this step needs (a test needs what it tests; the client\n  may need the server's protocol). Never depend on a later step in a circle.\n- group: a 1-3 word feature name shared by related steps (\"Messaging\").\n\nRules:\n- Every requirement id in the list must appear in at least one step, unless it is in not_plannable.\n- Use as few steps as the work needs: a build step covers 1-4 closely related requirements that one person would\n  build together; a test step checks one feature group (it may check several build steps).\n- Quality requirements (speed, robustness, usability) usually belong to test steps.\n- Writing tests, scripts or documents that a requirement asks for is a build step.\n- Dependencies: a step that uses, extends, tests or describes what another step makes depends on it (the command-line\n  interface needs the logic it calls; unit tests need the code they test; code implementing a model needs the model).\n- At most 12 steps. Never invent requirements, numbers, tools or extra features.\n- research_questions: 2-5 specific questions the team must answer before designing (techniques, libraries the\n  constraints allow, known pitfalls).\n- not_plannable: requirements an AI agent cannot carry out (a live demo, handing in on a portal), with a reason.\n- open_questions: anything unclear or contradictory (an empty list if nothing is).",
+        "role": "system"
+      },
+      {
+        "content": "Project kind: software.\nPart: Part C.\n\nRequirements:\nR7 [must, functional] Write integration tests for every endpoint of Part B. (section: Part C: Testing)\nR8 [should, functional] Tests should run in the CI pipeline. (section: Part C: Testing)",
+        "role": "user"
+      }
+    ],
+    "plugin": "planning",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "DraftStep": {
+          "properties": {
+            "acceptance_criteria": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Acceptance Criteria",
+              "type": "array"
+            },
+            "capability": {
+              "default": "",
+              "description": "optional; one of the allowed capabilities",
+              "title": "Capability",
+              "type": "string"
+            },
+            "depends_on": {
+              "description": "keys of steps in this answer",
+              "items": {
+                "type": "string"
+              },
+              "title": "Depends On",
+              "type": "array"
+            },
+            "description": {
+              "default": "",
+              "title": "Description",
+              "type": "string"
+            },
+            "effort_hours": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Effort Hours"
+            },
+            "group": {
+              "default": "",
+              "description": "a short feature name shared by related steps",
+              "title": "Group",
+              "type": "string"
+            },
+            "key": {
+              "description": "short local name, e.g. b1, t1",
+              "title": "Key",
+              "type": "string"
+            },
+            "phase": {
+              "default": "implement",
+              "enum": [
+                "implement",
+                "test"
+              ],
+              "title": "Phase",
+              "type": "string"
+            },
+            "requirement_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Requirement Ids",
+              "type": "array"
+            },
+            "title": {
+              "title": "Title",
+              "type": "string"
+            }
+          },
+          "required": [
+            "key",
+            "title"
+          ],
+          "title": "DraftStep",
+          "type": "object"
+        },
+        "NotPlannable": {
+          "properties": {
+            "reason": {
+              "default": "",
+              "title": "Reason",
+              "type": "string"
+            },
+            "requirement_id": {
+              "title": "Requirement Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "requirement_id"
+          ],
+          "title": "NotPlannable",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "not_plannable": {
+          "items": {
+            "$ref": "#/$defs/NotPlannable"
+          },
+          "title": "Not Plannable",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "research_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Research Questions",
+          "type": "array"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/DraftStep"
+          },
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "title": "DraftPlan",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "planning",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-13T08:22:00.131884+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "not_plannable": {
+          "items": {
+            "properties": {
+              "reason": {
+                "default": "",
+                "title": "Reason",
+                "type": "string"
+              },
+              "requirement_id": {
+                "title": "Requirement Id",
+                "type": "string"
+              }
+            },
+            "required": [
+              "requirement_id"
+            ],
+            "title": "NotPlannable",
+            "type": "object"
+          },
+          "title": "Not Plannable",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "research_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Research Questions",
+          "type": "array"
+        },
+        "steps": {
+          "items": {
+            "properties": {
+              "acceptance_criteria": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Acceptance Criteria",
+                "type": "array"
+              },
+              "capability": {
+                "default": "",
+                "description": "optional; one of the allowed capabilities",
+                "title": "Capability",
+                "type": "string"
+              },
+              "depends_on": {
+                "description": "keys of steps in this answer",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Depends On",
+                "type": "array"
+              },
+              "description": {
+                "default": "",
+                "title": "Description",
+                "type": "string"
+              },
+              "effort_hours": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Effort Hours"
+              },
+              "group": {
+                "default": "",
+                "description": "a short feature name shared by related steps",
+                "title": "Group",
+                "type": "string"
+              },
+              "key": {
+                "description": "short local name, e.g. b1, t1",
+                "title": "Key",
+                "type": "string"
+              },
+              "phase": {
+                "default": "implement",
+                "enum": [
+                  "implement",
+                  "test"
+                ],
+                "title": "Phase",
+                "type": "string"
+              },
+              "requirement_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Requirement Ids",
+                "type": "array"
+              },
+              "title": {
+                "title": "Title",
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "title"
+            ],
+            "title": "DraftStep",
+            "type": "object"
+          },
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "title": "DraftPlan",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You plan the work for one part of a course assignment or project. A team of AI agents will carry\nit out: a coding agent builds, a testing agent tests. Design, documentation and the final review are planned\nseparately, so do not add those steps.\n\nReturn JSON with \"steps\", \"research_questions\", \"not_plannable\" and \"open_questions\".\n\nEach step:\n- key: a short local name (\"b1\", \"b2\" for build steps, \"t1\", \"t2\" for test steps).\n- title: an imperative title of at most 8 words (\"Broadcast messages to all clients\").\n- description: one or two sentences on what to do.\n- phase: \"implement\" (build something) or \"test\" (check that it works).\n- requirement_ids: the ids of the requirements the step delivers or checks. Use only ids from the list.\n- acceptance_criteria: 1-4 concrete, checkable statements taken from the requirements, keeping their numbers\n  (\"at least 10 clients connected at the same time\").\n- effort_hours: a rough estimate for one student (0.5 to 16).\n- depends_on: keys of steps in your answer whose result this step needs (a test needs what it tests; the client\n  may need the server's protocol). Never depend on a later step in a circle.\n- group: a 1-3 word feature name shared by related steps (\"Messaging\").\n\nRules:\n- Every requirement id in the list must appear in at least one step, unless it is in not_plannable.\n- Use as few steps as the work needs: a build step covers 1-4 closely related requirements that one person would\n  build together; a test step checks one feature group (it may check several build steps).\n- Quality requirements (speed, robustness, usability) usually belong to test steps.\n- Writing tests, scripts or documents that a requirement asks for is a build step.\n- Dependencies: a step that uses, extends, tests or describes what another step makes depends on it (the command-line\n  interface needs the logic it calls; unit tests need the code they test; code implementing a model needs the model).\n- At most 12 steps. Never invent requirements, numbers, tools or extra features.\n- research_questions: 2-5 specific questions the team must answer before designing (techniques, libraries the\n  constraints allow, known pitfalls).\n- not_plannable: requirements an AI agent cannot carry out (a live demo, handing in on a portal), with a reason.\n- open_questions: anything unclear or contradictory (an empty list if nothing is).",
+        "role": "system"
+      },
+      {
+        "content": "Project kind: software.\nPart: Part C.\n\nRequirements:\nR7 [must, functional] Write integration tests for every endpoint of Part B. (section: Part C: Testing)\nR8 [should, functional] Tests should run in the CI pipeline. (section: Part C: Testing)",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 4000,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"steps\": [\n    {\n      \"key\": \"t1\",\n      \"title\": \"Write integration tests for all endpoints\",\n      \"description\": \"Create integration test cases that exercise every API endpoint defined in Part B.\",\n      \"phase\": \"test\",\n      \"requirement_ids\": [\"R7\"],\n      \"acceptance_criteria\": [\"R7: Write integration tests for every endpoint of Part B.\"],\n      \"effort_hours\": 6,\n      \"depends_on\": [],\n      \"group\": \"Testing\"\n    },\n    {\n      \"key\": \"t2\",\n      \"title\": \"Configure CI pipeline to run tests\",\n      \"description\": \"Add the test suite to the continuous integration workflow so it executes on each commit.\",\n      \"phase\": \"test\",\n      \"requirement_ids\": [\"R8\"],\n      \"acceptance_criteria\": [\"R8: Tests should run in the CI pipeline.\"],\n      \"effort_hours\": 4,\n      \"depends_on\": [\"t1\"],\n      \"group\": \"Testing\"\n    }\n  ],\n  \"research_questions\": [\n    \"Which test framework (e.g., pytest, unittest) is supported by the project’s existing dependencies?\",\n    \"What CI platform (GitHub Actions, GitLab CI, etc.) is available for the repository?\"\n  ],\n  \"not_plannable\": [],\n  \"open_questions\": []\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1219,
+      "latency_s": 1.6149,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 408,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

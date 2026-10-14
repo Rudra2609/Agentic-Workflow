@@ -1,0 +1,50 @@
+# hmap alert rules (Sprint 4 item 4.19). Shown in Prometheus (http://127.0.0.1:9090/alerts) and on the Grafana
+# dashboard; no Alertmanager (plan D14: fewest containers). What each alert means and what to do:
+# docs/members/4/runbook.md.
+groups:
+  - name: hmap
+    rules:
+      - alert: HmapDeadLetter
+        expr: max(hmap_dead_lettered_tasks) > 0
+        for: 0s
+        labels: {severity: warning}
+        annotations:
+          summary: "{{ $value }} task(s) ran out of retries and wait for an operator"
+          runbook: "docs/members/4/runbook.md#hmapdeadletter"
+      - alert: HmapBusDeadLetters
+        expr: max(hmap_bus_dlq_messages) > 0
+        for: 0s
+        labels: {severity: warning}
+        annotations:
+          summary: "{{ $value }} message(s) in the bus dead-letter queue (hmap.dlq)"
+          runbook: "docs/members/4/runbook.md#hmapbusdeadletters"
+      - alert: HmapAgentHeartbeatExpired
+        expr: max by (agent_id, agent) (hmap_agent_heartbeat_age_seconds) > 30
+        for: 0s
+        labels: {severity: critical}
+        annotations:
+          summary: "agent {{ $labels.agent_id }} sent no heartbeat for {{ $value | humanizeDuration }} (lease 30 s)"
+          runbook: "docs/members/4/runbook.md#hmapagentheartbeatexpired"
+      - alert: HmapQueueStale
+        expr: max by (capability) (hmap_queue_oldest_ready_seconds) > 60
+        for: 2m
+        labels: {severity: warning}
+        annotations:
+          summary: "{{ $labels.capability }} work has waited {{ $value | humanizeDuration }} for an agent"
+          runbook: "docs/members/4/runbook.md#hmapqueuestale"
+      - alert: HmapLLMErrors
+        expr: >
+          sum(rate(hmap_llm_calls_total{outcome="error"}[5m]))
+          / clamp_min(sum(rate(hmap_llm_calls_total[5m])), 1e-9) > 0.2
+        for: 2m
+        labels: {severity: warning}
+        annotations:
+          summary: "more than 20 % of model calls fail"
+          runbook: "docs/members/4/runbook.md#hmapllmerrors"
+      - alert: HmapLowMemory
+        expr: min(hmap_system_memory_available_bytes) < 1.5e9
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: "only {{ $value | humanize1024 }}B of RAM left on this computer"
+          runbook: "docs/members/4/runbook.md#hmaplowmemory"

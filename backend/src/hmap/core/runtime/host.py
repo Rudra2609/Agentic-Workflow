@@ -30,7 +30,7 @@ from hmap.core.errors import ErrorCode, HmapError
 from hmap.core.llm.base import LLMClient
 from hmap.core.plugins import Plugin
 from hmap.core.runtime.discovery import agents_to_run, capability_table, discover_all
-from hmap.core.runtime.worker import AgentWorker
+from hmap.core.runtime.worker import AgentWorker, Refiner
 from hmap.core.tracing import configure_logging, get_logger
 from hmap.services.artifact.base import ArtifactStore
 from hmap.services.context.base import ContextStore
@@ -163,10 +163,11 @@ class AgentHost:
     workers: list[AgentWorker] = field(default_factory=list)
 
     def build_workers(self) -> list[AgentWorker]:
+        refiners = resolve_refiners(self.plugins)
         self.workers = [
             AgentWorker(agent_cls(), self.deps.bus, llm_for_plugin(self.deps.llm, plugin.name), self.deps.artifacts,
                         self.deps.contexts, self.deps.inbox, heartbeat_s=self.heartbeat_s, capabilities=caps,
-                        plugin=plugin.name, drain_timeout_s=self.drain_timeout_s)
+                        plugin=plugin.name, drain_timeout_s=self.drain_timeout_s, refiners=refiners)
             for plugin, agent_cls, caps in agents_to_run(self.plugins)
         ]
         return self.workers
@@ -186,6 +187,18 @@ class AgentHost:
         if self.deps.owns_bus:
             with contextlib.suppress(Exception):
                 await self.deps.bus.close()
+
+
+def resolve_refiners(plugins: Sequence[Plugin]) -> dict[str, Refiner]:
+    """capability -> the refine adapter of the highest-priority plug-in that registered one (``Plugin.refiners``,
+    Sprint 4 plan D1). Plug-ins disabled by ``HMAP_PLUGINS`` are not in ``plugins``, so their adapters are off."""
+    out: dict[str, tuple[int, Refiner]] = {}
+    for plugin in plugins:
+        for capability, adapter in plugin.refiners.items():
+            current = out.get(capability)
+            if current is None or plugin.priority > current[0]:
+                out[capability] = (plugin.priority, Refiner(plugin=plugin.name, adapter=adapter))
+    return {cap: refiner for cap, (_, refiner) in out.items()}
 
 
 def build_deps(settings: Settings) -> HostDeps:
@@ -269,11 +282,19 @@ def main(argv: Sequence[str] | None = None) -> int:
         return cmd_list(settings, as_json=args.json)
     if settings.bus == "memory":
         _log.warning("HMAP_BUS=memory: agents only see a Manager in this same process; use rabbitmq across processes")
+    from hmap import obs
+
+    obs.configure(service_name="hmap-agents", endpoint=settings.otel_endpoint or "")
+    obs.metrics.set_process_name("hmap-agents")
+    if settings.metrics_port:
+        obs.metrics.serve(settings.metrics_port)
     try:
         asyncio.run(run_agents(settings, only=args.only, heartbeat_s=args.heartbeat_s))
     except HmapError as exc:
         print(f"hmap-agents: {exc}", file=sys.stderr)
         return 2
+    finally:
+        obs.shutdown()
     return 0
 
 

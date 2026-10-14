@@ -9,7 +9,7 @@ import re
 from typing import Annotated, Any
 from urllib.parse import quote
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, Response, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, Request, Response, UploadFile, status
 from pydantic import BaseModel, Field
 
 from hmap.api.deps import CurrentSession, get_manager
@@ -43,12 +43,16 @@ class ProjectIn(BaseModel):
                              description="what the user wants done, in plain words; starts the first run")
     auto_approve: bool = Field(default=False, description="show the plan, then continue without a human approval")
     cloud_ok: bool = Field(default=True, description="false keeps the project on this computer (no cloud models)")
+    refine: bool | None = Field(default=None, description="check and improve each result before it is used (slower); "
+                                                          "default: HMAP_REFINE_DEFAULT")
 
 
 class ProjectPatch(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=200)
     archived: bool | None = None
     cloud_ok: bool | None = Field(default=None, description="applies to steps that start after the change")
+    refine: bool | None = Field(default=None, description="check and improve results; applies to steps that start "
+                                                          "after the change")
 
 
 class RunIn(BaseModel):
@@ -62,6 +66,8 @@ class StopIn(BaseModel):
 class ApprovalIn(BaseModel):
     approved: bool
     comment: str | None = Field(default=None, max_length=2000)
+    graph_version: int | None = Field(default=None, ge=1,
+                                      description="the plan version being decided; a replaced one gets 409")
 
 
 class TaskIn(BaseModel):
@@ -130,10 +136,12 @@ async def _project_view(m: Manager, project_id: str) -> dict[str, Any]:
 
 
 @router.post("/projects", status_code=status.HTTP_201_CREATED)
-async def create_project(body: ProjectIn, info: CurrentSession, m: ManagerDep) -> dict[str, Any]:
+async def create_project(body: ProjectIn, info: CurrentSession, m: ManagerDep, request: Request) -> dict[str, Any]:
     goal = body.goal.strip() if body.goal else None
+    refine = body.refine if body.refine is not None else bool(getattr(request.app.state.settings, "refine_default",
+                                                                      False))
     pid = await m.create_project(body.name.strip(), auto_approve=body.auto_approve, owner_id=info.user.user_id,
-                                 description=goal, cloud_ok=body.cloud_ok)
+                                 description=goal, cloud_ok=body.cloud_ok, refine=refine)
     if goal:
         await _start_text_run(m, pid, goal)
     return await _project_view(m, pid)
@@ -184,7 +192,7 @@ async def get_project(project_id: str, info: CurrentSession, m: ManagerDep) -> d
 async def update_project(project_id: str, body: ProjectPatch, info: CurrentSession, m: ManagerDep) -> dict[str, Any]:
     await owned_project(project_id, info, m)
     await m.update_project(project_id, name=body.name.strip() if body.name else None, archived=body.archived,
-                           cloud_ok=body.cloud_ok)
+                           cloud_ok=body.cloud_ok, refine=body.refine)
     return await _project_view(m, project_id)
 
 
@@ -324,7 +332,7 @@ async def decide_approval(project_id: str, body: ApprovalIn, info: CurrentSessio
     """Human-in-the-loop gate: approve or reject the submitted plan."""
     await owned_project(project_id, info, m)
     try:
-        await m.approve(project_id, body.approved, body.comment)
+        await m.approve(project_id, body.approved, body.comment, graph_version=body.graph_version)
     except InvalidProjectState as exc:
         raise _conflict(exc) from None
     return await _project_view(m, project_id)

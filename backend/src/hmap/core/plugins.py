@@ -7,6 +7,7 @@ with a module-level ``PLUGIN = Plugin(...)``. Discovery imports them; nobody edi
         router=router,                         # FastAPI APIRouter, mounted at /api/<name>
         manager_hooks=[on_document_uploaded],  # functions decorated with @hook(...)
         provides={"executor": None, "recovery": None, "llm_provider": None},
+        refiners={"document.extract": adapter},  # Sprint 4: check-and-improve hook (see ``RefineAdapter``)
         priority=100,                          # stubs use 0: a real plug-in for a capability wins
     )
 """
@@ -18,7 +19,8 @@ from typing import TYPE_CHECKING, Any, Protocol
 from hmap.core.contracts import ArtifactRef, DomainEvent, TaskGraph
 
 if TYPE_CHECKING:
-    from hmap.core.runtime.base import BaseAgent
+    from hmap.core.contracts import TaskAssign, TaskResult
+    from hmap.core.runtime.base import AgentContext, BaseAgent
     from hmap.services.artifact.base import ArtifactStore
     from hmap.services.context.base import ContextStore
 
@@ -46,6 +48,11 @@ class ManagerHandle(Protocol):
     async def submit_graph(self, project_id: str, graph: TaskGraph, *, require_approval: bool = True) -> None:
         """Hand a TaskGraph to the executor; with approval required the project waits in AWAITING_APPROVAL."""
 
+    async def replace_graph(self, project_id: str, graph: TaskGraph, *,
+                            require_approval: bool = True) -> dict[str, str]:
+        """Replan (Sprint 3): swap the current plan for a newer version, keeping completed / running plan tasks
+        whose ids are still in ``graph``; returns plan task id -> task id."""
+
     async def emit(self, event: DomainEvent) -> None:
         """Publish a domain event through the outbox."""
 
@@ -53,6 +60,20 @@ class ManagerHandle(Protocol):
 
 
 HookFn = Callable[[DomainEvent, ManagerHandle], Awaitable[None]]
+
+
+class RefineAdapter(Protocol):
+    """Refinement hook for an existing capability (Sprint 4, plan D1). When a task arrives with ``refine=true`` (a
+    project setting the Manager copies into ``TaskAssign.refine``), the agent runtime calls the adapter registered
+    for the task's capability with the agent's successful result, *before* the result is reported. The adapter
+    returns the result to report: the same one, or a new one with improved artifacts. The agent's own code is not
+    involved, so an owner's plug-in never has to change for its output to be checked and improved.
+
+    ``ctx`` is the task's context, but its ``llm`` is bound to the adapter's plug-in (its own replay cache). An
+    exception in the adapter is logged and the original result is reported unchanged (refinement never breaks the
+    base behaviour); :class:`~hmap.core.errors.Cancelled` is propagated."""
+
+    async def __call__(self, task: "TaskAssign", result: "TaskResult", ctx: "AgentContext") -> "TaskResult": ...
 
 
 @dataclass(frozen=True)
@@ -75,6 +96,7 @@ class Plugin:
     router: Any | None = None
     manager_hooks: list[Hook] = field(default_factory=list)
     provides: dict[str, Any] = field(default_factory=dict)
+    refiners: dict[str, RefineAdapter] = field(default_factory=dict)  # capability -> adapter (Sprint 4)
     priority: int = 100
     description: str = ""
 

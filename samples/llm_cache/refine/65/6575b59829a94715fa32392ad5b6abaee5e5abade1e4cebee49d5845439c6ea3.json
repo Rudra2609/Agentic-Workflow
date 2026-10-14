@@ -1,0 +1,275 @@
+{
+  "format": 1,
+  "key": "6575b59829a94715fa32392ad5b6abaee5e5abade1e4cebee49d5845439c6ea3",
+  "key_ingredients": {
+    "max_tokens": 2000,
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a list of requirements, constraints and deliverables extracted from course or project documents against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: the item id (R3, C1, D2); for a missing item the list it belongs in: requirements, constraints or deliverables; it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- E1: Completeness: is every requirement, constraint and deliverable that the document states listed? For each missing one, quote its exact sentence from the document as evidence.\n- E2: Faithfulness: is every listed item actually required by the document (not invented, not background, not a reading instruction)?\n- E3: Kind: requirement = what the solution or the work must do or be; constraint = a limit on how or with what (language, library, team size, deadline, page limit); deliverable = what to hand in. Is each item the right kind?\n- E4: Priority: must (must, shall, required, a plain instruction), should (should, recommended), could (may, optional, extra credit). Is each requirement's priority right?\n\nConventions (the same as the extractor's): one item per sentence or list item; setup steps that are not marked or checked (install a tool, clone a repository, create an environment), background, motivation and reading instructions are NOT items; a sentence ending with ':' that introduces a list is not an item, the list items under it are. Marking tables and their criteria (E ids) are checked by code: do not report them.\n\nMaterial:\n=== Document: Part A/part_a.pdf\n## Part A: Database Design\n- Draw an ER diagram for the hostel booking system.\n- The schema must be in third normal form.\n- Submit the diagram as a PDF.\n| Criterion | Marks |\n|---|---|\n| ER diagram | 10 |\n| Normalisation | 5 |\nTotal: 15 marks\n\n=== Document: Part B/part_b.docx\n## Part B: REST API\n- Implement endpoints to create, list and cancel bookings.\n- Every endpoint must return JSON and proper HTTP status codes.\n- Protect the endpoints with token authentication.\n- Use the schema from Part A.\n| Criterion | Marks |\n|---|---|\n| Endpoints | 15 |\n| Authentication | 5 |\nTotal: 20 marks\n\n=== Document: Part C/part_c.md\n## Part C: Testing\n- Write integration tests for every endpoint of Part B.\n- Tests should run in the CI pipeline.\n- Submit the test report as a PDF.\n| Criterion | Marks |\n|---|---|\n| Integration tests | 10 |\n| CI pipeline | 5 |\nTotal: 15 marks\n\n=== Extracted items\nR1 [requirement, must, functional] Draw an ER diagram for the hostel booking system. | quote: \"Draw an ER diagram for the hostel booking system.\"\nR2 [requirement, must, functional] The schema must be in third normal form. | quote: \"The schema must be in third normal form.\"\nR3 [requirement, must, functional] Implement endpoints to create, list and cancel bookings. | quote: \"Implement endpoints to create, list and cancel bookings.\"\nR4 [requirement, must, functional] Every endpoint must return JSON and proper HTTP status codes. | quote: \"Every endpoint must return JSON and proper HTTP status codes.\"\nR5 [requirement, must, functional] Protect the endpoints with token authentication. | quote: \"Protect the endpoints with token authentication.\"\nR6 [requirement, must, functional] Write integration tests for every endpoint of Part B. | quote: \"Write integration tests for every endpoint of Part B.\"\nR7 [requirement, should, functional] Tests should run in the CI pipeline. | quote: \"Tests should run in the CI pipeline.\"\nC1 [constraint, other] Use the schema from Part A. | quote: \"Use the schema from Part A.\"\nD1 [deliverable] Submit the diagram as a PDF. | quote: \"Submit the diagram as a PDF.\"\nD2 [deliverable] Submit the test report as a PDF. | quote: \"Submit the test report as a PDF.\"",
+        "role": "user"
+      }
+    ],
+    "plugin": "refine",
+    "role": "judge",
+    "schema": {
+      "$defs": {
+        "CriterionScore": {
+          "properties": {
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material that supports the score",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "score": {
+              "description": "1 = fails the criterion, 5 = fully meets it",
+              "maximum": 5,
+              "minimum": 1,
+              "title": "Score",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "score"
+          ],
+          "title": "CriterionScore",
+          "type": "object"
+        },
+        "RubricIssue": {
+          "properties": {
+            "category": {
+              "default": "REQUIREMENT_VIOLATION",
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Category",
+              "type": "string"
+            },
+            "criterion": {
+              "default": "",
+              "title": "Criterion",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "fix_hint": {
+              "default": "",
+              "description": "what to change",
+              "title": "Fix Hint",
+              "type": "string"
+            },
+            "location": {
+              "default": "",
+              "description": "where: an id or path that appears in the material",
+              "title": "Location",
+              "type": "string"
+            },
+            "severity": {
+              "default": "major",
+              "enum": [
+                "minor",
+                "major",
+                "critical"
+              ],
+              "title": "Severity",
+              "type": "string"
+            }
+          },
+          "required": [
+            "description"
+          ],
+          "title": "RubricIssue",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CriterionScore"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/RubricIssue"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "refine",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-14T05:25:25.071904+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "criteria": {
+          "items": {
+            "properties": {
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material that supports the score",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "score": {
+                "description": "1 = fails the criterion, 5 = fully meets it",
+                "maximum": 5,
+                "minimum": 1,
+                "title": "Score",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id",
+              "score"
+            ],
+            "title": "CriterionScore",
+            "type": "object"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "properties": {
+              "category": {
+                "default": "REQUIREMENT_VIOLATION",
+                "enum": [
+                  "FORMAT",
+                  "SCHEMA",
+                  "OMISSION",
+                  "HALLUCINATION",
+                  "FACTUAL",
+                  "LOGIC",
+                  "REQUIREMENT_VIOLATION",
+                  "CONSISTENCY",
+                  "STYLE",
+                  "SAFETY"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "criterion": {
+                "default": "",
+                "title": "Criterion",
+                "type": "string"
+              },
+              "description": {
+                "title": "Description",
+                "type": "string"
+              },
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "fix_hint": {
+                "default": "",
+                "description": "what to change",
+                "title": "Fix Hint",
+                "type": "string"
+              },
+              "location": {
+                "default": "",
+                "description": "where: an id or path that appears in the material",
+                "title": "Location",
+                "type": "string"
+              },
+              "severity": {
+                "default": "major",
+                "enum": [
+                  "minor",
+                  "major",
+                  "critical"
+                ],
+                "title": "Severity",
+                "type": "string"
+              }
+            },
+            "required": [
+              "description"
+            ],
+            "title": "RubricIssue",
+            "type": "object"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a list of requirements, constraints and deliverables extracted from course or project documents against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: the item id (R3, C1, D2); for a missing item the list it belongs in: requirements, constraints or deliverables; it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- E1: Completeness: is every requirement, constraint and deliverable that the document states listed? For each missing one, quote its exact sentence from the document as evidence.\n- E2: Faithfulness: is every listed item actually required by the document (not invented, not background, not a reading instruction)?\n- E3: Kind: requirement = what the solution or the work must do or be; constraint = a limit on how or with what (language, library, team size, deadline, page limit); deliverable = what to hand in. Is each item the right kind?\n- E4: Priority: must (must, shall, required, a plain instruction), should (should, recommended), could (may, optional, extra credit). Is each requirement's priority right?\n\nConventions (the same as the extractor's): one item per sentence or list item; setup steps that are not marked or checked (install a tool, clone a repository, create an environment), background, motivation and reading instructions are NOT items; a sentence ending with ':' that introduces a list is not an item, the list items under it are. Marking tables and their criteria (E ids) are checked by code: do not report them.\n\nMaterial:\n=== Document: Part A/part_a.pdf\n## Part A: Database Design\n- Draw an ER diagram for the hostel booking system.\n- The schema must be in third normal form.\n- Submit the diagram as a PDF.\n| Criterion | Marks |\n|---|---|\n| ER diagram | 10 |\n| Normalisation | 5 |\nTotal: 15 marks\n\n=== Document: Part B/part_b.docx\n## Part B: REST API\n- Implement endpoints to create, list and cancel bookings.\n- Every endpoint must return JSON and proper HTTP status codes.\n- Protect the endpoints with token authentication.\n- Use the schema from Part A.\n| Criterion | Marks |\n|---|---|\n| Endpoints | 15 |\n| Authentication | 5 |\nTotal: 20 marks\n\n=== Document: Part C/part_c.md\n## Part C: Testing\n- Write integration tests for every endpoint of Part B.\n- Tests should run in the CI pipeline.\n- Submit the test report as a PDF.\n| Criterion | Marks |\n|---|---|\n| Integration tests | 10 |\n| CI pipeline | 5 |\nTotal: 15 marks\n\n=== Extracted items\nR1 [requirement, must, functional] Draw an ER diagram for the hostel booking system. | quote: \"Draw an ER diagram for the hostel booking system.\"\nR2 [requirement, must, functional] The schema must be in third normal form. | quote: \"The schema must be in third normal form.\"\nR3 [requirement, must, functional] Implement endpoints to create, list and cancel bookings. | quote: \"Implement endpoints to create, list and cancel bookings.\"\nR4 [requirement, must, functional] Every endpoint must return JSON and proper HTTP status codes. | quote: \"Every endpoint must return JSON and proper HTTP status codes.\"\nR5 [requirement, must, functional] Protect the endpoints with token authentication. | quote: \"Protect the endpoints with token authentication.\"\nR6 [requirement, must, functional] Write integration tests for every endpoint of Part B. | quote: \"Write integration tests for every endpoint of Part B.\"\nR7 [requirement, should, functional] Tests should run in the CI pipeline. | quote: \"Tests should run in the CI pipeline.\"\nC1 [constraint, other] Use the schema from Part A. | quote: \"Use the schema from Part A.\"\nD1 [deliverable] Submit the diagram as a PDF. | quote: \"Submit the diagram as a PDF.\"\nD2 [deliverable] Submit the test report as a PDF. | quote: \"Submit the test report as a PDF.\"",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 2000,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"criteria\": [\n    {\n      \"id\": \"E1\",\n      \"score\": 5,\n      \"evidence\": \"All actionable sentences from the documents are present: 'Draw an ER diagram...', 'The schema must be in third normal form.', 'Implement endpoints...', 'Every endpoint must return JSON...', 'Protect the endpoints...', 'Use the schema from Part A.', 'Write integration tests...', 'Tests should run in the CI pipeline.', 'Submit the diagram as a PDF.', 'Submit the test report as a PDF.'\"\n    },\n    {\n      \"id\": \"E2\",\n      \"score\": 5,\n      \"evidence\": \"Every listed item corresponds directly to a sentence in the provided documents. No background, motivation, or reading instructions are included.\"\n    },\n    {\n      \"id\": \"E3\",\n      \"score\": 5,\n      \"evidence\": \"Items describing actions to perform (Draw, Implement, Protect, Write) are requirements. 'Use the schema from Part A' is a constraint on the implementation. 'Submit... as a PDF' items are deliverables.\"\n    },\n    {\n      \"id\": \"E4\",\n      \"score\": 5,\n      \"evidence\": \"Items with 'must' or plain imperative instructions (Draw, Implement, Protect, Write) are marked 'must'. The item with 'should' ('Tests should run...') is marked 'should'.\"\n    }\n  ],\n  \"issues\": []\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1570,
+      "latency_s": 0.969,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 328,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

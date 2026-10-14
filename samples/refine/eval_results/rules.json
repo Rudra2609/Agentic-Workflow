@@ -1,0 +1,2482 @@
+{
+ "producer": "rules",
+ "mode": "replay",
+ "refine_local": false,
+ "extraction": {
+  "summary": {
+   "base": {
+    "f1": {
+     "requirements": 0.959,
+     "constraints": 0.842,
+     "deliverables": 0.941,
+     "evaluation_criteria": 0.985
+    },
+    "precision": {
+     "requirements": 1.0,
+     "constraints": 0.762,
+     "deliverables": 0.941,
+     "evaluation_criteria": 1.0
+    },
+    "recall": {
+     "requirements": 0.921,
+     "constraints": 0.941,
+     "deliverables": 0.941,
+     "evaluation_criteria": 0.971
+    },
+    "priority_accuracy": 1.0
+   },
+   "self_refine": {
+    "f1": {
+     "requirements": 0.976,
+     "constraints": 0.889,
+     "deliverables": 0.941,
+     "evaluation_criteria": 0.985
+    },
+    "precision": {
+     "requirements": 1.0,
+     "constraints": 0.842,
+     "deliverables": 0.941,
+     "evaluation_criteria": 1.0
+    },
+    "recall": {
+     "requirements": 0.952,
+     "constraints": 0.941,
+     "deliverables": 0.941,
+     "evaluation_criteria": 0.971
+    },
+    "priority_accuracy": 0.983,
+    "loop": {
+     "cases": 10,
+     "iterations_mean": 0.4,
+     "tokens_total": 33371,
+     "tokens_mean": 3337,
+     "calls_total": 16,
+     "seconds_total": 0.1,
+     "seconds_median": 0.0,
+     "stop_reasons": {
+      "threshold": 9,
+      "plateau": 1
+     },
+     "improved": 2,
+     "score_base_mean": 0.944,
+     "score_best_mean": 0.975,
+     "judge": {
+      "omission_right": 2,
+      "omission_wrong": 0,
+      "drop_right": 3,
+      "drop_wrong": 0,
+      "other": 0,
+      "both": 0,
+      "programmatic_only": 1,
+      "judge_only": 4
+     },
+     "strategies": {
+      "targeted": 4
+     },
+     "errors": []
+    }
+   },
+   "reflexion": {
+    "f1": {
+     "requirements": 0.976,
+     "constraints": 0.889,
+     "deliverables": 0.941,
+     "evaluation_criteria": 0.985
+    },
+    "precision": {
+     "requirements": 1.0,
+     "constraints": 0.842,
+     "deliverables": 0.941,
+     "evaluation_criteria": 1.0
+    },
+    "recall": {
+     "requirements": 0.952,
+     "constraints": 0.941,
+     "deliverables": 0.941,
+     "evaluation_criteria": 0.971
+    },
+    "priority_accuracy": 0.983,
+    "loop": {
+     "cases": 10,
+     "iterations_mean": 0.5,
+     "tokens_total": 42383,
+     "tokens_mean": 4238,
+     "calls_total": 23,
+     "seconds_total": 0.1,
+     "seconds_median": 0.0,
+     "stop_reasons": {
+      "threshold": 9,
+      "plateau": 1
+     },
+     "improved": 2,
+     "score_base_mean": 0.944,
+     "score_best_mean": 0.975,
+     "judge": {
+      "omission_right": 2,
+      "omission_wrong": 0,
+      "drop_right": 3,
+      "drop_wrong": 0,
+      "other": 0,
+      "both": 0,
+      "programmatic_only": 1,
+      "judge_only": 4
+     },
+     "strategies": {
+      "targeted": 3,
+      "full": 2
+     },
+     "errors": []
+    }
+   }
+  },
+  "cases": {
+   "g01_tcp_chat": {
+    "base": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 0.857,
+      "deliverables": 0.857,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       8,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       1
+      ],
+      "deliverables": [
+       3,
+       1,
+       0
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "8/8",
+     "misses": [
+      "constraints: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "extras": [
+      "deliverables: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ]
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 0.857,
+      "deliverables": 0.857,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       8,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       1
+      ],
+      "deliverables": [
+       3,
+       1,
+       0
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "8/8",
+     "misses": [
+      "constraints: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "extras": [
+      "deliverables: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.02,
+      "iterations": 0,
+      "tokens": 2233,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 0.857,
+      "deliverables": 0.857,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       8,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       1
+      ],
+      "deliverables": [
+       3,
+       1,
+       0
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "8/8",
+     "misses": [
+      "constraints: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "extras": [
+      "deliverables: Submit everything on the course portal before 23:59 on Friday of week 6."
+     ],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 2233,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "g02_lab_manual": {
+    "base": {
+     "f1": {
+      "requirements": 0.909,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       5,
+       0,
+       1
+      ],
+      "constraints": [
+       3,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       4,
+       0,
+       0
+      ]
+     },
+     "priority": "5/5",
+     "misses": [
+      "requirements: Use pytest.mark.parametrize for the tests of valid dates."
+     ],
+     "extras": []
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       6,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       4,
+       0,
+       0
+      ]
+     },
+     "priority": "5/6",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.01,
+      "iterations": 1,
+      "tokens": 5700,
+      "calls": 3,
+      "stop": "threshold",
+      "base_score": 0.85,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 1,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 1
+      },
+      "errors": [],
+      "strategies": [
+       "targeted"
+      ]
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       6,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       4,
+       0,
+       0
+      ]
+     },
+     "priority": "5/6",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.01,
+      "iterations": 1,
+      "tokens": 6158,
+      "calls": 4,
+      "stop": "threshold",
+      "base_score": 0.85,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 1,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 1
+      },
+      "errors": [],
+      "strategies": [
+       "targeted"
+      ]
+     }
+    }
+   },
+   "g03_rubric": {
+    "base": {
+     "f1": {
+      "requirements": 0.0,
+      "constraints": 0.5,
+      "deliverables": 0.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       0,
+       0,
+       1
+      ],
+      "constraints": [
+       1,
+       2,
+       0
+      ],
+      "deliverables": [
+       0,
+       0,
+       1
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "0/0",
+     "misses": [
+      "requirements: Every team member must present part of the demo.",
+      "deliverables: The design document must be submitted as a single PDF file."
+     ],
+     "extras": [
+      "constraints: The design document must be submitted as a single PDF file.",
+      "constraints: Every team member must present part of the demo."
+     ]
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 0.0,
+      "constraints": 0.5,
+      "deliverables": 0.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       0,
+       0,
+       1
+      ],
+      "constraints": [
+       1,
+       2,
+       0
+      ],
+      "deliverables": [
+       0,
+       0,
+       1
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "0/0",
+     "misses": [
+      "requirements: Every team member must present part of the demo.",
+      "deliverables: The design document must be submitted as a single PDF file."
+     ],
+     "extras": [
+      "constraints: The design document must be submitted as a single PDF file.",
+      "constraints: Every team member must present part of the demo."
+     ],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1632,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 0.0,
+      "constraints": 0.5,
+      "deliverables": 0.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       0,
+       0,
+       1
+      ],
+      "constraints": [
+       1,
+       2,
+       0
+      ],
+      "deliverables": [
+       0,
+       0,
+       1
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "0/0",
+     "misses": [
+      "requirements: Every team member must present part of the demo.",
+      "deliverables: The design document must be submitted as a single PDF file."
+     ],
+     "extras": [
+      "constraints: The design document must be submitted as a single PDF file.",
+      "constraints: Every team member must present part of the demo."
+     ],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1632,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "g04_scanned": {
+    "base": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 0.857
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       6,
+       0,
+       0
+      ],
+      "constraints": [
+       2,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       3,
+       0,
+       1
+      ]
+     },
+     "priority": "6/6",
+     "misses": [
+      "evaluation_criteria: User guide"
+     ],
+     "extras": []
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 0.857
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       6,
+       0,
+       0
+      ],
+      "constraints": [
+       2,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       3,
+       0,
+       1
+      ]
+     },
+     "priority": "6/6",
+     "misses": [
+      "evaluation_criteria: User guide"
+     ],
+     "extras": [],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.01,
+      "iterations": 2,
+      "tokens": 5062,
+      "calls": 3,
+      "stop": "plateau",
+      "base_score": 0.75,
+      "best_score": 0.75,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 1,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": [
+       "targeted",
+       "targeted"
+      ]
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 0.857
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       6,
+       0,
+       0
+      ],
+      "constraints": [
+       2,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       3,
+       0,
+       1
+      ]
+     },
+     "priority": "6/6",
+     "misses": [
+      "evaluation_criteria: User guide"
+     ],
+     "extras": [],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.01,
+      "iterations": 2,
+      "tokens": 6211,
+      "calls": 5,
+      "stop": "plateau",
+      "base_score": 0.75,
+      "best_score": 0.75,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 1,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": [
+       "targeted",
+       "full"
+      ]
+     }
+    }
+   },
+   "g05_photo": {
+    "base": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       3,
+       0,
+       0
+      ],
+      "constraints": [
+       0,
+       0,
+       0
+      ],
+      "deliverables": [
+       1,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       0,
+       0,
+       0
+      ]
+     },
+     "priority": "3/3",
+     "misses": [],
+     "extras": []
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       3,
+       0,
+       0
+      ],
+      "constraints": [
+       0,
+       0,
+       0
+      ],
+      "deliverables": [
+       1,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       0,
+       0,
+       0
+      ]
+     },
+     "priority": "3/3",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1397,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       3,
+       0,
+       0
+      ],
+      "constraints": [
+       0,
+       0,
+       0
+      ],
+      "deliverables": [
+       1,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       0,
+       0,
+       0
+      ]
+     },
+     "priority": "3/3",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1397,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "g06_project_brief": {
+    "base": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       9,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       0
+      ],
+      "deliverables": [
+       3,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       0,
+       0,
+       0
+      ]
+     },
+     "priority": "9/9",
+     "misses": [],
+     "extras": []
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       9,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       0
+      ],
+      "deliverables": [
+       3,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       0,
+       0,
+       0
+      ]
+     },
+     "priority": "9/9",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 2041,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       9,
+       0,
+       0
+      ],
+      "constraints": [
+       3,
+       0,
+       0
+      ],
+      "deliverables": [
+       3,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       0,
+       0,
+       0
+      ]
+     },
+     "priority": "9/9",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 2041,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "g07_messy": {
+    "base": {
+     "f1": {
+      "requirements": 0.889,
+      "constraints": 0.667,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       4,
+       0,
+       1
+      ],
+      "constraints": [
+       1,
+       1,
+       0
+      ],
+      "deliverables": [
+       1,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       3,
+       0,
+       0
+      ]
+     },
+     "priority": "4/4",
+     "misses": [
+      "requirements: The dashboard must open in under five seconds for one month of data."
+     ],
+     "extras": [
+      "constraints: The dashboard must open in under five seconds for one month of data."
+     ]
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 0.889,
+      "constraints": 0.667,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       4,
+       0,
+       1
+      ],
+      "constraints": [
+       1,
+       1,
+       0
+      ],
+      "deliverables": [
+       1,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       3,
+       0,
+       0
+      ]
+     },
+     "priority": "4/4",
+     "misses": [
+      "requirements: The dashboard must open in under five seconds for one month of data."
+     ],
+     "extras": [
+      "constraints: The dashboard must open in under five seconds for one month of data."
+     ],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1698,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 0.889,
+      "constraints": 0.667,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       4,
+       0,
+       1
+      ],
+      "constraints": [
+       1,
+       1,
+       0
+      ],
+      "deliverables": [
+       1,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       3,
+       0,
+       0
+      ]
+     },
+     "priority": "4/4",
+     "misses": [
+      "requirements: The dashboard must open in under five seconds for one month of data."
+     ],
+     "extras": [
+      "constraints: The dashboard must open in under five seconds for one month of data."
+     ],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1698,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "g08_multipart": {
+    "base": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       7,
+       0,
+       0
+      ],
+      "constraints": [
+       1,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "7/7",
+     "misses": [],
+     "extras": []
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       7,
+       0,
+       0
+      ],
+      "constraints": [
+       1,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "7/7",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1898,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       7,
+       0,
+       0
+      ],
+      "constraints": [
+       1,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       6,
+       0,
+       0
+      ]
+     },
+     "priority": "7/7",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1898,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "g09_request": {
+    "base": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       2,
+       0,
+       0
+      ],
+      "constraints": [
+       1,
+       0,
+       0
+      ],
+      "deliverables": [
+       0,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       0,
+       0,
+       0
+      ]
+     },
+     "priority": "2/2",
+     "misses": [],
+     "extras": []
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       2,
+       0,
+       0
+      ],
+      "constraints": [
+       1,
+       0,
+       0
+      ],
+      "deliverables": [
+       0,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       0,
+       0,
+       0
+      ]
+     },
+     "priority": "2/2",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1484,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 1.0,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       2,
+       0,
+       0
+      ],
+      "constraints": [
+       1,
+       0,
+       0
+      ],
+      "deliverables": [
+       0,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       0,
+       0,
+       0
+      ]
+     },
+     "priority": "2/2",
+     "misses": [],
+     "extras": [],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1484,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 0,
+       "omission_wrong": 0,
+       "drop_right": 0,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "g10_long_lab": {
+    "base": {
+     "f1": {
+      "requirements": 0.933,
+      "constraints": 0.5,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       14,
+       0,
+       2
+      ],
+      "constraints": [
+       1,
+       2,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       5,
+       0,
+       0
+      ]
+     },
+     "priority": "14/14",
+     "misses": [
+      "requirements: For each actor, describe at least two goals in one sentence each.",
+      "requirements: Write unit tests for the spot assignment and the fee calculation."
+     ],
+     "extras": [
+      "constraints: The examples in the lecture slides use a simpler garage with only one level, which is a good starting point for your own thinking.",
+      "constraints: Discuss your ideas with your lab partner, sketch them on paper first, and only then move on to the computer."
+     ]
+    },
+    "self_refine": {
+     "f1": {
+      "requirements": 0.968,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       15,
+       0,
+       1
+      ],
+      "constraints": [
+       1,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       5,
+       0,
+       0
+      ]
+     },
+     "priority": "15/15",
+     "misses": [
+      "requirements: Write unit tests for the spot assignment and the fee calculation."
+     ],
+     "extras": [],
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.04,
+      "iterations": 1,
+      "tokens": 10226,
+      "calls": 3,
+      "stop": "threshold",
+      "base_score": 0.8352,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 1,
+       "omission_wrong": 0,
+       "drop_right": 3,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 3
+      },
+      "errors": [],
+      "strategies": [
+       "targeted"
+      ]
+     }
+    },
+    "reflexion": {
+     "f1": {
+      "requirements": 0.968,
+      "constraints": 1.0,
+      "deliverables": 1.0,
+      "evaluation_criteria": 1.0
+     },
+     "tp_fp_fn": {
+      "requirements": [
+       15,
+       0,
+       1
+      ],
+      "constraints": [
+       1,
+       0,
+       0
+      ],
+      "deliverables": [
+       2,
+       0,
+       0
+      ],
+      "evaluation_criteria": [
+       5,
+       0,
+       0
+      ]
+     },
+     "priority": "15/15",
+     "misses": [
+      "requirements: Write unit tests for the spot assignment and the fee calculation."
+     ],
+     "extras": [],
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.06,
+      "iterations": 2,
+      "tokens": 17631,
+      "calls": 7,
+      "stop": "threshold",
+      "base_score": 0.8352,
+      "best_score": 1.0,
+      "judge": {
+       "omission_right": 1,
+       "omission_wrong": 0,
+       "drop_right": 3,
+       "drop_wrong": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 3
+      },
+      "errors": [],
+      "strategies": [
+       "targeted",
+       "full"
+      ]
+     }
+    }
+   }
+  }
+ },
+ "plan": {
+  "summary": {
+   "base": {
+    "validity": 1.0,
+    "coverage": 1.0,
+    "dependencies": {
+     "precision": 0.935,
+     "recall": 0.894,
+     "f1": 0.914
+    },
+    "must_edge_recall": 0.886,
+    "steps_f1": 0.754
+   },
+   "self_refine": {
+    "validity": 1.0,
+    "coverage": 1.0,
+    "dependencies": {
+     "precision": 0.937,
+     "recall": 0.934,
+     "f1": 0.936
+    },
+    "must_edge_recall": 0.971,
+    "steps_f1": 0.754,
+    "loop": {
+     "cases": 9,
+     "iterations_mean": 0.22,
+     "tokens_total": 28059,
+     "tokens_mean": 3118,
+     "calls_total": 13,
+     "seconds_total": 0.0,
+     "seconds_median": 0.0,
+     "stop_reasons": {
+      "threshold": 9
+     },
+     "improved": 2,
+     "score_base_mean": 0.91,
+     "score_best_mean": 0.991,
+     "judge": {
+      "dependency_right": 1,
+      "dependency_wrong": 0,
+      "dependency_unmatched": 0,
+      "other": 4,
+      "both": 0,
+      "programmatic_only": 0,
+      "judge_only": 5
+     },
+     "strategies": {
+      "targeted": 2
+     },
+     "errors": []
+    }
+   },
+   "reflexion": {
+    "validity": 1.0,
+    "coverage": 1.0,
+    "dependencies": {
+     "precision": 0.937,
+     "recall": 0.934,
+     "f1": 0.936
+    },
+    "must_edge_recall": 0.971,
+    "steps_f1": 0.754,
+    "loop": {
+     "cases": 9,
+     "iterations_mean": 0.22,
+     "tokens_total": 29406,
+     "tokens_mean": 3267,
+     "calls_total": 15,
+     "seconds_total": 0.0,
+     "seconds_median": 0.0,
+     "stop_reasons": {
+      "threshold": 9
+     },
+     "improved": 2,
+     "score_base_mean": 0.91,
+     "score_best_mean": 0.991,
+     "judge": {
+      "dependency_right": 1,
+      "dependency_wrong": 0,
+      "dependency_unmatched": 0,
+      "other": 4,
+      "both": 0,
+      "programmatic_only": 0,
+      "judge_only": 5
+     },
+     "strategies": {
+      "targeted": 2
+     },
+     "errors": []
+    }
+   }
+  },
+  "cases": {
+   "tcp_chat": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.964,
+     "deps_p": 0.976,
+     "deps_r": 0.952,
+     "must": "11/12",
+     "must_missed": [
+      "build:R2 -> build:R5"
+     ],
+     "steps_f1": 0.75,
+     "tasks": 11
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.976,
+     "deps_p": 0.976,
+     "deps_r": 0.976,
+     "must": "12/12",
+     "must_missed": [],
+     "steps_f1": 0.75,
+     "tasks": 11,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 1,
+      "tokens": 5714,
+      "calls": 3,
+      "stop": "threshold",
+      "base_score": 0.6,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 1,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 1
+      },
+      "errors": [],
+      "strategies": [
+       "targeted"
+      ]
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.976,
+     "deps_p": 0.976,
+     "deps_r": 0.976,
+     "must": "12/12",
+     "must_missed": [],
+     "steps_f1": 0.75,
+     "tasks": 11,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 1,
+      "tokens": 6291,
+      "calls": 4,
+      "stop": "threshold",
+      "base_score": 0.6,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 1,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 1
+      },
+      "errors": [],
+      "strategies": [
+       "targeted"
+      ]
+     }
+    }
+   },
+   "lab_manual": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.923,
+     "deps_p": 0.973,
+     "deps_r": 0.878,
+     "must": "12/12",
+     "must_missed": [],
+     "steps_f1": 0.857,
+     "tasks": 12
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.923,
+     "deps_p": 0.973,
+     "deps_r": 0.878,
+     "must": "12/12",
+     "must_missed": [],
+     "steps_f1": 0.857,
+     "tasks": 12,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1954,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.923,
+     "deps_p": 0.973,
+     "deps_r": 0.878,
+     "must": "12/12",
+     "must_missed": [],
+     "steps_f1": 0.857,
+     "tasks": 12,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1954,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "rubric": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.824,
+     "deps_p": 1.0,
+     "deps_r": 0.7,
+     "must": "2/2",
+     "must_missed": [],
+     "steps_f1": 1.0,
+     "tasks": 5
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.824,
+     "deps_p": 1.0,
+     "deps_r": 0.7,
+     "must": "2/2",
+     "must_missed": [],
+     "steps_f1": 1.0,
+     "tasks": 5,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1397,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 0.99,
+      "best_score": 0.99,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.824,
+     "deps_p": 1.0,
+     "deps_r": 0.7,
+     "must": "2/2",
+     "must_missed": [],
+     "steps_f1": 1.0,
+     "tasks": 5,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1397,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 0.99,
+      "best_score": 0.99,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "project_brief": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.911,
+     "deps_p": 0.878,
+     "deps_r": 0.947,
+     "must": "11/13",
+     "must_missed": [
+      "build:R2 -> build:R5",
+      "build:R4 -> build:R1"
+     ],
+     "steps_f1": 0.706,
+     "tasks": 11
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.911,
+     "deps_p": 0.878,
+     "deps_r": 0.947,
+     "must": "11/13",
+     "must_missed": [
+      "build:R2 -> build:R5",
+      "build:R4 -> build:R1"
+     ],
+     "steps_f1": 0.706,
+     "tasks": 11,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 2014,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.911,
+     "deps_p": 0.878,
+     "deps_r": 0.947,
+     "must": "11/13",
+     "must_missed": [
+      "build:R2 -> build:R5",
+      "build:R4 -> build:R1"
+     ],
+     "steps_f1": 0.706,
+     "tasks": 11,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 2014,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "multipart": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.956,
+     "deps_p": 0.915,
+     "deps_r": 1.0,
+     "must": "14/14",
+     "must_missed": [],
+     "steps_f1": 0.762,
+     "tasks": 15
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.956,
+     "deps_p": 0.915,
+     "deps_r": 1.0,
+     "must": "14/14",
+     "must_missed": [],
+     "steps_f1": 0.762,
+     "tasks": 15,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 2009,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.956,
+     "deps_p": 0.915,
+     "deps_r": 1.0,
+     "must": "14/14",
+     "must_missed": [],
+     "steps_f1": 0.762,
+     "tasks": 15,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 2009,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "request": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 1.0,
+     "deps_p": 1.0,
+     "deps_r": 1.0,
+     "must": "7/7",
+     "must_missed": [],
+     "steps_f1": 0.857,
+     "tasks": 7
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 1.0,
+     "deps_p": 1.0,
+     "deps_r": 1.0,
+     "must": "7/7",
+     "must_missed": [],
+     "steps_f1": 0.857,
+     "tasks": 7,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1499,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 1.0,
+     "deps_p": 1.0,
+     "deps_r": 1.0,
+     "must": "7/7",
+     "must_missed": [],
+     "steps_f1": 0.857,
+     "tasks": 7,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1499,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "long_lab": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.773,
+     "deps_p": 0.885,
+     "deps_r": 0.687,
+     "must": "19/27",
+     "must_missed": [
+      "build:R3 -> build:R7",
+      "build:R4 -> build:R7",
+      "build:R5 -> build:R7",
+      "build:R6 -> build:R7",
+      "build:R8 -> build:R13",
+      "build:R10 -> build:R14",
+      "build:R8 -> build:R16",
+      "build:R10 -> build:R16"
+     ],
+     "steps_f1": 0.692,
+     "tasks": 20
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.885,
+     "deps_p": 0.906,
+     "deps_r": 0.866,
+     "must": "27/27",
+     "must_missed": [],
+     "steps_f1": 0.692,
+     "tasks": 20,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.01,
+      "iterations": 1,
+      "tokens": 10107,
+      "calls": 3,
+      "stop": "threshold",
+      "base_score": 0.6,
+      "best_score": 0.9285,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 4,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 4
+      },
+      "errors": [],
+      "strategies": [
+       "targeted"
+      ]
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.885,
+     "deps_p": 0.906,
+     "deps_r": 0.866,
+     "must": "27/27",
+     "must_missed": [],
+     "steps_f1": 0.692,
+     "tasks": 20,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.01,
+      "iterations": 1,
+      "tokens": 10877,
+      "calls": 4,
+      "stop": "threshold",
+      "base_score": 0.6,
+      "best_score": 0.9285,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 4,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 4
+      },
+      "errors": [],
+      "strategies": [
+       "targeted"
+      ]
+     }
+    }
+   },
+   "adversarial": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.95,
+     "deps_p": 0.905,
+     "deps_r": 1.0,
+     "must": "8/8",
+     "must_missed": [],
+     "steps_f1": 0.667,
+     "tasks": 8
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.95,
+     "deps_p": 0.905,
+     "deps_r": 1.0,
+     "must": "8/8",
+     "must_missed": [],
+     "steps_f1": 0.667,
+     "tasks": 8,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1696,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.95,
+     "deps_p": 0.905,
+     "deps_r": 1.0,
+     "must": "8/8",
+     "must_missed": [],
+     "steps_f1": 0.667,
+     "tasks": 8,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1696,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   },
+   "essay": {
+    "base": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.982,
+     "deps_p": 1.0,
+     "deps_r": 0.964,
+     "must": "9/10",
+     "must_missed": [
+      "build:R2 -> build:R4"
+     ],
+     "steps_f1": 0.8,
+     "tasks": 9
+    },
+    "self_refine": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.982,
+     "deps_p": 1.0,
+     "deps_r": 0.964,
+     "must": "9/10",
+     "must_missed": [
+      "build:R2 -> build:R4"
+     ],
+     "steps_f1": 0.8,
+     "tasks": 9,
+     "loop": {
+      "condition": "self_refine",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1669,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    },
+    "reflexion": {
+     "valid": true,
+     "coverage": 1.0,
+     "deps_f1": 0.982,
+     "deps_p": 1.0,
+     "deps_r": 0.964,
+     "must": "9/10",
+     "must_missed": [
+      "build:R2 -> build:R4"
+     ],
+     "steps_f1": 0.8,
+     "tasks": 9,
+     "loop": {
+      "condition": "reflexion",
+      "seconds": 0.0,
+      "iterations": 0,
+      "tokens": 1669,
+      "calls": 1,
+      "stop": "threshold",
+      "base_score": 1.0,
+      "best_score": 1.0,
+      "judge": {
+       "dependency_right": 0,
+       "dependency_wrong": 0,
+       "dependency_unmatched": 0,
+       "other": 0,
+       "both": 0,
+       "programmatic_only": 0,
+       "judge_only": 0
+      },
+      "errors": [],
+      "strategies": []
+     }
+    }
+   }
+  }
+ }
+}

@@ -30,6 +30,7 @@ class EventType(StrEnum):
     TASK_BLOCKED = "task.blocked"
     TASK_CANCELLED = "task.cancelled"
     TASK_DEAD_LETTERED = "task.dead_lettered"
+    TASK_REPLAYED = "task.replayed"                     # an operator replayed a dead letter (Sprint 4)
     REVIEW_REQUESTED = "review.requested"
     REVISION_REQUESTED = "revision.requested"
     # agents / registry

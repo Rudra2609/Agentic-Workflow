@@ -31,13 +31,13 @@ describe("api client: success", () => {
 
   it("POSTs JSON bodies and encodes path segments", async () => {
     const { client, fetchMock } = setup(async () => jsonResponse({ project_id: "a b", state: "EXECUTING" }));
-    await client.decideApproval("a b", true, "  looks good  ");
+    await client.decideApproval("a b", true, "  looks good  ", 2);
 
     const [url, init] = fetchMock.mock.calls[0]!;
     expect(url).toBe("http://api.test:8000/api/projects/a%20b/approval");
     expect(init?.method).toBe("POST");
     expect((init?.headers as Record<string, string>)["Content-Type"]).toBe("application/json");
-    expect(JSON.parse(String(init?.body))).toEqual({ approved: true, comment: "looks good" });
+    expect(JSON.parse(String(init?.body))).toEqual({ approved: true, comment: "looks good", graph_version: 2 });
   });
 
   it("creates projects with the auto-approve flag and stops them", async () => {
@@ -57,6 +57,14 @@ describe("api client: success", () => {
     const { client, fetchMock } = setup(async () => jsonResponse({ project_id: "p1" }));
     await client.createProject("Private", false, "Summarise my notes", false);
     expect(JSON.parse(String(fetchMock.mock.calls[0]![1]?.body))).toMatchObject({ goal: "Summarise my notes", cloud_ok: false });
+  });
+
+  it("asks for refinement only when told to (otherwise the server default applies)", async () => {
+    const { client, fetchMock } = setup(async () => jsonResponse({ project_id: "p1" }));
+    await client.createProject("Checked", false, "Plan my lab", true, true);
+    expect(JSON.parse(String(fetchMock.mock.calls[0]![1]?.body))).toMatchObject({ refine: true });
+    await client.updateProject("p1", { refine: false });
+    expect(JSON.parse(String(fetchMock.mock.calls[1]![1]?.body))).toEqual({ refine: false });
   });
 
   it("sends the event query as after_seq / project_id", async () => {

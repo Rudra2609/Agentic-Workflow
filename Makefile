@@ -3,7 +3,7 @@ BACKEND := backend
 UV := uv --directory $(BACKEND)
 COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo 'docker compose' || echo docker-compose)
 
-.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down agents api
+.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api
 
 help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-12s %s\n", $$1, $$2}'
@@ -53,6 +53,21 @@ infra-up: ## start Postgres + RabbitMQ (Phase B)
 
 infra-down: ## stop infra
 	$(COMPOSE) -f infra/docker-compose.yml down
+
+OBS_COMPOSE := $(COMPOSE) -f infra/docker-compose.obs.yml
+
+obs-up: ## start Jaeger + Prometheus + Grafana (traces, metrics, alerts; Sprint 4) and print how to send data
+	@HMAP_GRAFANA_PASSWORD="$${HMAP_GRAFANA_PASSWORD:-$$(grep -s '^HMAP_GRAFANA_PASSWORD=' .env | cut -d= -f2-)}"; \
+	 HMAP_GRAFANA_PASSWORD="$${HMAP_GRAFANA_PASSWORD:-$$(openssl rand -hex 12)}" $(OBS_COMPOSE) up -d --build --wait --quiet-pull
+	@echo "observability is up: Jaeger http://127.0.0.1:16686  Prometheus http://127.0.0.1:9090/alerts  Grafana http://127.0.0.1:3001"
+	@echo "send traces from the app: export HMAP_OTEL_ENDPOINT=http://127.0.0.1:4318 (or put it in .env), then restart make api / make agents"
+
+obs-down: ## stop the observability stack (its data is kept in a volume until infra is pruned)
+	$(OBS_COMPOSE) down
+
+obs-open: ## open Jaeger, Prometheus alerts and the Grafana dashboard in the browser
+	@for u in http://127.0.0.1:16686 http://127.0.0.1:9090/alerts http://127.0.0.1:3001/d/hmap-overview; do \
+	  (command -v open >/dev/null && open "$$u") || (command -v xdg-open >/dev/null && xdg-open "$$u") || echo "$$u"; done
 
 agents: ## run every discovered agent in one process
 	$(UV) run hmap-agents run --all

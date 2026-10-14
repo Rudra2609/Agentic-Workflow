@@ -43,6 +43,8 @@ class ProjectRecord(Record):
     auto_approve: bool = Field(default=False, description="plan is shown, then approved automatically (no human gate)")
     cloud_ok: bool = Field(default=True, description="false keeps the project on this computer: its steps never use "
                                                      "a cloud model, even with team keys configured (doc 02 §2.5)")
+    refine: bool = Field(default=False, description="check and improve each result before it is reported (Sprint 4: "
+                                                     "copied into TaskAssign.refine; slower, more model calls)")
     stopped_reason: str | None = Field(default=None, description="set when a human pressed Stop")
     runs: list[RunRecord] = Field(default_factory=list)
     archived: bool = False
@@ -81,6 +83,7 @@ class TaskRecord(Record):
     blocked_by: list[str] = Field(default_factory=list)
     replaced: bool = Field(default=False, description="graph task dropped by a replan (Sprint 3): kept as history, "
                                                      "ignored by the executor and the project outcome")
+    replays: int = Field(default=0, description="times an operator replayed it from DEAD_LETTERED (Sprint 4)")
     created_at: datetime
     updated_at: datetime
 

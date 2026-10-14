@@ -1,0 +1,146 @@
+{
+  "format": 1,
+  "key": "6a9fcf3aec43abe4e2f4a32b48f032b6dde13160606071c10c612aa029e1b6c6",
+  "key_ingredients": {
+    "max_tokens": 384,
+    "messages": [
+      {
+        "content": "You make short, typed decisions about the given state. For every question pick exactly one of the allowed options and give your confidence between 0 and 1. Reply only with the JSON object.",
+        "role": "system"
+      },
+      {
+        "content": "State:\nThe item C1 is background information and not a constraint.\n\nQuestions:\n- category (choice); options: FORMAT | SCHEMA | OMISSION | HALLUCINATION | FACTUAL | LOGIC | REQUIREMENT_VIOLATION | CONSISTENCY | STYLE | SAFETY\n    CONSISTENCY: parts disagree with each other (duplicates, totals that do not add up, mismatched ids)\n    FACTUAL: a stated fact, number, date, name or attribute (priority, kind, type) is wrong\n    FORMAT: the output is not well-formed (unparseable JSON, broken markup, wrong layout)\n    HALLUCINATION: something is not supported by the source (invented item, quote not in the document)\n    LOGIC: the reasoning or structure is wrong (cycle, wrong order, missing dependency, impossible plan)\n    OMISSION: something that should be there is missing (a requirement, a step, a criterion, a section)\n    REQUIREMENT_VIOLATION: the output does not meet a stated requirement or acceptance criterion\n    SAFETY: unsafe content, leaked secrets or personal data, harmful instructions\n    SCHEMA: a field is missing, has the wrong type or breaks the contract / allowed values\n    STYLE: unclear, vague, untestable or badly worded, but not wrong",
+        "role": "user"
+      }
+    ],
+    "plugin": "refine",
+    "role": "classify",
+    "schema": {
+      "$defs": {
+        "Decision0": {
+          "properties": {
+            "answer": {
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Answer",
+              "type": "string"
+            },
+            "confidence": {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "title": "Confidence",
+              "type": "number"
+            }
+          },
+          "required": [
+            "answer",
+            "confidence"
+          ],
+          "title": "Decision0",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/Decision0"
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "title": "ClassifyAnswers",
+      "type": "object"
+    },
+    "seed": null,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "refine",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-14T05:26:23.073532+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "category": {
+          "properties": {
+            "answer": {
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Answer",
+              "type": "string"
+            },
+            "confidence": {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "title": "Confidence",
+              "type": "number"
+            }
+          },
+          "required": [
+            "answer",
+            "confidence"
+          ],
+          "title": "Decision0",
+          "type": "object"
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "title": "ClassifyAnswers",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You make short, typed decisions about the given state. For every question pick exactly one of the allowed options and give your confidence between 0 and 1. Reply only with the JSON object.",
+        "role": "system"
+      },
+      {
+        "content": "State:\nThe item C1 is background information and not a constraint.\n\nQuestions:\n- category (choice); options: FORMAT | SCHEMA | OMISSION | HALLUCINATION | FACTUAL | LOGIC | REQUIREMENT_VIOLATION | CONSISTENCY | STYLE | SAFETY\n    CONSISTENCY: parts disagree with each other (duplicates, totals that do not add up, mismatched ids)\n    FACTUAL: a stated fact, number, date, name or attribute (priority, kind, type) is wrong\n    FORMAT: the output is not well-formed (unparseable JSON, broken markup, wrong layout)\n    HALLUCINATION: something is not supported by the source (invented item, quote not in the document)\n    LOGIC: the reasoning or structure is wrong (cycle, wrong order, missing dependency, impossible plan)\n    OMISSION: something that should be there is missing (a requirement, a step, a criterion, a section)\n    REQUIREMENT_VIOLATION: the output does not meet a stated requirement or acceptance criterion\n    SAFETY: unsafe content, leaked secrets or personal data, harmful instructions\n    SCHEMA: a field is missing, has the wrong type or breaks the contract / allowed values\n    STYLE: unclear, vague, untestable or badly worded, but not wrong",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 384,
+      "seed": null,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"category\":\"FACTUAL\",\"confidence\":0.95}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 587,
+      "latency_s": 0.6463,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 64,
+      "provider": "groq"
+    }
+  },
+  "role": "classify"
+}

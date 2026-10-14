@@ -1,0 +1,275 @@
+{
+  "format": 1,
+  "key": "c4794a89850e4797c6b1667310aa00bd2c4f3e735ff86da70812492a234c6d31",
+  "key_ingredients": {
+    "max_tokens": 2000,
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a project plan: steps with dependencies, made from a list of requirements against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: a step id (T3), a missing dependency written 'T3 -> T5', or a requirement id (R2); it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- P1: Dependencies: does every step come after the steps whose results it needs? If a requirement of step B uses something that a requirement of step A creates (a name, a command, a connection, data, a schema, a part that is reused), B needs A. Name each missing dependency as 'A -> B' (A must finish before B) and say what B needs from A.\n- P2: Coverage: is each requirement's work done by build and test steps that really do it?\n- P3: Acceptance criteria: are they concrete and checkable?\n- P4: Granularity: no duplicated steps and no step split into trivial pieces?\n\nThe research, verify, design and review steps and the order research -> design -> build -> test -> documents -> review come from a template and are correct. Steps listed as 'after: X' already depend on X (directly); a dependency through other steps also counts.\n\nMaterial:\nRequirements:\nR1 [must] The web app must let users register with an email address.\nR2 [must] Users must be able to reset their password by email.\nR3 [should] The app should be deployed to AWS.\nR4 [must] Demonstrate the working app to your TA in person during week 8.\nR5 [must] Upload the final ZIP to Moodle before the deadline.\nR6 [must] Passwords must be stored hashed.\n\nPlan steps:\nresearch [research] Research the approach (requirements: -; after: -) criteria: every research question has an answer with sources; the answers name the options considered\nverify [research] Check the research findings (requirements: -; after: research) criteria: every claim the design uses is supported by a source; unsupported claims are marked\ndesign [design] Design the solution (requirements: -; after: verify) criteria: each part has a module and an interface; the skeleton runs; the design follows the constraints; C1 respected: Use Django 5.\nT1 [implement] Implement: The web app must let users register with an ema… (+2) (requirements: R1, R2, R3; after: design) criteria: R1: The web app must let users register with an email address.; R2: Users must be able to reset their password by email.; R3: The app should be deployed to AWS.\nT2 [test] Check: The web app must let users register with an email… (+2) (requirements: R1, R2, R3; after: T1) criteria: R1 works as stated; R2 works as stated; R3 works as stated\nT3 [test] Check quality of the work (requirements: R6; after: T1) criteria: R6: Passwords must be stored hashed.\nT4 [document] Prepare User guide (requirements: -; after: T2, T3) criteria: D2 exists: User guide as PDF; it matches the finished, tested work\nreview [review] Final review (requirements: -; after: T4) criteria: every must requirement is met; every deliverable is present; C1 respected: Use Django 5.; D1 handed in: Source code ZIP (zip)\n\nRequirements a person must do (not planned on purpose): R4, R5",
+        "role": "user"
+      }
+    ],
+    "plugin": "refine",
+    "role": "judge",
+    "schema": {
+      "$defs": {
+        "CriterionScore": {
+          "properties": {
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material that supports the score",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "score": {
+              "description": "1 = fails the criterion, 5 = fully meets it",
+              "maximum": 5,
+              "minimum": 1,
+              "title": "Score",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "score"
+          ],
+          "title": "CriterionScore",
+          "type": "object"
+        },
+        "RubricIssue": {
+          "properties": {
+            "category": {
+              "default": "REQUIREMENT_VIOLATION",
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Category",
+              "type": "string"
+            },
+            "criterion": {
+              "default": "",
+              "title": "Criterion",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "evidence": {
+              "default": "",
+              "description": "a short quote from the material",
+              "title": "Evidence",
+              "type": "string"
+            },
+            "fix_hint": {
+              "default": "",
+              "description": "what to change",
+              "title": "Fix Hint",
+              "type": "string"
+            },
+            "location": {
+              "default": "",
+              "description": "where: an id or path that appears in the material",
+              "title": "Location",
+              "type": "string"
+            },
+            "severity": {
+              "default": "major",
+              "enum": [
+                "minor",
+                "major",
+                "critical"
+              ],
+              "title": "Severity",
+              "type": "string"
+            }
+          },
+          "required": [
+            "description"
+          ],
+          "title": "RubricIssue",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/CriterionScore"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/RubricIssue"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "refine",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-14T05:25:56.516741+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "criteria": {
+          "items": {
+            "properties": {
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material that supports the score",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "score": {
+                "description": "1 = fails the criterion, 5 = fully meets it",
+                "maximum": 5,
+                "minimum": 1,
+                "title": "Score",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id",
+              "score"
+            ],
+            "title": "CriterionScore",
+            "type": "object"
+          },
+          "title": "Criteria",
+          "type": "array"
+        },
+        "issues": {
+          "items": {
+            "properties": {
+              "category": {
+                "default": "REQUIREMENT_VIOLATION",
+                "enum": [
+                  "FORMAT",
+                  "SCHEMA",
+                  "OMISSION",
+                  "HALLUCINATION",
+                  "FACTUAL",
+                  "LOGIC",
+                  "REQUIREMENT_VIOLATION",
+                  "CONSISTENCY",
+                  "STYLE",
+                  "SAFETY"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "criterion": {
+                "default": "",
+                "title": "Criterion",
+                "type": "string"
+              },
+              "description": {
+                "title": "Description",
+                "type": "string"
+              },
+              "evidence": {
+                "default": "",
+                "description": "a short quote from the material",
+                "title": "Evidence",
+                "type": "string"
+              },
+              "fix_hint": {
+                "default": "",
+                "description": "what to change",
+                "title": "Fix Hint",
+                "type": "string"
+              },
+              "location": {
+                "default": "",
+                "description": "where: an id or path that appears in the material",
+                "title": "Location",
+                "type": "string"
+              },
+              "severity": {
+                "default": "major",
+                "enum": [
+                  "minor",
+                  "major",
+                  "critical"
+                ],
+                "title": "Severity",
+                "type": "string"
+              }
+            },
+            "required": [
+              "description"
+            ],
+            "title": "RubricIssue",
+            "type": "object"
+          },
+          "title": "Issues",
+          "type": "array"
+        }
+      },
+      "title": "RubricAnswer",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a strict but fair reviewer. You review a project plan: steps with dependencies, made from a list of requirements against a few criteria.\n\nFor each criterion give a score from 1 (fails it) to 5 (fully meets it) and quote short evidence from the material.\nThen list concrete issues. Each issue:\n- criterion: the criterion id;\n- category: FORMAT, SCHEMA, OMISSION (something missing), HALLUCINATION (something not supported by the source),\n  FACTUAL, LOGIC, REQUIREMENT_VIOLATION, CONSISTENCY, STYLE or SAFETY;\n- severity: minor, major or critical;\n- description: one sentence;\n- location: a step id (T3), a missing dependency written 'T3 -> T5', or a requirement id (R2); it must appear in the material;\n- evidence: a short quote from the material that shows the problem;\n- fix_hint: what to change.\n\nRules: judge only what the criteria ask. Never invent a problem: when a criterion is fully met, score it 5 and report\nno issue for it. Report each problem once. Reply with the JSON object only.",
+        "role": "system"
+      },
+      {
+        "content": "Criteria:\n- P1: Dependencies: does every step come after the steps whose results it needs? If a requirement of step B uses something that a requirement of step A creates (a name, a command, a connection, data, a schema, a part that is reused), B needs A. Name each missing dependency as 'A -> B' (A must finish before B) and say what B needs from A.\n- P2: Coverage: is each requirement's work done by build and test steps that really do it?\n- P3: Acceptance criteria: are they concrete and checkable?\n- P4: Granularity: no duplicated steps and no step split into trivial pieces?\n\nThe research, verify, design and review steps and the order research -> design -> build -> test -> documents -> review come from a template and are correct. Steps listed as 'after: X' already depend on X (directly); a dependency through other steps also counts.\n\nMaterial:\nRequirements:\nR1 [must] The web app must let users register with an email address.\nR2 [must] Users must be able to reset their password by email.\nR3 [should] The app should be deployed to AWS.\nR4 [must] Demonstrate the working app to your TA in person during week 8.\nR5 [must] Upload the final ZIP to Moodle before the deadline.\nR6 [must] Passwords must be stored hashed.\n\nPlan steps:\nresearch [research] Research the approach (requirements: -; after: -) criteria: every research question has an answer with sources; the answers name the options considered\nverify [research] Check the research findings (requirements: -; after: research) criteria: every claim the design uses is supported by a source; unsupported claims are marked\ndesign [design] Design the solution (requirements: -; after: verify) criteria: each part has a module and an interface; the skeleton runs; the design follows the constraints; C1 respected: Use Django 5.\nT1 [implement] Implement: The web app must let users register with an ema… (+2) (requirements: R1, R2, R3; after: design) criteria: R1: The web app must let users register with an email address.; R2: Users must be able to reset their password by email.; R3: The app should be deployed to AWS.\nT2 [test] Check: The web app must let users register with an email… (+2) (requirements: R1, R2, R3; after: T1) criteria: R1 works as stated; R2 works as stated; R3 works as stated\nT3 [test] Check quality of the work (requirements: R6; after: T1) criteria: R6: Passwords must be stored hashed.\nT4 [document] Prepare User guide (requirements: -; after: T2, T3) criteria: D2 exists: User guide as PDF; it matches the finished, tested work\nreview [review] Final review (requirements: -; after: T4) criteria: every must requirement is met; every deliverable is present; C1 respected: Use Django 5.; D1 handed in: Source code ZIP (zip)\n\nRequirements a person must do (not planned on purpose): R4, R5",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 2000,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"criteria\": [\n    {\n      \"id\": \"P1\",\n      \"score\": 5,\n      \"evidence\": \"T2 [test] ... after: T1; T3 [test] ... after: T1; T4 [document] ... after: T2, T3\"\n    },\n    {\n      \"id\": \"P2\",\n      \"score\": 5,\n      \"evidence\": \"T1 [implement] ... (requirements: R1, R2, R3); T2 [test] ... (requirements: R1, R2, R3); T3 [test] ... (requirements: R6)\"\n    },\n    {\n      \"id\": \"P3\",\n      \"score\": 5,\n      \"evidence\": \"criteria: R1 works as stated; R2 works as stated; R3 works as stated\"\n    },\n    {\n      \"id\": \"P4\",\n      \"score\": 5,\n      \"evidence\": \"T1 [implement] ... T2 [test] ... T3 [test] ... T4 [document]\"\n    }\n  ],\n  \"issues\": []\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1430,
+      "latency_s": 0.765,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 266,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

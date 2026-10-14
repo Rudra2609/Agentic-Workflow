@@ -228,12 +228,19 @@ export function createApiClient(options: ApiClientOptions = {}) {
 
     listProjects: (signal?: AbortSignal, query: { q?: string; archived?: boolean } = {}) =>
       request<Project[]>("/projects", { signal, query: { q: query.q, archived: query.archived || undefined } }),
-    createProject: (name: string, autoApprove = false, goal?: string, cloudOk = true) =>
+    createProject: (name: string, autoApprove = false, goal?: string, cloudOk = true, refine?: boolean) =>
       request<Project>("/projects", {
         method: "POST",
-        json: { name, auto_approve: autoApprove, goal: goal?.trim() ? goal.trim() : null, cloud_ok: cloudOk },
+        json: {
+          name,
+          auto_approve: autoApprove,
+          goal: goal?.trim() ? goal.trim() : null,
+          cloud_ok: cloudOk,
+          // omitted = the server's default (HMAP_REFINE_DEFAULT)
+          ...(refine === undefined ? {} : { refine }),
+        },
       }),
-    updateProject: (projectId: string, patch: { name?: string; archived?: boolean; cloud_ok?: boolean }) =>
+    updateProject: (projectId: string, patch: { name?: string; archived?: boolean; cloud_ok?: boolean; refine?: boolean }) =>
       request<Project>(`/projects/${encodeURIComponent(projectId)}`, { method: "PATCH", json: patch }),
     deleteProject: (projectId: string) =>
       request<{ deleted: boolean; files_erased: number }>(`/projects/${encodeURIComponent(projectId)}`, {
@@ -292,10 +299,11 @@ export function createApiClient(options: ApiClientOptions = {}) {
         json: graph,
         query: { require_approval: requireApproval },
       }),
-    decideApproval: (projectId: string, approved: boolean, comment?: string | null) =>
+    decideApproval: (projectId: string, approved: boolean, comment?: string | null, graphVersion?: number | null) =>
       request<Project>(`/projects/${encodeURIComponent(projectId)}/approval`, {
         method: "POST",
-        json: { approved, comment: comment?.trim() ? comment.trim() : null },
+        // the plan version being decided: a plan replaced meanwhile answers 409 instead of being approved blindly
+        json: { approved, comment: comment?.trim() ? comment.trim() : null, graph_version: graphVersion ?? null },
       }),
     createTask: (projectId: string, task: NewTask) =>
       request<TaskDetail>(`/projects/${encodeURIComponent(projectId)}/tasks`, { method: "POST", json: task }),

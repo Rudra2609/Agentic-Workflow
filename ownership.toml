@@ -37,7 +37,10 @@ paths = ["backend/src/hmap/agents/planning/**", "backend/tests/planning/**", "fr
 name = "Self-reflection & refinement (+ observability)"
 plugin = "refine"
 paths = ["backend/src/hmap/agents/refine/**", "backend/tests/refine/**", "frontend/src/features/refine/**",
-         "docs/members/4/**", "samples/refine/**", "samples/llm_cache/refine/**", "backend/alembic/versions/004_*"]
+         "docs/members/4/**", "samples/refine/**", "samples/llm_cache/refine/**", "backend/alembic/versions/004_*",
+         # observability & operations (spec §5b, plan D11/D12): telemetry package + the ops plug-in and page
+         "backend/src/hmap/obs/**", "backend/tests/obs/**", "backend/src/hmap/agents/ops/**", "backend/tests/ops/**",
+         "frontend/src/features/ops/**"]
 
 [members.5]
 name = "Autonomous research"
