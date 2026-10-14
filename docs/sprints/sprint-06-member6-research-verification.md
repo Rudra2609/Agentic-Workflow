@@ -1,6 +1,6 @@
 # Sprint 6 — Member 6: Research Verification
 
-**Owner:** Member 6 · **Needs:** Sprint 5 accepted + mid-eval feedback triaged · **Unblocks:** Sprint 10 (review uses verdicts)
+**Owner:** Member 6 · **Needs:** Sprint 5 accepted · **Unblocks:** the **mid-evaluation** (last sprint before it; owns the readiness gate, §5c) and Sprint 10 (review uses verdicts)
 **Replaces stub:** `verify.claims` → `agents/verify/`
 
 ## 1. Goal
@@ -63,6 +63,17 @@ Why here: this member's whole subject is *not trusting* generated/retrieved cont
 | 6.20 | **Basic security layer (moved from Sprint 1, item 1.18)**: per-agent service token issued at registration, capability→allowed-message policy table, input size/schema limits, audit log — implemented behind the `core/policy.py` hook | unauthorized command denied + audited; existing agents keep working with seeded tokens |
 
 Definition of Done addition: `scripts/security_check.sh` exists and is included in `check_sprint.sh` from Sprint 6 on.
+
+## 5c. Mid-evaluation readiness gate (also owned by Member 6; added 2026-10-14)
+
+Why here: Sprint 6 is the last sprint before the [mid-evaluation](mid-evaluation.md), so the gate is checked on this code.
+
+| # | Item | Acceptance |
+|---|---|---|
+| 6.21 | `make demo` / `make stop`: infra + API + agents + web in `replay` / research `cached` mode (minimal; Member 9 replaces it with full packaging in Sprint 9) | one command from a clean copy |
+| 6.22 | `scripts/demo_chaos.sh`: kill the agents process during research → lease expiry → retry as a new execution → Operations / DLQ view | works 3× in a row |
+| 6.23 | `samples/demo/`: the three mid-eval inputs (TCP chat PDF, scanned lab manual, DOCX — from Member 2's gold set) | fixed before the eval |
+| 6.24 | Mid-eval storyline incl. verification (research → verify → flagged claim → follow-up → re-verify), `live` = `replay`; README "what is real vs stub" table | readiness checklist in `mid-evaluation.md` §4 ticked |
 
 ## 6. Local-LLM notes
 Use **a different model family than the researcher** for `judge` (reduces correlated errors); constrained verdict enum; short inputs (claim + quote only) so 7–8B models do well; L1 is free (no LLM).

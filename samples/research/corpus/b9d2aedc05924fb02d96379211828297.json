@@ -1,0 +1,15 @@
+{
+ "url": "https://arxiv.org/abs/2604.07643v1",
+ "final_url": null,
+ "title": "Narrix: Remixing Narrative Strategies from Examples for Story Writing",
+ "kind": "arxiv",
+ "provider": "arxiv",
+ "text": "Narrix: Remixing Narrative Strategies from Examples for Story Writing\n\nExperienced storytellers decompose stories into local narrative strategies and how these strategies shape higher-level arcs. This decomposition helps writers recognize patterns in others' work and adapt those patterns to tell new stories. Novices, however, struggle to identify these strategies or to reuse them effectively. We present Narrix, a novel writing tool that helps novice writers recognize narrative strategies in example stories and repurpose these strategies in their own writing. Narrix analyzes strategies in example stories, highlights them with color-coded lexical cues and explanations, and situates them on an interactive story arc for exploration by emotional shifts and turning points. Writers then drag strategies onto multi-dimensional tracks and apply block-scoped edits to revise or continue their drafts through controlled generation steered by specified strategies. Through a within-subjects study (N=12), Narrix showed improved participants' retention, confidence, and creative adaptation of narrative strategies compared to a baseline chat-based writing interface.",
+ "content_sha256": "478dcef8437e10fdda252fc6c04bb63ada39af207aea852e45e357a529c92eed",
+ "retrieved_at": "2026-10-14T09:09:36.075770Z",
+ "published": "2026-04-08",
+ "media_type": "text/plain",
+ "from_cache": false,
+ "injection_lines_removed": 0,
+ "license": "arXiv metadata: CC0 1.0 (title and abstract only)"
+}

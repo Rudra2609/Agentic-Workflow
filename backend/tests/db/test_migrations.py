@@ -1,7 +1,9 @@
-"""Migration 001: upgrade from an empty schema, downgrade, upgrade again; schema == ``hmap.db.tables`` metadata;
-the §34 unique keys and the append-only ``events`` table are enforced by the database itself."""
+"""Migrations: upgrade from an empty schema to the newest revision, downgrade, upgrade again; schema ==
+``hmap.db.tables`` metadata (+ the tables members' migrations add, ``MEMBER_TABLES``); the §34 unique keys and the
+append-only ``events`` table are enforced by the database itself."""
 
 import uuid
+import warnings
 from collections.abc import Iterator
 
 import psycopg
@@ -12,7 +14,8 @@ from sqlalchemy import create_engine, pool
 
 from hmap.db import conninfo, current_revision, database_url, downgrade, upgrade
 from hmap.db.database import session_options
-from hmap.db.tables import ALL_TABLES, metadata
+from hmap.db.migrate import alembic_config
+from hmap.db.tables import ALL_TABLES, MEMBER_TABLES, metadata
 from tests.db.conftest import drop_schema
 
 pytestmark = pytest.mark.integration
@@ -27,6 +30,15 @@ def scratch_schema(pg_url: str) -> Iterator[str]:
         drop_schema(pg_url, schema)
 
 
+def _head() -> str | None:
+    from alembic.script import ScriptDirectory
+
+    return ScriptDirectory.from_config(alembic_config()).get_current_head()
+
+
+EXPECTED = {*ALL_TABLES, *MEMBER_TABLES, "alembic_version"}
+
+
 def _tables(url: str, schema: str) -> set[str]:
     with psycopg.connect(conninfo(url)) as conn:
         rows = conn.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = %s",
@@ -37,15 +49,15 @@ def _tables(url: str, schema: str) -> set[str]:
 def test_upgrade_downgrade_upgrade(pg_url: str, scratch_schema: str) -> None:
     assert current_revision(pg_url, schema=scratch_schema) is None
     upgrade(pg_url, schema=scratch_schema)
-    assert current_revision(pg_url, schema=scratch_schema) == "001b"
-    assert _tables(pg_url, scratch_schema) == {*ALL_TABLES, "alembic_version"}
+    assert current_revision(pg_url, schema=scratch_schema) == _head()
+    assert _tables(pg_url, scratch_schema) == EXPECTED
     upgrade(pg_url, schema=scratch_schema)                       # idempotent at head
     downgrade(pg_url, schema=scratch_schema)
     assert current_revision(pg_url, schema=scratch_schema) is None
     assert _tables(pg_url, scratch_schema) <= {"alembic_version"}
     upgrade(pg_url, schema=scratch_schema)
-    assert current_revision(pg_url, schema=scratch_schema) == "001b"
-    assert _tables(pg_url, scratch_schema) == {*ALL_TABLES, "alembic_version"}
+    assert current_revision(pg_url, schema=scratch_schema) == _head()
+    assert _tables(pg_url, scratch_schema) == EXPECTED
 
 
 def test_migrated_schema_matches_table_models(pg_url: str, pg_schema: str) -> None:
@@ -54,10 +66,19 @@ def test_migrated_schema_matches_table_models(pg_url: str, pg_schema: str) -> No
     try:
         with engine.connect() as conn:
             ctx = MigrationContext.configure(conn, opts={"compare_type": True})
-            diff = compare_metadata(ctx, metadata)
+            with warnings.catch_warnings():   # members' tables use types SQLAlchemy does not know (pgvector)
+                warnings.filterwarnings("ignore", message="Did not recognize type 'vector'")
+                diff = compare_metadata(ctx, metadata)
     finally:
         engine.dispose()
+    # members' tables have no SQLAlchemy model: their "table not in the models" entries are expected
+    diff = [d for d in diff if not (isinstance(d, tuple) and d[0] in ("remove_table", "remove_index")
+                                    and getattr(d[1], "name", None) in MEMBER_TABLES | _member_indexes())]
     assert diff == []
+
+
+def _member_indexes() -> dict[str, str]:
+    return {"ix_research_chunks_page": "005", "ix_research_chunks_tsv": "005"}
 
 
 def _exec(url: str, schema: str, sql: str, params: tuple[object, ...] = ()) -> None:

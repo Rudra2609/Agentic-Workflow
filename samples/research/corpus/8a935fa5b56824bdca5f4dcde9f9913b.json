@@ -1,0 +1,15 @@
+{
+ "url": "https://arxiv.org/abs/2209.12587v2",
+ "final_url": null,
+ "title": "TGLib: An Open-Source Library for Temporal Graph Analysis",
+ "kind": "arxiv",
+ "provider": "arxiv",
+ "text": "TGLib: An Open-Source Library for Temporal Graph Analysis\n\nWe initiate an open-source library for the efficient analysis of temporal graphs. We consider one of the standard models of dynamic networks in which each edge has a discrete timestamp and transition time. Recently there has been a massive interest in analyzing such temporal graphs. Common computational data mining and analysis tasks include the computation of temporal distances, centrality measures, and network statistics like topological overlap, burstiness, or temporal diameter. To fulfill the increasing demand for efficient and easy-to-use implementations of temporal graph algorithms, we introduce the open-source library TGLib, which integrates efficient data structures and algorithms for temporal graph analysis. TGLib is highly efficient and versatile, providing simple and convenient C++ and Python interfaces, targeting computer scientists, practitioners, students, and the (temporal) network research community.",
+ "content_sha256": "6f8e1ed7f5ce336be0c7c7155f31b0af410efa8b22a7ed901c6872b3f52f9e45",
+ "retrieved_at": "2026-10-14T08:55:58.304858Z",
+ "published": "2022-09-26",
+ "media_type": "text/plain",
+ "from_cache": false,
+ "injection_lines_removed": 0,
+ "license": "arXiv metadata: CC0 1.0 (title and abstract only)"
+}

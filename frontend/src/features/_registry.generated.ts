@@ -6,6 +6,7 @@ import feature_echo from "./echo";
 import feature_ops from "./ops";
 import feature_planning from "./planning";
 import feature_refine from "./refine";
+import feature_research from "./research";
 
 export const FEATURE_MODULES: readonly FeatureManifest[] = [
   feature_doc_intel,
@@ -13,4 +14,5 @@ export const FEATURE_MODULES: readonly FeatureManifest[] = [
   feature_ops,
   feature_planning,
   feature_refine,
+  feature_research,
 ];

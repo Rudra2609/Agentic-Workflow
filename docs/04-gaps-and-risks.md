@@ -40,4 +40,4 @@
 3. Do all members have ≥16 GB RAM? (if not, `replay` mode or the LAN model host is their development path; the demo itself only runs on Member 1's laptop)
 4. ~~Is a cloud-LLM fallback acceptable?~~ **Answered (2026-10-11): yes** — the product may use the team's free-tier Groq + Gemini key pool for selected roles, always with local fallback (doc 02 §2.5).
 5. Do we target Python only for the Coding/Testing agents (recommended), or also JS?
-6. Mid-eval date fixed? (plan assumes end of Sprint 5 + 2 buffer days)
+6. Mid-eval date fixed? (plan assumes end of Sprint 6 + 2 buffer days)

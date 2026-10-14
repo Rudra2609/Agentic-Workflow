@@ -1,0 +1,15 @@
+{
+ "url": "https://arxiv.org/abs/q-bio/0408003v1",
+ "final_url": null,
+ "title": "Physical Schemata Underlying Biological Pattern Formation - Examples, Issues and Strategies",
+ "kind": "arxiv",
+ "provider": "arxiv",
+ "text": "Physical Schemata Underlying Biological Pattern Formation - Examples, Issues and Strategies\n\nBiological systems excel at building spatial structures on scales ranging from nanometers to kilometers and exhibit temporal patterning from milliseconds to years. One approach that nature has taken to accomplish this relies on the harnessing of pattern-forming processes of non-equilibrium physics and chemistry. For these systems, the study of biological pattern formation starts with placing a biological phenomenon of interest within the context of the proper pattern-formation schema and then focusing on the ways in which control is exerted to adapt the pattern to the needs of the organism. This approach is illustrated by several examples, notably bacterial colonies (diffusive-growth schema) and intracellular calcium waves (excitable-media schema).",
+ "content_sha256": "ad62e4b9bfbab3870498dcec140eacb5f27133fd2db6a9c19e05307011681010",
+ "retrieved_at": "2026-10-14T09:09:39.024776Z",
+ "published": "2004-08-05",
+ "media_type": "text/plain",
+ "from_cache": false,
+ "injection_lines_removed": 0,
+ "license": "arXiv metadata: CC0 1.0 (title and abstract only)"
+}

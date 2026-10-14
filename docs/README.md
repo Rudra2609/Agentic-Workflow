@@ -14,12 +14,12 @@ This folder is the single source of truth for *how we build the project*, sprint
 | 3 | [03-sprint-process-and-handoff.md](03-sprint-process-and-handoff.md) | Sequential sprint rules, handoff-folder procedure, Definition of Done |
 | 4 | [04-gaps-and-risks.md](04-gaps-and-risks.md) | Things the work-distribution does **not** cover, and risks |
 | 5 | [sprints/README.md](sprints/README.md) | Sprint overview + timeline + dependency chain |
-| 6 | [sprints/mid-evaluation.md](sprints/mid-evaluation.md) | Mid-evaluation demo (code of Members 1–5) |
+| 6 | [sprints/mid-evaluation.md](sprints/mid-evaluation.md) | Mid-evaluation demo (code of Members 1–6) |
 | 7 | `sprints/sprint-01 … sprint-11` | The full plan for each sprint (exactly one owner per sprint, 11 members = 11 sprints) |
 
 ## One-paragraph summary of the plan
 
-Eleven sprints, strictly sequential, one per member (Members 1–11). There is no extra integration sprint: the platform-wide work (observability, security, one-command demo packaging, end-to-end integration, release gate) is **split across Members 4, 6, 9, 10 and 11** on top of their own subsystems (see the ownership table in [sprints/README.md](sprints/README.md)). After each sprint the repository is a **complete, runnable snapshot**: the next member receives that folder, adds only their own subsystem, and hands it on. The **mid-evaluation happens after Sprint 5**, showing a working vertical slice: *document upload → requirement extraction → task graph → refined autonomous research → live dashboard*, all running on local LLMs (`qwen3.5:9b`; selected roles may use the team's cloud key pool with local fallback) over the Member-1 communication layer.
+Eleven sprints, strictly sequential, one per member (Members 1–11). There is no extra integration sprint: the platform-wide work (observability, security, one-command demo packaging, end-to-end integration, release gate) is **split across Members 4, 6, 9, 10 and 11** on top of their own subsystems (see the ownership table in [sprints/README.md](sprints/README.md)). After each sprint the repository is a **complete, runnable snapshot**: the next member receives that folder, adds only their own subsystem, and hands it on. The **mid-evaluation happens after Sprint 6**, showing a working vertical slice: *document upload → requirement extraction → task graph → refined autonomous research → verification → live dashboard*, all running on local LLMs (`qwen3.5:9b`; selected roles may use the team's cloud key pool with local fallback) over the Member-1 communication layer.
 
 ## Ground rules (apply to every sprint)
 

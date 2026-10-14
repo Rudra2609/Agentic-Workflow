@@ -1,0 +1,15 @@
+{
+ "url": "https://arxiv.org/abs/1308.5163v1",
+ "final_url": null,
+ "title": "Evolving cellular automata for diversity generation and pattern recognition: deterministic versus random strategy",
+ "kind": "arxiv",
+ "provider": "arxiv",
+ "text": "Evolving cellular automata for diversity generation and pattern recognition: deterministic versus random strategy\n\nMicrobiological systems evolve to fulfill their tasks with maximal efficiency. The immune system is a remarkable example, where self-non self distinction is accomplished by means of molecular interaction between self proteins and antigens, triggering affinity-dependent systemic actions. Specificity of this binding and the infinitude of potential antigenic patterns call for novel mechanisms to generate antibody diversity. Inspired by this problem, we develop a genetic algorithm where agents evolve their strings in the presence of random antigenic strings and reproduce with affinity-dependent rates. We ask what is the best strategy to generate diversity if agents can rearrange their strings a finite number of times. We find that endowing each agent with an inheritable cellular automaton rule for performing rearrangements makes the system more efficient in pattern-matching than if transformations are totally random. In the former implementation, the population evolves to a stationary state where agents with different automata rules coexist.",
+ "content_sha256": "a17af6c5b99ad21776bb8ea7ce58d2a015d1276533c5232eeffe0705a76ed9c0",
+ "retrieved_at": "2026-10-14T09:09:43.380922Z",
+ "published": "2013-08-23",
+ "media_type": "text/plain",
+ "from_cache": false,
+ "injection_lines_removed": 0,
+ "license": "arXiv metadata: CC0 1.0 (title and abstract only)"
+}

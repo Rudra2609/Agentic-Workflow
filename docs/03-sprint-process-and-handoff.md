@@ -3,7 +3,7 @@
 ## 1. Sequential rule
 
 ```text
-Sprint 1 (M1) ──► Sprint 2 (M2) ──► … ──► Sprint 5 (M5) ──► MID-EVAL ──► Sprint 6 (M6) ──► … ──► Sprint 11 (M11) ══► FINAL RELEASE GATE (end of Sprint 11)
+Sprint 1 (M1) ──► Sprint 2 (M2) ──► … ──► Sprint 6 (M6) ──► MID-EVAL ──► Sprint 7 (M7) ──► … ──► Sprint 11 (M11) ══► FINAL RELEASE GATE (end of Sprint 11)
 ```
 - Member *N+1* starts coding only when Sprint *N* is **accepted** (all Definition-of-Done items ticked).
 - Research documents are written in parallel from day 0 (see doc 00 §F).

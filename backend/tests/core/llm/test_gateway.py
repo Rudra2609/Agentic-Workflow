@@ -94,7 +94,8 @@ async def test_record_then_replay_is_identical_with_zero_http(settings: Settings
     assert replayed.text == recorded.text and replayed.parsed == recorded.parsed
     assert replayed.usage.input_tokens == recorded.usage.input_tokens
     assert replayed.usage.cached is True
-    assert await replay.embed(["alpha", "beta"]) == vectors
+    replayed = await replay.embed(["alpha", "beta"])       # stored as float16 (Sprint 5): equal to 1e-3
+    assert all(abs(a - b) < 1e-3 for v, w in zip(vectors, replayed, strict=True) for a, b in zip(v, w, strict=True))
     assert len(server.requests) == n_http
     # both attempts (invalid + repair) and the embedding were recorded under the plug-in folder
     assert len(list((settings.llm_cache_dir / "doc_intel").glob("*/*.json"))) == 3
@@ -288,3 +289,36 @@ def test_local_provider_gets_the_configured_context_window() -> None:
     assert Settings.from_env({"HMAP_OLLAMA_NUM_CTX": "16384"}).ollama_num_ctx == 16384
     gw = Gateway(Settings(llm_mode="live", ollama_num_ctx=12000))
     assert gw._shared.local.num_ctx == 12000  # type: ignore[attr-defined]
+
+
+async def test_replay_records_only_missing_embeddings_when_asked(settings: Settings) -> None:
+    """HMAP_LLM_RECORD_MISSING=<plugin> also fills missing embeddings (Sprint 5: the research index); others stay
+    strict replay, and a recorded vector replays without calling the model again."""
+    from hmap.core.llm import ReplayMissError
+
+    local = CountingLocal()
+    strict = Gateway(settings, local=local, mode="replay").for_plugin("research")
+    with pytest.raises(ReplayMissError):
+        await strict.embed(["a chunk of text"])
+    filling = Gateway(settings.model_copy(update={"llm_record_missing": frozenset({"research"})}), local=local,
+                      mode="replay").for_plugin("research")
+    assert await filling.embed(["a chunk of text"]) == [[1.0]]
+    replay = Gateway(settings, local=_Boom(), mode="replay").for_plugin("research")
+    assert await replay.embed(["a chunk of text"]) == [[1.0]]                   # recorded, no model call
+    saved = json.loads(next((settings.llm_cache_dir / "research").rglob("*.json")).read_text())
+    assert "a chunk of text" not in saved["request"].values() and saved["response"]["encoding"] == "f16-b64"
+
+
+def test_embedding_cache_encoding_round_trips_and_reads_the_old_form() -> None:
+    from hmap.core.llm.gateway import decode_embeddings, encode_embeddings
+
+    vectors = [[0.125, -0.5, 0.333333], [1.0, 0.0, -2.0]]
+    back = decode_embeddings(encode_embeddings(vectors))
+    assert back is not None and all(abs(a - b) < 1e-3 for v, w in zip(vectors, back, strict=True)
+                                    for a, b in zip(v, w, strict=True))
+    assert decode_embeddings({"embeddings": [[1, 2]]}) == [[1.0, 2.0]] and decode_embeddings({}) is None
+
+
+class _Boom(CountingLocal):
+    async def embed(self, model: str, texts: list[str]) -> list[list[float]]:
+        raise AssertionError("must not be called")

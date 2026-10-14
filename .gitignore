@@ -49,3 +49,6 @@ CLAUDE.md
 HANDOFF.md
 CONTRIBUTING.md
 .hypothesis/
+
+samples/llm_cache/
+samples/research/search_cache/

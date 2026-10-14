@@ -108,6 +108,32 @@ class _Shared:
         return self._local
 
 
+def encode_embeddings(vectors: list[list[float]]) -> dict[str, Any]:
+    """Replay-cache form of embeddings: float16, little-endian, base64 per vector."""
+    import base64
+    import struct
+
+    return {"encoding": "f16-b64", "dims": [len(v) for v in vectors],
+            "embeddings_b64": [base64.b64encode(struct.pack(f"<{len(v)}e", *v)).decode("ascii") for v in vectors]}
+
+
+def decode_embeddings(response: dict[str, Any]) -> list[list[float]] | None:
+    """Both cache forms: ``embeddings`` (JSON numbers, older recordings) and ``embeddings_b64`` (float16)."""
+    import base64
+    import struct
+
+    if isinstance(response.get("embeddings"), list):
+        return [[float(x) for x in v] for v in response["embeddings"]]
+    raw = response.get("embeddings_b64")
+    if not isinstance(raw, list):
+        return None
+    out: list[list[float]] = []
+    for item in raw:
+        data = base64.b64decode(item)
+        out.append(list(struct.unpack(f"<{len(data) // 2}e", data)))
+    return out
+
+
 class Gateway:
     def __init__(self, settings: Settings, *, local: LocalProvider | None = None, cloud: ChatProvider | None = None,
                  fake: FakeLLM | None = None, cache: ReplayCache | None = None, mode: LLMMode | None = None,
@@ -238,19 +264,26 @@ class Gateway:
         key = cache_key(ingredients)
         started = time.perf_counter()
         if self.mode == "replay":
-            record = self._replay_record(key, ingredients)
-            vectors = record.get("response", {}).get("embeddings")
-            if not isinstance(vectors, list):
-                raise ReplayMissError(f"LLM replay: cache entry for key {key} holds no embeddings")
-            self._log("embed", str(record.get("model", "")), "cache", LLMUsage(cached=True), started, len(texts))
-            return [[float(x) for x in v] for v in vectors]
+            try:
+                record = self._replay_record(key, ingredients)
+            except ReplayMissError:
+                if not self._records_missing:       # HMAP_LLM_RECORD_MISSING=<plugin>: embed live and record it
+                    raise
+            else:
+                vectors = decode_embeddings(record.get("response", {}))
+                if vectors is None:
+                    raise ReplayMissError(f"LLM replay: cache entry for key {key} holds no embeddings")
+                self._log("embed", str(record.get("model", "")), "cache", LLMUsage(cached=True), started, len(texts))
+                return vectors
         model = self.model_for("embed")
         vectors = await self._shared.local.embed(model, texts)
-        if self.mode == "record":
+        if self.mode == "record" or (self.mode == "replay" and self._records_missing):
+            # half-precision, base64: far below what cosine ranking can notice; ~2 KB per 768-dim vector instead of
+            # ~11 KB of indented JSON numbers (Sprint 5: the research corpus has thousands of chunks)
             self.cache.save(self.plugin, key, {
                 "role": "embed", "prompt_version": self.prompt_version, "key_ingredients": ingredients,
                 "model": model, "model_digest": None, "provider": self._shared.local.name,
-                "request": {"model": model, "input": texts}, "response": {"embeddings": vectors}})
+                "request": {"model": model, "inputs": len(texts)}, "response": encode_embeddings(vectors)})
         self._log("embed", model, self._shared.local.name, LLMUsage(), started, len(texts))
         return vectors
 

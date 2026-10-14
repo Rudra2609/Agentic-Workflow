@@ -165,6 +165,16 @@ class Settings(BaseModel):
     jaeger_url: str = Field(default="http://127.0.0.1:16686", description="Jaeger UI (links from the Ops page)")
     grafana_url: str = Field(default="http://127.0.0.1:3001", description="Grafana (links from the Ops page)")
     prometheus_url: str = Field(default="http://127.0.0.1:9090", description="Prometheus (alerts, links)")
+    # --- autonomous research (Sprint 5, Member 5) ---
+    research_mode: Literal["online", "cached", "local"] = Field(
+        default="cached", description="online = live search + fetch (cached on disk); cached = cache + offline corpus "
+                                      "only, never the network; local = the local corpus only")
+    research_providers: tuple[str, ...] = Field(default=("wikipedia", "arxiv", "ddg", "local"),
+                                                description="search providers in order (HMAP_RESEARCH_PROVIDERS)")
+    research_cache_dir: Path = Field(default=REPO_ROOT / "data" / "research_cache",
+                                     description="fetched pages + search results (git-ignored)")
+    research_max_fetch_mb: float = Field(default=5.0, gt=0, description="largest page / PDF fetched")
+    research_rate_per_host: float = Field(default=1.0, gt=0, description="requests per second per host")
     # --- team cloud key pool (doc 02 §2.5, item 1.14b). Keys are SecretStr and hidden from repr/str/dumps.
     groq_api_keys: list[SecretStr] = Field(default_factory=list, repr=False)
     gemini_api_keys: list[SecretStr] = Field(default_factory=list, repr=False)
@@ -188,7 +198,7 @@ class Settings(BaseModel):
     cloud_base_url: str | None = None
     cloud_api_key: str | None = Field(default=None, repr=False)
 
-    @field_validator("artifact_root", "llm_cache_dir")
+    @field_validator("artifact_root", "llm_cache_dir", "research_cache_dir")
     @classmethod
     def _anchor_path(cls, value: Path) -> Path:
         return value if value.is_absolute() else (REPO_ROOT / value).resolve()
@@ -223,6 +233,9 @@ class Settings(BaseModel):
             "HMAP_OTEL_ENDPOINT": "otel_endpoint", "HMAP_METRICS_PORT": "metrics_port",
             "HMAP_METRICS_INTERVAL_S": "metrics_interval_s", "HMAP_JAEGER_URL": "jaeger_url",
             "HMAP_GRAFANA_URL": "grafana_url", "HMAP_PROMETHEUS_URL": "prometheus_url",
+            "HMAP_RESEARCH_MODE": "research_mode", "HMAP_RESEARCH_CACHE_DIR": "research_cache_dir",
+            "HMAP_RESEARCH_MAX_FETCH_MB": "research_max_fetch_mb",
+            "HMAP_RESEARCH_RATE_PER_HOST": "research_rate_per_host",
             "HMAP_CLOUD_BASE_URL": "cloud_base_url",
             "HMAP_CLOUD_API_KEY": "cloud_api_key", "HMAP_GROQ_BASE_URL": "groq_base_url",
             "HMAP_GEMINI_BASE_URL": "gemini_base_url", "HMAP_PUBLIC_URL": "public_url",
@@ -245,6 +258,8 @@ class Settings(BaseModel):
             data["cloud_ok"] = value.strip().lower() in ("1", "true", "yes", "on")
         if (value := get("HMAP_RETRY_DELAYS_S")) is not None:
             data["retry_delays_s"] = tuple(float(x) for x in value.split(",") if x.strip())
+        if (value := get("HMAP_RESEARCH_PROVIDERS")) is not None:
+            data["research_providers"] = tuple(p.strip() for p in value.split(",") if p.strip())
         if (value := get("HMAP_LLM_RECORD_MISSING")) is not None:
             data["llm_record_missing"] = frozenset(p.strip() for p in value.split(",") if p.strip())
         if (value := get("HMAP_ROLE_MAP")) is not None:

@@ -1,0 +1,15 @@
+{
+ "url": "https://arxiv.org/abs/2309.05242v4",
+ "final_url": null,
+ "title": "A Flexible Architecture for Broadcast Broadband Convergence in Beyond 5G",
+ "kind": "arxiv",
+ "provider": "arxiv",
+ "text": "A Flexible Architecture for Broadcast Broadband Convergence in Beyond 5G\n\nThere has been an exponential increase in the usage of multimedia services in mobile networks in recent years. To address this accelerating data demand, mobile networks are experiencing a subtle transformation in their architecture. One of the changes in this direction is the support of Multicast/Broadcast Service (MBS) in the Third Generation Partnership Project (3GPP) Fifth Generation (5G) network. The MBS has been introduced to enhance resource utilization and user experience in 3GPP 5G networks. However, there are certain limitations in the 3GPP 5G MBS architecture, such as the selection of the delivery method (unicast or broadcast) by the core network (may result in sub-optimal radio resource utilization) and no provision for converging non-3GPP broadcast technologies (like digital terrestrial television) with cellular (3GPP 5G) broadband. In this context, we propose a new architecture for the convergence of cellular broadband and non-3GPP broadcast networks. A novelty of the architecture is that it treats signalling exchange with User Equipment (UE) as data (service) which results in improved scalability of mobile networks. The architecture supports enhanced flexibility in choosing a delivery method (3GPP 5G unicast, 3GPP 5G broadcast, or non-3GPP broadcast) for user data. We evaluate the performance of the proposed architecture using process algebra-based simulations, demonstrating a significant reduction in the number of signalling messages exchanged between the UE and the network for MBS session establishment as compared to the 3GPP 5G network.",
+ "content_sha256": "215d1f392e4881b8860dd5706708c8ccf6f702887072f4d76013336db11aebed",
+ "retrieved_at": "2026-10-14T08:54:31.909062Z",
+ "published": "2023-09-11",
+ "media_type": "text/plain",
+ "from_cache": false,
+ "injection_lines_removed": 0,
+ "license": "arXiv metadata: CC0 1.0 (title and abstract only)"
+}

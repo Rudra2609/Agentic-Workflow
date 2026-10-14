@@ -9,8 +9,8 @@
 | [03](sprint-03-member3-planning-task-decomposition.md) | 3 | **M3** | Roadmap engine & dependency DAG | `plan.generate` | Manager | `TaskGraph` + plan-approval UI |
 | [04](sprint-04-member4-self-reflection-refinement.md) | 4 | **M4** | Self-critique & refinement framework | (library) | M2, M3, M5, later all | `Refiner` + `RefinementTrace` |
 | [05](sprint-05-member5-autonomous-research.md) | 5 | **M5** | Autonomous research | `research.run` | M6 | `ResearchReport` |
-| — | 5→6 | **ALL** | **[MID-EVALUATION](mid-evaluation.md)** (code of M1–M5) | | | live demo |
 | [06](sprint-06-member6-research-verification.md) | 6 | **M6** | Research verification | `verify.claims` | M5, M10 | `VerificationReport` |
+| — | 6→7 | **ALL** | **[MID-EVALUATION](mid-evaluation.md)** (code of M1–M6) | | | live demo |
 | [07](sprint-07-member7-autonomous-coding.md) | 7 | **M7** | Coding agent | `code.implement` | M8 | `CodeChangeSet` |
 | [08](sprint-08-member8-testing-execution.md) | 8 | **M8** | Testing, sandbox, code refinement | `test.run` | M7, M10 | `TestReport` |
 | [09](sprint-09-member9-technical-documentation.md) | 9 | **M9** | Documentation generation | `docs.generate` | M10 | `DocBundle` |
@@ -20,8 +20,9 @@
 ## Dependency chain (why order matters)
 
 ```text
-M1 ─► M2 ─► M3 ─► M4 ─► M5 ═══ MID-EVAL ═══► M6 ─► M7 ─► M8 ─► M9 ─► M10 ─► M11 ═► RELEASE GATE
-│      │     │     │     │
+M1 ─► M2 ─► M3 ─► M4 ─► M5 ─► M6 ═══ MID-EVAL ═══► M7 ─► M8 ─► M9 ─► M10 ─► M11 ═► RELEASE GATE
+│      │     │     │     │     │
+│      │     │     │     │     └ verifies M5's reports; owns the mid-eval readiness gate
 │      │     │     │     └ uses M4 Refiner for synthesis
 │      │     │     └ Refiner applied to M2 extraction + M3 plan (measured)
 │      │     └ consumes RequirementSet, emits TaskGraph the Manager executes
@@ -29,17 +30,17 @@ M1 ─► M2 ─► M3 ─► M4 ─► M5 ═══ MID-EVAL ═══► M6 �
 └ everything (bus, state, registry, artifacts, LLM gateway, UI shell, stubs)
 ```
 
-Why this order is also *good* for the mid-eval: after Sprint 5 the product already demonstrates **Plan → Assign → Execute** with real intelligence (documents, planning, refinement, research) over a real distributed bus, while Coding/Testing/Docs/Review are still stubs that keep the pipeline closed-loop.
+Why this order is also *good* for the mid-eval: after Sprint 6 the product already demonstrates **Plan → Assign → Execute** with real intelligence (documents, planning, refinement, research, verification) over a real distributed bus, while Coding/Testing/Docs/Review are still stubs that keep the pipeline closed-loop.
 
 ## Capability stub → real replacement map
 
-| Capability | S1 | After S5 (mid-eval) | Final |
+| Capability | S1 | After S6 (mid-eval) | Final |
 |---|---|---|---|
 | `document.extract` | stub | **real (M2)** | real |
 | `plan.generate` | stub (linear) | **real (M3)** | real |
 | `refine.*` | — | **real (M4)** | real |
 | `research.run` | stub | **real (M5)** | real |
-| `verify.claims` | stub | stub | real (M6) |
+| `verify.claims` | stub | **real (M6)** | real |
 | `code.implement` | stub | stub | real (M7) |
 | `test.run` | stub | stub | real (M8) |
 | `docs.generate` | stub | stub | real (M9) |

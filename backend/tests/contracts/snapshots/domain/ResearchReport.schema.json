@@ -177,6 +177,74 @@
     },
     "Source": {
       "properties": {
+        "content_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Sha256"
+        },
+        "kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "web",
+                "wiki",
+                "arxiv",
+                "local"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Kind"
+        },
+        "page_artifact": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "cleaned page text (research-page)"
+        },
+        "provider": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider"
+        },
+        "retrieved_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved At"
+        },
         "score": {
           "anyOf": [
             {
@@ -211,6 +279,64 @@
         "url"
       ],
       "title": "Source",
+      "type": "object"
+    },
+    "SubQuestion": {
+      "description": "One node of the research plan (Sprint 5): a brief question split into answerable parts.",
+      "properties": {
+        "coverage": {
+          "default": 0.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Coverage",
+          "type": "number"
+        },
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "queries": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Queries",
+          "type": "array"
+        },
+        "question": {
+          "default": 0,
+          "description": "index of the brief question it belongs to",
+          "minimum": 0,
+          "title": "Question",
+          "type": "integer"
+        },
+        "status": {
+          "default": "open",
+          "enum": [
+            "open",
+            "covered",
+            "partial",
+            "exhausted"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "success_criteria": {
+          "default": "",
+          "title": "Success Criteria",
+          "type": "string"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "SubQuestion",
       "type": "object"
     }
   },
@@ -257,6 +383,13 @@
       "minLength": 1,
       "title": "Stop Reason",
       "type": "string"
+    },
+    "sub_questions": {
+      "items": {
+        "$ref": "#/$defs/SubQuestion"
+      },
+      "title": "Sub Questions",
+      "type": "array"
     },
     "summary_markdown": {
       "anyOf": [
