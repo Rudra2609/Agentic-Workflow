@@ -1,0 +1,15 @@
+{
+ "url": "https://arxiv.org/abs/2306.04221v2",
+ "final_url": null,
+ "title": "Dynamic Probabilistic Reliable Broadcast",
+ "kind": "arxiv",
+ "provider": "arxiv",
+ "text": "Dynamic Probabilistic Reliable Broadcast\n\nByzantine reliable broadcast is a fundamental primitive in distributed systems that allows a set of processes to agree on a message broadcast by a dedicated process, even when some of them are malicious (Byzantine). It guarantees that no two correct processes deliver different messages, and if a message is delivered by a correct process, every correct process eventually delivers one. Byzantine reliable broadcast protocols are known to scale poorly, as they require $Ω(n^2)$ message exchanges, where $n$ is the number of system members. The quadratic cost can be explained by the inherent need for every process to relay a message to every other process. In this paper, we explore ways to overcome this limitation, by casting the problem to the probabilistic setting. We propose a solution in which every broadcast message is validated by a small set of witnesses, which allows us to maintain low latency and small communication complexity. In order to tolerate the slow adaptive adversary, we dynamically select the witnesses through a novel stream-local hash function: given a stream of inputs, it generates a stream of output hashed values that adapts to small deviations of the inputs. Our performance analysis shows that the proposed solution exhibits significant scalability gains over state-of-the-art protocols.",
+ "content_sha256": "6b64b620cf61a40fd64f09a1b54dc0890a191f5742ebd82d5299019bf6387d6d",
+ "retrieved_at": "2026-10-14T08:54:29.295721Z",
+ "published": "2023-06-07",
+ "media_type": "text/plain",
+ "from_cache": false,
+ "injection_lines_removed": 0,
+ "license": "arXiv metadata: CC0 1.0 (title and abstract only)"
+}

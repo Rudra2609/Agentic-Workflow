@@ -1,0 +1,15 @@
+{
+ "url": "https://arxiv.org/abs/2508.11565v2",
+ "final_url": null,
+ "title": "Aggregate and Broadcast: Scalable and Efficient Feature Interaction for Recommender Systems",
+ "kind": "arxiv",
+ "provider": "arxiv",
+ "text": "Aggregate and Broadcast: Scalable and Efficient Feature Interaction for Recommender Systems\n\nFeature interaction is a core ingredient in ranking models for large-scale recommender systems, yet making it both expressive and efficiently scalable remains challenging. Exhaustive pairwise interaction is powerful but incurs quadratic complexity in the number of tokens/features, while many efficient alternatives rely on restrictive structures that limit information exchange. We further identify two common bottlenecks in practice: (1) early aggregation of behavior sequences compresses fine-grained signals, making it difficult for deeper layers to reuse item-level details; and (2) late fusion injects task signals only at the end, preventing task objectives from directly guiding the interaction process. To address these issues, we propose the Information Flow Network (INFNet), a lightweight architecture that enables scalable, task-aware feature interaction with linear complexity. INFNet represents categorical features, behavior sequences, and task identifiers as tokens, and introduces a small set of hub tokens for each group to serve as communication hubs. Interaction is realized through an efficient aggregate-and-broadcast information flow: hub tokens aggregate global context across groups via cross-attention, and a lightweight gated broadcast unit injects the refined context back to update the categorical, sequence, and task tokens. This design supports width-preserving stacking that preserves item-level signals in sequence and enables task-guided interaction throughout the network, while reducing interaction cost from quadratic to linear in the number of feature tokens. Experiments on a public benchmark and a large-scale industrial dataset demonstrate that INFNet consistently outperforms strong baselines and exhibits strong scaling behavior. In a commercial online advertising system, deploying INFNet improves revenue by +1.587% and click-through rate by +1.155%.",
+ "content_sha256": "391251678c957fb7200145a036e84c2f0a83febc64d75da3f4f439b9619ee45e",
+ "retrieved_at": "2026-10-14T08:54:31.153266Z",
+ "published": "2025-08-15",
+ "media_type": "text/plain",
+ "from_cache": false,
+ "injection_lines_removed": 0,
+ "license": "arXiv metadata: CC0 1.0 (title and abstract only)"
+}

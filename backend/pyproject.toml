@@ -29,6 +29,12 @@ dependencies = [
     "opentelemetry-exporter-otlp-proto-http>=1.45,<1.46",
     "prometheus-client>=0.26,<0.27",
     "psutil>=7.2,<8",
+    # autonomous research (Member 5, Sprint 5): web search (DuckDuckGo), main-text extraction from HTML, robots.txt,
+    # keyword ranking for the hybrid index. Wikipedia / arXiv are called over httpx; pgvector via SQL (no extra lib).
+    "ddgs>=9.16,<9.17",
+    "trafilatura==2.2.0",
+    "protego>=0.7,<0.8",
+    "rank-bm25==0.2.2",
 ]
 
 [project.optional-dependencies]

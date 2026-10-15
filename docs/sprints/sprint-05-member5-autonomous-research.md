@@ -1,6 +1,6 @@
-# Sprint 5 — Member 5: Autonomous AI Research  (last sprint before MID-EVALUATION)
+# Sprint 5 — Member 5: Autonomous AI Research
 
-**Owner:** Member 5 · **Needs:** Sprint 4 accepted · **Unblocks:** Sprint 6 (verification) and the **mid-eval demo**
+**Owner:** Member 5 · **Needs:** Sprint 4 accepted · **Unblocks:** Sprint 6 (verification) and the **mid-eval demo** (after Sprint 6; Member 6 owns the readiness gate, Member 5 hands over a research step that runs offline)
 **Replaces stub:** `research.run` → `agents/research/`
 
 ## 1. Goal
@@ -70,7 +70,7 @@ Guarantee: every evidence quote is verbatim from content with matching sha256 (c
 - [ ] Offline (`cached`) run reproduces the demo report; `online` run works with network
 - [ ] 0 fabricated quotes on eval set; citation validity reported
 - [ ] Adversarial/injected web page does not change behaviour
-- [ ] **Sprint 1–5 regression green: `scripts/check_sprint.sh 5`** → triggers [mid-evaluation](mid-evaluation.md) readiness gate
+- [ ] **Sprint 1–5 regression green: `scripts/check_sprint.sh 5`**; the research step runs offline in the full storyline for the [mid-evaluation](mid-evaluation.md) (gate run by Member 6)
 
 ## 9. Risks
 Search blocked/flaky → cached/local providers; low-quality sources → scoring + dedup; runaway loops → budget; slow on 16 GB → small chunks, cache everything.

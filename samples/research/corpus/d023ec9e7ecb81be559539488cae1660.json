@@ -1,0 +1,15 @@
+{
+ "url": "https://en.wikipedia.org/wiki/List_of_JBoss_software",
+ "final_url": null,
+ "title": "List of JBoss software",
+ "kind": "wiki",
+ "provider": "wikipedia",
+ "text": "This is a list of articles for JBoss software, and projects from the JBoss Community and Red Hat. This open-source software written in Java is developed in projects, and productized with commercial-level support by Red Hat.\n\n== JBoss productized software ==\n\n== JBoss projects and software ==\n\n== See also ==\nComparison of application servers\nComparison of business integration software\nComparison of integrated development environments\nComparison of network monitoring systems\nComparison of object-relational mapping software\nComparison of web server software\n\n== References ==",
+ "content_sha256": "35119960e006dfbd491e7cbb0dfb477d4a50454aff13a5fb2ae370ba68b335f4",
+ "retrieved_at": "2026-10-14T09:02:38.859429Z",
+ "published": null,
+ "media_type": "text/plain",
+ "from_cache": false,
+ "injection_lines_removed": 0,
+ "license": "CC BY-SA 4.0 (Wikipedia contributors)"
+}

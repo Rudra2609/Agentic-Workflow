@@ -257,3 +257,9 @@ password_resets = sa.Table(
 )
 
 ALL_TABLES: tuple[str, ...] = tuple(metadata.tables)
+
+# Tables that members' own migrations add (no SQLAlchemy model here: the member's plug-in owns the SQL). The
+# migration test expects exactly ALL_TABLES + these, and ignores them when comparing the models with the schema.
+MEMBER_TABLES: dict[str, str] = {
+    "research_chunks": "Member 5, migration 005 (hmap.agents.research.index)",
+}

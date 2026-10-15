@@ -246,6 +246,8 @@ class ResearchBrief(Contract):
     scope: str = ""
     constraints: list[str] = Field(default_factory=list)
     budget: ResearchBudget = Field(default_factory=ResearchBudget)
+    follow_up_of: ArtifactRef | None = Field(default=None, description="earlier research-report this one extends "
+                                             "(Member 6's follow-up research on gaps; Sprint 5)")
 
 
 class Evidence(Contract):
@@ -269,6 +271,24 @@ class Source(Contract):
     title: str = ""
     score: float | None = None
     score_breakdown: dict[str, float] = Field(default_factory=dict)
+    # Sprint 5 (additive): where it came from and the exact text the quotes were checked against
+    provider: str | None = None
+    kind: Literal["web", "wiki", "arxiv", "local"] | None = None
+    retrieved_at: AwareDatetime | None = None
+    content_sha256: Sha256Hex | None = None
+    page_artifact: ArtifactRef | None = Field(default=None, description="cleaned page text (research-page)")
+
+
+class SubQuestion(Contract):
+    """One node of the research plan (Sprint 5): a brief question split into answerable parts."""
+
+    id: NonEmptyStr
+    question: int = Field(default=0, ge=0, description="index of the brief question it belongs to")
+    text: NonEmptyStr
+    queries: list[str] = Field(default_factory=list)
+    success_criteria: str = ""
+    coverage: float = Field(default=0.0, ge=0, le=1)
+    status: Literal["open", "covered", "partial", "exhausted"] = "open"
 
 
 class ResearchReport(Contract):
@@ -280,6 +300,7 @@ class ResearchReport(Contract):
     coverage: dict[str, float] = Field(default_factory=dict, description="sub-question -> 0..1")
     stop_reason: NonEmptyStr
     summary_markdown: str | None = None
+    sub_questions: list[SubQuestion] = Field(default_factory=list)   # Sprint 5 (additive)
 
     @model_validator(mode="after")
     def _check(self) -> "ResearchReport":

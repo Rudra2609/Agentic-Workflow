@@ -42,7 +42,7 @@ Machine audited on 2026-10-02: **Apple M3, 16 GB unified RAM, 167 GB free on `/V
 | D9 | Frontend | Next.js | **Next.js (App Router) + Tailwind + React Flow** for DAGs |
 | D10 | Sprint length | 4–7 days | **assume 1 week/sprint** (adjust in `sprints/README.md`) |
 | D11 | Who owns Manager / API / UI shell / integration? | see [04-gaps](04-gaps-and-risks.md) | **Member 1 (confirmed: holds the master folder)** — Sprint 1, plus sign-off on `core/`/`manager/` requests and the final release gate with M11 |
-| D12 | Mid-eval date | — | **end of Sprint 5 + 2 buffer days** |
+| D12 | Mid-eval date | — | **end of Sprint 6 + 2 buffer days** (changed 2026-10-14) |
 
 ## D. Accounts / network
 
