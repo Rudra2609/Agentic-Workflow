@@ -1,0 +1,92 @@
+[
+ {
+  "variant": "syntax_error",
+  "category": "SYNTAX",
+  "stage": "unit",
+  "description": "missing colon after a function signature"
+ },
+ {
+  "variant": "import_error",
+  "category": "IMPORT",
+  "stage": "unit",
+  "description": "imports a module that does not exist"
+ },
+ {
+  "variant": "name_error",
+  "category": "CRASH",
+  "stage": "unit",
+  "description": "a misspelled variable (NameError at run time)"
+ },
+ {
+  "variant": "off_by_one",
+  "category": "ASSERTION",
+  "stage": "unit",
+  "description": "an exactly complete frame is treated as incomplete (< became <=)"
+ },
+ {
+  "variant": "swapped_arguments",
+  "category": "ASSERTION",
+  "stage": "unit",
+  "description": "/msg returns the text and the target in the wrong order"
+ },
+ {
+  "variant": "race_condition",
+  "category": "ASSERTION",
+  "stage": "unit",
+  "description": "the lock was removed and a pause opens a check-then-set race"
+ },
+ {
+  "variant": "infinite_loop",
+  "category": "TIMEOUT",
+  "stage": "unit",
+  "description": "an incomplete frame loops forever instead of waiting for more bytes"
+ },
+ {
+  "variant": "recursion",
+  "category": "CRASH",
+  "stage": "unit",
+  "description": "parse_command calls itself without end (RecursionError)"
+ },
+ {
+  "variant": "insecure_eval",
+  "category": "SECURITY",
+  "stage": "security",
+  "description": "plain text goes through eval() (code injection); tests still pass"
+ },
+ {
+  "variant": "shell_injection",
+  "category": "SECURITY",
+  "stage": "security",
+  "description": "a nickname is passed to a shell command (shell=True); tests still pass"
+ },
+ {
+  "variant": "hardcoded_secret",
+  "category": "SECURITY",
+  "stage": "security",
+  "description": "an admin password in the source code; tests still pass"
+ },
+ {
+  "variant": "lint_unused_import",
+  "category": "LINT",
+  "stage": "static",
+  "description": "an unused import and a bare except; tests still pass"
+ },
+ {
+  "variant": "type_error",
+  "category": "CRASH",
+  "stage": "unit",
+  "description": "a str is added to bytes when building a frame (TypeError)"
+ },
+ {
+  "variant": "swallowed_error",
+  "category": "ASSERTION",
+  "stage": "unit",
+  "description": "an invalid nickname returns False instead of raising ProtocolError"
+ },
+ {
+  "variant": "not_implemented",
+  "category": "CRASH",
+  "stage": "unit",
+  "description": "unregister was left as a stub (NotImplementedError)"
+ }
+]
