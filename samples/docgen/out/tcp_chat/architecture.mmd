@@ -1,0 +1,8 @@
+flowchart LR
+  client(["client.py"])
+  protocol["protocol.py"]
+  server(["server.py"])
+  tests_test_protocol["tests/test_protocol.py"]
+  client --> protocol
+  server --> protocol
+  tests_test_protocol --> protocol
