@@ -1,0 +1,769 @@
+[
+ {
+  "id": "multi_client_unsupported",
+  "description": "guide \u00a732: the server blocks on the first client; the multi-client test fails",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R1": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_two_clients_chat",
+       "status": "failed",
+       "covers": [
+        "R1",
+        "R3"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    },
+    "R3": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_two_clients_chat",
+       "status": "failed",
+       "covers": [
+        "R1",
+        "R3"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R1",
+     "INCORRECT",
+     "T-srv"
+    ],
+    [
+     "R3",
+     "INCORRECT",
+     "T-srv"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-srv"
+    ]
+   ],
+   "rerun": [
+    "T-test",
+    "T-docs"
+   ],
+   "outcome": "PASS",
+   "rounds": 1
+  }
+ },
+ {
+  "id": "missing_readme",
+  "description": "the docs task produced no README",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R7": {
+     "deliverables": [
+      {
+       "name": "README.md",
+       "present": false
+      }
+     ],
+     "tests": [],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R7",
+     "MISSING",
+     "T-docs"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-docs"
+    ]
+   ],
+   "rerun": [],
+   "outcome": "PASS",
+   "rounds": 1
+  }
+ },
+ {
+  "id": "hallucinated_doc_claim",
+  "description": "the README says Redis, which the code never uses (Sprint 9 grounding report)",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R7": {
+     "deliverables": [
+      {
+       "name": "README.md",
+       "present": true
+      }
+     ],
+     "tests": [],
+     "verification": [],
+     "doc_ungrounded": [
+      "TECH 'Redis'"
+     ],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R7",
+     "DOC_MISMATCH",
+     "T-docs"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-docs"
+    ]
+   ],
+   "rerun": [],
+   "outcome": "PASS",
+   "rounds": 1
+  }
+ },
+ {
+  "id": "unsupported_research_claim",
+  "description": "one research claim has no support (Sprint 6 verification report)",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R10": {
+     "deliverables": [],
+     "tests": [],
+     "verification": [
+      {
+       "claim": "TCP is connection-oriented",
+       "verdict": "supported"
+      },
+      {
+       "claim": "Python threads run in parallel on all cores",
+       "verdict": "unsupported"
+      }
+     ],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R10",
+     "UNSUPPORTED_CLAIM",
+     "T-res"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-res"
+    ]
+   ],
+   "rerun": [
+    "T-ver",
+    "T-docs"
+   ],
+   "outcome": "PASS",
+   "rounds": 1
+  }
+ },
+ {
+  "id": "client_side_bug",
+  "description": "/msg fails only in the client; blame must go to the client task, not the server",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R4": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_private_msg_only_target",
+       "status": "passed",
+       "covers": [
+        "R4"
+       ],
+       "module": "server.py"
+      },
+      {
+       "name": "test_client_msg_command",
+       "status": "failed",
+       "covers": [
+        "R4"
+       ],
+       "module": "client.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R4",
+     "INCORRECT",
+     "T-cli"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-cli"
+    ]
+   ],
+   "rerun": [
+    "T-test",
+    "T-docs"
+   ],
+   "outcome": "PASS",
+   "rounds": 1
+  }
+ },
+ {
+  "id": "two_failures_one_round",
+  "description": "duplicate nicknames accepted AND the protocol test file is missing",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R2": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_duplicate_nick",
+       "status": "failed",
+       "covers": [
+        "R2"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    },
+    "R8": {
+     "deliverables": [
+      {
+       "name": "tests/test_protocol.py",
+       "present": false
+      }
+     ],
+     "tests": [],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R2",
+     "INCORRECT",
+     "T-srv"
+    ],
+    [
+     "R8",
+     "MISSING",
+     "T-test"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-srv"
+    ],
+    [
+     "revise",
+     "T-test"
+    ]
+   ],
+   "rerun": [
+    "T-docs"
+   ],
+   "outcome": "PASS",
+   "rounds": 1
+  }
+ },
+ {
+  "id": "untested_requirement",
+  "description": "R6 is handled in code but nothing tests it: ask the test task for a test, not the coder for a change",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R6": {
+     "deliverables": [],
+     "tests": [],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R6",
+     "UNTESTED",
+     "T-test"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-test"
+    ]
+   ],
+   "rerun": [
+    "T-docs"
+   ],
+   "outcome": "PASS",
+   "rounds": 1
+  }
+ },
+ {
+  "id": "flaky_timeout",
+  "description": "the multi-client test times out once (slow laptop): rerun before blaming the code",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R1": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_two_clients_chat",
+       "status": "timeout",
+       "covers": [
+        "R1"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R1",
+     "INCORRECT",
+     "T-srv"
+    ]
+   ],
+   "actions": [
+    [
+     "rerun",
+     "T-test"
+    ]
+   ],
+   "rerun": [
+    "T-test",
+    "T-docs"
+   ],
+   "outcome": "PASS",
+   "rounds": 1
+  }
+ },
+ {
+  "id": "uncovered_requirement",
+  "description": "no task in the plan covers R9 (planning gap): replan, do not blame a random task",
+  "budget": 3,
+  "coverage_override": {
+   "R9": []
+  },
+  "rounds": [
+   {
+    "R9": {
+     "deliverables": [
+      {
+       "name": "report.md#concurrency",
+       "present": false
+      }
+     ],
+     "tests": [],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R9",
+     "MISSING",
+     null
+    ]
+   ],
+   "actions": [
+    [
+     "replan",
+     "R9"
+    ]
+   ],
+   "rerun": [],
+   "outcome": "PASS",
+   "rounds": 1
+  }
+ },
+ {
+  "id": "stuck_fix",
+  "description": "the coder's fix does not help: same failure after a revision -> plateau -> ask a human",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R6": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_client_killed_server_survives",
+       "status": "crashed",
+       "covers": [
+        "R6"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {
+    "R6": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_client_killed_server_survives",
+       "status": "crashed",
+       "covers": [
+        "R6"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   }
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R6",
+     "INCORRECT",
+     "T-srv"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-srv"
+    ]
+   ],
+   "rerun": [
+    "T-test",
+    "T-docs"
+   ],
+   "outcome": "ESCALATE",
+   "rounds": 1,
+   "reason": "plateau"
+  }
+ },
+ {
+  "id": "oscillating_fixes",
+  "description": "each fix breaks the other requirement (R2, R3, R2, ...): a failure set seen before -> stop early",
+  "budget": 3,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R2": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_duplicate_nick",
+       "status": "failed",
+       "covers": [
+        "R2"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {
+    "R3": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_broadcast_all",
+       "status": "failed",
+       "covers": [
+        "R3"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {
+    "R2": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_duplicate_nick",
+       "status": "failed",
+       "covers": [
+        "R2"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {
+    "R3": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_broadcast_all",
+       "status": "failed",
+       "covers": [
+        "R3"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   }
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R2",
+     "INCORRECT",
+     "T-srv"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-srv"
+    ]
+   ],
+   "rerun": [
+    "T-test",
+    "T-docs"
+   ],
+   "outcome": "ESCALATE",
+   "rounds": 2,
+   "reason": "oscillation"
+  }
+ },
+ {
+  "id": "slow_progress",
+  "description": "each round fixes one thing but three were broken; the budget (2 rounds) runs out first",
+  "budget": 2,
+  "coverage_override": {},
+  "rounds": [
+   {
+    "R1": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_two_clients_chat",
+       "status": "failed",
+       "covers": [
+        "R1"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    },
+    "R2": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_duplicate_nick",
+       "status": "failed",
+       "covers": [
+        "R2"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    },
+    "R3": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_broadcast_all",
+       "status": "failed",
+       "covers": [
+        "R3"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {
+    "R2": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_duplicate_nick",
+       "status": "failed",
+       "covers": [
+        "R2"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    },
+    "R3": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_broadcast_all",
+       "status": "failed",
+       "covers": [
+        "R3"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {
+    "R3": {
+     "deliverables": [],
+     "tests": [
+      {
+       "name": "test_broadcast_all",
+       "status": "failed",
+       "covers": [
+        "R3"
+       ],
+       "module": "server.py"
+      }
+     ],
+     "verification": [],
+     "doc_ungrounded": [],
+     "producer_note": ""
+    }
+   },
+   {}
+  ],
+  "expect": {
+   "failures": [
+    [
+     "R1",
+     "INCORRECT",
+     "T-srv"
+    ],
+    [
+     "R2",
+     "INCORRECT",
+     "T-srv"
+    ],
+    [
+     "R3",
+     "INCORRECT",
+     "T-srv"
+    ]
+   ],
+   "actions": [
+    [
+     "revise",
+     "T-srv"
+    ]
+   ],
+   "rerun": [
+    "T-test",
+    "T-docs"
+   ],
+   "outcome": "ESCALATE",
+   "rounds": 2,
+   "reason": "budget"
+  }
+ }
+]
