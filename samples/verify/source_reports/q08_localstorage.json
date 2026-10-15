@@ -1,0 +1,232 @@
+{
+ "task_id": "q08_localstorage",
+ "questions": [
+  "How to reliably serialize and deserialize task objects for localStorage?"
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "text": "LocalStorage can safely store data that has been converted to a JSON string using JSON.stringify, as JSON is a built‑in format supported by ECMAScript.",
+   "evidence_ids": [
+    "E1"
+   ]
+  },
+  {
+   "id": "C2",
+   "text": "Textual formats such as CSV or JSON supersets (e.g., Ion) can also be stored in localStorage after being serialized to a string.",
+   "evidence_ids": [
+    "E2"
+   ]
+  },
+  {
+   "id": "C3",
+   "text": "When objects are serialized, their associated methods are not included in the stored representation.",
+   "evidence_ids": [
+    "E10"
+   ]
+  },
+  {
+   "id": "C4",
+   "text": "Deserialized objects are merely property bags without live methods, so methods must be re‑attached after parsing.",
+   "evidence_ids": [
+    "E11"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "id": "E1",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "Since ECMAScript 5.1, JavaScript has included the built-in JSON object and its methods JSON.parse() and JSON.stringify()",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E2",
+   "url": "https://en.wikipedia.org/wiki/JSON",
+   "quote": "For textual formats, CSV and supersets of JSON (see below). Ion also offers a textual format that's a JSON superset (wider range of primary types, annotations, comments, and allowing trailing commas)",
+   "content_sha256": "f4ca1856947ded8e91b837cba3ac991ddcf046e586feff9aab67d9d724e09325",
+   "retrieved_at": "2026-10-14T09:05:55.343957Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E3",
+   "url": "https://en.wikipedia.org/wiki/JSON",
+   "quote": "For faster processing at the cost of human-readability, data interchange formats that can express all JSON objects (i.e. that have a data model that is a superset of JSON's) include CBOR (an IETF RFC standard) and Ion binary",
+   "content_sha256": "f4ca1856947ded8e91b837cba3ac991ddcf046e586feff9aab67d9d724e09325",
+   "retrieved_at": "2026-10-14T09:05:55.343957Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E4",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "PHP originally implemented serialization through the built-in serialize() and unserialize() functions",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  },
+  {
+   "id": "E5",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "Serde is the most widely used library, or crate, for serialization in Rust which provides the Serialize and Deserialize traits",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  },
+  {
+   "id": "E6",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "Ruby includes the standard module Marshal with 2 methods dump and load, akin to the standard Unix utilities dump and restore",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  },
+  {
+   "id": "E7",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "The Swift standard library provides two protocols, Encodable and Decodable (composed together as Codable), which allow instances of conforming types to be serialized to or deserialized from JSON, property lists, or other formats",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E8",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "Two dimensional data structures can also be (de)serialized in CSV format using the built-in cmdlets Import-CSV and Export-CSV",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E9",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "PHP can serialize any of its data types except resources (file pointers, sockets, etc.). The built-in unserialize() function is often dangerous when used on completely untrusted data. For objects, there are two \"magic methods\" that can be implemented within a class — __sleep() and __wakeup() — that are called from within serialize() and unserialize(), respectively, that can clean up and restore an object",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  },
+  {
+   "id": "E10",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "Serialization of objects does not include any of their associated methods with which they were previously linked",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  },
+  {
+   "id": "E11",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "Deserialized objects, often known as \"property bags\" are not live objects; they are snapshots that have properties, but no methods",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  },
+  {
+   "id": "E12",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "json (with built-in support for basic scalar and collection types and able to support arbitrary types via encoding and decoding hooks)",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E13",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "PowerShell implements serialization through the built-in cmdlet Export-CliXML. Export-CliXML serializes .NET objects and stores the resulting XML in a file. To reconstitute the objects, use the Import-CliXML cmdlet, which generates a deserialized object from the XML in the exported file",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  },
+  {
+   "id": "E14",
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "quote": "Primitives as well as non-transient, non-static referenced objects are encoded into the stream. Each object that is referenced by the serialized object via a field that is not marked as transient must also be serialized; and if any object in the complete graph of non-transient object references is not serializable, then serialization will fail",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  }
+ ],
+ "sources": [
+  {
+   "url": "https://en.wikipedia.org/wiki/Serialization",
+   "title": "Serialization",
+   "score": 0.8789,
+   "score_breakdown": {
+    "relevance": 0.9766,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 1.0
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T09:05:56.869743Z",
+   "content_sha256": "cd177d9dc53034299dedefa28c915b9a704d8a76dbf9f8dd7ff0e3a8e0887689",
+   "page_artifact": null
+  },
+  {
+   "url": "https://en.wikipedia.org/wiki/JSON",
+   "title": "JSON",
+   "score": 0.5542,
+   "score_breakdown": {
+    "relevance": 0.9327,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 0.3204
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T09:05:55.343957Z",
+   "content_sha256": "f4ca1856947ded8e91b837cba3ac991ddcf046e586feff9aab67d9d724e09325",
+   "page_artifact": null
+  }
+ ],
+ "coverage": {
+  "S1.1": 0.75,
+  "S1.2": 0.75
+ },
+ "stop_reason": "low_novelty",
+ "summary_markdown": "## How to reliably serialize and deserialize task objects for localStorage?\n\n**What data formats can be safely stored in localStorage for task objects?** — 75 % covered\n- LocalStorage can safely store data that has been converted to a JSON string using JSON.stringify, as JSON is a built‑in format supported by ECMAScript. [1]\n- Textual formats such as CSV or JSON supersets (e.g., Ion) can also be stored in localStorage after being serialized to a string. [2]\n\n**How to correctly serialize and deserialize task objects with methods or dates for localStorage?** — 75 % covered\n- When objects are serialized, their associated methods are not included in the stored representation. [1]\n- Deserialized objects are merely property bags without live methods, so methods must be re‑attached after parsing. [1]\n\n## Sources\n1. Serialization — https://en.wikipedia.org/wiki/Serialization\n2. JSON — https://en.wikipedia.org/wiki/JSON\n\n_Stopped: low novelty._\n",
+ "sub_questions": [
+  {
+   "id": "S1.1",
+   "question": 0,
+   "text": "What data formats can be safely stored in localStorage for task objects?",
+   "queries": [
+    "json stringify localstorage",
+    "store objects in localstorage",
+    "localstorage data format limitations"
+   ],
+   "success_criteria": "Explain that JSON strings are the standard format, noting size limits (~5 MB) and that only strings can be stored.",
+   "coverage": 0.75,
+   "status": "partial"
+  },
+  {
+   "id": "S1.2",
+   "question": 0,
+   "text": "How to correctly serialize and deserialize task objects with methods or dates for localStorage?",
+   "queries": [
+    "serialize javascript object with functions",
+    "json parse date objects",
+    "restore class instances from localstorage"
+   ],
+   "success_criteria": "Describe using JSON for plain data, and custom reviver functions or manual reconstruction to restore methods, Date objects, and class instances after parsing.",
+   "coverage": 0.75,
+   "status": "partial"
+  }
+ ]
+}

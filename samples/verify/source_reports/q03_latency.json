@@ -1,0 +1,124 @@
+{
+ "task_id": "q03_latency",
+ "questions": [
+  "How can we accurately measure message latency on a local network using only standard library tools?"
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "text": "Python's standard library includes the time module, which provides Unix‑time timestamps for messages.",
+   "evidence_ids": [
+    "E1"
+   ]
+  },
+  {
+   "id": "C2",
+   "text": "JavaScript's built‑in Date object supplies millisecond‑resolution timestamps based on the Unix epoch.",
+   "evidence_ids": [
+    "E1"
+   ]
+  },
+  {
+   "id": "C3",
+   "text": "Java's standard library offers the Instant class, which holds Unix timestamps with second and nanosecond precision.",
+   "evidence_ids": [
+    "E2"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "id": "E1",
+   "url": "https://en.wikipedia.org/wiki/Unix_time",
+   "quote": "Python provides a time library which uses Unix time. JavaScript provides a Date library which provides and stores timestamps in milliseconds since the Unix epoch and is implemented in all modern desktop and mobile web browsers as well as in JavaScript server environments like Node.js",
+   "content_sha256": "ccd9d0ea92c6c94032225e17e108a897ce0102e8fcf2d8e6d1e9cd8f97fda9ef",
+   "retrieved_at": "2026-10-14T08:55:57.409038Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E2",
+   "url": "https://en.wikipedia.org/wiki/Unix_time",
+   "quote": "Java provides an Instant object which holds a Unix timestamp in both seconds and nanoseconds",
+   "content_sha256": "ccd9d0ea92c6c94032225e17e108a897ce0102e8fcf2d8e6d1e9cd8f97fda9ef",
+   "retrieved_at": "2026-10-14T08:55:57.409038Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E3",
+   "url": "https://en.wikipedia.org/wiki/Unix_time",
+   "quote": "The C standard library uses Unix time for all date and time functions, and Unix time is sometimes referred to as time_t, the name of the data type used for timestamps in C and C++",
+   "content_sha256": "ccd9d0ea92c6c94032225e17e108a897ce0102e8fcf2d8e6d1e9cd8f97fda9ef",
+   "retrieved_at": "2026-10-14T08:55:57.409038Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  }
+ ],
+ "sources": [
+  {
+   "url": "https://en.wikipedia.org/wiki/Unix_time",
+   "title": "Unix time",
+   "score": 0.5858,
+   "score_breakdown": {
+    "relevance": 0.9462,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 0.3757
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T08:55:57.409038Z",
+   "content_sha256": "ccd9d0ea92c6c94032225e17e108a897ce0102e8fcf2d8e6d1e9cd8f97fda9ef",
+   "page_artifact": null
+  }
+ ],
+ "coverage": {
+  "S1.1": 0.625,
+  "S1.2": 0.5,
+  "S1.3": 0.0
+ },
+ "stop_reason": "low_novelty",
+ "summary_markdown": "## How can we accurately measure message latency on a local network using only standard library tools?\n\n**What standard library functions or modules can be used to timestamp packets or messages on a local network?** — 62 % covered\n- Python's standard library includes the time module, which provides Unix‑time timestamps for messages. [1]\n- JavaScript's built‑in Date object supplies millisecond‑resolution timestamps based on the Unix epoch. [1]\n- Java's standard library offers the Instant class, which holds Unix timestamps with second and nanosecond precision. [1]\n\n**How to implement a round‑trip time measurement between two hosts using only those standard tools?** — 50 % covered\n- No sourced answer found.\n\n**What are the typical sources of error and how can they be minimized when measuring local network latency with standard libraries?** — 0 % covered\n- No sourced answer found.\n\n## Sources\n1. Unix time — https://en.wikipedia.org/wiki/Unix_time\n\n_Stopped: low novelty._\n",
+ "sub_questions": [
+  {
+   "id": "S1.1",
+   "question": 0,
+   "text": "What standard library functions or modules can be used to timestamp packets or messages on a local network?",
+   "queries": [
+    "python standard library timestamp network",
+    "go standard library measure latency",
+    "c++ chrono network timestamp"
+   ],
+   "success_criteria": "List the relevant standard library APIs (e.g., time, socket, chrono) and explain how they provide high‑resolution timestamps.",
+   "coverage": 0.625,
+   "status": "partial"
+  },
+  {
+   "id": "S1.2",
+   "question": 0,
+   "text": "How to implement a round‑trip time measurement between two hosts using only those standard tools?",
+   "queries": [
+    "measure round trip time python socket",
+    "go ping without external tool",
+    "c++ send receive latency standard library"
+   ],
+   "success_criteria": "Describe a simple client/server code pattern that sends a timestamped message and calculates latency from the round‑trip time.",
+   "coverage": 0.5,
+   "status": "partial"
+  },
+  {
+   "id": "S1.3",
+   "question": 0,
+   "text": "What are the typical sources of error and how can they be minimized when measuring local network latency with standard libraries?",
+   "queries": [
+    "latency measurement error local network",
+    "reduce clock drift python timing",
+    "network jitter measurement techniques"
+   ],
+   "success_criteria": "Identify common error sources (clock resolution, OS scheduling, buffering) and give practical steps to mitigate them.",
+   "coverage": 0.0,
+   "status": "open"
+  }
+ ]
+}

@@ -1,0 +1,163 @@
+{
+ "task_id": "q10_strategy",
+ "questions": [
+  "How to implement fee-rule configurability (e.g., strategy pattern) without external libraries?"
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "text": "The strategy pattern is a behavioral design pattern that lets a program select an algorithm at runtime.",
+   "evidence_ids": [
+    "E1"
+   ]
+  },
+  {
+   "id": "C2",
+   "text": "It decouples the algorithm from its clients, allowing the algorithm to vary independently from the code that uses it.",
+   "evidence_ids": [
+    "E2"
+   ]
+  },
+  {
+   "id": "C3",
+   "text": "Applying it to fee‑rule configurability means encapsulating each fee calculation rule as a separate strategy class and letting the fee‑processing component hold a reference to the chosen rule, which can be swapped without changing the component’s code.",
+   "evidence_ids": [
+    "E4",
+    "E6"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "id": "E1",
+   "url": "https://en.wikipedia.org/wiki/Strategy_pattern",
+   "quote": "In computer programming, the strategy pattern (also known as the policy pattern) is a behavioral software design pattern that enables selecting an algorithm at runtime",
+   "content_sha256": "b7562c11ea1d193e3c3f8b34b40115482ba0b2dc1ac14c022956d22d859aadca",
+   "retrieved_at": "2026-10-14T09:09:35.878824Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E2",
+   "url": "https://en.wikipedia.org/wiki/Strategy_pattern",
+   "quote": "Strategy lets the algorithm vary independently from clients that use it",
+   "content_sha256": "b7562c11ea1d193e3c3f8b34b40115482ba0b2dc1ac14c022956d22d859aadca",
+   "retrieved_at": "2026-10-14T09:09:35.878824Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E3",
+   "url": "https://en.wikipedia.org/wiki/State_pattern",
+   "quote": "The state pattern can be interpreted as a strategy pattern, which is able to switch a strategy through invocations of methods defined in the pattern's interface",
+   "content_sha256": "72dba76467da87a69b72797a2e32b8fcd90e9a7e22eebbb5ecbeda374f34f595",
+   "retrieved_at": "2026-10-14T09:09:38.897207Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E4",
+   "url": "https://en.wikipedia.org/wiki/Strategy_pattern",
+   "quote": "For instance, a class that performs validation on incoming data may use the strategy pattern to select a validation algorithm depending on the type of data, the source of the data, user choice, or other discriminating factors. These factors are not known until runtime and may require radically different validation to be performed. The validation algorithms (strategies), encapsulated separately from the validating object, may be used by other validating objects in different areas of the system (or even different systems) without code duplication",
+   "content_sha256": "b7562c11ea1d193e3c3f8b34b40115482ba0b2dc1ac14c022956d22d859aadca",
+   "retrieved_at": "2026-10-14T09:09:35.878824Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E5",
+   "url": "https://en.wikipedia.org/wiki/Strategy_pattern",
+   "quote": "Typically, the strategy pattern stores a reference to code in a data structure and retrieves it. This can be achieved by mechanisms such as the native function pointer, the first-class function, classes or class instances in object-oriented programming languages, or accessing the language implementation's internal storage of code via reflection",
+   "content_sha256": "b7562c11ea1d193e3c3f8b34b40115482ba0b2dc1ac14c022956d22d859aadca",
+   "retrieved_at": "2026-10-14T09:09:35.878824Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E6",
+   "url": "https://en.wikipedia.org/wiki/Strategy_pattern",
+   "quote": "The strategy pattern uses composition instead of inheritance. In the strategy pattern, behaviors are defined as separate interfaces and specific classes that implement these interfaces. This allows better decoupling between the behavior and the class that uses the behavior. The behavior can be changed without breaking the classes that use it, and the classes can switch between behaviors by changing the specific implementation used without requiring any significant code changes. Behaviors can also be changed at runtime as well as at design-time",
+   "content_sha256": "b7562c11ea1d193e3c3f8b34b40115482ba0b2dc1ac14c022956d22d859aadca",
+   "retrieved_at": "2026-10-14T09:09:35.878824Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E7",
+   "url": "https://en.wikipedia.org/wiki/Strategy_pattern",
+   "quote": "According to the strategy pattern, the behaviors of a class should not be inherited. Instead, they should be encapsulated using interfaces",
+   "content_sha256": "b7562c11ea1d193e3c3f8b34b40115482ba0b2dc1ac14c022956d22d859aadca",
+   "retrieved_at": "2026-10-14T09:09:35.878824Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  }
+ ],
+ "sources": [
+  {
+   "url": "https://en.wikipedia.org/wiki/Strategy_pattern",
+   "title": "Strategy pattern",
+   "score": 0.8927,
+   "score_breakdown": {
+    "relevance": 0.9919,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 1.0
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T09:09:35.878824Z",
+   "content_sha256": "b7562c11ea1d193e3c3f8b34b40115482ba0b2dc1ac14c022956d22d859aadca",
+   "page_artifact": null
+  },
+  {
+   "url": "https://en.wikipedia.org/wiki/State_pattern",
+   "title": "State pattern",
+   "score": 0.4774,
+   "score_breakdown": {
+    "relevance": 0.9038,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 0.1737
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T09:09:38.897207Z",
+   "content_sha256": "72dba76467da87a69b72797a2e32b8fcd90e9a7e22eebbb5ecbeda374f34f595",
+   "page_artifact": null
+  }
+ ],
+ "coverage": {
+  "S1.1": 0.75,
+  "S1.2": 0.0
+ },
+ "stop_reason": "low_novelty",
+ "summary_markdown": "## How to implement fee-rule configurability (e.g., strategy pattern) without external libraries?\n\n**What is the strategy pattern and how can it be applied to fee-rule configurability in code?** — 75 % covered\n- The strategy pattern is a behavioral design pattern that lets a program select an algorithm at runtime. [1]\n- It decouples the algorithm from its clients, allowing the algorithm to vary independently from the code that uses it. [1]\n- Applying it to fee‑rule configurability means encapsulating each fee calculation rule as a separate strategy class and letting the fee‑processing component hold a reference to the chosen rule, which can be swapped without changing the component’s code. [1]\n\n**What are simple design alternatives to the strategy pattern for configurable fee rules using only standard language features?** — 0 % covered\n- No sourced answer found.\n\n## Sources\n1. Strategy pattern — https://en.wikipedia.org/wiki/Strategy_pattern\n\n_Stopped: low novelty._\n",
+ "sub_questions": [
+  {
+   "id": "S1.1",
+   "question": 0,
+   "text": "What is the strategy pattern and how can it be applied to fee-rule configurability in code?",
+   "queries": [
+    "strategy pattern example",
+    "fee calculation strategy pattern",
+    "implement strategy pattern without library"
+   ],
+   "success_criteria": "Explain the strategy pattern, show a minimal code example for configurable fee rules, and note that no external libraries are required.",
+   "coverage": 0.75,
+   "status": "partial"
+  },
+  {
+   "id": "S1.2",
+   "question": 0,
+   "text": "What are simple design alternatives to the strategy pattern for configurable fee rules using only standard language features?",
+   "queries": [
+    "function pointer fee rule",
+    "policy based design fee calculation",
+    "configurable fee rule using interfaces"
+   ],
+   "success_criteria": "Describe at least two lightweight approaches (e.g., function pointers, interface/abstract class, policy‑based templates) with brief code snippets and their trade‑offs.",
+   "coverage": 0.0,
+   "status": "open"
+  }
+ ]
+}
