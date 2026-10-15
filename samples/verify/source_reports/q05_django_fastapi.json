@@ -1,0 +1,192 @@
+{
+ "task_id": "q05_django_fastapi",
+ "questions": [
+  "Which Python framework (Django vs FastAPI) best supports rapid development of the required features?"
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "text": "Django emphasizes rapid development, reusability, low coupling, less code and the DRY principle to ease creation of complex database‑driven sites.",
+   "evidence_ids": [
+    "E1"
+   ]
+  },
+  {
+   "id": "C2",
+   "text": "Django provides many built‑in components such as user authentication, an admin interface, form handling and a powerful ORM.",
+   "evidence_ids": [
+    "E2"
+   ]
+  },
+  {
+   "id": "C3",
+   "text": "FastAPI saves development time, reduces bugs and lines of code while delivering performance that is comparable to or better than a hand‑crafted solution.",
+   "evidence_ids": [
+    "E4"
+   ]
+  },
+  {
+   "id": "C4",
+   "text": "FastAPI adds automatic data validation, serialization and generates interactive API documentation at startup without adding runtime overhead.",
+   "evidence_ids": [
+    "E5"
+   ]
+  },
+  {
+   "id": "C5",
+   "text": "Using FastAPI still requires more code than writing directly with Starlette, because otherwise you would need to include most of Starlette’s code yourself.",
+   "evidence_ids": [
+    "E7"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "id": "E1",
+   "url": "https://en.wikipedia.org/wiki/Django_%28web_framework%29",
+   "quote": "Django's primary goal is to ease the creation of complex, database-driven websites. The framework emphasizes reusability and \"pluggability\" of components, less code, low coupling, rapid development, and the principle of don't repeat yourself",
+   "content_sha256": "d014baa53b7043a97eedd5fd3d0da63b463b0245fbbf48d2321dbf4c9ccbfb50",
+   "retrieved_at": "2026-10-14T08:59:36.205757Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E2",
+   "url": "https://en.wikipedia.org/wiki/Solution_stack",
+   "quote": "It includes a wide array of built-in features, such as user authentication, an admin interface, form handling, and a powerful ORM",
+   "content_sha256": "1023b4b738b2004eca1802111ab8c535f69fdb5fa8f7cea2fb480294eee7415f",
+   "retrieved_at": "2026-10-14T08:59:39.496059Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E3",
+   "url": "https://en.wikipedia.org/wiki/Solution_stack",
+   "quote": "Because of Python's readability and Django's comprehensive documentation, this stack is widely used in educational platforms, scientific applications, and content management systems",
+   "content_sha256": "1023b4b738b2004eca1802111ab8c535f69fdb5fa8f7cea2fb480294eee7415f",
+   "retrieved_at": "2026-10-14T08:59:39.496059Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E4",
+   "url": "https://fastapi.tiangolo.com/benchmarks/",
+   "quote": "So, by using FastAPI you are saving development time, bugs, lines of code, and you would probably get the same performance (or better) you would if you didn't use it (as you would have to implement it all in your code)",
+   "content_sha256": "a12f8a08c7e30a90eda16f6335d43388ce6021d7b32886dc9e3cbc25897115a8",
+   "retrieved_at": "2026-10-14T09:00:26.684385Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E5",
+   "url": "https://fastapi.tiangolo.com/benchmarks/",
+   "quote": "FastAPI provides more features on top of Starlette. Features that you almost always need when building APIs, like data validation and serialization. And by using it, you get automatic documentation for free (the automatic documentation doesn't even add overhead to running applications, it is generated on startup)",
+   "content_sha256": "a12f8a08c7e30a90eda16f6335d43388ce6021d7b32886dc9e3cbc25897115a8",
+   "retrieved_at": "2026-10-14T09:00:26.684385Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E6",
+   "url": "https://fastapi.tiangolo.com/benchmarks/",
+   "quote": "Independent TechEmpower benchmarks show FastAPI applications running under Uvicorn as one of the fastest Python frameworks available, only below Starlette and Uvicorn themselves (used internally by FastAPI)",
+   "content_sha256": "a12f8a08c7e30a90eda16f6335d43388ce6021d7b32886dc9e3cbc25897115a8",
+   "retrieved_at": "2026-10-14T09:00:26.684385Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E7",
+   "url": "https://fastapi.tiangolo.com/benchmarks/",
+   "quote": "You wouldn't write an application in Uvicorn directly. That would mean that your code would have to include more or less, at least, all the code provided by Starlette (or FastAPI)",
+   "content_sha256": "a12f8a08c7e30a90eda16f6335d43388ce6021d7b32886dc9e3cbc25897115a8",
+   "retrieved_at": "2026-10-14T09:00:26.684385Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  }
+ ],
+ "sources": [
+  {
+   "url": "https://en.wikipedia.org/wiki/Django_%28web_framework%29",
+   "title": "Django (web framework)",
+   "score": 0.8789,
+   "score_breakdown": {
+    "relevance": 0.9766,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 1.0
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T08:59:36.205757Z",
+   "content_sha256": "d014baa53b7043a97eedd5fd3d0da63b463b0245fbbf48d2321dbf4c9ccbfb50",
+   "page_artifact": null
+  },
+  {
+   "url": "https://en.wikipedia.org/wiki/Solution_stack",
+   "title": "Solution stack",
+   "score": 0.4767,
+   "score_breakdown": {
+    "relevance": 0.8634,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 0.227
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T08:59:39.496059Z",
+   "content_sha256": "1023b4b738b2004eca1802111ab8c535f69fdb5fa8f7cea2fb480294eee7415f",
+   "page_artifact": null
+  },
+  {
+   "url": "https://fastapi.tiangolo.com/benchmarks/",
+   "title": "Benchmarks¶",
+   "score": 0.42,
+   "score_breakdown": {
+    "relevance": 0.9919,
+    "authority": 0.6,
+    "recency": 1.0,
+    "novelty": 0.4116
+   },
+   "provider": "ddg",
+   "kind": "web",
+   "retrieved_at": "2026-10-14T09:00:26.684385Z",
+   "content_sha256": "a12f8a08c7e30a90eda16f6335d43388ce6021d7b32886dc9e3cbc25897115a8",
+   "page_artifact": null
+  }
+ ],
+ "coverage": {
+  "S1.1": 1.0,
+  "S1.2": 0.5
+ },
+ "stop_reason": "low_novelty",
+ "summary_markdown": "## Which Python framework (Django vs FastAPI) best supports rapid development of the required features?\n\n**What are the core features and development speed advantages of Django compared to FastAPI?** — 100 % covered\n- Django emphasizes rapid development, reusability, low coupling, less code and the DRY principle to ease creation of complex database‑driven sites. [1]\n- Django provides many built‑in components such as user authentication, an admin interface, form handling and a powerful ORM. [2]\n- FastAPI saves development time, reduces bugs and lines of code while delivering performance that is comparable to or better than a hand‑crafted solution. [3]\n- FastAPI adds automatic data validation, serialization and generates interactive API documentation at startup without adding runtime overhead. [3]\n\n**How do Django and FastAPI differ in terms of required code amount and learning curve for building typical CRUD APIs?** — 50 % covered\n- Using FastAPI still requires more code than writing directly with Starlette, because otherwise you would need to include most of Starlette’s code yourself. [3]\n\n## Sources\n1. Django (web framework) — https://en.wikipedia.org/wiki/Django_%28web_framework%29\n2. Solution stack — https://en.wikipedia.org/wiki/Solution_stack\n3. Benchmarks¶ — https://fastapi.tiangolo.com/benchmarks/\n\n_Stopped: low novelty._\n",
+ "sub_questions": [
+  {
+   "id": "S1.1",
+   "question": 0,
+   "text": "What are the core features and development speed advantages of Django compared to FastAPI?",
+   "queries": [
+    "django rapid development features",
+    "fastapi development speed comparison",
+    "django vs fastapi productivity"
+   ],
+   "success_criteria": "An answer should list key built‑in features, scaffolding tools, and typical time to implement common web app components for each framework.",
+   "coverage": 1.0,
+   "status": "covered"
+  },
+  {
+   "id": "S1.2",
+   "question": 0,
+   "text": "How do Django and FastAPI differ in terms of required code amount and learning curve for building typical CRUD APIs?",
+   "queries": [
+    "django crud code length",
+    "fastapi crud example lines of code",
+    "learning curve django fastapi"
+   ],
+   "success_criteria": "An answer must include approximate code size or steps needed for a basic CRUD API and describe the relative learning effort for each framework.",
+   "coverage": 0.5,
+   "status": "partial"
+  }
+ ]
+}

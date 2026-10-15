@@ -1,0 +1,217 @@
+{
+ "task_id": "q02_broadcast",
+ "questions": [
+  "How can we implement non-blocking broadcast to all clients without causing message delays?"
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "text": "Message-oriented middleware (MOM) enables asynchronous, non‑blocking calls between client and server components in a client/server architecture.",
+   "evidence_ids": [
+    "E3"
+   ]
+  },
+  {
+   "id": "C2",
+   "text": "The broadcast pattern distributes data from one processing unit to all processing units, a common approach for non‑blocking dissemination in parallel programs.",
+   "evidence_ids": [
+    "E5"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "id": "E1",
+   "url": "https://en.wikipedia.org/wiki/Apache_Thrift",
+   "quote": "Besides the client part, Thrift includes server infrastructure such as blocking, non-blocking, and multi-threaded servers",
+   "content_sha256": "7f1b4b61785e460f7d22a104c64898b568ba793b0b7e93536fa88779729fc0aa",
+   "retrieved_at": "2026-10-14T08:53:27.965125Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E2",
+   "url": "https://en.wikipedia.org/wiki/Message_Passing_Interface",
+   "quote": "MPI-1 specifies mechanisms for both blocking and non-blocking point-to-point communication mechanisms, as well as the so-called 'ready-send' mechanism whereby a send request can be made only when the matching receive request has already been made",
+   "content_sha256": "ed3c3299ee99583c0256f62a77d1d72914a2fd63f5e9d1bfb05f8a0cc0e59a2b",
+   "retrieved_at": "2026-10-14T09:12:50.126971Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E3",
+   "url": "https://en.wikipedia.org/wiki/Message-oriented_middleware",
+   "quote": "MOM provides software elements that reside in all communicating components of a client/server architecture and typically support asynchronous calls between the client and server applications",
+   "content_sha256": "4a879463300c18ca053bcdfaa80497ff625db0bc76d7e9c8db8adbd0d77a7548",
+   "retrieved_at": "2026-10-14T08:54:54.796933Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E4",
+   "url": "https://en.wikipedia.org/wiki/Message-oriented_middleware",
+   "quote": "Once it has sent the message, the client can continue to do other work, confident that the provider retains the message until a receiving client retrieves it",
+   "content_sha256": "4a879463300c18ca053bcdfaa80497ff625db0bc76d7e9c8db8adbd0d77a7548",
+   "retrieved_at": "2026-10-14T08:54:54.796933Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E5",
+   "url": "https://en.wikipedia.org/wiki/Collective_operation",
+   "quote": "The broadcast pattern is used to distribute data from one processing unit to all processing units, which is often needed in SPMD parallel programs to dispense input or global values",
+   "content_sha256": "72e61b888ce79bc463e8cd4971d38b2b7d4bb6c7a9048d3590c2cd2545a2f34e",
+   "retrieved_at": "2026-10-14T08:54:21.500069Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E6",
+   "url": "https://en.wikipedia.org/wiki/Collective_operation",
+   "quote": "Broadcast can be interpreted as an inverse version of the reduce pattern (§ Reduce)",
+   "content_sha256": "72e61b888ce79bc463e8cd4971d38b2b7d4bb6c7a9048d3590c2cd2545a2f34e",
+   "retrieved_at": "2026-10-14T08:54:21.500069Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E7",
+   "url": "https://en.wikipedia.org/wiki/Transparent_Inter-process_Communication",
+   "quote": "Multicast. The service range address type also doubles as multicast address",
+   "content_sha256": "a11026212ecee5fac2882bdfa7c705f02345ef4450ed0181fdd287ea1a5ef326",
+   "retrieved_at": "2026-10-14T08:52:23.486655Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  }
+ ],
+ "sources": [
+  {
+   "url": "https://en.wikipedia.org/wiki/Apache_Thrift",
+   "title": "Apache Thrift",
+   "score": 0.5832,
+   "score_breakdown": {
+    "relevance": 0.9485,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 0.3664
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T08:53:27.965125Z",
+   "content_sha256": "7f1b4b61785e460f7d22a104c64898b568ba793b0b7e93536fa88779729fc0aa",
+   "page_artifact": null
+  },
+  {
+   "url": "https://en.wikipedia.org/wiki/Message_Passing_Interface",
+   "title": "Message Passing Interface",
+   "score": 0.5688,
+   "score_breakdown": {
+    "relevance": 0.9061,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 0.395
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T09:12:50.126971Z",
+   "content_sha256": "ed3c3299ee99583c0256f62a77d1d72914a2fd63f5e9d1bfb05f8a0cc0e59a2b",
+   "page_artifact": null
+  },
+  {
+   "url": "https://en.wikipedia.org/wiki/Message-oriented_middleware",
+   "title": "Message-oriented middleware",
+   "score": 0.5572,
+   "score_breakdown": {
+    "relevance": 0.9405,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 0.3166
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T08:54:54.796933Z",
+   "content_sha256": "4a879463300c18ca053bcdfaa80497ff625db0bc76d7e9c8db8adbd0d77a7548",
+   "page_artifact": null
+  },
+  {
+   "url": "https://en.wikipedia.org/wiki/Collective_operation",
+   "title": "Collective operation",
+   "score": 0.5483,
+   "score_breakdown": {
+    "relevance": 0.9137,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 0.3335
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T08:54:21.500069Z",
+   "content_sha256": "72e61b888ce79bc463e8cd4971d38b2b7d4bb6c7a9048d3590c2cd2545a2f34e",
+   "page_artifact": null
+  },
+  {
+   "url": "https://en.wikipedia.org/wiki/Transparent_Inter-process_Communication",
+   "title": "Transparent Inter-process Communication",
+   "score": 0.2836,
+   "score_breakdown": {
+    "relevance": 0.4841,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 0.3018
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T08:52:23.486655Z",
+   "content_sha256": "a11026212ecee5fac2882bdfa7c705f02345ef4450ed0181fdd287ea1a5ef326",
+   "page_artifact": null
+  }
+ ],
+ "coverage": {
+  "S1.1": 0.75,
+  "S1.2": 0.0,
+  "S1.3": 0.0
+ },
+ "stop_reason": "low_novelty",
+ "summary_markdown": "## How can we implement non-blocking broadcast to all clients without causing message delays?\n\n**What are common non‑blocking broadcast patterns for server‑client architectures?** — 75 % covered\n- Message-oriented middleware (MOM) enables asynchronous, non‑blocking calls between client and server components in a client/server architecture. [1]\n- The broadcast pattern distributes data from one processing unit to all processing units, a common approach for non‑blocking dissemination in parallel programs. [2]\n\n**Which libraries or frameworks provide built‑in non‑blocking broadcast for typical web stacks?** — 0 % covered\n- No sourced answer found.\n\n**What are the performance trade‑offs and scalability limits of non‑blocking broadcast implementations?** — 0 % covered\n- No sourced answer found.\n\n## Sources\n1. Message-oriented middleware — https://en.wikipedia.org/wiki/Message-oriented_middleware\n2. Collective operation — https://en.wikipedia.org/wiki/Collective_operation\n\n_Stopped: low novelty._\n",
+ "sub_questions": [
+  {
+   "id": "S1.1",
+   "question": 0,
+   "text": "What are common non‑blocking broadcast patterns for server‑client architectures?",
+   "queries": [
+    "non blocking broadcast pattern server client",
+    "asynchronous message broadcast architecture",
+    "publish subscribe non blocking design"
+   ],
+   "success_criteria": "Explain at least two patterns (e.g., publish‑subscribe, fan‑out with async I/O) and their core mechanisms.",
+   "coverage": 0.75,
+   "status": "partial"
+  },
+  {
+   "id": "S1.2",
+   "question": 0,
+   "text": "Which libraries or frameworks provide built‑in non‑blocking broadcast for typical web stacks?",
+   "queries": [
+    "nodejs non blocking broadcast library",
+    "websocket async broadcast framework",
+    "python async broadcast to multiple clients"
+   ],
+   "success_criteria": "List at least three popular libraries (e.g., Socket.IO, SignalR, aiohttp) and note their key features for avoiding delays.",
+   "coverage": 0.0,
+   "status": "open"
+  },
+  {
+   "id": "S1.3",
+   "question": 0,
+   "text": "What are the performance trade‑offs and scalability limits of non‑blocking broadcast implementations?",
+   "queries": [
+    "non blocking broadcast scalability limits",
+    "asynchronous broadcast performance tradeoffs",
+    "broadcast latency factors web sockets"
+   ],
+   "success_criteria": "Identify typical bottlenecks (e.g., event loop saturation, network bandwidth) and give rough numbers or guidelines for client counts.",
+   "coverage": 0.0,
+   "status": "open"
+  }
+ ]
+}

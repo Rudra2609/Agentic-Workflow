@@ -1,0 +1,224 @@
+{
+ "task_id": "q06_token_scheme",
+ "questions": [
+  "What token scheme (JWT, simple bearer token, etc.) should a small REST API use for authentication?"
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "text": "JWTs are stateless, meaning the server does not store user session data in memory",
+   "evidence_ids": [
+    "E1"
+   ]
+  },
+  {
+   "id": "C2",
+   "text": "JWTs are typically sent in the Authorization header using the Bearer scheme when accessing protected resources",
+   "evidence_ids": [
+    "E2"
+   ]
+  },
+  {
+   "id": "C3",
+   "text": "The stateless nature of JWTs can be lost if server-side storage is added, reducing their primary advantage",
+   "evidence_ids": [
+    "E5"
+   ]
+  },
+  {
+   "id": "C4",
+   "text": "Common JWT signing algorithms include HMAC‑SHA256 (HS256) and RSA‑SHA256 (RS256)",
+   "evidence_ids": [
+    "E6"
+   ]
+  },
+  {
+   "id": "C5",
+   "text": "Vulnerabilities in JWT libraries, such as mishandling the alg field, can affect security and influence token‑scheme choice",
+   "evidence_ids": [
+    "E7"
+   ]
+  },
+  {
+   "id": "C6",
+   "text": "FastAPI’s built‑in data validation and serialization adds minimal overhead, so token handling does not significantly impact performance",
+   "evidence_ids": [
+    "E8"
+   ]
+  },
+  {
+   "id": "C7",
+   "text": "Using FastAPI can reduce development time and code size while maintaining or improving performance compared to custom implementations",
+   "evidence_ids": [
+    "E9"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "id": "E1",
+   "url": "https://en.wikipedia.org/wiki/JSON_Web_Token",
+   "quote": "This is a stateless authentication mechanism as the user state is never saved in server memory",
+   "content_sha256": "c3bbc0cb6409047829ba72c44263cd8bdd294aae45138bb94d57fc1d80466154",
+   "retrieved_at": "2026-10-14T09:02:26.083818Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E2",
+   "url": "https://en.wikipedia.org/wiki/JSON_Web_Token",
+   "quote": "When the client wants to access a protected route or resource, the user agent should send the JWT, typically in the Authorization HTTP header using the Bearer schema",
+   "content_sha256": "c3bbc0cb6409047829ba72c44263cd8bdd294aae45138bb94d57fc1d80466154",
+   "retrieved_at": "2026-10-14T09:02:26.083818Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E3",
+   "url": "https://arxiv.org/abs/2503.19768v2",
+   "quote": "Fermilab is transitioning authentication and authorization for grid operations to using bearer tokens based on the WLCG Common JWT (JSON Web Token) Profile",
+   "content_sha256": "02fc1acc13e46ce8a4891fb3ecbfc19844b7846c45da86ea6f8a64d6770a77af",
+   "retrieved_at": "2026-10-14T09:02:26.405774Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E4",
+   "url": "https://arxiv.org/abs/2503.19768v2",
+   "quote": "One of the functionalities that Fermilab experimenters rely on is the ability to automate batch job submission, which in turn depends on the ability to securely refresh and distribute the necessary credentials to experiment job submit points",
+   "content_sha256": "02fc1acc13e46ce8a4891fb3ecbfc19844b7846c45da86ea6f8a64d6770a77af",
+   "retrieved_at": "2026-10-14T09:02:26.405774Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E5",
+   "url": "https://en.wikipedia.org/wiki/JSON_Web_Token",
+   "quote": "This renders the tokens no longer stateless, undermining the primary advantage of JWTs",
+   "content_sha256": "c3bbc0cb6409047829ba72c44263cd8bdd294aae45138bb94d57fc1d80466154",
+   "retrieved_at": "2026-10-14T09:02:26.083818Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E6",
+   "url": "https://en.wikipedia.org/wiki/JSON_Web_Token",
+   "quote": "Typical cryptographic algorithms used are HMAC with SHA-256 (HS256) and RSA signature with SHA-256 (RS256)",
+   "content_sha256": "c3bbc0cb6409047829ba72c44263cd8bdd294aae45138bb94d57fc1d80466154",
+   "retrieved_at": "2026-10-14T09:02:26.083818Z",
+   "sub_question": "S1.1",
+   "page_artifact": null
+  },
+  {
+   "id": "E7",
+   "url": "https://en.wikipedia.org/wiki/JSON_Web_Token",
+   "quote": "Security consultant Tim McLean reported vulnerabilities in some JWT libraries that used the alg field to incorrectly validate tokens, most commonly by accepting a alg=none token. While these vulnerabilities were patched, McLean suggested deprecating the alg field altogether to prevent similar implementation confusion",
+   "content_sha256": "c3bbc0cb6409047829ba72c44263cd8bdd294aae45138bb94d57fc1d80466154",
+   "retrieved_at": "2026-10-14T09:02:26.083818Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  },
+  {
+   "id": "E8",
+   "url": "https://fastapi.tiangolo.com/benchmarks/",
+   "quote": "So, your final application would still have the same overhead as if it was built using FastAPI. And in many cases, this data validation and serialization is the biggest amount of code written in applications",
+   "content_sha256": "a12f8a08c7e30a90eda16f6335d43388ce6021d7b32886dc9e3cbc25897115a8",
+   "retrieved_at": "2026-10-14T09:00:26.684385Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  },
+  {
+   "id": "E9",
+   "url": "https://fastapi.tiangolo.com/benchmarks/",
+   "quote": "by using FastAPI you are saving development time, bugs, lines of code, and you would probably get the same performance (or better) you would if you didn't use it (as you would have to implement it all in your code)",
+   "content_sha256": "a12f8a08c7e30a90eda16f6335d43388ce6021d7b32886dc9e3cbc25897115a8",
+   "retrieved_at": "2026-10-14T09:00:26.684385Z",
+   "sub_question": "S1.2",
+   "page_artifact": null
+  }
+ ],
+ "sources": [
+  {
+   "url": "https://en.wikipedia.org/wiki/JSON_Web_Token",
+   "title": "JSON Web Token",
+   "score": 0.8785,
+   "score_breakdown": {
+    "relevance": 0.9761,
+    "authority": 0.9,
+    "recency": 1.0,
+    "novelty": 1.0
+   },
+   "provider": "wikipedia",
+   "kind": "wiki",
+   "retrieved_at": "2026-10-14T09:02:26.083818Z",
+   "content_sha256": "c3bbc0cb6409047829ba72c44263cd8bdd294aae45138bb94d57fc1d80466154",
+   "page_artifact": null
+  },
+  {
+   "url": "https://arxiv.org/abs/2503.19768v2",
+   "title": "A Managed Tokens Service for Securely Keeping and Distributing Grid Tokens",
+   "score": 0.5675,
+   "score_breakdown": {
+    "relevance": 0.9155,
+    "authority": 0.95,
+    "recency": 1.0,
+    "novelty": 0.3051
+   },
+   "provider": "arxiv",
+   "kind": "arxiv",
+   "retrieved_at": "2026-10-14T09:02:26.405774Z",
+   "content_sha256": "02fc1acc13e46ce8a4891fb3ecbfc19844b7846c45da86ea6f8a64d6770a77af",
+   "page_artifact": null
+  },
+  {
+   "url": "https://fastapi.tiangolo.com/benchmarks/",
+   "title": "Benchmarks¶",
+   "score": 0.4038,
+   "score_breakdown": {
+    "relevance": 0.8944,
+    "authority": 0.6,
+    "recency": 1.0,
+    "novelty": 0.5051
+   },
+   "provider": "ddg",
+   "kind": "web",
+   "retrieved_at": "2026-10-14T09:00:26.684385Z",
+   "content_sha256": "a12f8a08c7e30a90eda16f6335d43388ce6021d7b32886dc9e3cbc25897115a8",
+   "page_artifact": null
+  }
+ ],
+ "coverage": {
+  "S1.1": 1.0,
+  "S1.2": 1.0
+ },
+ "stop_reason": "all_covered",
+ "summary_markdown": "## What token scheme (JWT, simple bearer token, etc.) should a small REST API use for authentication?\n\n**What are the security properties and typical use cases of JWT versus simple bearer tokens?** — 100 % covered\n- JWTs are stateless, meaning the server does not store user session data in memory [1]\n- JWTs are typically sent in the Authorization header using the Bearer scheme when accessing protected resources [1]\n- The stateless nature of JWTs can be lost if server-side storage is added, reducing their primary advantage [1]\n- Common JWT signing algorithms include HMAC‑SHA256 (HS256) and RSA‑SHA256 (RS256) [1]\n\n**What performance and implementation considerations affect the choice of token scheme for a small REST API?** — 100 % covered\n- Vulnerabilities in JWT libraries, such as mishandling the alg field, can affect security and influence token‑scheme choice [1]\n- FastAPI’s built‑in data validation and serialization adds minimal overhead, so token handling does not significantly impact performance [2]\n- Using FastAPI can reduce development time and code size while maintaining or improving performance compared to custom implementations [2]\n\n## Sources\n1. JSON Web Token — https://en.wikipedia.org/wiki/JSON_Web_Token\n2. Benchmarks¶ — https://fastapi.tiangolo.com/benchmarks/\n\n_Stopped: all covered._\n",
+ "sub_questions": [
+  {
+   "id": "S1.1",
+   "question": 0,
+   "text": "What are the security properties and typical use cases of JWT versus simple bearer tokens?",
+   "queries": [
+    "jwt security advantages",
+    "simple bearer token use case",
+    "jwt vs opaque token"
+   ],
+   "success_criteria": "Explain the main security differences, when each is appropriate, and any trade‑offs in complexity and revocation.",
+   "coverage": 1.0,
+   "status": "covered"
+  },
+  {
+   "id": "S1.2",
+   "question": 0,
+   "text": "What performance and implementation considerations affect the choice of token scheme for a small REST API?",
+   "queries": [
+    "token validation overhead jwt",
+    "bearer token performance small api",
+    "lightweight authentication for microservice"
+   ],
+   "success_criteria": "Provide typical latency, library support, and scalability factors that influence the decision for a low‑traffic API.",
+   "coverage": 1.0,
+   "status": "covered"
+  }
+ ]
+}
