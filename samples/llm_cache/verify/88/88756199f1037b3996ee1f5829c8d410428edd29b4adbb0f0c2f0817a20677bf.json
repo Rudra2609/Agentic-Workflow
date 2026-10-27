@@ -1,0 +1,89 @@
+{
+  "format": 1,
+  "key": "88756199f1037b3996ee1f5829c8d410428edd29b4adbb0f0c2f0817a20677bf",
+  "key_ingredients": {
+    "max_tokens": 200,
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: Now we come to the major stumbling block of sockets - send and recv operate\non the network buffers",
+        "role": "user"
+      }
+    ],
+    "plugin": "verify",
+    "role": "fast",
+    "schema": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "seed": null,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "verify",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-18T10:03:39.606371+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: Now we come to the major stumbling block of sockets - send and recv operate\non the network buffers",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 200,
+      "seed": null,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"queries\":[\"send recv operate on network buffers\",\"major stumbling block of sockets\"]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 271,
+      "latency_s": 0.5507,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 50,
+      "provider": "groq"
+    }
+  },
+  "role": "fast"
+}

@@ -1,0 +1,89 @@
+{
+  "format": 1,
+  "key": "aa2db5a61ade9f63d97129d02c7aa91b892af350c04613e18312722ace42183a",
+  "key_ingredients": {
+    "max_tokens": 200,
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: By default, a unique name is constructed of the form “Thread-N” where N is a small decimal number, or “Thread-N (target)” where “target” is target.__name__ if the\ntarget argument is specified.args is a list or tuple of arguments for the target invocation",
+        "role": "user"
+      }
+    ],
+    "plugin": "verify",
+    "role": "fast",
+    "schema": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "seed": null,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "verify",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-18T10:03:49.884781+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: By default, a unique name is constructed of the form “Thread-N” where N is a small decimal number, or “Thread-N (target)” where “target” is target.__name__ if the\ntarget argument is specified.args is a list or tuple of arguments for the target invocation",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 200,
+      "seed": null,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"queries\":[\"default thread name python threading\",\"thread name format Thread-N target\"]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 309,
+      "latency_s": 0.63,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 36,
+      "provider": "groq"
+    }
+  },
+  "role": "fast"
+}

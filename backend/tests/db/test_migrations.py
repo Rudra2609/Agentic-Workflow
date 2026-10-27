@@ -78,7 +78,8 @@ def test_migrated_schema_matches_table_models(pg_url: str, pg_schema: str) -> No
 
 
 def _member_indexes() -> dict[str, str]:
-    return {"ix_research_chunks_page": "005", "ix_research_chunks_tsv": "005"}
+    return {"ix_research_chunks_page": "005", "ix_research_chunks_tsv": "005",
+            "ix_security_audit_at": "006", "ix_security_audit_sender": "006"}
 
 
 def _exec(url: str, schema: str, sql: str, params: tuple[object, ...] = ()) -> None:

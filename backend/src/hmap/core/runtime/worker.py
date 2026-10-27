@@ -36,6 +36,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
+from hmap.core import policy
 from hmap.core.bus.base import Bus, Delivery, Subscription, capability_queue
 from hmap.core.bus.stores import InboxStore
 from hmap.core.contracts import (
@@ -158,6 +159,7 @@ class AgentWorker:
         self._started = False
         self._stopping = False
         self._stopped = asyncio.Event()
+        self._policy = policy.command_policy()          # Sprint 6: signs this agent's messages, checks commands
 
     # ------------------------------------------------------------------ introspection
 
@@ -279,6 +281,8 @@ class AgentWorker:
                           for c in self.capabilities],
             protocol_versions=list(PROTOCOL_VERSIONS), max_slots=self.max_slots, build_version=self.agent.version,
             plugin=self.plugin, is_stub=bool(self.agent.is_stub),
+            # Sprint 6: the agent's service token is derived here (policy.signer) and proven by the signature on
+            # every message; the token itself never travels on the bus
         )
         delays = iter(self.register_retry_delays_s)
         while True:
@@ -338,6 +342,9 @@ class AgentWorker:
             payload = body.typed_payload()
         except (HmapError, ValueError) as exc:
             await delivery.reject(f"invalid payload: {exc}")
+            return
+        if not await self._policy.check_command(body):    # Sprint 6: only signed commands from the Manager
+            await delivery.ack()
             return
         if isinstance(payload, TaskCancel):
             self._cancel_matching(payload.task_id, payload.execution_id, payload.reason)
