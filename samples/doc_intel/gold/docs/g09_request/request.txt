@@ -1,1 +1,0 @@
-Build a to-do list web app where I can add tasks, mark them as done and delete them. Tasks should be saved so they are still there after I refresh the page. Use React for the front end.

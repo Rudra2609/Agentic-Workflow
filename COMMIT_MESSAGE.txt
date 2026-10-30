@@ -1,0 +1,35 @@
+Sprint 6 (Member 6): research verification, security layer, mid-eval readiness
+
+Verification (verify.claims, priority 100; the stub stands down):
+- every research-report claim checked in four layers: L1 verbatim quote + hashes + URL,
+  L2 judge entailment (both orders, number guard), L3 the verifier's own searches,
+  L4 cross-source conflicts; decision table R1-R8 with measured confidence
+- follow-up loop: flagged claims -> research.run (follow_up_of) -> re-check
+  (HMAP_VERIFY_MAX_ROUNDS, default 1); verification.completed event
+- API /api/verify/*, Verification tab in the frontend
+- benchmark (86 items, 60 seeded errors): accuracy 0.907, error recall 0.985,
+  15/15 fake quotes caught, 20% false alarms on clean items (docs/members/6/eval.md)
+
+Security (core/policy.py, migration 006 security_audit):
+- per-agent HMAC-signed envelopes (additive Envelope.auth; the token never travels),
+  policy table checked by the Manager, commands only from the Manager, audit log,
+  key rotate / retire / revoke
+- upload content sniffing (415), API write rate limit, injection regression suite,
+  scripts/security_check.sh (run by check_sprint.sh from Sprint 6 on)
+- findings for other members in docs/members/6/security-report.md (F1-F3, xfail strict)
+
+Mid-eval readiness: make demo / make stop, scripts/demo_chaos.sh (lease expiry -> retry,
+3/3), samples/demo/ inputs, scripts/demo_sprint_6.sh storyline, README real-vs-stub table.
+
+Shared paths changed (approved by Member 1 in docs/members/6/plan.md, Q1-Q4):
+core/contracts/envelope.py (+ Envelope schema and snapshot), core/runtime/worker.py,
+manager/manager.py, core/config.py, api/app.py, api/routers/projects.py, db/tables.py,
+tests/db/test_migrations.py, frontend/src/features/_registry.generated.ts, .env.example,
+Makefile, scripts/{check_sprint.sh, demo.sh, stop.sh, demo_sprint_6.{sh,py},
+demo_chaos.{sh,py}, security_check.{sh,py}}, samples/demo/*, README.md,
+docs/sprints/mid-evaluation.md, ownership.toml ([cross_cutting] Member 6 rows).
+New: core/policy.py. Member 5's research code is only imported.
+
+Acceptance: scripts/check_sprint.sh 6 PASS.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
