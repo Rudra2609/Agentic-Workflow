@@ -7,10 +7,21 @@ each step to a specialised AI agent: document intelligence, planning, research, 
 documentation and final review. The agents talk over a message bus, and a live dashboard shows their progress. Local
 LLMs (Ollama, `qwen3.5:9b`) do the work. Everything runs on one laptop; nothing is deployed.
 
-**Status:** Sprint 1 (Member 1: communication layer, Manager, platform skeleton) is done. The other capabilities are
-stub agents until their sprints replace them.
+**Status:** Sprints 1–6 are done (communication layer, document intelligence, planning, refinement + observability,
+research, verification + security); this is the code shown at the mid-evaluation. Coding, testing, documentation and
+final review are still stub agents until Sprints 7–10 replace them (table below).
 
 ## Quick start
+
+The whole platform in one command, offline (recorded model answers, saved research pages; needs uv, Node and Docker /
+Colima):
+
+```bash
+make demo                    # http://127.0.0.1:3000 — demo account in samples/demo/README.md; make stop to stop
+scripts/demo_chaos.sh        # failure injection: kill the agents mid-research, watch the retry (3 rounds)
+```
+
+Step by step:
 
 ```bash
 make doctor                  # checks Python 3.11, uv, Node, Docker, Ollama
@@ -29,6 +40,25 @@ cd frontend && npm install && npm run dev      # http://localhost:3000
 ```
 
 `make help` lists every command. Run `make precommit` before committing or handing off.
+
+## What is real vs stub (mid-evaluation, after Sprint 6)
+
+| Capability / part | Status | Owner | Notes |
+|---|---|---|---|
+| Message bus, Manager, state machine, registry, artifacts, LLM gateway, dashboard shell, accounts | **real** | M1 | RabbitMQ + Postgres or in memory; failure recovery (leases, retries, dead letters) |
+| `document.extract` (PDF, scanned PDF via OCR, DOCX, text, images) | **real** | M2 | requirements with source spans |
+| `plan.generate` / replan, plan approval | **real** | M3 | DAG, coverage matrix, human approval |
+| `refine.*` (critique → revise → stop), observability (traces, metrics, Operations / DLQ page) | **real** | M4 | refinement is opt-in per project |
+| `research.run` | **real** | M5 | cited reports; offline corpus by default |
+| `verify.claims` + follow-up research loop | **real** | M6 | four layers, verdict per claim, one follow-up round |
+| Security layer (signed messages, policy table, audit log, limits, key rotation), injection suite | **real** | M6 | `scripts/security_check.sh` |
+| `code.implement` | stub (sample output) | M7 | Sprint 7 |
+| `test.run` | stub | M8 | Sprint 8 |
+| `docs.generate` | stub | M9 | Sprint 9 (also full demo packaging) |
+| `review.final` | stub | M10 | Sprint 10 |
+| Model routing / tiers | role → model map (cloud keys first, local `qwen3.5:9b` fallback) | M11 | Sprint 11 router |
+
+Stub steps say so in the dashboard ("placeholder, sample content").
 
 ## Layout
 

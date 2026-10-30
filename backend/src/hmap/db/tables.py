@@ -262,4 +262,5 @@ ALL_TABLES: tuple[str, ...] = tuple(metadata.tables)
 # migration test expects exactly ALL_TABLES + these, and ignores them when comparing the models with the schema.
 MEMBER_TABLES: dict[str, str] = {
     "research_chunks": "Member 5, migration 005 (hmap.agents.research.index)",
+    "security_audit": "Member 6, migration 006 (hmap.core.policy.PgAudit)",
 }

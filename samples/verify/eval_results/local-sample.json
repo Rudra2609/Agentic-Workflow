@@ -1,0 +1,170 @@
+{
+ "mode": "live",
+ "local_only": true,
+ "items": 6,
+ "configs": {
+  "L1-L4+counter": {
+   "per_kind": {
+    "clean": {
+     "n": 1,
+     "flagged": 0,
+     "exact": 1,
+     "verdicts": {
+      "VERIFIED": 1
+     },
+     "false_alarm_rate": 0.0
+    },
+    "fake_quote": {
+     "n": 1,
+     "flagged": 1,
+     "exact": 1,
+     "verdicts": {
+      "UNSUPPORTED": 1
+     },
+     "recall": 1.0
+    },
+    "wrong_number": {
+     "n": 1,
+     "flagged": 1,
+     "exact": 1,
+     "verdicts": {
+      "UNSUPPORTED": 1
+     },
+     "recall": 1.0
+    },
+    "unsupported_claim": {
+     "n": 1,
+     "flagged": 1,
+     "exact": 1,
+     "verdicts": {
+      "UNSUPPORTED": 1
+     },
+     "recall": 1.0
+    },
+    "contradiction": {
+     "n": 1,
+     "flagged": 0,
+     "exact": 0,
+     "verdicts": {
+      "VERIFIED": 1
+     },
+     "recall": 0.0
+    },
+    "natural": {
+     "n": 1,
+     "flagged": 1,
+     "exact": 1,
+     "verdicts": {
+      "UNSUPPORTED": 1
+     },
+     "recall": 1.0
+    }
+   },
+   "accuracy": 0.833,
+   "error_recall": 0.8,
+   "kappa": 0.667,
+   "swap_agreement": 1.0,
+   "rules_judgements": 0,
+   "rows": {
+    "R1": {
+     "right": 1,
+     "n": 1,
+     "accuracy": 1.0
+    },
+    "R5": {
+     "right": 3,
+     "n": 3,
+     "accuracy": 1.0
+    },
+    "R8": {
+     "right": 1,
+     "n": 2,
+     "accuracy": 0.5
+    }
+   },
+   "config": "L1-L4+counter",
+   "layers": [
+    "l1",
+    "l2",
+    "l3",
+    "l4"
+   ],
+   "counter_sources": true,
+   "swap": true,
+   "guard": true,
+   "model_calls": 17,
+   "tokens": 5131,
+   "failed_calls": 0,
+   "seconds": 400.7,
+   "items": [
+    {
+     "id": "V001",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.8,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: The first passage explicitly states: 'the GIL limits the performance gains of threading when it comes to CPU-bound tasks, as only one thread can execute Python bytecode at a time'. This sentence contains every element of the claim: the subject (GIL), the conditi"
+    },
+    {
+     "id": "V021",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E6: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V036",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.85,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: The claim states that scaling beyond a few hundred threads can cause a performance drop of '5% or more'. The source passage confirms a degradation of '>= 20%' but specifically at thread counts 'N >= 512' (which is over 500, fitting the 'few hundred' d"
+    },
+    {
+     "id": "V051",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.85,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: The provided passage describes how a client sends a JWT (in the Authorization header) but does not mention any requirement for token refresh intervals, nor does it specify a 15-minute duration. Therefore, the claim cannot be supported by the given tex"
+    },
+    {
+     "id": "V066",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.8,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: The source passage explicitly states that JWTs are a 'stateless authentication mechanism' and that 'the user state is never saved in server memory'. This directly matches every part of the claim: the assertion that they are stateless, the meaning provided ('serv"
+    },
+    {
+     "id": "V081",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.85,
+     "rows": [
+      "R5",
+      "R5"
+     ],
+     "explanation": "[V081.a] unsupported: the cited quotes do not state the claim \u2014 judge: The provided passage states that using FastAPI results in 'the same overhead' as an application built without it (implying the overhead is inherent to the framework's design, not necessarily 'minimal'). However, the passage does "
+    }
+   ]
+  }
+ }
+}

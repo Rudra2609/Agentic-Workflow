@@ -1,0 +1,4410 @@
+{
+ "mode": "rules",
+ "local_only": false,
+ "items": 86,
+ "configs": {
+  "L1": {
+   "per_kind": {
+    "clean": {
+     "n": 20,
+     "flagged": 0,
+     "exact": 20,
+     "verdicts": {
+      "VERIFIED": 20
+     },
+     "false_alarm_rate": 0.0
+    },
+    "fake_quote": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "wrong_number": {
+     "n": 15,
+     "flagged": 0,
+     "exact": 0,
+     "verdicts": {
+      "VERIFIED": 15
+     },
+     "recall": 0.0
+    },
+    "unsupported_claim": {
+     "n": 15,
+     "flagged": 0,
+     "exact": 0,
+     "verdicts": {
+      "VERIFIED": 15
+     },
+     "recall": 0.0
+    },
+    "contradiction": {
+     "n": 15,
+     "flagged": 0,
+     "exact": 0,
+     "verdicts": {
+      "VERIFIED": 15
+     },
+     "recall": 0.0
+    },
+    "natural": {
+     "n": 6,
+     "flagged": 0,
+     "exact": 0,
+     "verdicts": {
+      "VERIFIED": 6
+     },
+     "recall": 0.0
+    }
+   },
+   "accuracy": 0.407,
+   "error_recall": 0.227,
+   "kappa": 0.158,
+   "swap_agreement": null,
+   "rules_judgements": 0,
+   "rows": {
+    "R1": {
+     "right": 15,
+     "n": 15,
+     "accuracy": 1.0
+    },
+    "R2": {
+     "right": 20,
+     "n": 71,
+     "accuracy": 0.282
+    }
+   },
+   "config": "L1",
+   "layers": [
+    "l1"
+   ],
+   "counter_sources": false,
+   "swap": true,
+   "guard": true,
+   "model_calls": 0,
+   "tokens": 0,
+   "failed_calls": 0,
+   "seconds": 0.3,
+   "items": [
+    {
+     "id": "V001",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V002",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V003",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V004",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V005",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V006",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V007",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V008",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V009",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V010",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V011",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V012",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V013",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V014",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V015",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V016",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V017",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V018",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V019",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V020",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V021",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E6: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V022",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E3: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V023",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E5: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V024",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V025",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V026",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E3: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V027",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V028",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E14: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V029",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V030",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V031",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E10: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V032",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E12: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V033",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V034",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E4: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V035",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V036",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V037",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V038",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V039",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V040",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V041",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V042",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V043",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V044",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V045",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V046",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V047",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V048",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V049",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V050",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V051",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V052",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V053",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V054",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V055",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V056",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V057",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V058",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V059",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V060",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V061",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V062",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V063",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V064",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V065",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V066",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V067",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V068",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V069",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V070",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V071",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V072",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V073",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V074",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V075",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V076",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V077",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V078",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V079",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V080",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V081",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2",
+      "R2"
+     ],
+     "explanation": "[V081.a] verified: every cited quote is verbatim in its saved page (L1 only); [V081.b] verified: every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V082",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V083",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V084",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V085",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    },
+    {
+     "id": "V086",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "VERIFIED",
+     "confidence": 0.3,
+     "rows": [
+      "R2"
+     ],
+     "explanation": "every cited quote is verbatim in its saved page (L1 only)"
+    }
+   ]
+  },
+  "L1+L2": {
+   "per_kind": {
+    "clean": {
+     "n": 20,
+     "flagged": 13,
+     "exact": 7,
+     "verdicts": {
+      "VERIFIED": 7,
+      "UNSUPPORTED": 13
+     },
+     "false_alarm_rate": 0.65
+    },
+    "fake_quote": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "wrong_number": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "unsupported_claim": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "contradiction": {
+     "n": 15,
+     "flagged": 11,
+     "exact": 0,
+     "verdicts": {
+      "UNSUPPORTED": 11,
+      "VERIFIED": 4
+     },
+     "recall": 0.733
+    },
+    "natural": {
+     "n": 6,
+     "flagged": 6,
+     "exact": 6,
+     "verdicts": {
+      "UNSUPPORTED": 6
+     },
+     "recall": 1.0
+    }
+   },
+   "accuracy": 0.674,
+   "error_recall": 0.939,
+   "kappa": 0.281,
+   "swap_agreement": null,
+   "rules_judgements": 72,
+   "rows": {
+    "R1": {
+     "right": 15,
+     "n": 15,
+     "accuracy": 1.0
+    },
+    "R5": {
+     "right": 36,
+     "n": 60,
+     "accuracy": 0.6
+    },
+    "R8": {
+     "right": 7,
+     "n": 11,
+     "accuracy": 0.636
+    }
+   },
+   "config": "L1+L2",
+   "layers": [
+    "l1",
+    "l2"
+   ],
+   "counter_sources": false,
+   "swap": true,
+   "guard": true,
+   "model_calls": 0,
+   "tokens": 0,
+   "failed_calls": 0,
+   "seconds": 0.3,
+   "items": [
+    {
+     "id": "V001",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V002",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V003",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 36% of the claim's content words"
+    },
+    {
+     "id": "V004",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V005",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 82% of the claim's content words"
+    },
+    {
+     "id": "V006",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V007",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V008",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 81% of the claim's content words"
+    },
+    {
+     "id": "V009",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V010",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V011",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 60% of the claim's content words"
+    },
+    {
+     "id": "V012",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V013",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V014",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 60% of the claim's content words"
+    },
+    {
+     "id": "V015",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 83% of the claim's content words"
+    },
+    {
+     "id": "V016",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V017",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V018",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 88% of the claim's content words"
+    },
+    {
+     "id": "V019",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V020",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 57% of the claim's content words"
+    },
+    {
+     "id": "V021",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E6: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V022",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E3: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V023",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E5: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V024",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V025",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V026",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E3: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V027",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V028",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E14: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V029",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V030",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V031",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E10: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V032",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E12: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V033",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V034",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E4: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V035",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V036",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 5"
+    },
+    {
+     "id": "V037",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 3.7"
+    },
+    {
+     "id": "V038",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 1, 12, 512"
+    },
+    {
+     "id": "V039",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V040",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 42% of the claim's content words"
+    },
+    {
+     "id": "V041",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 62% of the claim's content words"
+    },
+    {
+     "id": "V042",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 69% of the claim's content words"
+    },
+    {
+     "id": "V043",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 32"
+    },
+    {
+     "id": "V044",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V045",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 38% of the claim's content words"
+    },
+    {
+     "id": "V046",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V047",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V048",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 30% of the claim's content words"
+    },
+    {
+     "id": "V049",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 43% of the claim's content words"
+    },
+    {
+     "id": "V050",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 36% of the claim's content words"
+    },
+    {
+     "id": "V051",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 15"
+    },
+    {
+     "id": "V052",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 14% of the claim's content words"
+    },
+    {
+     "id": "V053",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 15"
+    },
+    {
+     "id": "V054",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 29% of the claim's content words"
+    },
+    {
+     "id": "V055",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 2002"
+    },
+    {
+     "id": "V056",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 20% of the claim's content words"
+    },
+    {
+     "id": "V057",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 14% of the claim's content words"
+    },
+    {
+     "id": "V058",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 100"
+    },
+    {
+     "id": "V059",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 14% of the claim's content words"
+    },
+    {
+     "id": "V060",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V061",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 3.12"
+    },
+    {
+     "id": "V062",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 0% of the claim's content words"
+    },
+    {
+     "id": "V063",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 20% of the claim's content words"
+    },
+    {
+     "id": "V064",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 2"
+    },
+    {
+     "id": "V065",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 25% of the claim's content words"
+    },
+    {
+     "id": "V066",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V067",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V068",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V069",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V070",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V071",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V072",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 83% of the claim's content words"
+    },
+    {
+     "id": "V073",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V074",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V075",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 58% of the claim's content words"
+    },
+    {
+     "id": "V076",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V077",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 60% of the claim's content words"
+    },
+    {
+     "id": "V078",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 36% of the claim's content words"
+    },
+    {
+     "id": "V079",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V080",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 82% of the claim's content words"
+    },
+    {
+     "id": "V081",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5",
+      "R5"
+     ],
+     "explanation": "[V081.a] unsupported: the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words; [V081.b] unsupported: the cited quotes do not state the claim \u2014 judge: the passages contain only 0% of the claim's content words"
+    },
+    {
+     "id": "V082",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 43% of the claim's content words"
+    },
+    {
+     "id": "V083",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V084",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V085",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V086",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 27% of the claim's content words"
+    }
+   ]
+  },
+  "L1-L4": {
+   "per_kind": {
+    "clean": {
+     "n": 20,
+     "flagged": 14,
+     "exact": 6,
+     "verdicts": {
+      "VERIFIED": 6,
+      "UNSUPPORTED": 13,
+      "CONFLICTING": 1
+     },
+     "false_alarm_rate": 0.7
+    },
+    "fake_quote": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "wrong_number": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "unsupported_claim": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "contradiction": {
+     "n": 15,
+     "flagged": 11,
+     "exact": 0,
+     "verdicts": {
+      "UNSUPPORTED": 11,
+      "VERIFIED": 4
+     },
+     "recall": 0.733
+    },
+    "natural": {
+     "n": 6,
+     "flagged": 6,
+     "exact": 6,
+     "verdicts": {
+      "UNSUPPORTED": 6
+     },
+     "recall": 1.0
+    }
+   },
+   "accuracy": 0.663,
+   "error_recall": 0.939,
+   "kappa": 0.257,
+   "swap_agreement": null,
+   "rules_judgements": 72,
+   "rows": {
+    "R1": {
+     "right": 15,
+     "n": 15,
+     "accuracy": 1.0
+    },
+    "R5": {
+     "right": 36,
+     "n": 60,
+     "accuracy": 0.6
+    },
+    "R6": {
+     "right": 0,
+     "n": 1,
+     "accuracy": 0.0
+    },
+    "R8": {
+     "right": 6,
+     "n": 10,
+     "accuracy": 0.6
+    }
+   },
+   "config": "L1-L4",
+   "layers": [
+    "l1",
+    "l2",
+    "l3",
+    "l4"
+   ],
+   "counter_sources": false,
+   "swap": true,
+   "guard": true,
+   "model_calls": 0,
+   "tokens": 0,
+   "failed_calls": 0,
+   "seconds": 1.1,
+   "items": [
+    {
+     "id": "V001",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V002",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V003",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 36% of the claim's content words"
+    },
+    {
+     "id": "V004",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V005",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 82% of the claim's content words"
+    },
+    {
+     "id": "V006",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V007",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V008",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 81% of the claim's content words"
+    },
+    {
+     "id": "V009",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V010",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V011",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 60% of the claim's content words"
+    },
+    {
+     "id": "V012",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V013",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V014",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 60% of the claim's content words"
+    },
+    {
+     "id": "V015",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 83% of the claim's content words"
+    },
+    {
+     "id": "V016",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V017",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V018",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "CONFLICTING",
+     "confidence": 0.6,
+     "rows": [
+      "R6"
+     ],
+     "explanation": "another source says otherwise \u2014 judge: the passages contain 88% of the claim's content words \u2014 docs.python.org: \"Note The standard library includes two other libraries directly related to command-line parameter processing: the lower level optparse module (which may require\" (negation)"
+    },
+    {
+     "id": "V019",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V020",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 57% of the claim's content words"
+    },
+    {
+     "id": "V021",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E6: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V022",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E3: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V023",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E5: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V024",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V025",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V026",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E3: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V027",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V028",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E14: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V029",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V030",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V031",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E10: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V032",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E12: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V033",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V034",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E4: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V035",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V036",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 5"
+    },
+    {
+     "id": "V037",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 3.7"
+    },
+    {
+     "id": "V038",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 1, 12, 512"
+    },
+    {
+     "id": "V039",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V040",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 42% of the claim's content words"
+    },
+    {
+     "id": "V041",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 62% of the claim's content words"
+    },
+    {
+     "id": "V042",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 69% of the claim's content words"
+    },
+    {
+     "id": "V043",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 32"
+    },
+    {
+     "id": "V044",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V045",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 38% of the claim's content words"
+    },
+    {
+     "id": "V046",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V047",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V048",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 30% of the claim's content words"
+    },
+    {
+     "id": "V049",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 43% of the claim's content words"
+    },
+    {
+     "id": "V050",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 36% of the claim's content words"
+    },
+    {
+     "id": "V051",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 15"
+    },
+    {
+     "id": "V052",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 14% of the claim's content words"
+    },
+    {
+     "id": "V053",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 15"
+    },
+    {
+     "id": "V054",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 29% of the claim's content words"
+    },
+    {
+     "id": "V055",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 2002"
+    },
+    {
+     "id": "V056",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 20% of the claim's content words"
+    },
+    {
+     "id": "V057",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 14% of the claim's content words"
+    },
+    {
+     "id": "V058",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 100"
+    },
+    {
+     "id": "V059",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 14% of the claim's content words"
+    },
+    {
+     "id": "V060",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V061",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 3.12"
+    },
+    {
+     "id": "V062",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 0% of the claim's content words"
+    },
+    {
+     "id": "V063",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 20% of the claim's content words"
+    },
+    {
+     "id": "V064",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 2"
+    },
+    {
+     "id": "V065",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 25% of the claim's content words"
+    },
+    {
+     "id": "V066",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V067",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V068",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V069",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V070",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V071",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V072",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 83% of the claim's content words"
+    },
+    {
+     "id": "V073",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V074",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V075",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 58% of the claim's content words"
+    },
+    {
+     "id": "V076",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V077",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 60% of the claim's content words"
+    },
+    {
+     "id": "V078",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 36% of the claim's content words"
+    },
+    {
+     "id": "V079",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V080",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 82% of the claim's content words"
+    },
+    {
+     "id": "V081",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5",
+      "R5"
+     ],
+     "explanation": "[V081.a] unsupported: the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words; [V081.b] unsupported: the cited quotes do not state the claim \u2014 judge: the passages contain only 0% of the claim's content words"
+    },
+    {
+     "id": "V082",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 43% of the claim's content words"
+    },
+    {
+     "id": "V083",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V084",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V085",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V086",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 27% of the claim's content words"
+    }
+   ]
+  },
+  "L1-L4+counter": {
+   "per_kind": {
+    "clean": {
+     "n": 20,
+     "flagged": 14,
+     "exact": 6,
+     "verdicts": {
+      "VERIFIED": 6,
+      "UNSUPPORTED": 13,
+      "CONFLICTING": 1
+     },
+     "false_alarm_rate": 0.7
+    },
+    "fake_quote": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "wrong_number": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "unsupported_claim": {
+     "n": 15,
+     "flagged": 15,
+     "exact": 15,
+     "verdicts": {
+      "UNSUPPORTED": 15
+     },
+     "recall": 1.0
+    },
+    "contradiction": {
+     "n": 15,
+     "flagged": 11,
+     "exact": 0,
+     "verdicts": {
+      "UNSUPPORTED": 11,
+      "VERIFIED": 4
+     },
+     "recall": 0.733
+    },
+    "natural": {
+     "n": 6,
+     "flagged": 6,
+     "exact": 6,
+     "verdicts": {
+      "UNSUPPORTED": 6
+     },
+     "recall": 1.0
+    }
+   },
+   "accuracy": 0.663,
+   "error_recall": 0.939,
+   "kappa": 0.257,
+   "swap_agreement": null,
+   "rules_judgements": 72,
+   "rows": {
+    "R1": {
+     "right": 15,
+     "n": 15,
+     "accuracy": 1.0
+    },
+    "R5": {
+     "right": 36,
+     "n": 60,
+     "accuracy": 0.6
+    },
+    "R6": {
+     "right": 0,
+     "n": 1,
+     "accuracy": 0.0
+    },
+    "R8": {
+     "right": 6,
+     "n": 10,
+     "accuracy": 0.6
+    }
+   },
+   "config": "L1-L4+counter",
+   "layers": [
+    "l1",
+    "l2",
+    "l3",
+    "l4"
+   ],
+   "counter_sources": true,
+   "swap": true,
+   "guard": true,
+   "model_calls": 0,
+   "tokens": 0,
+   "failed_calls": 0,
+   "seconds": 1.0,
+   "items": [
+    {
+     "id": "V001",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V002",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V003",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 36% of the claim's content words"
+    },
+    {
+     "id": "V004",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V005",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 82% of the claim's content words"
+    },
+    {
+     "id": "V006",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V007",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V008",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 81% of the claim's content words"
+    },
+    {
+     "id": "V009",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V010",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V011",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 60% of the claim's content words"
+    },
+    {
+     "id": "V012",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V013",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V014",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 60% of the claim's content words"
+    },
+    {
+     "id": "V015",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 83% of the claim's content words"
+    },
+    {
+     "id": "V016",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V017",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V018",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "CONFLICTING",
+     "confidence": 0.6,
+     "rows": [
+      "R6"
+     ],
+     "explanation": "another source says otherwise \u2014 judge: the passages contain 88% of the claim's content words \u2014 docs.python.org: \"Note The standard library includes two other libraries directly related to command-line parameter processing: the lower level optparse module (which may require\" (negation)"
+    },
+    {
+     "id": "V019",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V020",
+     "kind": "clean",
+     "expected": "VERIFIED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 57% of the claim's content words"
+    },
+    {
+     "id": "V021",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E6: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V022",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E3: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V023",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E5: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V024",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V025",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V026",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E3: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V027",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E1: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V028",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E14: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V029",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V030",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V031",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E10: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V032",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E12: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V033",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V034",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E4: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V035",
+     "kind": "fake_quote",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.98,
+     "rows": [
+      "R1"
+     ],
+     "explanation": "a cited quote does not check out against the saved page \u2014 E2: the quote is not in the saved page word for word"
+    },
+    {
+     "id": "V036",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 5"
+    },
+    {
+     "id": "V037",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 3.7"
+    },
+    {
+     "id": "V038",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 1, 12, 512"
+    },
+    {
+     "id": "V039",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V040",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 42% of the claim's content words"
+    },
+    {
+     "id": "V041",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 62% of the claim's content words"
+    },
+    {
+     "id": "V042",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 69% of the claim's content words"
+    },
+    {
+     "id": "V043",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 32"
+    },
+    {
+     "id": "V044",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V045",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 38% of the claim's content words"
+    },
+    {
+     "id": "V046",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V047",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V048",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 30% of the claim's content words"
+    },
+    {
+     "id": "V049",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 43% of the claim's content words"
+    },
+    {
+     "id": "V050",
+     "kind": "wrong_number",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 36% of the claim's content words"
+    },
+    {
+     "id": "V051",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 15"
+    },
+    {
+     "id": "V052",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 14% of the claim's content words"
+    },
+    {
+     "id": "V053",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 15"
+    },
+    {
+     "id": "V054",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 29% of the claim's content words"
+    },
+    {
+     "id": "V055",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 2002"
+    },
+    {
+     "id": "V056",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 20% of the claim's content words"
+    },
+    {
+     "id": "V057",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 14% of the claim's content words"
+    },
+    {
+     "id": "V058",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 100"
+    },
+    {
+     "id": "V059",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 14% of the claim's content words"
+    },
+    {
+     "id": "V060",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V061",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 3.12"
+    },
+    {
+     "id": "V062",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 0% of the claim's content words"
+    },
+    {
+     "id": "V063",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 20% of the claim's content words"
+    },
+    {
+     "id": "V064",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages do not mention 2"
+    },
+    {
+     "id": "V065",
+     "kind": "unsupported_claim",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 25% of the claim's content words"
+    },
+    {
+     "id": "V066",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 40% of the claim's content words"
+    },
+    {
+     "id": "V067",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V068",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V069",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V070",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V071",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V072",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 83% of the claim's content words"
+    },
+    {
+     "id": "V073",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V074",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V075",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 58% of the claim's content words"
+    },
+    {
+     "id": "V076",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 75% of the claim's content words"
+    },
+    {
+     "id": "V077",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 60% of the claim's content words"
+    },
+    {
+     "id": "V078",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 36% of the claim's content words"
+    },
+    {
+     "id": "V079",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 56% of the claim's content words"
+    },
+    {
+     "id": "V080",
+     "kind": "contradiction",
+     "expected": "CONFLICTING",
+     "verdict": "VERIFIED",
+     "confidence": 0.6,
+     "rows": [
+      "R8"
+     ],
+     "explanation": "the quotes support the claim \u2014 judge: the passages contain 82% of the claim's content words"
+    },
+    {
+     "id": "V081",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5",
+      "R5"
+     ],
+     "explanation": "[V081.a] unsupported: the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words; [V081.b] unsupported: the cited quotes do not state the claim \u2014 judge: the passages contain only 0% of the claim's content words"
+    },
+    {
+     "id": "V082",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 43% of the claim's content words"
+    },
+    {
+     "id": "V083",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 67% of the claim's content words"
+    },
+    {
+     "id": "V084",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 33% of the claim's content words"
+    },
+    {
+     "id": "V085",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 50% of the claim's content words"
+    },
+    {
+     "id": "V086",
+     "kind": "natural",
+     "expected": "UNSUPPORTED",
+     "verdict": "UNSUPPORTED",
+     "confidence": 0.6,
+     "rows": [
+      "R5"
+     ],
+     "explanation": "the cited quotes do not state the claim \u2014 judge: the passages contain only 27% of the claim's content words"
+    }
+   ]
+  }
+ },
+ "reports": {
+  "demo_tcp_chat": {
+   "summary": {
+    "verified": 1,
+    "unsupported": 7,
+    "conflicting": 0,
+    "needs_more": 0
+   },
+   "claims": 8,
+   "citation_recall": 0.125,
+   "follow_up_questions": [
+    "Is it true that threading uses multiple OS threads and works well for I/O\u2011bound tasks, while asyncio provides task\u2011level concurrency without extra threads?",
+    "Is it true that asyncio is part of the standard library since Python 3.4 and offers an alternative to threading for handling many TCP clients?",
+    "Is it true that scaling a thread pool beyond a few hundred threads can cause a performance drop of 20% or more, showing a saturation cliff?"
+   ],
+   "verdicts": {
+    "C1": "UNSUPPORTED",
+    "C2": "UNSUPPORTED",
+    "C3": "VERIFIED",
+    "C4": "UNSUPPORTED",
+    "C5": "UNSUPPORTED",
+    "C6": "UNSUPPORTED",
+    "C7": "UNSUPPORTED",
+    "C8": "UNSUPPORTED"
+   }
+  },
+  "q01_tcp_concurrency": {
+   "summary": {
+    "verified": 1,
+    "unsupported": 2,
+    "conflicting": 0,
+    "needs_more": 0
+   },
+   "claims": 3,
+   "citation_recall": 0.333,
+   "follow_up_questions": [
+    "Is it true that asyncio achieves task\u2011level concurrency without creating multiple operating\u2011system threads?",
+    "Is it true that threading\u2019s performance on CPU\u2011bound workloads is limited by the GIL, which allows only one thread to execute Python bytecode at a time?"
+   ],
+   "verdicts": {
+    "C1": "UNSUPPORTED",
+    "C2": "VERIFIED",
+    "C3": "UNSUPPORTED"
+   }
+  },
+  "q02_broadcast": {
+   "summary": {
+    "verified": 0,
+    "unsupported": 2,
+    "conflicting": 0,
+    "needs_more": 0
+   },
+   "claims": 2,
+   "citation_recall": 0.0,
+   "follow_up_questions": [
+    "Is it true that message-oriented middleware (MOM) enables asynchronous, non\u2011blocking calls between client and server components in a client/server architecture?",
+    "Is it true that the broadcast pattern distributes data from one processing unit to all processing units, a common approach for non\u2011blocking dissemination in parallel programs?"
+   ],
+   "verdicts": {
+    "C1": "UNSUPPORTED",
+    "C2": "UNSUPPORTED"
+   }
+  },
+  "q03_latency": {
+   "summary": {
+    "verified": 0,
+    "unsupported": 3,
+    "conflicting": 0,
+    "needs_more": 0
+   },
+   "claims": 3,
+   "citation_recall": 0.0,
+   "follow_up_questions": [
+    "Is it true that python's standard library includes the time module, which provides Unix\u2011time timestamps for messages?",
+    "Is it true that javaScript's built\u2011in Date object supplies millisecond\u2011resolution timestamps based on the Unix epoch?",
+    "Is it true that java's standard library offers the Instant class, which holds Unix timestamps with second and nanosecond precision?"
+   ],
+   "verdicts": {
+    "C1": "UNSUPPORTED",
+    "C2": "UNSUPPORTED",
+    "C3": "UNSUPPORTED"
+   }
+  },
+  "q05_django_fastapi": {
+   "summary": {
+    "verified": 2,
+    "unsupported": 3,
+    "conflicting": 0,
+    "needs_more": 0
+   },
+   "claims": 5,
+   "citation_recall": 0.4,
+   "follow_up_questions": [
+    "Is it true that fastAPI saves development time, reduces bugs and lines of code while delivering performance that is comparable to or better than a hand\u2011crafted solution?",
+    "Is it true that fastAPI adds automatic data validation, serialization and generates interactive API documentation at startup without adding runtime overhead?",
+    "Is it true that using FastAPI still requires more code than writing directly with Starlette, because otherwise you would need to include most of Starlette\u2019s code yourself?"
+   ],
+   "verdicts": {
+    "C1": "VERIFIED",
+    "C2": "VERIFIED",
+    "C3": "UNSUPPORTED",
+    "C4": "UNSUPPORTED",
+    "C5": "UNSUPPORTED"
+   }
+  },
+  "q06_token_scheme": {
+   "summary": {
+    "verified": 0,
+    "unsupported": 7,
+    "conflicting": 0,
+    "needs_more": 0
+   },
+   "claims": 7,
+   "citation_recall": 0.0,
+   "follow_up_questions": [
+    "Is it true that JWTs are stateless, meaning the server does not store user session data in memory?",
+    "Is it true that JWTs are typically sent in the Authorization header using the Bearer scheme when accessing protected resources?",
+    "Is it true that the stateless nature of JWTs can be lost if server-side storage is added, reducing their primary advantage?"
+   ],
+   "verdicts": {
+    "C1": "UNSUPPORTED",
+    "C2": "UNSUPPORTED",
+    "C3": "UNSUPPORTED",
+    "C4": "UNSUPPORTED",
+    "C5": "UNSUPPORTED",
+    "C6": "UNSUPPORTED",
+    "C7": "UNSUPPORTED"
+   }
+  },
+  "q07_react_state": {
+   "summary": {
+    "verified": 1,
+    "unsupported": 2,
+    "conflicting": 0,
+    "needs_more": 0
+   },
+   "claims": 3,
+   "citation_recall": 0.333,
+   "follow_up_questions": [
+    "Is it true that useState is a Hook that lets function components manage simple internal state with a setter function?",
+    "Is it true that useReducer provides an API similar to Redux, allowing developers to define a reducer and dispatch actions for state updates?"
+   ],
+   "verdicts": {
+    "C1": "UNSUPPORTED",
+    "C2": "UNSUPPORTED",
+    "C3": "VERIFIED"
+   }
+  },
+  "q08_localstorage": {
+   "summary": {
+    "verified": 0,
+    "unsupported": 4,
+    "conflicting": 0,
+    "needs_more": 0
+   },
+   "claims": 4,
+   "citation_recall": 0.0,
+   "follow_up_questions": [
+    "Is it true that localStorage can safely store data that has been converted to a JSON string using JSON.stringify, as JSON is a built\u2011in format supported by ECMAScript?",
+    "Is it true that textual formats such as CSV or JSON supersets (e.g., Ion) can also be stored in localStorage after being serialized to a string?",
+    "Is it true that when objects are serialized, their associated methods are not included in the stored representation?"
+   ],
+   "verdicts": {
+    "C1": "UNSUPPORTED",
+    "C2": "UNSUPPORTED",
+    "C3": "UNSUPPORTED",
+    "C4": "UNSUPPORTED"
+   }
+  },
+  "q09_argparse": {
+   "summary": {
+    "verified": 1,
+    "unsupported": 3,
+    "conflicting": 1,
+    "needs_more": 0
+   },
+   "claims": 5,
+   "citation_recall": 0.2,
+   "follow_up_questions": [
+    "Is it true that python\u2019s standard library also includes the lower\u2011level optparse module for more configurable parsing?",
+    "Is it true that the very low\u2011level getopt module provides an interface similar to the C getopt() functions?",
+    "Is it true that argparse automatically generates help and usage messages and reports errors for invalid arguments, making it more reliable than manual sys.argv handling or getopt?"
+   ],
+   "verdicts": {
+    "C1": "VERIFIED",
+    "C2": "UNSUPPORTED",
+    "C3": "UNSUPPORTED",
+    "C4": "CONFLICTING",
+    "C5": "UNSUPPORTED"
+   }
+  },
+  "q10_strategy": {
+   "summary": {
+    "verified": 0,
+    "unsupported": 3,
+    "conflicting": 0,
+    "needs_more": 0
+   },
+   "claims": 3,
+   "citation_recall": 0.0,
+   "follow_up_questions": [
+    "Is it true that the strategy pattern is a behavioral design pattern that lets a program select an algorithm at runtime?",
+    "Is it true that it decouples the algorithm from its clients, allowing the algorithm to vary independently from the code that uses it?",
+    "Is it true that applying it to fee\u2011rule configurability means encapsulating each fee calculation rule as a separate strategy class and letting the fee\u2011processing component hold a reference to the chosen rule, which can be swapped without changing the component\u2019s code?"
+   ],
+   "verdicts": {
+    "C1": "UNSUPPORTED",
+    "C2": "UNSUPPORTED",
+    "C3": "UNSUPPORTED"
+   }
+  },
+  "_total": {
+   "verified": 6,
+   "unsupported": 36,
+   "conflicting": 1,
+   "needs_more": 0,
+   "claims": 43,
+   "quotes": 48,
+   "quotes_ok": 48,
+   "citation_recall": 0.14,
+   "quote_pass_rate": 1.0
+  }
+ }
+}

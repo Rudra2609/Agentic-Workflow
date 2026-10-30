@@ -18,6 +18,19 @@
   "$id": "hmap:Envelope:1.0",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "properties": {
+    "auth": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "sender's signature (Sprint 6, hmap.core.policy)",
+      "title": "Auth"
+    },
     "correlation_id": {
       "minLength": 1,
       "title": "Correlation Id",

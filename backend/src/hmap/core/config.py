@@ -175,6 +175,18 @@ class Settings(BaseModel):
                                      description="fetched pages + search results (git-ignored)")
     research_max_fetch_mb: float = Field(default=5.0, gt=0, description="largest page / PDF fetched")
     research_rate_per_host: float = Field(default=1.0, gt=0, description="requests per second per host")
+    # --- research verification (Sprint 6, Member 6) ---
+    verify_max_rounds: int = Field(default=1, ge=0, le=3, description="follow-up research rounds after a verification "
+                                                                     "flags claims (0 = never)")
+    verify_independent: bool = Field(default=True, description="L3/L4: own searches + cross-source check")
+    verify_cache_dir: Path = Field(default=REPO_ROOT / "data" / "verify_cache",
+                                   description="the verifier's own search results (git-ignored)")
+    # --- security layer (Sprint 6, Member 6; hmap.core.policy) ---
+    agent_secrets: list[SecretStr] = Field(default_factory=list, repr=False,
+                                           description="HMAP_AGENT_SECRETS 'kid:secret,...' (newest first); empty = "
+                                                       "dev mode with a per-process seeded secret")
+    agent_token_ttl_s: int = Field(default=7 * 24 * 3600, ge=60, description="lifetime of an agent service token")
+    security_enforce: bool = Field(default=True, description="deny (not only audit) messages the policy refuses")
     # --- team cloud key pool (doc 02 §2.5, item 1.14b). Keys are SecretStr and hidden from repr/str/dumps.
     groq_api_keys: list[SecretStr] = Field(default_factory=list, repr=False)
     gemini_api_keys: list[SecretStr] = Field(default_factory=list, repr=False)
@@ -198,7 +210,7 @@ class Settings(BaseModel):
     cloud_base_url: str | None = None
     cloud_api_key: str | None = Field(default=None, repr=False)
 
-    @field_validator("artifact_root", "llm_cache_dir", "research_cache_dir")
+    @field_validator("artifact_root", "llm_cache_dir", "research_cache_dir", "verify_cache_dir")
     @classmethod
     def _anchor_path(cls, value: Path) -> Path:
         return value if value.is_absolute() else (REPO_ROOT / value).resolve()
@@ -236,6 +248,8 @@ class Settings(BaseModel):
             "HMAP_RESEARCH_MODE": "research_mode", "HMAP_RESEARCH_CACHE_DIR": "research_cache_dir",
             "HMAP_RESEARCH_MAX_FETCH_MB": "research_max_fetch_mb",
             "HMAP_RESEARCH_RATE_PER_HOST": "research_rate_per_host",
+            "HMAP_VERIFY_MAX_ROUNDS": "verify_max_rounds", "HMAP_VERIFY_CACHE_DIR": "verify_cache_dir",
+            "HMAP_AGENT_TOKEN_TTL_S": "agent_token_ttl_s",
             "HMAP_CLOUD_BASE_URL": "cloud_base_url",
             "HMAP_CLOUD_API_KEY": "cloud_api_key", "HMAP_GROQ_BASE_URL": "groq_base_url",
             "HMAP_GEMINI_BASE_URL": "gemini_base_url", "HMAP_PUBLIC_URL": "public_url",
@@ -254,6 +268,12 @@ class Settings(BaseModel):
                 data[field] = value.strip().lower() in ("1", "true", "yes", "on")
         if (value := get("HMAP_REFINE_DEFAULT")) is not None:
             data["refine_default"] = value.strip().lower() in ("1", "true", "yes", "on")
+        for key, field in (("HMAP_VERIFY_INDEPENDENT", "verify_independent"),
+                           ("HMAP_SECURITY_ENFORCE", "security_enforce")):
+            if (value := get(key)) is not None:
+                data[field] = value.strip().lower() in ("1", "true", "yes", "on")
+        if (value := get("HMAP_AGENT_SECRETS")) is not None:
+            data["agent_secrets"] = parse_key_list(value)
         if (value := get("HMAP_CLOUD_OK")) is not None:
             data["cloud_ok"] = value.strip().lower() in ("1", "true", "yes", "on")
         if (value := get("HMAP_RETRY_DELAYS_S")) is not None:

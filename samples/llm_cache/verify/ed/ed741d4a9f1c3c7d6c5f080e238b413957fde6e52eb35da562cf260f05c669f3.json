@@ -1,0 +1,89 @@
+{
+  "format": 1,
+  "key": "ed741d4a9f1c3c7d6c5f080e238b413957fde6e52eb35da562cf260f05c669f3",
+  "key_ingredients": {
+    "max_tokens": 200,
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: The stateless nature of JWTs can be lost if server-side storage is added, reducing their primary advantage",
+        "role": "user"
+      }
+    ],
+    "plugin": "verify",
+    "role": "fast",
+    "schema": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "seed": null,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "verify",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-18T09:35:07.759791+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: The stateless nature of JWTs can be lost if server-side storage is added, reducing their primary advantage",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 200,
+      "seed": null,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"queries\":[\"JWT statelessness lost with server storage\",\"server side storage impact on JWT statelessness\"]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 272,
+      "latency_s": 3.8214,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 40,
+      "provider": "groq"
+    }
+  },
+  "role": "fast"
+}

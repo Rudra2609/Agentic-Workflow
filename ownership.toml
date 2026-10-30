@@ -92,7 +92,16 @@ paths = ["docs/members/*/core-requests.md"]
 # member, reported as "needs Member 1 sign-off" instead of an error.
 [cross_cutting]
 4 = ["infra/docker-compose.obs.yml", "infra/observability/**"]
-6 = ["backend/src/hmap/core/policy.py", "scripts/security_check.sh"]
+6 = ["backend/src/hmap/core/policy.py", "scripts/security_check.sh", "scripts/security_check.py",
+     # the security layer's call sites + settings (Sprint 6 plan §5, approved by Member 1 on 2026-10-18)
+     "backend/src/hmap/core/contracts/envelope.py", "backend/src/hmap/core/contracts/schemas/Envelope.schema.json",
+     "backend/tests/contracts/snapshots/Envelope.schema.json", "backend/src/hmap/core/runtime/worker.py",
+     "backend/src/hmap/manager/manager.py", "backend/src/hmap/core/config.py", "backend/src/hmap/api/app.py",
+     "backend/src/hmap/api/routers/projects.py", "backend/src/hmap/db/tables.py", "backend/tests/db/test_migrations.py",
+     ".env.example",
+     # the mid-evaluation readiness gate (sprint-06 §5c)
+     "Makefile", "scripts/demo*", "scripts/stop.sh", "scripts/check_sprint.sh", "samples/demo/**", "README.md",
+     "docs/sprints/mid-evaluation.md"]
 9 = ["Makefile", "scripts/demo*", "scripts/seed.sh", "scripts/reset*", "docs/README.md"]
 10 = ["backend/tests/e2e/**", "scripts/demo_final.sh"]
 11 = ["scripts/pull_models.sh", "infra/**"]

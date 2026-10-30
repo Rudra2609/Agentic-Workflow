@@ -11,15 +11,17 @@ the live WebSocket connects to the API directly with a single-use ticket.
 """
 
 import os
-from collections.abc import AsyncIterator
+from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, Response
+from fastapi import Depends, FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
-from hmap.api.deps import current_session
+from hmap.api.deps import SESSION_COOKIE, client_address, current_session
 from hmap.api.feed import EventFeed
 from hmap.api.routers import auth, projects, system
+from hmap.core import policy
 from hmap.core.config import REPO_ROOT, Settings
 from hmap.core.tracing import configure_logging
 from hmap.obs import configure as configure_tracing
@@ -81,6 +83,19 @@ def create_app(hmap_system: HmapSystem | None = None, *, run_agents: bool | None
     app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True,
                        allow_methods=["GET", "POST", "PATCH", "DELETE"],
                        allow_headers=["Content-Type", "X-CSRF-Token"])
+    # Sprint 6 (Member 6, item 6.17): a per-client rate limit on state-changing API requests
+    app.state.write_limiter = policy.RateLimiter(rate=float(os.environ.get("HMAP_API_WRITE_RATE", "20")),
+                                                 burst=int(os.environ.get("HMAP_API_WRITE_BURST", "200")))
+
+    @app.middleware("http")
+    async def limit_writes(request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
+        if request.method in ("POST", "PUT", "PATCH", "DELETE") and request.url.path.startswith("/api/"):
+            key = f"{client_address(request)}|{policy.fingerprint(request.cookies.get(SESSION_COOKIE, ''))}"
+            if not request.app.state.write_limiter.allow(key):
+                return JSONResponse({"detail": "Too many requests. Wait a moment and try again."}, status_code=429,
+                                    headers={"Retry-After": "1"})
+        return await call_next(request)
+
     app.include_router(auth.router, prefix="/api")
     app.include_router(system.router, prefix="/api")
     app.include_router(projects.router, prefix="/api")

@@ -3,7 +3,7 @@ BACKEND := backend
 UV := uv --directory $(BACKEND)
 COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo 'docker compose' || echo docker-compose)
 
-.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api
+.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api demo stop security
 
 help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-12s %s\n", $$1, $$2}'
@@ -74,3 +74,12 @@ agents: ## run every discovered agent in one process
 
 api: ## run the FastAPI app with reload
 	$(UV) run uvicorn hmap.api.app:create_app --factory --reload --port 8000
+
+demo: ## the whole platform on this laptop, offline (replay + cached research): http://127.0.0.1:3000 (Sprint 6)
+	@scripts/demo.sh
+
+stop: ## stop everything `make demo` started
+	@scripts/stop.sh
+
+security: ## security checks: secrets, leaks, dependency audit, security tests (scripts/security_check.sh)
+	@scripts/security_check.sh

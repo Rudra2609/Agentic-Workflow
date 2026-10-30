@@ -30,6 +30,7 @@ from typing import Any
 
 from pydantic import ValidationError
 
+from hmap.core import policy
 from hmap.core.bus.base import Bus, Delivery, Subscription
 from hmap.core.bus.stores import InboxStore, OutboxStore
 from hmap.core.contracts import (
@@ -129,6 +130,35 @@ class _Unit:
         self.events.append(event)
 
 
+class _PolicyLookups:
+    """What the security policy may ask the Manager (Sprint 6, hmap.core.policy.PolicyContext)."""
+
+    def __init__(self, manager: "Manager") -> None:
+        self.m = manager
+
+    async def agent_capabilities(self, agent_id: str) -> list[str] | None:
+        get = getattr(self.m.registry, "get", None)        # both registries have it; the Protocol does not
+        rec = await get(agent_id) if get is not None else next(
+            (a for a in await self.m.registry.list() if a.agent_id == agent_id), None)
+        return list(rec.capabilities) if rec is not None else None
+
+    async def execution(self, execution_id: str) -> tuple[str | None, str] | None:
+        exe = await self.m.store.get_execution(execution_id)
+        task = await self.m.store.get_task(exe.task_id) if exe is not None else None
+        return (exe.agent_id, task.capability) if exe is not None and task is not None else None
+
+
+def _make_policy(manager: "Manager") -> "policy.Policy":
+    """The Manager signs its commands and checks every report (Sprint 6). On Postgres refusals are also stored in
+    ``security_audit`` (migration 006)."""
+    from hmap.db.database import Database
+
+    policy.install()
+    db = getattr(manager.store, "db", None)
+    sinks: list[policy.AuditSink] = [policy.PgAudit(db)] if isinstance(db, Database) else []
+    return policy.Policy(audit=sinks, manager_id=manager.config.manager_id)
+
+
 class Manager:
     def __init__(self, *, bus: Bus, store: TaskStore, outbox: OutboxStore, registry: Registry,
                  artifacts: ArtifactStore, contexts: ContextStore, plugins: Sequence[Plugin] = (),
@@ -151,6 +181,7 @@ class Manager:
         self._assign_lock = asyncio.Lock()
         self._subscription: Subscription | None = None
         self._watchdog_task: asyncio.Task[None] | None = None
+        self.policy = _make_policy(self)
 
     # ============================================================================ lifecycle
 
@@ -732,6 +763,9 @@ class Manager:
             payload = body.typed_payload()
         except (ValidationError, HmapError) as exc:
             await delivery.reject(f"invalid payload: {exc}")
+            return
+        if not await self.policy.check_report(body, payload, _PolicyLookups(self)):   # Sprint 6 security layer
+            await delivery.ack()          # refused + audited (hmap.core.policy); never applied, never redelivered
             return
         obs_metrics.REPORTS.labels(body.message_type).inc()
         try:
