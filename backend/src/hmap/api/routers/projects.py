@@ -13,6 +13,7 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, Reques
 from pydantic import BaseModel, Field
 
 from hmap.api.deps import CurrentSession, get_manager
+from hmap.core import policy
 from hmap.core.contracts import ArtifactRef, DomainEvent, EventType, TaskGraph
 from hmap.core.errors import ArtifactIntegrityError
 from hmap.core.plugins import ProjectStopped
@@ -276,6 +277,9 @@ async def upload_document(
             raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail=f"“{path}” is larger than 25 MB.")
         if not data:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=f"“{path}” is empty.")
+        if not policy.content_matches(media_type, data):           # Sprint 6: the bytes must match the type
+            raise HTTPException(status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+                                detail=f"“{path}” does not look like the file type its name says.")
         total += len(data)
         if total > MAX_TOTAL_UPLOAD_BYTES:
             raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,

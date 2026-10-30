@@ -1,0 +1,89 @@
+{
+  "format": 1,
+  "key": "c026dd600baad702d04ab7652082d58438d5dcf00b15eca416694b9f1051e0b6",
+  "key_ingredients": {
+    "max_tokens": 200,
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: The\nnumeric error value will match one of theEAI_* constants\ndefined in this module.\n- exception socket.timeout¶\n- A deprecated alias of TimeoutError .A subclass of OSError , this exception is raised when a timeout\noccurs on a socket which has had timeouts enabled via a prior call tosettimeout()…",
+        "role": "user"
+      }
+    ],
+    "plugin": "verify",
+    "role": "fast",
+    "schema": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "seed": null,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "verify",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-18T10:03:54.621974+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: The\nnumeric error value will match one of theEAI_* constants\ndefined in this module.\n- exception socket.timeout¶\n- A deprecated alias of TimeoutError .A subclass of OSError , this exception is raised when a timeout\noccurs on a socket which has had timeouts enabled via a prior call tosettimeout()…",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 200,
+      "seed": null,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"queries\":[\"numeric error value match EAI_* constants\",\"socket.timeout exception description\"]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 319,
+      "latency_s": 0.3559,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 35,
+      "provider": "groq"
+    }
+  },
+  "role": "fast"
+}

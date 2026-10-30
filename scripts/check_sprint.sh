@@ -5,6 +5,10 @@ set -uo pipefail
 n="${1:?usage: check_sprint.sh <sprint-number> [precommit args]}"; shift || true
 here="$(cd "$(dirname "$0")" && pwd)"
 "$here/precommit.sh" "$@"; status=$?
+if [ "$n" -ge 6 ]; then   # Sprint 6 DoD (Member 6): the security checks are part of every acceptance from now on
+  echo; echo "=== security: $here/security_check.sh"
+  "$here/security_check.sh" || status=1
+fi
 demo="$here/demo_sprint_${n}.sh"
 if [ -x "$demo" ]; then
   echo; echo "=== demo smoke: $demo"

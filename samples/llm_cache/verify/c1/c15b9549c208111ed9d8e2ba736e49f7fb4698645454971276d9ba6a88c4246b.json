@@ -1,0 +1,89 @@
+{
+  "format": 1,
+  "key": "c15b9549c208111ed9d8e2ba736e49f7fb4698645454971276d9ba6a88c4246b",
+  "key_ingredients": {
+    "max_tokens": 200,
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: Django provides many built‑in components such as user authentication, an admin interface, form handling and a powerful ORM",
+        "role": "user"
+      }
+    ],
+    "plugin": "verify",
+    "role": "fast",
+    "schema": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "seed": null,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "verify",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-18T09:35:07.428111+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "queries": {
+          "description": "1-2 short web search queries (3-8 words) that would find sources confirming or contradicting the claim",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "title": "Queries",
+          "type": "array"
+        }
+      },
+      "title": "Queries",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You write web search queries to fact-check a claim. Write 1 or 2 short, neutral queries (3-8 words, no quotes, no site: filters) that find independent sources about what the claim states. Answer in JSON.",
+        "role": "system"
+      },
+      {
+        "content": "Claim: Django provides many built‑in components such as user authentication, an admin interface, form handling and a powerful ORM",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 200,
+      "seed": null,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"queries\":[\"Django built‑in components user authentication admin interface form handling ORM\",\"Django includes authentication admin forms ORM features\"]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 273,
+      "latency_s": 3.5612,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 44,
+      "provider": "groq"
+    }
+  },
+  "role": "fast"
+}

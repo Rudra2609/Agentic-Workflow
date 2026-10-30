@@ -1,5 +1,6 @@
 """The common message envelope (research §7) with typed payload validation and version checks."""
 
+from collections.abc import Callable
 from typing import Any
 
 from pydantic import AwareDatetime, Field, ValidationError, model_validator
@@ -34,6 +35,7 @@ class Envelope(Contract):
     project_id: str | None = None
     sequence_number: int | None = Field(default=None, ge=1)
     payload: dict[str, Any]
+    auth: str | None = Field(default=None, repr=False, description="sender's signature (Sprint 6, hmap.core.policy)")
 
     @model_validator(mode="after")
     def _check(self) -> "Envelope":
@@ -52,6 +54,16 @@ class Envelope(Contract):
         return PAYLOAD_MODELS[self.message_type].model_validate(self.payload)
 
 
+_SIGNER: Callable[["Envelope"], str] | None = None
+
+
+def register_signer(signer: Callable[["Envelope"], str] | None) -> None:
+    """Sprint 6 (Member 6): ``hmap.core.policy.install`` registers the process's signer; every envelope built by
+    :func:`make_envelope` is then signed (``auth``)."""
+    global _SIGNER
+    _SIGNER = signer
+
+
 def make_envelope(payload: Contract, *, sender: str, correlation_id: str, receiver: str | None = None,
                   task_id: str | None = None, execution_id: str | None = None, project_id: str | None = None,
                   traceparent: str | None = None, sequence_number: int | None = None) -> Envelope:
@@ -59,7 +71,7 @@ def make_envelope(payload: Contract, *, sender: str, correlation_id: str, receiv
     message_type = next((t for t, m in PAYLOAD_MODELS.items() if isinstance(payload, m)), None)
     if message_type is None:
         raise InvalidMessage(f"{type(payload).__name__} is not a message payload")
-    return Envelope(
+    env = Envelope(
         message_type=message_type,
         sender=AgentRef(agent_id=sender),
         receiver=AgentRef(agent_id=receiver) if receiver else None,
@@ -71,6 +83,9 @@ def make_envelope(payload: Contract, *, sender: str, correlation_id: str, receiv
         sequence_number=sequence_number,
         payload=payload.model_dump(mode="json", exclude_none=True),
     )
+    if _SIGNER is not None:
+        env.auth = _SIGNER(env)
+    return env
 
 
 def parse_envelope(raw: bytes | str | dict[str, Any]) -> tuple[Envelope, Contract]:
