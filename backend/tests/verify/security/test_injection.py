@@ -102,6 +102,22 @@ def test_repository_entry_points_are_switched_on_when_real(capability: str, owne
     real = [p for p in discover() if p.name != "stubs" and any(capability in a.capabilities for a in p.agents)]
     if not real:
         pytest.skip(f"{capability} is still a stub: {owner} adds its reader to this suite in their sprint")
+    if capability == "code.implement":
+        # Member 7 (Sprint 7): code is never rewritten (an edit must quote the file exactly), so the coding reader
+        # wraps every file as data, flags the AI-directed lines and tells the model files never give instructions.
+        # The whole loop against these files (a model that obeys them is stopped by the tools):
+        # tests/coding/test_injection_repo.py.
+        from hmap.agents.coding.prompts import SYSTEM
+        from hmap.agents.coding.tools.files import UNTRUSTED_NOTE, injected_lines, read_file
+        from hmap.agents.coding.workspace import Workspace
+
+        ws = Workspace(INJ / "repo")
+        assert UNTRUSTED_NOTE in SYSTEM
+        for name in ("server.py", "CONTRIBUTING.md", "README.md"):
+            shown = read_file(ws, name)
+            assert shown.count("<<<FILE") == 1 and shown.count("FILE>>>") == 1, name
+            assert injected_lines(ws.read(name)), name                           # flagged in the coding trace
+        return
     pytest.fail(f"{capability} is real now: {owner} must run samples/verify/injection/repo through it here")
 
 

@@ -181,6 +181,19 @@ class Settings(BaseModel):
     verify_independent: bool = Field(default=True, description="L3/L4: own searches + cross-source check")
     verify_cache_dir: Path = Field(default=REPO_ROOT / "data" / "verify_cache",
                                    description="the verifier's own search results (git-ignored)")
+    # --- autonomous coding (Sprint 7, Member 7) ---
+    coding_work_dir: Path | None = Field(default=None, description="per-task workspaces; unset = <tmp>/hmap-coding. "
+                                                                   "Never inside the project folder (.env lives there)")
+    coding_keep_work: bool = Field(default=False, description="keep workspaces after packaging (debugging)")
+    coding_python: str | None = Field(default=None, description="interpreter for model-written code; unset = "
+                                                                "data/coding/venv if built, else the base Python")
+    coding_sandbox: Literal["auto", "off"] = Field(
+        default="auto", description="auto = macOS sandbox-exec (no network, no project folder) when present")
+    coding_prompt_tokens: int = Field(default=5500, ge=1500, le=100_000, description="prompt budget per model call")
+    coding_max_steps: int = Field(default=12, ge=1, le=40, description="model calls per coding task")
+    coding_max_debug_rounds: int = Field(default=4, ge=0, le=10, description="edit -> check rounds after a failure")
+    coding_max_revisions: int = Field(default=3, ge=0, le=10, description="code.revise rounds per original task")
+    coding_cmd_timeout_s: float = Field(default=20.0, gt=0, le=60, description="time limit per workspace command")
     # --- security layer (Sprint 6, Member 6; hmap.core.policy) ---
     agent_secrets: list[SecretStr] = Field(default_factory=list, repr=False,
                                            description="HMAP_AGENT_SECRETS 'kid:secret,...' (newest first); empty = "
@@ -250,6 +263,10 @@ class Settings(BaseModel):
             "HMAP_RESEARCH_RATE_PER_HOST": "research_rate_per_host",
             "HMAP_VERIFY_MAX_ROUNDS": "verify_max_rounds", "HMAP_VERIFY_CACHE_DIR": "verify_cache_dir",
             "HMAP_AGENT_TOKEN_TTL_S": "agent_token_ttl_s",
+            "HMAP_CODING_WORK_DIR": "coding_work_dir", "HMAP_CODING_PYTHON": "coding_python",
+            "HMAP_CODING_SANDBOX": "coding_sandbox", "HMAP_CODING_PROMPT_TOKENS": "coding_prompt_tokens",
+            "HMAP_CODING_MAX_STEPS": "coding_max_steps", "HMAP_CODING_MAX_DEBUG_ROUNDS": "coding_max_debug_rounds",
+            "HMAP_CODING_MAX_REVISIONS": "coding_max_revisions", "HMAP_CODING_CMD_TIMEOUT_S": "coding_cmd_timeout_s",
             "HMAP_CLOUD_BASE_URL": "cloud_base_url",
             "HMAP_CLOUD_API_KEY": "cloud_api_key", "HMAP_GROQ_BASE_URL": "groq_base_url",
             "HMAP_GEMINI_BASE_URL": "gemini_base_url", "HMAP_PUBLIC_URL": "public_url",
@@ -269,7 +286,8 @@ class Settings(BaseModel):
         if (value := get("HMAP_REFINE_DEFAULT")) is not None:
             data["refine_default"] = value.strip().lower() in ("1", "true", "yes", "on")
         for key, field in (("HMAP_VERIFY_INDEPENDENT", "verify_independent"),
-                           ("HMAP_SECURITY_ENFORCE", "security_enforce")):
+                           ("HMAP_SECURITY_ENFORCE", "security_enforce"),
+                           ("HMAP_CODING_KEEP_WORK", "coding_keep_work")):
             if (value := get(key)) is not None:
                 data[field] = value.strip().lower() in ("1", "true", "yes", "on")
         if (value := get("HMAP_AGENT_SECRETS")) is not None:

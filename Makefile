@@ -3,7 +3,7 @@ BACKEND := backend
 UV := uv --directory $(BACKEND)
 COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo 'docker compose' || echo docker-compose)
 
-.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api demo stop security
+.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api demo stop security coding-venv
 
 help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-12s %s\n", $$1, $$2}'
@@ -83,3 +83,11 @@ stop: ## stop everything `make demo` started
 
 security: ## security checks: secrets, leaks, dependency audit, security tests (scripts/security_check.sh)
 	@scripts/security_check.sh
+
+CODING_VENV := data/coding/venv
+
+coding-venv: ## interpreter for the coding agent's generated code: pytest + fastapi + httpx, no hmap, no keys (Sprint 7)
+	uv venv --quiet --allow-existing --python 3.11 $(CODING_VENV)
+	uv pip install --quiet --python $(CODING_VENV)/bin/python pytest==9.1.1 fastapi==0.143.0 httpx==0.28.1 \
+	  starlette==1.7.0 pydantic==2.14.0
+	@echo "coding venv ready: $(CODING_VENV) (used automatically unless HMAP_CODING_PYTHON is set)"
