@@ -7,9 +7,9 @@ each step to a specialised AI agent: document intelligence, planning, research, 
 documentation and final review. The agents talk over a message bus, and a live dashboard shows their progress. Local
 LLMs (Ollama, `qwen3.5:9b`) do the work. Everything runs on one laptop; nothing is deployed.
 
-**Status:** Sprints 1–6 are done (communication layer, document intelligence, planning, refinement + observability,
-research, verification + security); this is the code shown at the mid-evaluation. Coding, testing, documentation and
-final review are still stub agents until Sprints 7–10 replace them (table below).
+**Status:** Sprints 1–7 are done (communication layer, document intelligence, planning, refinement + observability,
+research, verification + security, autonomous coding); Sprints 1–6 are the code shown at the mid-evaluation.
+Testing, documentation and final review are still stub agents until Sprints 8–10 replace them (table below).
 
 ## Quick start
 
@@ -41,7 +41,7 @@ cd frontend && npm install && npm run dev      # http://localhost:3000
 
 `make help` lists every command. Run `make precommit` before committing or handing off.
 
-## What is real vs stub (mid-evaluation, after Sprint 6)
+## What is real vs stub (after Sprint 7)
 
 | Capability / part | Status | Owner | Notes |
 |---|---|---|---|
@@ -52,7 +52,7 @@ cd frontend && npm install && npm run dev      # http://localhost:3000
 | `research.run` | **real** | M5 | cited reports; offline corpus by default |
 | `verify.claims` + follow-up research loop | **real** | M6 | four layers, verdict per claim, one follow-up round |
 | Security layer (signed messages, policy table, audit log, limits, key rotation), injection suite | **real** | M6 | `scripts/security_check.sh` |
-| `code.implement` | stub (sample output) | M7 | Sprint 7 |
+| `code.implement` + `code.revise` | **real** | M7 | templates, locate → plan → edit → check → debug in a jailed runner; one project head; Coding tab with diff and "Request changes" |
 | `test.run` | stub | M8 | Sprint 8 |
 | `docs.generate` | stub | M9 | Sprint 9 (also full demo packaging) |
 | `review.final` | stub | M10 | Sprint 10 |
