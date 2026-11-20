@@ -1,0 +1,13 @@
+{
+ "id": "m3_max_clients",
+ "kind": "modify",
+ "objective": "Limit the chat room size: Room(max_clients=32) takes an optional limit, and join returns False when the room is full. Leaving frees a place.",
+ "acceptance_criteria": [
+  "Room(max_clients=2): third join returns False",
+  "after a leave, a join succeeds",
+  "Room() still works with the default 32"
+ ],
+ "files_to_edit": [
+  "room.py"
+ ]
+}

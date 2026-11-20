@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "5cf3303c8ddbad55ddd7a3358b0321719acde0a1ca9a1e8180dbc6c068039526",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Limit the chat room size: Room(max_clients=32) takes an optional limit, and join returns False when the room is full. Leaving frees a place. Room(max_clients=2): third join returns False after a leave, a join succeeds Room() still works with the default 32 all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:19:19.512773+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

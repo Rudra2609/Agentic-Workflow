@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "e9f0a7cedca9bd8ff8d5bef054559790fcf299aff8a8c934babe0431190bb0c1",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Decide the structure: modules, interfaces and data formats for every part, and set up the project skeleton. each part has a module and an interface the skeleton runs the design follows the constraints C1 respected: Use Python 3.11 and the standard library only. C2 respected: Use TCP sockets; do not use a web framework. all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:34:47.646901+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

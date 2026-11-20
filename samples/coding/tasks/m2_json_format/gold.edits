@@ -1,0 +1,35 @@
+render.py
+<<<<<<< SEARCH
+import html
+=======
+import html
+import json
+>>>>>>> REPLACE
+render.py
+<<<<<<< SEARCH
+def to_html(summary: dict[str, dict[str, float]]) -> str:
+=======
+def to_json(summary: dict[str, dict[str, float]]) -> str:
+    return json.dumps(summary, indent=2, sort_keys=True) + "\n"
+
+
+def to_html(summary: dict[str, dict[str, float]]) -> str:
+>>>>>>> REPLACE
+report.py
+<<<<<<< SEARCH
+    if fmt == "md":
+        return render.to_markdown(summary)
+    return render.to_html(summary)
+=======
+    if fmt == "md":
+        return render.to_markdown(summary)
+    if fmt == "json":
+        return render.to_json(summary)
+    return render.to_html(summary)
+>>>>>>> REPLACE
+report.py
+<<<<<<< SEARCH
+    parser.add_argument("--format", choices=["md", "html"], default="md")
+=======
+    parser.add_argument("--format", choices=["md", "html", "json"], default="md")
+>>>>>>> REPLACE

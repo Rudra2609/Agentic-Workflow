@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "ed3a87dc5723645b246d833fb6e6b9e54f2581bde8062e47ccc5c9873a1466f3",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Maintain a circular buffer of the most recent 50 messages and send it to newly connected clients. The server may keep a history of the last 50 messages for new clients. all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:35:50.537063+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

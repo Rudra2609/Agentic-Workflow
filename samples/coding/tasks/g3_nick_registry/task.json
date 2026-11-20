@@ -1,0 +1,13 @@
+{
+ "id": "g3_nick_registry",
+ "kind": "greenfield",
+ "objective": "Create registry.py with a thread-safe class NickRegistry: register(nick, client_id) -> bool (False if the nickname is taken, case-insensitive; ValueError unless the nickname is 1-16 letters or digits), unregister(nick), and names() -> the registered nicknames sorted, as first given.",
+ "acceptance_criteria": [
+  "a taken nickname (any case) returns False",
+  "invalid nickname raises ValueError",
+  "50 threads registering the same name -> exactly one succeeds"
+ ],
+ "files_to_edit": [
+  "registry.py"
+ ]
+}

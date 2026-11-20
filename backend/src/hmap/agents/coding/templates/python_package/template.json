@@ -1,0 +1,7 @@
+{
+  "name": "python_package",
+  "description": "Plain Python package (library module + tests), the default for logic-only tasks",
+  "keywords": ["library", "package", "module", "function", "functions", "class", "algorithm", "data structure",
+               "cache", "statistics", "calculator", "python"],
+  "entry_points": ["python -m unittest"]
+}

@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "109558aba190f9643f28314520ea8d7560390d3e807fefd77b3f5a08b281639e",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Add a JSON output format to the CSV report: `report.py --format json` prints the summary as JSON (indent 2, keys sorted). Add render.to_json(summary) and use it from report.render_summary(summary, 'json'). md and html must keep working. render_summary(s, 'json') parses back to s --format json is accepted on the command line md output unchanged all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:19:14.426432+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

@@ -1,0 +1,13 @@
+{
+ "id": "m1_who_command",
+ "kind": "modify",
+ "objective": "Add a /who command to the chat protocol: '/who' must parse to ('who', []). Existing commands must keep working and unknown commands must still raise ValueError.",
+ "acceptance_criteria": [
+  "parse_command('/who') == ('who', [])",
+  "/nick, /msg, /quit unchanged",
+  "unknown still raises"
+ ],
+ "files_to_edit": [
+  "protocol.py"
+ ]
+}

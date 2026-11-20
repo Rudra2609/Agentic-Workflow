@@ -1,0 +1,13 @@
+{
+ "id": "d2_session_minutes",
+ "kind": "bugfix",
+ "decoy": true,
+ "objective": "Bug report: users are logged out after about 30 seconds of inactivity although the session timeout is 30 minutes.",
+ "acceptance_criteria": [
+  "a session seen 60 seconds ago is still valid",
+  "a session seen 31 minutes ago has expired"
+ ],
+ "files_to_edit": [
+  "auth/sessions.py"
+ ]
+}

@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "7784aa425925b4bb9dc69662bcae7009bd257c344163c7dee20e93109f3c9e4e",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Bug report (guide §32, multi-client): the server serves only one client at a time. While one client is connected, a second client gets no reply. Every client must be served at the same time. a second client gets its echo while the first is still connected a single client still works all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:19:22.343484+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

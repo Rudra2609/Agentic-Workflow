@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "8a941fa907ecd34663d120aefd59ae7c0a597d975d6db36704a16f6d1b6968d1",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Command-line tool: add a subcommand 'top PATH [-n N]' that prints the N most frequent words of a text file (default 3), one 'word count' per line, most frequent first, ties in alphabetical order. Words are lower-cased runs of letters. 'top notes.txt -n 2' prints the two most frequent words with their counts ties are ordered alphabetically a missing file exits with code 1 all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:19:31.520712+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

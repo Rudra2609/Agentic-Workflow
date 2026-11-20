@@ -1,0 +1,12 @@
+{
+ "id": "t1_multi_client_server",
+ "kind": "bugfix",
+ "objective": "Bug report (guide §32, multi-client): the server serves only one client at a time. While one client is connected, a second client gets no reply. Every client must be served at the same time.",
+ "acceptance_criteria": [
+  "a second client gets its echo while the first is still connected",
+  "a single client still works"
+ ],
+ "files_to_edit": [
+  "server.py"
+ ]
+}

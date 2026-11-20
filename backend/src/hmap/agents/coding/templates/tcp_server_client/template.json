@@ -1,0 +1,7 @@
+{
+  "name": "tcp_server_client",
+  "description": "Multi-client TCP server + client (threads, newline-framed messages, broadcast), with tests",
+  "keywords": ["tcp", "socket", "sockets", "chat", "server", "client", "multi-client", "multiple clients", "broadcast",
+               "port", "network", "networking", "connection", "messaging"],
+  "entry_points": ["python server.py --port 5000", "python client.py --port 5000"]
+}

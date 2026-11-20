@@ -1,0 +1,6 @@
+framing.py
+<<<<<<< SEARCH
+        if len(buffer) <= 4 + size:
+=======
+        if len(buffer) < 4 + size:
+>>>>>>> REPLACE

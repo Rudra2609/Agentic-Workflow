@@ -1,0 +1,6 @@
+auth/sessions.py
+<<<<<<< SEARCH
+    return now - last_seen > timeout_minutes
+=======
+    return now - last_seen > timeout_minutes * 60
+>>>>>>> REPLACE

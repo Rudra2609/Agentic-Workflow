@@ -1,0 +1,2158 @@
+{
+ "mode": "replay",
+ "local_only": false,
+ "role": "coder",
+ "configs": {
+  "full": {
+   "summary": {
+    "tasks": 18,
+    "pass@1": 0.889,
+    "by_kind": {
+     "bugfix": {
+      "n": 4,
+      "pass@1": 1.0
+     },
+     "decoy": {
+      "n": 3,
+      "pass@1": 0.667
+     },
+     "greenfield": {
+      "n": 5,
+      "pass@1": 1.0
+     },
+     "modify": {
+      "n": 3,
+      "pass@1": 0.667
+     },
+     "template": {
+      "n": 3,
+      "pass@1": 1.0
+     }
+    },
+    "edit_apply_rate": 0.9,
+    "first_edit_ok": 0.882,
+    "locator_top1": 1.0,
+    "locator_top3": 1.0,
+    "locator_top1_decoy": 1.0,
+    "locator_top3_decoy": 1.0,
+    "template_right": 1.0,
+    "mean_model_calls": 2.11,
+    "mean_tokens": 2727,
+    "mean_seconds": 6.6,
+    "mean_debug_rounds": 0.06,
+    "errors": []
+   },
+   "tasks": [
+    {
+     "task": "b1_unframe_off_by_one",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2570,
+     "seconds": 2.6,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "framing.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "b2_broadcast_crash",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2530,
+     "seconds": 1.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "room.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "b3_median_even",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2526,
+     "seconds": 4.1,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "stats.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d1_discount_percent",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2785,
+     "seconds": 28.3,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "pricing/discounts.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d2_session_minutes",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": false,
+     "hidden_tail": [
+      "FAILED (failures=1)"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 1,
+     "tokens": 1148,
+     "seconds": 8.2,
+     "edits": 0,
+     "edits_ok": 0,
+     "first_edit_ok": false,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d3_csv_quotes",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2859,
+     "seconds": 13.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "io_utils/csv_reader.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g1_parse_command",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1755,
+     "seconds": 1.1,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "protocol.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g2_framing",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1781,
+     "seconds": 0.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "framing.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g3_nick_registry",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2051,
+     "seconds": 0.8,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "registry.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g4_summary_stats",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1539,
+     "seconds": 0.7,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "numstats.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g5_lru_cache",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1665,
+     "seconds": 1.0,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "lru.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m1_who_command",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2315,
+     "seconds": 1.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "protocol.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m2_json_format",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": false,
+     "hidden_tail": [
+      "FAILED (errors=2)"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 3,
+     "tokens": 4826,
+     "seconds": 1.9,
+     "edits": 2,
+     "edits_ok": 1,
+     "first_edit_ok": false,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "report.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m3_max_clients",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2698,
+     "seconds": 1.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "room.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "t1_multi_client_server",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2502,
+     "seconds": 2.8,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "server.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x1_tcp_nick",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "tcp_server_client",
+     "template_chosen": "tcp_server_client",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 4897,
+     "seconds": 19.0,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "client.py",
+      "protocol.py",
+      "server.py",
+      "test_chat.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x2_cli_top_words",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "cli",
+     "template_chosen": "cli",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 4,
+     "tokens": 6698,
+     "seconds": 11.2,
+     "edits": 3,
+     "edits_ok": 2,
+     "first_edit_ok": false,
+     "debug_rounds": 1,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "cli.py",
+      "test_cli.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x3_pkg_inventory",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "python_package",
+     "template_chosen": "python_package",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1941,
+     "seconds": 18.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "app/__init__.py",
+      "app/core.py",
+      "app/inventory.py",
+      "tests/__init__.py",
+      "tests/test_core.py"
+     ],
+     "error": null,
+     "seed": 7
+    }
+   ]
+  },
+  "no-locator": {
+   "summary": {
+    "tasks": 18,
+    "pass@1": 0.944,
+    "by_kind": {
+     "bugfix": {
+      "n": 4,
+      "pass@1": 1.0
+     },
+     "decoy": {
+      "n": 3,
+      "pass@1": 0.667
+     },
+     "greenfield": {
+      "n": 5,
+      "pass@1": 1.0
+     },
+     "modify": {
+      "n": 3,
+      "pass@1": 1.0
+     },
+     "template": {
+      "n": 3,
+      "pass@1": 1.0
+     }
+    },
+    "edit_apply_rate": 0.952,
+    "first_edit_ok": 1.0,
+    "locator_top1": 0.0,
+    "locator_top3": 0.0,
+    "locator_top1_decoy": 0.0,
+    "locator_top3_decoy": 0.0,
+    "template_right": 1.0,
+    "mean_model_calls": 2.17,
+    "mean_tokens": 2317,
+    "mean_seconds": 4.4,
+    "mean_debug_rounds": 0.17,
+    "errors": []
+   },
+   "tasks": [
+    {
+     "task": "b1_unframe_off_by_one",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1920,
+     "seconds": 4.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "framing.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "b2_broadcast_crash",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1973,
+     "seconds": 2.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "room.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "b3_median_even",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1879,
+     "seconds": 2.9,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "stats.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d1_discount_percent",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2512,
+     "seconds": 8.1,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "pricing/discounts.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d2_session_minutes",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2500,
+     "seconds": 7.3,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "auth/sessions.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d3_csv_quotes",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": false,
+     "hidden_tail": [
+      "FAILED (failures=1)"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2729,
+     "seconds": 8.6,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "io_utils/csv_reader.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g1_parse_command",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1755,
+     "seconds": 0.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "protocol.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g2_framing",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1781,
+     "seconds": 0.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "framing.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g3_nick_registry",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2051,
+     "seconds": 0.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "registry.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g4_summary_stats",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1539,
+     "seconds": 0.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "numstats.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g5_lru_cache",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1665,
+     "seconds": 0.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "lru.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m1_who_command",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1812,
+     "seconds": 0.9,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "protocol.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m2_json_format",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2296,
+     "seconds": 1.1,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "render.py",
+      "report.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m3_max_clients",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2094,
+     "seconds": 1.3,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "room.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "t1_multi_client_server",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 4,
+     "tokens": 3922,
+     "seconds": 2.6,
+     "edits": 3,
+     "edits_ok": 2,
+     "first_edit_ok": true,
+     "debug_rounds": 2,
+     "top1": false,
+     "top3": false,
+     "files_changed": [
+      "server.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x1_tcp_nick",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "tcp_server_client",
+     "template_chosen": "tcp_server_client",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 3469,
+     "seconds": 10.7,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "client.py",
+      "protocol.py",
+      "server.py",
+      "test_chat.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x2_cli_top_words",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "cli",
+     "template_chosen": "cli",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 3,
+     "tokens": 4127,
+     "seconds": 18.2,
+     "edits": 2,
+     "edits_ok": 2,
+     "first_edit_ok": true,
+     "debug_rounds": 1,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "cli.py",
+      "test_cli.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x3_pkg_inventory",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "python_package",
+     "template_chosen": "python_package",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1682,
+     "seconds": 7.6,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "app/__init__.py",
+      "app/core.py",
+      "app/inventory.py",
+      "tests/__init__.py",
+      "tests/test_core.py"
+     ],
+     "error": null,
+     "seed": 7
+    }
+   ]
+  },
+  "no-debug": {
+   "summary": {
+    "tasks": 18,
+    "pass@1": 0.833,
+    "by_kind": {
+     "bugfix": {
+      "n": 4,
+      "pass@1": 1.0
+     },
+     "decoy": {
+      "n": 3,
+      "pass@1": 0.667
+     },
+     "greenfield": {
+      "n": 5,
+      "pass@1": 1.0
+     },
+     "modify": {
+      "n": 3,
+      "pass@1": 0.667
+     },
+     "template": {
+      "n": 3,
+      "pass@1": 0.667
+     }
+    },
+    "edit_apply_rate": 0.895,
+    "first_edit_ok": 0.882,
+    "locator_top1": 1.0,
+    "locator_top3": 1.0,
+    "locator_top1_decoy": 1.0,
+    "locator_top3_decoy": 1.0,
+    "template_right": 1.0,
+    "mean_model_calls": 2.06,
+    "mean_tokens": 2623,
+    "mean_seconds": 2.7,
+    "mean_debug_rounds": 0.0,
+    "errors": []
+   },
+   "tasks": [
+    {
+     "task": "b1_unframe_off_by_one",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2570,
+     "seconds": 1.2,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "framing.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "b2_broadcast_crash",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2530,
+     "seconds": 0.9,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "room.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "b3_median_even",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2526,
+     "seconds": 0.9,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "stats.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d1_discount_percent",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2785,
+     "seconds": 5.9,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "pricing/discounts.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d2_session_minutes",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": false,
+     "hidden_tail": [
+      "FAILED (failures=1)"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 1,
+     "tokens": 1148,
+     "seconds": 3.3,
+     "edits": 0,
+     "edits_ok": 0,
+     "first_edit_ok": false,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d3_csv_quotes",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2859,
+     "seconds": 6.6,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "io_utils/csv_reader.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g1_parse_command",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1755,
+     "seconds": 0.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "protocol.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g2_framing",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1781,
+     "seconds": 0.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "framing.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g3_nick_registry",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2051,
+     "seconds": 0.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "registry.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g4_summary_stats",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1539,
+     "seconds": 0.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "numstats.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g5_lru_cache",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1665,
+     "seconds": 0.6,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "lru.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m1_who_command",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2315,
+     "seconds": 0.9,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "protocol.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m2_json_format",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": false,
+     "hidden_tail": [
+      "FAILED (errors=2)"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 3,
+     "tokens": 4826,
+     "seconds": 1.0,
+     "edits": 2,
+     "edits_ok": 1,
+     "first_edit_ok": false,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "report.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m3_max_clients",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2698,
+     "seconds": 0.9,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "room.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "t1_multi_client_server",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2502,
+     "seconds": 0.8,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "server.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x1_tcp_nick",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "tcp_server_client",
+     "template_chosen": "tcp_server_client",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 4897,
+     "seconds": 6.9,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "client.py",
+      "protocol.py",
+      "server.py",
+      "test_chat.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x2_cli_top_words",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "cli",
+     "template_chosen": "cli",
+     "passed": false,
+     "hidden_tail": [
+      "FAILED (errors=3)"
+     ],
+     "outcome": "success",
+     "stop": "max_iters",
+     "model_calls": 3,
+     "tokens": 4834,
+     "seconds": 9.8,
+     "edits": 2,
+     "edits_ok": 1,
+     "first_edit_ok": false,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "cli.py",
+      "test_cli.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x3_pkg_inventory",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "python_package",
+     "template_chosen": "python_package",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1941,
+     "seconds": 6.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "app/__init__.py",
+      "app/core.py",
+      "app/inventory.py",
+      "tests/__init__.py",
+      "tests/test_core.py"
+     ],
+     "error": null,
+     "seed": 7
+    }
+   ]
+  },
+  "bm25-only": {
+   "summary": {
+    "tasks": 18,
+    "pass@1": 0.889,
+    "by_kind": {
+     "bugfix": {
+      "n": 4,
+      "pass@1": 1.0
+     },
+     "decoy": {
+      "n": 3,
+      "pass@1": 0.667
+     },
+     "greenfield": {
+      "n": 5,
+      "pass@1": 1.0
+     },
+     "modify": {
+      "n": 3,
+      "pass@1": 0.667
+     },
+     "template": {
+      "n": 3,
+      "pass@1": 1.0
+     }
+    },
+    "edit_apply_rate": 0.9,
+    "first_edit_ok": 0.882,
+    "locator_top1": 0.9,
+    "locator_top3": 1.0,
+    "locator_top1_decoy": 0.667,
+    "locator_top3_decoy": 1.0,
+    "template_right": 1.0,
+    "mean_model_calls": 2.11,
+    "mean_tokens": 2690,
+    "mean_seconds": 3.0,
+    "mean_debug_rounds": 0.06,
+    "errors": []
+   },
+   "tasks": [
+    {
+     "task": "b1_unframe_off_by_one",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2067,
+     "seconds": 1.0,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "framing.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "b2_broadcast_crash",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2530,
+     "seconds": 1.1,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "room.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "b3_median_even",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2372,
+     "seconds": 1.3,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "stats.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d1_discount_percent",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2785,
+     "seconds": 6.0,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "pricing/discounts.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d2_session_minutes",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": false,
+     "hidden_tail": [
+      "FAILED (failures=1)"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 1,
+     "tokens": 1148,
+     "seconds": 3.8,
+     "edits": 0,
+     "edits_ok": 0,
+     "first_edit_ok": false,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "d3_csv_quotes",
+     "kind": "bugfix",
+     "decoy": true,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2843,
+     "seconds": 4.3,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": false,
+     "top3": true,
+     "files_changed": [
+      "io_utils/csv_reader.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g1_parse_command",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1755,
+     "seconds": 0.3,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "protocol.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g2_framing",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1781,
+     "seconds": 0.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "framing.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g3_nick_registry",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2051,
+     "seconds": 0.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "registry.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g4_summary_stats",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1539,
+     "seconds": 0.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "numstats.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "g5_lru_cache",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1665,
+     "seconds": 0.3,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "lru.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m1_who_command",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2315,
+     "seconds": 0.9,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "protocol.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m2_json_format",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": false,
+     "hidden_tail": [
+      "FAILED (errors=2)"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 3,
+     "tokens": 4826,
+     "seconds": 1.3,
+     "edits": 2,
+     "edits_ok": 1,
+     "first_edit_ok": false,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "report.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "m3_max_clients",
+     "kind": "modify",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2698,
+     "seconds": 1.0,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "room.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "t1_multi_client_server",
+     "kind": "bugfix",
+     "decoy": false,
+     "template_task": null,
+     "template_chosen": null,
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 2502,
+     "seconds": 1.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": true,
+     "top3": true,
+     "files_changed": [
+      "server.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x1_tcp_nick",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "tcp_server_client",
+     "template_chosen": "tcp_server_client",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 4897,
+     "seconds": 6.5,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "client.py",
+      "protocol.py",
+      "server.py",
+      "test_chat.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x2_cli_top_words",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "cli",
+     "template_chosen": "cli",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 4,
+     "tokens": 6698,
+     "seconds": 12.9,
+     "edits": 3,
+     "edits_ok": 2,
+     "first_edit_ok": false,
+     "debug_rounds": 1,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "cli.py",
+      "test_cli.py"
+     ],
+     "error": null,
+     "seed": 7
+    },
+    {
+     "task": "x3_pkg_inventory",
+     "kind": "greenfield",
+     "decoy": false,
+     "template_task": "python_package",
+     "template_chosen": "python_package",
+     "passed": true,
+     "hidden_tail": [
+      "OK"
+     ],
+     "outcome": "success",
+     "stop": "checks_pass",
+     "model_calls": 2,
+     "tokens": 1941,
+     "seconds": 10.4,
+     "edits": 1,
+     "edits_ok": 1,
+     "first_edit_ok": true,
+     "debug_rounds": 0,
+     "top1": null,
+     "top3": null,
+     "files_changed": [
+      "README.md",
+      "app/__init__.py",
+      "app/core.py",
+      "app/inventory.py",
+      "tests/__init__.py",
+      "tests/test_core.py"
+     ],
+     "error": null,
+     "seed": 7
+    }
+   ]
+  }
+ }
+}

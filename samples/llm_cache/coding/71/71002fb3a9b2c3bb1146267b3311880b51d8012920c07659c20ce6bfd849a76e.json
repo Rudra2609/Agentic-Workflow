@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "71002fb3a9b2c3bb1146267b3311880b51d8012920c07659c20ce6bfd849a76e",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Forward any received message to all other clients and broadcast notifications when a client joins or leaves. A message sent by one client must be delivered to every other connected client. The server shall announce when a client joins or leaves the chat. all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:35:21.400386+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

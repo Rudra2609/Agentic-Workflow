@@ -1,0 +1,87 @@
+{
+  "format": 1,
+  "key": "b5d9ddfd593ad1ec58113b517d5665603ea67d70b8561ac4b69cda99a72e8b85",
+  "key_ingredients": {
+    "max_tokens": 200,
+    "messages": [
+      {
+        "content": "You pick the source files a coding task must change. Answer with file paths from the list only, most relevant first.",
+        "role": "system"
+      },
+      {
+        "content": "Task:\nBug report: when reading a CSV line, a quoted field that contains a comma, like \"Smith, John\", is split into two columns. Quoted fields must stay one field (without the quotes), and a doubled quote \"\" inside a quoted field is one quote character. split_line('1,\"Smith, John\",3') == [\"1\", \"Smith, John\", \"3\"] split_line('\"say \"\"hi\"\"\",x') == ['say \"hi\"', \"x\"] plain lines still split all checks pass\n\nCandidate files:\n- io_utils/csv_writer.py: io_utils/csv_writer.py Write rows as CSV: fields with a comma or a quote are quoted, quotes doubled. def quote_field(field: str) -> str def write_line(fields: list[str]) -> str\n- io_utils/csv_reader.py: io_utils/csv_reader.py Read CSV text into rows of fields. def split_line(line: str) -> list[str] def read_rows(text: str) -> list[list[str]]\n- io_utils/tsv_reader.py: io_utils/tsv_reader.py Read TSV lines (fields split on tabs). def split_tsv_line(line: str) -> list[str]\n- parsers/quotes.py: parsers/quotes.py Smart quotes -> plain quotes in text fields. def plain_quotes(text: str) -> str\n- legacy/csv_split_old.py: legacy/csv_split_old.py DEPRECATED: the first CSV splitter (no quotes support). Use io_utils.csv_reader. def old_split(line: str) -> list[str]\n- report.py: report.py Summary of a CSV file: number of rows and columns. def shape(text: str) -> tuple[int, int] io_utils.csv_reader",
+        "role": "user"
+      }
+    ],
+    "plugin": "coding",
+    "role": "fast",
+    "schema": {
+      "properties": {
+        "files": {
+          "description": "file paths, most relevant first (only from the list)",
+          "items": {
+            "type": "string"
+          },
+          "title": "Files",
+          "type": "array"
+        }
+      },
+      "title": "RerankAnswer",
+      "type": "object"
+    },
+    "seed": 7,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-10-25T12:18:51.043553+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "files": {
+          "description": "file paths, most relevant first (only from the list)",
+          "items": {
+            "type": "string"
+          },
+          "title": "Files",
+          "type": "array"
+        }
+      },
+      "title": "RerankAnswer",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You pick the source files a coding task must change. Answer with file paths from the list only, most relevant first.",
+        "role": "system"
+      },
+      {
+        "content": "Task:\nBug report: when reading a CSV line, a quoted field that contains a comma, like \"Smith, John\", is split into two columns. Quoted fields must stay one field (without the quotes), and a doubled quote \"\" inside a quoted field is one quote character. split_line('1,\"Smith, John\",3') == [\"1\", \"Smith, John\", \"3\"] split_line('\"say \"\"hi\"\"\",x') == ['say \"hi\"', \"x\"] plain lines still split all checks pass\n\nCandidate files:\n- io_utils/csv_writer.py: io_utils/csv_writer.py Write rows as CSV: fields with a comma or a quote are quoted, quotes doubled. def quote_field(field: str) -> str def write_line(fields: list[str]) -> str\n- io_utils/csv_reader.py: io_utils/csv_reader.py Read CSV text into rows of fields. def split_line(line: str) -> list[str] def read_rows(text: str) -> list[list[str]]\n- io_utils/tsv_reader.py: io_utils/tsv_reader.py Read TSV lines (fields split on tabs). def split_tsv_line(line: str) -> list[str]\n- parsers/quotes.py: parsers/quotes.py Smart quotes -> plain quotes in text fields. def plain_quotes(text: str) -> str\n- legacy/csv_split_old.py: legacy/csv_split_old.py DEPRECATED: the first CSV splitter (no quotes support). Use io_utils.csv_reader. def old_split(line: str) -> list[str]\n- report.py: report.py Summary of a CSV file: number of rows and columns. def shape(text: str) -> tuple[int, int] io_utils.csv_reader",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 200,
+      "seed": 7,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"files\":[\"io_utils/csv_reader.py\"]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 561,
+      "latency_s": 0.8576,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 32,
+      "provider": "groq"
+    }
+  },
+  "role": "fast"
+}

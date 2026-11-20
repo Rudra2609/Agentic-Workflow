@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "34509863c4e80674712c499cf1e692ed0a46904301aa6f16332cb705f3e0f6a3",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Create a Python server using socket and threading to accept multiple client connections, ensuring at least 10 simultaneous clients. The server must accept at least 10 clients connected at the same time. all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:34:55.540579+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

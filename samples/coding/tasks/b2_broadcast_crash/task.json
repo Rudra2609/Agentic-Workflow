@@ -1,0 +1,13 @@
+{
+ "id": "b2_broadcast_crash",
+ "kind": "bugfix",
+ "objective": "Bug report: broadcast() crashes with 'RuntimeError: dictionary changed size during iteration' when one of the clients has disconnected. Closed connections should be dropped and everyone else should still get the message.",
+ "acceptance_criteria": [
+  "a closed connection is removed",
+  "open connections still receive the text",
+  "returns the number sent"
+ ],
+ "files_to_edit": [
+  "room.py"
+ ]
+}

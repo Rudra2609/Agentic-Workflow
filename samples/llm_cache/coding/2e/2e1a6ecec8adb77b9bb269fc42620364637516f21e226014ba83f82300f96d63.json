@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "2e1a6ecec8adb77b9bb269fc42620364637516f21e226014ba83f82300f96d63",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Bug report: discount code SAVE10 takes 10 off the order instead of 10 percent. An order of 200 should cost 180 with SAVE10 (before tax), and SAVE25 should take a quarter off. apply_discount(200, 'SAVE10') == 180 apply_discount(80, 'SAVE25') == 60 FLAT5 still takes 5 off all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:18:29.791403+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

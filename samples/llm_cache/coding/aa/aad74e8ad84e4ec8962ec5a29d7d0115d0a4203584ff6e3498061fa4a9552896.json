@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "aad74e8ad84e4ec8962ec5a29d7d0115d0a4203584ff6e3498061fa4a9552896",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Revise the code: Add a /who command: the server replies only to the sender with 'online: ' followed by the connected client names, sorted and comma-separated; the /who line itse The server may keep a history of the last 50 messages for new clients. Add a /who command: the server replies only to the sender with 'online: ' followed by the connected client names, sorted and comma-separated; the /who line itself is not broadcast Add a /who command: the server replies only to the sender with 'online: ' followed by the connected client names, sorted and comma-separated; the /who line itself is not broadcast all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:36:00.340871+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

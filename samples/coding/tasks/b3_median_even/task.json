@@ -1,0 +1,12 @@
+{
+ "id": "b3_median_even",
+ "kind": "bugfix",
+ "objective": "Bug report: the median column is wrong for an even number of rows: for scores 1, 2, 3, 4 the report says 3, it should be 2.5.",
+ "acceptance_criteria": [
+  "median([1, 2, 3, 4]) == 2.5",
+  "median([3, 1, 2]) == 2"
+ ],
+ "files_to_edit": [
+  "stats.py"
+ ]
+}

@@ -1,0 +1,30 @@
+registry.py
+<<<<<<< SEARCH
+=======
+"""Unique nicknames, safe to use from many threads."""
+
+import threading
+
+
+class NickRegistry:
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._names: dict[str, tuple[str, object]] = {}
+
+    def register(self, nick: str, client_id: object) -> bool:
+        if not (1 <= len(nick) <= 16 and nick.isalnum()):
+            raise ValueError("a nickname is 1-16 letters or digits")
+        with self._lock:
+            if nick.lower() in self._names:
+                return False
+            self._names[nick.lower()] = (nick, client_id)
+            return True
+
+    def unregister(self, nick: str) -> None:
+        with self._lock:
+            self._names.pop(nick.lower(), None)
+
+    def names(self) -> list[str]:
+        with self._lock:
+            return sorted(original for original, _ in self._names.values())
+>>>>>>> REPLACE
