@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "e09cac20b616284a3e767b52c2feb78c85c8d8ff16e7d641a7a1aef422137333",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Bug report: when reading a CSV line, a quoted field that contains a comma, like \"Smith, John\", is split into two columns. Quoted fields must stay one field (without the quotes), and a doubled quote \"\" inside a quoted field is one quote character. split_line('1,\"Smith, John\",3') == [\"1\", \"Smith, John\", \"3\"] split_line('\"say \"\"hi\"\"\",x') == ['say \"hi\"', \"x\"] plain lines still split all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:18:50.162608+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

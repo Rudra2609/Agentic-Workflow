@@ -1,0 +1,30 @@
+io_utils/csv_reader.py
+<<<<<<< SEARCH
+    return [field.strip() for field in line.rstrip("\n").split(",")]
+=======
+    fields: list[str] = []
+    current: list[str] = []
+    quoted = False
+    text = line.rstrip("\n")
+    i = 0
+    while i < len(text):
+        ch = text[i]
+        if quoted:
+            if ch == '"' and text[i + 1:i + 2] == '"':
+                current.append('"')
+                i += 1
+            elif ch == '"':
+                quoted = False
+            else:
+                current.append(ch)
+        elif ch == '"':
+            quoted = True
+        elif ch == ",":
+            fields.append("".join(current).strip())
+            current = []
+        else:
+            current.append(ch)
+        i += 1
+    fields.append("".join(current).strip())
+    return fields
+>>>>>>> REPLACE

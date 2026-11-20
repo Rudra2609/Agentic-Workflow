@@ -1,0 +1,13 @@
+{
+ "id": "g1_parse_command",
+ "kind": "greenfield",
+ "objective": "Create protocol.py with parse_command(line) -> (command, args). A line starting with '/' is a command: /nick NAME -> ('nick', [NAME]), /msg TARGET TEXT -> ('msg', [TARGET, TEXT]), /quit and /who -> (name, []). Any other line -> ('say', [line]). Surrounding whitespace is ignored. An unknown command raises ValueError.",
+ "acceptance_criteria": [
+  "parse_command('/msg bob hi there') == ('msg', ['bob', 'hi there'])",
+  "plain text is ('say', [text])",
+  "unknown command raises ValueError"
+ ],
+ "files_to_edit": [
+  "protocol.py"
+ ]
+}

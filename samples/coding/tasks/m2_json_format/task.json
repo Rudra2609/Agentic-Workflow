@@ -1,0 +1,14 @@
+{
+ "id": "m2_json_format",
+ "kind": "modify",
+ "objective": "Add a JSON output format to the CSV report: `report.py --format json` prints the summary as JSON (indent 2, keys sorted). Add render.to_json(summary) and use it from report.render_summary(summary, 'json'). md and html must keep working.",
+ "acceptance_criteria": [
+  "render_summary(s, 'json') parses back to s",
+  "--format json is accepted on the command line",
+  "md output unchanged"
+ ],
+ "files_to_edit": [
+  "render.py",
+  "report.py"
+ ]
+}

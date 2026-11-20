@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "d41ca41440f3fcbecd4777a7d30bd6cb974ea6d03dcedfba3da8abb264b0444e",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "server.py Multi-client TCP chat server: every client is served on its own thread at the same time, and each me class ChatServer   def __init__(self, host: str='127.0.0.1', port: int=0) -> None   def start(self) -> int   def stop(self) -> None   def client_count(self) -> int   def _accept_loop(self) -> None   def _conn_by_name(self, name: str) -> socket.socket | None   def _serve(self, conn: socket.socket) -> None   def broadcast(self, message: str, sender: socket.socket | None=None) -> None   def _name(self, conn: socket.socket) -> str   def _remove(self, conn: socket.socket) -> None def main() -> None argparse contextlib socket threading protocol"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:35:50.336925+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

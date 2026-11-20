@@ -1,0 +1,13 @@
+{
+ "id": "g4_summary_stats",
+ "kind": "greenfield",
+ "objective": "Create numstats.py with summarize(values: list[float]) -> dict with keys min, max, mean, median. The median of an even count is the mean of the two middle values. An empty list raises ValueError. Do not use the statistics module.",
+ "acceptance_criteria": [
+  "summarize([3, 1, 2]) == {'min': 1, 'max': 3, 'mean': 2, 'median': 2}",
+  "even-count median averages the middle two",
+  "empty list raises ValueError"
+ ],
+ "files_to_edit": [
+  "numstats.py"
+ ]
+}

@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "1c033fd4c36ed5f66c371027950604503dc6ec89baff42c758e6ebe534388ea4",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Detect unexpected socket closures and clean up resources without crashing the server. The server must not crash when a client disconnects without warning. all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:35:40.608405+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

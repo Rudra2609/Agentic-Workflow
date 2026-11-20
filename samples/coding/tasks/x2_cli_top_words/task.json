@@ -1,0 +1,14 @@
+{
+ "id": "x2_cli_top_words",
+ "kind": "greenfield",
+ "template": "cli",
+ "objective": "Command-line tool: add a subcommand 'top PATH [-n N]' that prints the N most frequent words of a text file (default 3), one 'word count' per line, most frequent first, ties in alphabetical order. Words are lower-cased runs of letters.",
+ "acceptance_criteria": [
+  "'top notes.txt -n 2' prints the two most frequent words with their counts",
+  "ties are ordered alphabetically",
+  "a missing file exits with code 1"
+ ],
+ "files_to_edit": [
+  "cli.py"
+ ]
+}

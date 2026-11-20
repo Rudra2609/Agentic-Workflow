@@ -1,0 +1,7 @@
+{
+  "name": "cli",
+  "description": "Command-line tool (argparse, subcommands, reads files / stdin, exit codes), with tests",
+  "keywords": ["cli", "command line", "command-line", "terminal", "argparse", "arguments", "script", "csv",
+               "report", "file", "files", "stdin", "parse", "parser", "tool", "utility"],
+  "entry_points": ["python cli.py --help"]
+}

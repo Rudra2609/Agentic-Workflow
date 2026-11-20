@@ -81,6 +81,8 @@ ignore = ["RUF012"]
 
 [tool.mypy]
 python_version = "3.11"
+# the coding agent's project templates are sample code for generated projects (shown to the model as they are)
+exclude = ["src/hmap/agents/coding/templates/"]
 plugins = ["pydantic.mypy"]
 ignore_missing_imports = true
 

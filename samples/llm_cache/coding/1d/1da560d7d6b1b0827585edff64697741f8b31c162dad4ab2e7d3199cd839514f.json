@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "1da560d7d6b1b0827585edff64697741f8b31c162dad4ab2e7d3199cd839514f",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Bug report: users are logged out after about 30 seconds of inactivity although the session timeout is 30 minutes. a session seen 60 seconds ago is still valid a session seen 31 minutes ago has expired all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:18:38.077705+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

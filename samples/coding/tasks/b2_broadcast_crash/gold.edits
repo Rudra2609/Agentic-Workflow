@@ -1,0 +1,6 @@
+room.py
+<<<<<<< SEARCH
+            for nick, conn in self._clients.items():
+=======
+            for nick, conn in list(self._clients.items()):
+>>>>>>> REPLACE

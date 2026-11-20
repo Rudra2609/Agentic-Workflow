@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "b8ce6fe1c8f9ded29ebb2ee24718aeb79222249033188ae8e2b26546fcea3852",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Add a /who command to the chat protocol: '/who' must parse to ('who', []). Existing commands must keep working and unknown commands must still raise ValueError. parse_command('/who') == ('who', []) /nick, /msg, /quit unchanged unknown still raises all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:19:10.399557+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

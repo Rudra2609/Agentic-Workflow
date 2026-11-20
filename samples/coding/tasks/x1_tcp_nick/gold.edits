@@ -1,0 +1,14 @@
+server.py
+<<<<<<< SEARCH
+                for line in reader.feed(data):
+                    if line.strip():
+=======
+                for line in reader.feed(data):
+                    if line.startswith("/nick "):
+                        name = line[len("/nick "):].strip()
+                        if name:
+                            with self._lock:
+                                self._clients[conn] = name
+                        continue
+                    if line.strip():
+>>>>>>> REPLACE

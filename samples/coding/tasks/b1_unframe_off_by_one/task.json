@@ -1,0 +1,12 @@
+{
+ "id": "b1_unframe_off_by_one",
+ "kind": "bugfix",
+ "objective": "Bug report: unframe() never returns a message when the buffer holds exactly one complete frame; it only returns it once more bytes arrive. Fix it.",
+ "acceptance_criteria": [
+  "unframe(frame('hi')) == (['hi'], b'')",
+  "partial frames still wait"
+ ],
+ "files_to_edit": [
+  "framing.py"
+ ]
+}

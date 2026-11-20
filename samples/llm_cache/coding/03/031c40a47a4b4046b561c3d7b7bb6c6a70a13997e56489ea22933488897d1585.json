@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "031c40a47a4b4046b561c3d7b7bb6c6a70a13997e56489ea22933488897d1585",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Bug report: unframe() never returns a message when the buffer holds exactly one complete frame; it only returns it once more bytes arrive. Fix it. unframe(frame('hi')) == (['hi'], b'') partial frames still wait all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:18:17.093588+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

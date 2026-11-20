@@ -1,0 +1,22 @@
+protocol.py
+<<<<<<< SEARCH
+=======
+"""Chat line protocol: slash commands."""
+
+COMMANDS = ("nick", "msg", "quit", "who")
+
+
+def parse_command(line: str) -> tuple[str, list[str]]:
+    line = line.strip()
+    if not line.startswith("/"):
+        return "say", [line]
+    name, _, rest = line[1:].partition(" ")
+    if name not in COMMANDS:
+        raise ValueError(f"unknown command /{name}")
+    if name == "msg":
+        target, _, text = rest.partition(" ")
+        return "msg", [target, text]
+    if name == "nick":
+        return "nick", [rest]
+    return name, []
+>>>>>>> REPLACE

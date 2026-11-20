@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "b2bf8c219416ef244320c743ca9be32b4c9f43f01fa6d5f03aab24263b52ef3c",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "When a client connects, prompt for a nickname and reject duplicates, storing the nickname per connection. Each client must choose a unique nickname when it connects. all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:35:00.884219+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

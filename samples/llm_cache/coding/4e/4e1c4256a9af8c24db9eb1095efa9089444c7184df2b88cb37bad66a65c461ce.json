@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "4e1c4256a9af8c24db9eb1095efa9089444c7184df2b88cb37bad66a65c461ce",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Parse messages starting with /msg and deliver them only to the specified recipient. Clients should be able to send a private message with the command /msg. all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:35:43.229783+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

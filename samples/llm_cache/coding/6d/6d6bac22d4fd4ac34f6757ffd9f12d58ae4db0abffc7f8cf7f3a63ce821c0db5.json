@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "6d6bac22d4fd4ac34f6757ffd9f12d58ae4db0abffc7f8cf7f3a63ce821c0db5",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Python package: add a module app/inventory.py with class Inventory: add(item, qty) adds stock, remove(item, qty) takes stock away and raises ValueError when there is not enough, stock(item) returns the quantity (0 for unknown items). Quantities must be positive integers (ValueError otherwise). add then stock returns the sum removing more than in stock raises ValueError and changes nothing qty 0 or negative raises ValueError all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:19:42.473396+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

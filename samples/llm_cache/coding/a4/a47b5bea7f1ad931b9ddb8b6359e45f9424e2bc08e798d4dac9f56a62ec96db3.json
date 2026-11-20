@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "a47b5bea7f1ad931b9ddb8b6359e45f9424e2bc08e798d4dac9f56a62ec96db3",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Build a multi-client TCP chat server and client. Every message a client sends is broadcast to all other connected clients, prefixed with the sender's name. A client can choose its name by sending '/nick NAME'; until then its name is clientN. The /nick line itself is not broadcast. two clients connected at the same time both get each other's messages after '/nick alice' the other clients receive 'alice: hello' for 'hello' a client that disconnects does not break the others all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:19:26.504220+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "AKDLKMewpqzNLXWrwaIHINyp2aO/ruAjLyKdIOyl2KpnpmqrXKqvH2ileqg/JJKqxSiEjJGlNSEFrY+n2ygmqb0Zj6b+rUkRhhzXpJas7CptKtwc4ZuTrC4rKKgSKZsomxPyrGuh6K0BoLsnNCKNIBSBRCm5H8ukpysNLNqjgCyEK74nbq0UKxwqPib/IpseYihLnvQmwiXcoK+pEp92KXcdOabBHgymsia+mDms+6P+rZctJZvip7gqbSJuqYApyqimlg6fa6d2paIlXicZpUQUTimgpVcmhSeQJI6h9aTTp4mhHygiq6IlqZNiJGKXTyZrrPCpwiBCKWouFKcrJHUona2LqOUgjKjXImmaJKA9nbWsECvwplEiBhRFFquqiqQRpv8i4ao0HFsrtxqtJJSdjCs1JoqkYifarMAoWSrkHhKm6aYEE7Ooi6Z0J/wrVyJ0KBiocaGNrMMFgySDJQ+eeKj3oNmhiKEUrAojYyPSIE0kjKi0rAopyKuMp78c06fXnoQl3qyLKwEgAiyKozGihidkpAgleapdKXckoyRJnJKBMS4epwOoOBwyo2alYhwQqSqpbqILJxqcDSIcq14plaCkqVqdEqwHms8gRqzLKAabNCHPIEclJy5vp24nTiS8IfKoZCZyqe2kuKiGoG2qqCjxp4CqPx5kI2Eo5KhNKuAmGKCmq9qcFagPoRmqj5f9qPYq/SSKoBWl0qWTIOsoZCa6oRgmTaQapEuk0SNuna2mcaVOopaTbqNJLAUkAB95I7MqHR2HKdErFKirn3UleB8Api+ocJ9GIqQpzSK0HtgkbaV/J/wroKU6oMclkievKgmp6yltLNcrRCZPGlmrc5jPIVSliSgXJXqaOypzqumgRKeBp/kpeKbFpJCWJCspGNmdZilwJhunjR9jqF4c3CXYoE2khyh6ICemdCWQIREdcaaqqZgiiBzaqR+nhizwpOgmiglpItslvyvcoCQqPig8GHUhQKq/o+0pz5hvpgyrS6G0LBCn/6U1m5OWDSZ5KRYoIJhBoScokSBdpjirISkHKRIgvyo2qKUVNiSxqLuuGSlSrcYdopbaptwjvir3nOYlNyQmIdCoKCReHaYrZCCJosSjiKLtI6KQmaNAJLwZESchJXin66kbpHsls5W0nW8aD6kXLMIeOZMqLo4rQ6oFpA2qnimnLCQsdKePrFkpvqCPnXuk5Cg0K0un4iy6pRcnYShMny0qn6k7IRsnlaKUJwUlPSlVLEul1p9jKOcpE6Vlp4Yi/im1Josp8Cj9I5Ws/KVIoCMsUhkuoRKlzyCRITCfaaITK5qmP612rLcikybPI9goxCZAqXiphR2bqIgje6qGpwSkZZ4ZrfOo76PDKhqq6yHXqYioHSoIJTmisajyowuqOiTYH8alPCUHGaejwSmZqdShRidZJNahlCuon3cndiEfJgYpMyiVilGVTKiBJ3yhTyQnLPiplSooJRIrN6eootum4CQVCYyhFJW5KQwlQxrMHkmqFyUri2ckCCiapUSouqteo6IlXqKUqkOp96oXJdCgLp84IKkmOyd0qLurgyy0IFqeBqNmCIWmfCRRJsChBKs9mygoJaKUJsAoCadDpV4s5SRMIQGne6ZgLG2gZxpGo08kX6XIJkGZZSKqp4aczKtQKiEiC5/sJNuja6fInn8sQiMOKYCpzatbrZ0mUaISoqKaZSuILjWk1BpWK80sSaFbKXMmiJs5Jn0gFS0Dl64qeSIyqfIk5Kc2q8UkNSGEpp+oghqgLNchlyjSpxCsmqsUKI4lgqgTID0kzKrFJKkpsqXoHR8j7J4oKAgO7Chgp8ApGaGOq0GsSqGlreEiX6scpuos9ynZpDmlQS39osIl4iOZKvYmnSZQqEgkyaW4qrGlMCjAp0Il26oALBGoNyXGKOskDCkmppGfu6T/pouk2CYbqWocJyeypFKd+KoGJlMlTyftpccl7aT1qrKkwqQIrD8mkKHYn1akQibToGqqvicQoS2iDyX1IMUf8CjIKHMq06VRlHmkYCTXJOCk4CW8F5Sl"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

@@ -1,0 +1,14 @@
+numstats.py
+<<<<<<< SEARCH
+=======
+"""Summary statistics without the statistics module."""
+
+
+def summarize(values: list[float]) -> dict[str, float]:
+    if not values:
+        raise ValueError("no values")
+    ordered = sorted(values)
+    mid = len(ordered) // 2
+    median = ordered[mid] if len(ordered) % 2 else (ordered[mid - 1] + ordered[mid]) / 2
+    return {"min": ordered[0], "max": ordered[-1], "mean": sum(ordered) / len(ordered), "median": median}
+>>>>>>> REPLACE

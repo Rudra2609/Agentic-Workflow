@@ -1,0 +1,44 @@
+cli.py
+<<<<<<< SEARCH
+import argparse
+import sys
+=======
+import argparse
+import re
+import sys
+from collections import Counter
+>>>>>>> REPLACE
+cli.py
+<<<<<<< SEARCH
+def read_input(path: str) -> str:
+=======
+def top_words(text: str, n: int) -> list[tuple[str, int]]:
+    counts = Counter(re.findall(r"[a-z]+", text.lower()))
+    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:n]
+
+
+def read_input(path: str) -> str:
+>>>>>>> REPLACE
+cli.py
+<<<<<<< SEARCH
+    p.add_argument("path", help="a file, or - for stdin")
+    return parser
+=======
+    p.add_argument("path", help="a file, or - for stdin")
+    t = sub.add_parser("top", help="the most frequent words")
+    t.add_argument("path", help="a file, or - for stdin")
+    t.add_argument("-n", type=int, default=3)
+    return parser
+>>>>>>> REPLACE
+cli.py
+<<<<<<< SEARCH
+            print(" ".join(f"{k}={v}" for k, v in result.items()))
+            return 0
+=======
+            print(" ".join(f"{k}={v}" for k, v in result.items()))
+            return 0
+        if args.command == "top":
+            for word, n in top_words(read_input(args.path), args.n):
+                print(f"{word} {n}")
+            return 0
+>>>>>>> REPLACE

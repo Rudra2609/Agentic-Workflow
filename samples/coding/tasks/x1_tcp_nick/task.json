@@ -1,0 +1,14 @@
+{
+ "id": "x1_tcp_nick",
+ "kind": "greenfield",
+ "template": "tcp_server_client",
+ "objective": "Build a multi-client TCP chat server and client. Every message a client sends is broadcast to all other connected clients, prefixed with the sender's name. A client can choose its name by sending '/nick NAME'; until then its name is clientN. The /nick line itself is not broadcast.",
+ "acceptance_criteria": [
+  "two clients connected at the same time both get each other's messages",
+  "after '/nick alice' the other clients receive 'alice: hello' for 'hello'",
+  "a client that disconnects does not break the others"
+ ],
+ "files_to_edit": [
+  "server.py"
+ ]
+}

@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "ad6e5903672a9da53158e77010a28aaf20f1eecffab1fa8ea4e434c3a56292d7",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Bug report: the median column is wrong for an even number of rows: for scores 1, 2, 3, 4 the report says 3, it should be 2.5. median([1, 2, 3, 4]) == 2.5 median([3, 1, 2]) == 2 all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:18:23.580685+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

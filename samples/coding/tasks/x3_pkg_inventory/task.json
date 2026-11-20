@@ -1,0 +1,14 @@
+{
+ "id": "x3_pkg_inventory",
+ "kind": "greenfield",
+ "template": "python_package",
+ "objective": "Python package: add a module app/inventory.py with class Inventory: add(item, qty) adds stock, remove(item, qty) takes stock away and raises ValueError when there is not enough, stock(item) returns the quantity (0 for unknown items). Quantities must be positive integers (ValueError otherwise).",
+ "acceptance_criteria": [
+  "add then stock returns the sum",
+  "removing more than in stock raises ValueError and changes nothing",
+  "qty 0 or negative raises ValueError"
+ ],
+ "files_to_edit": [
+  "app/inventory.py"
+ ]
+}

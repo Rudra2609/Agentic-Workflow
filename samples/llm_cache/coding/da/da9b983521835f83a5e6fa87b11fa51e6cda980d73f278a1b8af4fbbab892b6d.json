@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "key": "da9b983521835f83a5e6fa87b11fa51e6cda980d73f278a1b8af4fbbab892b6d",
+  "key_ingredients": {
+    "plugin": "coding",
+    "role": "embed",
+    "texts": [
+      "Bug report: broadcast() crashes with 'RuntimeError: dictionary changed size during iteration' when one of the clients has disconnected. Closed connections should be dropped and everyone else should still get the message. a closed connection is removed open connections still receive the text returns the number sent all checks pass"
+    ]
+  },
+  "model": "nomic-embed-text",
+  "model_digest": null,
+  "plugin": "coding",
+  "prompt_version": "1",
+  "provider": "ollama",
+  "recorded_at": "2026-10-25T12:18:20.098894+00:00",
+  "request": {
+    "inputs": 1,
+    "model": "nomic-embed-text"
+  },
+  "response": {
+    "dims": [
+      768
+    ],
+    "embeddings_b64": [
+      "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"
+    ],
+    "encoding": "f16-b64"
+  },
+  "role": "embed"
+}

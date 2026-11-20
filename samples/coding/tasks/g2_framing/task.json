@@ -1,0 +1,13 @@
+{
+ "id": "g2_framing",
+ "kind": "greenfield",
+ "objective": "Create framing.py with frame(message: str) -> bytes (4-byte big-endian length followed by the UTF-8 body) and unframe(buffer: bytes) -> (messages, rest): every complete message in the buffer, in order, and the bytes left over (an incomplete frame is kept for later).",
+ "acceptance_criteria": [
+  "unframe(frame('a') + frame('b')) == (['a', 'b'], b'')",
+  "a partial frame stays in rest",
+  "non-ASCII text round-trips"
+ ],
+ "files_to_edit": [
+  "framing.py"
+ ]
+}

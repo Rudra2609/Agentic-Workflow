@@ -1,0 +1,8 @@
+protocol.py
+<<<<<<< SEARCH
+    if name == "quit":
+        return "quit", []
+=======
+    if name in ("quit", "who"):
+        return name, []
+>>>>>>> REPLACE

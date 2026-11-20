@@ -1,0 +1,14 @@
+{
+ "id": "d3_csv_quotes",
+ "kind": "bugfix",
+ "decoy": true,
+ "objective": "Bug report: when reading a CSV line, a quoted field that contains a comma, like \"Smith, John\", is split into two columns. Quoted fields must stay one field (without the quotes), and a doubled quote \"\" inside a quoted field is one quote character.",
+ "acceptance_criteria": [
+  "split_line('1,\"Smith, John\",3') == [\"1\", \"Smith, John\", \"3\"]",
+  "split_line('\"say \"\"hi\"\"\",x') == ['say \"hi\"', \"x\"]",
+  "plain lines still split"
+ ],
+ "files_to_edit": [
+  "io_utils/csv_reader.py"
+ ]
+}

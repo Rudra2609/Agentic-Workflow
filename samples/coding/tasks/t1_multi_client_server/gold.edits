@@ -1,0 +1,13 @@
+server.py
+<<<<<<< SEARCH
+import socket
+=======
+import socket
+import threading
+>>>>>>> REPLACE
+server.py
+<<<<<<< SEARCH
+            self.handle(conn)
+=======
+            threading.Thread(target=self.handle, args=(conn,), daemon=True).start()
+>>>>>>> REPLACE

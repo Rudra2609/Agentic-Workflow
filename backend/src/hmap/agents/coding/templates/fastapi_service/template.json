@@ -1,0 +1,8 @@
+{
+  "name": "fastapi_service",
+  "description": "HTTP/JSON web service (FastAPI): routes, models, in-memory store, tests with TestClient",
+  "keywords": ["api", "rest", "http", "web service", "webservice", "endpoint", "endpoints", "fastapi", "json",
+               "crud", "backend", "web server", "route", "routes"],
+  "entry_points": ["uvicorn app.main:app --port 8000"],
+  "requires": ["fastapi", "httpx"]
+}
