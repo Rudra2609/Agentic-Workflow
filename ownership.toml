@@ -102,6 +102,10 @@ paths = ["docs/members/*/core-requests.md"]
      # the mid-evaluation readiness gate (sprint-06 §5c)
      "Makefile", "scripts/demo*", "scripts/stop.sh", "scripts/check_sprint.sh", "samples/demo/**", "README.md",
      "docs/sprints/mid-evaluation.md"]
-9 = ["Makefile", "scripts/demo*", "scripts/seed.sh", "scripts/reset*", "docs/README.md"]
+# Sprint 7 plan §5 (approved by Member 1 on 2026-10-24, Q1–Q6): coding settings, the coding venv target, the Sprint 7
+# demo, switching on Member 6's repository injection check (finding F3), the "real vs stub" table, the handoff notes
+7 = ["backend/src/hmap/core/config.py", ".env.example", "Makefile", "scripts/demo_sprint_7.sh",
+     "scripts/demo_sprint_7.py", "backend/tests/verify/security/test_injection.py", "README.md", "HANDOFF.md"]
+9 =["Makefile", "scripts/demo*", "scripts/seed.sh", "scripts/reset*", "docs/README.md"]
 10 = ["backend/tests/e2e/**", "scripts/demo_final.sh"]
 11 = ["scripts/pull_models.sh", "infra/**"]
