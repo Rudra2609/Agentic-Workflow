@@ -1,0 +1,772 @@
+{
+ "name": "extras",
+ "detection": [
+  {
+   "backend": "docker",
+   "seeded_detection": 1.0,
+   "seeded_classification": 1.0,
+   "seeded_false_pass_on_good": 0,
+   "unseen_detection": 1.0,
+   "unseen_false_alarms_on_gold": 0,
+   "seconds_per_run": 5.47,
+   "rows": [
+    {
+     "set": "seeded",
+     "case": "good",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 8.336,
+     "coverage": 100.0,
+     "hint": null
+    },
+    {
+     "set": "seeded",
+     "case": "syntax_error",
+     "expected": "SYNTAX",
+     "got": "SYNTAX",
+     "seconds": 2.016,
+     "coverage": null,
+     "hint": "fix the syntax at chatproto.py:58 (a missing colon, bracket, quote or a wrong indent)"
+    },
+    {
+     "set": "seeded",
+     "case": "import_error",
+     "expected": "IMPORT",
+     "got": "IMPORT",
+     "seconds": 3.537,
+     "coverage": null,
+     "hint": "the import of 'chatutils' fails at chatproto.py:6: check the module name, the file layout (package folders need __init__.py) or use only the standard library"
+    },
+    {
+     "set": "seeded",
+     "case": "name_error",
+     "expected": "CRASH",
+     "got": "CRASH",
+     "seconds": 6.807,
+     "coverage": 94.0,
+     "hint": "this name is not defined: a typo or a missing import"
+    },
+    {
+     "set": "seeded",
+     "case": "off_by_one",
+     "expected": "ASSERTION",
+     "got": "ASSERTION",
+     "seconds": 7.152,
+     "coverage": 100.0,
+     "hint": "the result differs from what the test expects at test_chatproto.py:63: compare the expected and actual values"
+    },
+    {
+     "set": "seeded",
+     "case": "swapped_arguments",
+     "expected": "ASSERTION",
+     "got": "ASSERTION",
+     "seconds": 6.428,
+     "coverage": 98.0,
+     "hint": "the result differs from what the test expects at test_chatproto.py:16: compare the expected and actual values"
+    },
+    {
+     "set": "seeded",
+     "case": "race_condition",
+     "expected": "ASSERTION",
+     "got": "ASSERTION",
+     "seconds": 6.616,
+     "coverage": 100.0,
+     "hint": "the result differs from what the test expects at test_chatproto.py:57: compare the expected and actual values"
+    },
+    {
+     "set": "seeded",
+     "case": "infinite_loop",
+     "expected": "TIMEOUT",
+     "got": "TIMEOUT",
+     "seconds": 22.673,
+     "coverage": null,
+     "hint": "did not finish in 20 s: look for an endless loop, a recv()/accept()/input() that waits forever (use timeouts) or a server that is never stopped"
+    },
+    {
+     "set": "seeded",
+     "case": "recursion",
+     "expected": "CRASH",
+     "got": "CRASH",
+     "seconds": 6.573,
+     "coverage": 72.0,
+     "hint": "RecursionError is raised at chatproto.py:16: handle this case or fix the code path that raises it"
+    },
+    {
+     "set": "seeded",
+     "case": "insecure_eval",
+     "expected": "SECURITY",
+     "got": "SECURITY",
+     "seconds": 7.203,
+     "coverage": 100.0,
+     "hint": "never eval() input: parse it (json / ast.literal_eval / an explicit command table)"
+    },
+    {
+     "set": "seeded",
+     "case": "shell_injection",
+     "expected": "SECURITY",
+     "got": "SECURITY",
+     "seconds": 6.933,
+     "coverage": 96.2,
+     "hint": "run commands as an argument list without shell=True, and never put user text in a command"
+    },
+    {
+     "set": "seeded",
+     "case": "hardcoded_secret",
+     "expected": "SECURITY",
+     "got": "SECURITY",
+     "seconds": 6.926,
+     "coverage": 100.0,
+     "hint": "do not hard-code secrets: read them from the environment or a config file outside the code"
+    },
+    {
+     "set": "seeded",
+     "case": "lint_unused_import",
+     "expected": "LINT",
+     "got": "LINT",
+     "seconds": 6.836,
+     "coverage": 96.3,
+     "hint": "remove the unused import (or use it)"
+    },
+    {
+     "set": "seeded",
+     "case": "type_error",
+     "expected": "CRASH",
+     "got": "CRASH",
+     "seconds": 8.896,
+     "coverage": 84.0,
+     "hint": "TypeError is raised at chatproto.py:61: handle this case or fix the code path that raises it"
+    },
+    {
+     "set": "seeded",
+     "case": "swallowed_error",
+     "expected": "ASSERTION",
+     "got": "ASSERTION",
+     "seconds": 9.116,
+     "coverage": 100.0,
+     "hint": "the result differs from what the test expects at test_chatproto.py:38: compare the expected and actual values"
+    },
+    {
+     "set": "seeded",
+     "case": "not_implemented",
+     "expected": "CRASH",
+     "got": "CRASH",
+     "seconds": 10.193,
+     "coverage": 98.0,
+     "hint": "NotImplementedError is raised at chatproto.py:51: handle this case or fix the code path that raises it"
+    },
+    {
+     "set": "unseen",
+     "case": "b1_unframe_off_by_one/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 4.531,
+     "located": [
+      "test_b1_unframe_off_by_one.py:8"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "b1_unframe_off_by_one/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 8.333,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "b2_broadcast_crash/starter",
+     "expected": "FAIL",
+     "got": "CRASH",
+     "seconds": 7.242,
+     "located": [
+      "room.py:27"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "b2_broadcast_crash/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 7.795,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "b3_median_even/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 3.583,
+     "located": [
+      "test_b3_median_even.py:8",
+      "test_b3_median_even.py:13"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "b3_median_even/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 1.72,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "d1_discount_percent/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 2.37,
+     "located": [
+      "test_d1_discount_percent.py:8"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "d1_discount_percent/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 2.566,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "d2_session_minutes/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 2.387,
+     "located": [
+      "test_d2_session_minutes.py:9"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "d2_session_minutes/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 2.464,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "d3_csv_quotes/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 1.973,
+     "located": [
+      "test_d3_csv_quotes.py:12",
+      "test_d3_csv_quotes.py:16"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "d3_csv_quotes/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 2.126,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "m1_who_command/starter",
+     "expected": "FAIL",
+     "got": "CRASH",
+     "seconds": 2.009,
+     "located": [
+      "protocol.py:17"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "m1_who_command/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 1.975,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "m2_json_format/starter",
+     "expected": "FAIL",
+     "got": "CRASH",
+     "seconds": 2.323,
+     "located": [
+      "report.py:20",
+      "test_m2_json_format.py:15"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "m2_json_format/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 2.09,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "m3_max_clients/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 2.05,
+     "located": [
+      "test_m3_max_clients.py:18",
+      "test_m3_max_clients.py:8"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "m3_max_clients/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 2.126,
+     "located": []
+    }
+   ]
+  },
+  {
+   "backend": "local",
+   "seeded_detection": 1.0,
+   "seeded_classification": 1.0,
+   "seeded_false_pass_on_good": 0,
+   "unseen_detection": 1.0,
+   "unseen_false_alarms_on_gold": 0,
+   "seconds_per_run": 1.33,
+   "rows": [
+    {
+     "set": "seeded",
+     "case": "good",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 2.131,
+     "coverage": null,
+     "hint": null
+    },
+    {
+     "set": "seeded",
+     "case": "syntax_error",
+     "expected": "SYNTAX",
+     "got": "SYNTAX",
+     "seconds": 0.195,
+     "coverage": null,
+     "hint": "fix the syntax at chatproto.py:58 (a missing colon, bracket, quote or a wrong indent)"
+    },
+    {
+     "set": "seeded",
+     "case": "import_error",
+     "expected": "IMPORT",
+     "got": "IMPORT",
+     "seconds": 0.276,
+     "coverage": null,
+     "hint": "the import of 'chatutils' fails at chatproto.py:6: check the module name, the file layout (package folders need __init__.py) or use only the standard library"
+    },
+    {
+     "set": "seeded",
+     "case": "name_error",
+     "expected": "CRASH",
+     "got": "CRASH",
+     "seconds": 1.151,
+     "coverage": null,
+     "hint": "this name is not defined: a typo or a missing import"
+    },
+    {
+     "set": "seeded",
+     "case": "off_by_one",
+     "expected": "ASSERTION",
+     "got": "ASSERTION",
+     "seconds": 0.829,
+     "coverage": null,
+     "hint": "the result differs from what the test expects at test_chatproto.py:63: compare the expected and actual values"
+    },
+    {
+     "set": "seeded",
+     "case": "swapped_arguments",
+     "expected": "ASSERTION",
+     "got": "ASSERTION",
+     "seconds": 0.788,
+     "coverage": null,
+     "hint": "the result differs from what the test expects at test_chatproto.py:16: compare the expected and actual values"
+    },
+    {
+     "set": "seeded",
+     "case": "race_condition",
+     "expected": "ASSERTION",
+     "got": "ASSERTION",
+     "seconds": 0.766,
+     "coverage": null,
+     "hint": "the result differs from what the test expects at test_chatproto.py:57: compare the expected and actual values"
+    },
+    {
+     "set": "seeded",
+     "case": "infinite_loop",
+     "expected": "TIMEOUT",
+     "got": "TIMEOUT",
+     "seconds": 20.135,
+     "coverage": null,
+     "hint": "did not finish in 20 s: look for an endless loop, a recv()/accept()/input() that waits forever (use timeouts) or a server that is never stopped"
+    },
+    {
+     "set": "seeded",
+     "case": "recursion",
+     "expected": "CRASH",
+     "got": "CRASH",
+     "seconds": 0.808,
+     "coverage": null,
+     "hint": "RecursionError is raised at chatproto.py:16: handle this case or fix the code path that raises it"
+    },
+    {
+     "set": "seeded",
+     "case": "insecure_eval",
+     "expected": "SECURITY",
+     "got": "SECURITY",
+     "seconds": 0.801,
+     "coverage": null,
+     "hint": "never eval() input: parse it (json / ast.literal_eval / an explicit command table)"
+    },
+    {
+     "set": "seeded",
+     "case": "shell_injection",
+     "expected": "SECURITY",
+     "got": "SECURITY",
+     "seconds": 0.682,
+     "coverage": null,
+     "hint": "run commands as an argument list without shell=True, and never put user text in a command"
+    },
+    {
+     "set": "seeded",
+     "case": "hardcoded_secret",
+     "expected": "SECURITY",
+     "got": "SECURITY",
+     "seconds": 0.676,
+     "coverage": null,
+     "hint": "do not hard-code secrets: read them from the environment or a config file outside the code"
+    },
+    {
+     "set": "seeded",
+     "case": "lint_unused_import",
+     "expected": "LINT",
+     "got": "LINT",
+     "seconds": 0.699,
+     "coverage": null,
+     "hint": "remove the unused import (or use it)"
+    },
+    {
+     "set": "seeded",
+     "case": "type_error",
+     "expected": "CRASH",
+     "got": "CRASH",
+     "seconds": 0.685,
+     "coverage": null,
+     "hint": "TypeError is raised at chatproto.py:61: handle this case or fix the code path that raises it"
+    },
+    {
+     "set": "seeded",
+     "case": "swallowed_error",
+     "expected": "ASSERTION",
+     "got": "ASSERTION",
+     "seconds": 0.668,
+     "coverage": null,
+     "hint": "the result differs from what the test expects at test_chatproto.py:38: compare the expected and actual values"
+    },
+    {
+     "set": "seeded",
+     "case": "not_implemented",
+     "expected": "CRASH",
+     "got": "CRASH",
+     "seconds": 0.676,
+     "coverage": null,
+     "hint": "NotImplementedError is raised at chatproto.py:51: handle this case or fix the code path that raises it"
+    },
+    {
+     "set": "unseen",
+     "case": "b1_unframe_off_by_one/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 1.066,
+     "located": [
+      "test_b1_unframe_off_by_one.py:8"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "b1_unframe_off_by_one/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 0.88,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "b2_broadcast_crash/starter",
+     "expected": "FAIL",
+     "got": "CRASH",
+     "seconds": 0.746,
+     "located": [
+      "room.py:27"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "b2_broadcast_crash/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 0.645,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "b3_median_even/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 0.676,
+     "located": [
+      "test_b3_median_even.py:8",
+      "test_b3_median_even.py:13"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "b3_median_even/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 0.754,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "d1_discount_percent/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 0.735,
+     "located": [
+      "test_d1_discount_percent.py:8"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "d1_discount_percent/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 0.67,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "d2_session_minutes/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 0.686,
+     "located": [
+      "test_d2_session_minutes.py:9"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "d2_session_minutes/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 0.677,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "d3_csv_quotes/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 0.686,
+     "located": [
+      "test_d3_csv_quotes.py:12",
+      "test_d3_csv_quotes.py:16"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "d3_csv_quotes/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 0.666,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "m1_who_command/starter",
+     "expected": "FAIL",
+     "got": "CRASH",
+     "seconds": 0.672,
+     "located": [
+      "protocol.py:17"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "m1_who_command/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 0.647,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "m2_json_format/starter",
+     "expected": "FAIL",
+     "got": "CRASH",
+     "seconds": 0.803,
+     "located": [
+      "report.py:20",
+      "test_m2_json_format.py:15"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "m2_json_format/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 0.67,
+     "located": []
+    },
+    {
+     "set": "unseen",
+     "case": "m3_max_clients/starter",
+     "expected": "FAIL",
+     "got": "ASSERTION",
+     "seconds": 0.687,
+     "located": [
+      "test_m3_max_clients.py:18",
+      "test_m3_max_clients.py:8"
+     ]
+    },
+    {
+     "set": "unseen",
+     "case": "m3_max_clients/gold",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 0.856,
+     "located": []
+    }
+   ]
+  }
+ ],
+ "extras": {
+  "mutation_seeded_tests": {
+   "total": 30,
+   "killed": 21,
+   "score": 0.7,
+   "survived": [
+    {
+     "file": "chatproto.py",
+     "line": 17,
+     "op": "not x -> x"
+    },
+    {
+     "file": "chatproto.py",
+     "line": 67,
+     "op": ">= -> >"
+    },
+    {
+     "file": "chatproto.py",
+     "line": 67,
+     "op": "4 -> 5"
+    },
+    {
+     "file": "chatproto.py",
+     "line": 25,
+     "op": "not x -> x"
+    },
+    {
+     "file": "chatproto.py",
+     "line": 25,
+     "op": "not x -> x"
+    },
+    {
+     "file": "chatproto.py",
+     "line": 41,
+     "op": "not x -> x"
+    },
+    {
+     "file": "chatproto.py",
+     "line": 41,
+     "op": "> -> >="
+    },
+    {
+     "file": "chatproto.py",
+     "line": 41,
+     "op": "not x -> x"
+    },
+    {
+     "file": "chatproto.py",
+     "line": 46,
+     "op": "return value -> return None"
+    }
+   ],
+   "error": null,
+   "seconds": 23.428
+  },
+  "js": {
+   "classification": 1.0,
+   "rows": [
+    {
+     "case": "good",
+     "expected": "PASS",
+     "got": "PASS",
+     "seconds": 1.13
+    },
+    {
+     "case": "wrong",
+     "expected": "ASSERTION",
+     "got": "ASSERTION",
+     "seconds": 0.627
+    },
+    {
+     "case": "syntax",
+     "expected": "SYNTAX",
+     "got": "SYNTAX",
+     "seconds": 0.541
+    },
+    {
+     "case": "crash",
+     "expected": "CRASH",
+     "got": "CRASH",
+     "seconds": 0.692
+    },
+    {
+     "case": "eval",
+     "expected": "SECURITY",
+     "got": "SECURITY",
+     "seconds": 0.58
+    },
+    {
+     "case": "lint",
+     "expected": "LINT",
+     "got": "LINT",
+     "seconds": 0.5
+    },
+    {
+     "case": "ts_type",
+     "expected": "LINT",
+     "got": "LINT",
+     "seconds": 2.043
+    }
+   ]
+  },
+  "fuzz": {
+   "summary": {
+    "targets": 4,
+    "functions": [
+     "calc.mean",
+     "calc.first_word",
+     "calc.initials",
+     "calc.safe_first"
+    ],
+    "examples_per_function": 150,
+    "findings": 3,
+    "errors": []
+   },
+   "found": {
+    "calc.mean": "fuzzing mean() found an input that raises ZeroDivisionError: division by zero Failing test case: check( values=[], )",
+    "calc.first_word": "fuzzing first_word() found an input that raises IndexError: list index out of range Failing test case: check( text='', )",
+    "calc.initials": "fuzzing initials() found an input that raises IndexError: string index out of range Failing test case: check( name='', )"
+   },
+   "expected_found": 3,
+   "expected": 3,
+   "false_findings": []
+  }
+ }
+}

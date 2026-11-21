@@ -3,7 +3,7 @@ BACKEND := backend
 UV := uv --directory $(BACKEND)
 COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo 'docker compose' || echo docker-compose)
 
-.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api demo stop security coding-venv
+.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api demo stop security coding-venv sandbox-image
 
 help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-12s %s\n", $$1, $$2}'
@@ -91,3 +91,8 @@ coding-venv: ## interpreter for the coding agent's generated code: pytest + fast
 	uv pip install --quiet --python $(CODING_VENV)/bin/python pytest==9.1.1 fastapi==0.143.0 httpx==0.28.1 \
 	  starlette==1.7.0 pydantic==2.14.0
 	@echo "coding venv ready: $(CODING_VENV) (used automatically unless HMAP_CODING_PYTHON is set)"
+
+sandbox-image: ## Docker images the testing agent runs generated code in: Python + Node (needs the internet once; Sprint 8)
+	docker build -t hmap-sandbox-py:1 backend/src/hmap/agents/testing/sandbox
+	docker build -t hmap-sandbox-node:1 -f backend/src/hmap/agents/testing/sandbox/Dockerfile.node \
+	  backend/src/hmap/agents/testing/sandbox
