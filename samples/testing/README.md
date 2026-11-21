@@ -65,3 +65,14 @@ passes everything). The race-condition variant was caught 5 runs out of 5.
   Firecracker would be the next step (Sprint 8 stretch).
 - The sandbox image is built from the internet once (`python:3.11.17-slim`, pytest 9.1.1, ruff 0.16.9,
   bandit 1.9.4). Every run is then offline.
+
+## Sprint 8 (built)
+The prototypes above are now the real `test.run` agent in `backend/src/hmap/agents/testing/` (Docker sandbox image
+`hmap-sandbox-py:1`, `make sandbox-image`; the prototype image `hmap-sandbox-py:proto` is no longer used). Added here:
+
+- `demo/test_chat_integration.py`: the acceptance test the Sprint 8 demo hands to the test step (a black-box
+  multi-client TCP check: start `python server.py --port N`, three clients, broadcast + `/who`).
+- `eval_results/`: `run_eval.py` outputs (detection on the seeded and unseen sets per backend, the loop fix rate).
+  See `docs/members/8/eval.md`.
+- Recordings: `samples/llm_cache/testing/` (loop eval) and `samples/llm_cache/testing/demo/` (the demo's coding and
+  testing answers). They are git-ignored like every recording: commit them with `git add -f`.

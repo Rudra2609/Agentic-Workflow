@@ -194,6 +194,23 @@ class Settings(BaseModel):
     coding_max_debug_rounds: int = Field(default=4, ge=0, le=10, description="edit -> check rounds after a failure")
     coding_max_revisions: int = Field(default=3, ge=0, le=10, description="code.revise rounds per original task")
     coding_cmd_timeout_s: float = Field(default=20.0, gt=0, le=60, description="time limit per workspace command")
+    # --- automated testing & execution (Sprint 8, Member 8) ---
+    testing_sandbox: Literal["auto", "docker", "local"] = Field(
+        default="auto", description="auto = Docker when it answers and the image exists, else the local jailed runner")
+    testing_image: str = Field(default="hmap-sandbox-py:1", description="sandbox image (make sandbox-image)")
+    testing_memory_mb: int = Field(default=256, ge=64, le=4096, description="memory per sandbox run (no swap)")
+    testing_stage_timeout_s: float = Field(default=60.0, gt=0, le=600, description="time limit per stage")
+    testing_concurrency: int = Field(default=1, ge=1, le=4, description="sandbox runs at the same time")
+    testing_auto_revise: bool = Field(default=True, description="failed tests -> code.revise -> test again")
+    testing_max_rounds: int = Field(default=2, ge=0, le=5, description="test -> revise rounds per coding step")
+    testing_generate: bool = Field(default=True, description="write tests from the criteria when there are none")
+    testing_mutation: bool = Field(default=False, description="mutation testing after green unit tests (or per task)")
+    testing_mutants: int = Field(default=20, ge=1, le=200, description="mutants per run")
+    testing_fuzz: bool = Field(default=False, description="fuzz parsing functions with Hypothesis (or per task)")
+    testing_dep_audit: Literal["auto", "offline", "off"] = Field(
+        default="auto", description="known-vulnerable pinned dependencies (OSV); offline = cached answers only")
+    testing_runtime: str | None = Field(default=None, description="docker --runtime, e.g. runsc (gVisor)")
+    testing_image_node: str = Field(default="hmap-sandbox-node:1", description="sandbox image for JS/TS projects")
     # --- security layer (Sprint 6, Member 6; hmap.core.policy) ---
     agent_secrets: list[SecretStr] = Field(default_factory=list, repr=False,
                                            description="HMAP_AGENT_SECRETS 'kid:secret,...' (newest first); empty = "
@@ -267,6 +284,11 @@ class Settings(BaseModel):
             "HMAP_CODING_SANDBOX": "coding_sandbox", "HMAP_CODING_PROMPT_TOKENS": "coding_prompt_tokens",
             "HMAP_CODING_MAX_STEPS": "coding_max_steps", "HMAP_CODING_MAX_DEBUG_ROUNDS": "coding_max_debug_rounds",
             "HMAP_CODING_MAX_REVISIONS": "coding_max_revisions", "HMAP_CODING_CMD_TIMEOUT_S": "coding_cmd_timeout_s",
+            "HMAP_TESTING_SANDBOX": "testing_sandbox", "HMAP_TESTING_IMAGE": "testing_image",
+            "HMAP_TESTING_MEMORY_MB": "testing_memory_mb", "HMAP_TESTING_STAGE_TIMEOUT_S": "testing_stage_timeout_s",
+            "HMAP_TESTING_CONCURRENCY": "testing_concurrency", "HMAP_TESTING_MAX_ROUNDS": "testing_max_rounds",
+            "HMAP_TESTING_MUTANTS": "testing_mutants", "HMAP_TESTING_DEP_AUDIT": "testing_dep_audit",
+            "HMAP_TESTING_RUNTIME": "testing_runtime", "HMAP_TESTING_IMAGE_NODE": "testing_image_node",
             "HMAP_CLOUD_BASE_URL": "cloud_base_url",
             "HMAP_CLOUD_API_KEY": "cloud_api_key", "HMAP_GROQ_BASE_URL": "groq_base_url",
             "HMAP_GEMINI_BASE_URL": "gemini_base_url", "HMAP_PUBLIC_URL": "public_url",
@@ -287,7 +309,10 @@ class Settings(BaseModel):
             data["refine_default"] = value.strip().lower() in ("1", "true", "yes", "on")
         for key, field in (("HMAP_VERIFY_INDEPENDENT", "verify_independent"),
                            ("HMAP_SECURITY_ENFORCE", "security_enforce"),
-                           ("HMAP_CODING_KEEP_WORK", "coding_keep_work")):
+                           ("HMAP_CODING_KEEP_WORK", "coding_keep_work"),
+                           ("HMAP_TESTING_AUTO_REVISE", "testing_auto_revise"),
+                           ("HMAP_TESTING_GENERATE", "testing_generate"),
+                           ("HMAP_TESTING_MUTATION", "testing_mutation"), ("HMAP_TESTING_FUZZ", "testing_fuzz")):
             if (value := get(key)) is not None:
                 data[field] = value.strip().lower() in ("1", "true", "yes", "on")
         if (value := get("HMAP_AGENT_SECRETS")) is not None:

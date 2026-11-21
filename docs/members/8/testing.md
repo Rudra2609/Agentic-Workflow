@@ -1,0 +1,15 @@
+# How the testing agent is tested (Sprint 8 item 8.15)
+
+| File | What it proves | Needs |
+|---|---|---|
+| `tests/testing/test_pipeline.py` | the seeded suite (good + 15 variants) is classified as labelled on the local runner, with file/line and a hint; a compile failure skips the tests; the integration stage runs a TCP server with 3 clients (pass and fail); the run stage; deselected generated tests; flaky re-check; output normalisation | nothing (local runner) |
+| `tests/testing/test_analyze_testgen.py` | JUnit / ruff / bandit / mypy / traceback parsers; built-in security rules (and no false alarm on safe code); model hints replace rule hints and survive no model; `classify` only for unclear failures; the known-bad stub; generation + sanity gate (a test that passes on the stub is dropped); no model / broken code | nothing |
+| `tests/testing/test_agent_api.py` | **the loop on the bus**: code.implement (scripted FakeLLM leaves the bug) → test.run fails → code.revise (parent = coding step) → test.run round 1 passes → no further revision; `test.completed` per round; API (runs, run detail with loop rounds, log, 404s, someone else's project, re-run); nothing to test → `partial` + ENV; redelivery; 11 loop decisions (off, pass, lint/generated/flaky/env only, max rounds, no progress, progress at the same ratio) | nothing |
+| `tests/testing/test_sandbox_docker.py` (`integration`) | the 8 abuse cases (ok, no network, writes confined, not root, fork bomb, endless loop, memory, output flood) are contained; no keys / socket / `.env` inside; cancel kills the container and nothing is left; the seeded suite in Docker with coverage | Docker + `make sandbox-image` (skipped otherwise) |
+| `tests/testing/test_quarantine.py` | flaky test goes in, its next failure does not count, released after 3 clean passes or by a person; the agent end to end with a scripted backend; the API (list, release, 404s, someone else's project) | nothing |
+| `tests/testing/test_extras.py` | mutants (operators, nothing in `__main__` blocks, every mutant compiles) and a local mutation run; fuzz target selection and result parsing; JS detection, ESLint JSON / tsc / JS security parsers; the dependency audit with a fake OSV, the cache, no network, off; `--runtime` and the image reach `docker run` | nothing |
+| `tests/testing/test_sandbox_docker.py`, stretch part (`integration`) | 6 JS cases (pass, wrong result, syntax, crash, eval, lint) and a TS project (type error + passing test) in the Node image; fuzzing finds `mean([])` and accepts the module's own error; mutation score in Docker | Docker + both images |
+| `frontend/src/features/testing/*.test.ts(x)` | stage order, failure sorting, words, event key; the panel shows runs, the timeline, failures with hints, loop rounds, the log link, the extra checks (mutation, fuzz, dependencies); re-run; quarantined tests and release | vitest |
+| `scripts/demo_sprint_8.sh` | the spec's full-loop scenario over the API, replayed (Docker or local) | recordings in `samples/llm_cache/testing/demo/` |
+
+Acceptance: `scripts/check_sprint.sh 8` (pre-commit incl. integration tests, frontend, security checks, the demo).
