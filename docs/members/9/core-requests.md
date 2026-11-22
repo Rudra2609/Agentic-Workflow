@@ -1,0 +1,13 @@
+# Requests to Member 1 (core / shared files)
+
+Anything you need changed outside your own paths (`ownership.toml`): describe it here, Member 1 implements it.
+
+| # | Date | File / area | What and why | Status |
+|---|---|---|---|---|
+| 1 | 2026-10-31 | `ownership.toml` | `[cross_cutting] 9` rows for the shared files of [plan](plan.md) §4 (Q8): `scripts/seed.py`, `scripts/stop.sh`, `core/config.py`, `.env.example`, Member 6's injection test, `README.md`, `HANDOFF.md`, the feature registry, `docs/sprints/mid-evaluation.md` | default taken 2026-10-31, row added |
+| 2 | 2026-10-31 | `backend/src/hmap/core/config.py`, `.env.example` | `HMAP_DOCGEN_SUMMARY_LIMIT`, `HMAP_DOCGEN_MAX_ROUNDS`, `HMAP_DOCGEN_RUN_EXAMPLES`, `HMAP_DOCGEN_AUTO_UPDATE`, `HMAP_DEMO_MIN_FREE_GB` (Q5); `.env.example` also lists `HMAP_CLOUD_BASE_URL` / `HMAP_CLOUD_API_KEY` / `HMAP_RETRY_DELAYS_S`, which the code read but `.env.example` did not (found by the configuration-reference drift check) | default taken 2026-10-31 |
+| 3 | 2026-10-31 | `Makefile`, `scripts/demo.sh`, `scripts/stop.sh`, `scripts/seed.{sh,py}`, `scripts/reset_demo.sh`, `scripts/demo_preflight.py` | `make demo` is now **live** with a pre-flight; Sprint 6's offline behaviour is `make demo-replay`; `make reset-demo`, `make report`; production frontend build; `make stop` also ends processes that keep running after their port closed (Q4) | default taken 2026-10-31 |
+| 4 | 2026-10-31 | `backend/tests/verify/security/test_injection.py` (Member 6) | the `docs.generate` branch is switched on (it failed on purpose until the agent was real): repository files go through the docs agent's sanitizer; F3 ("Note to the assistant … maintenance mode") is caught by the docs agent's own extra rule, the shared sanitizer is unchanged (its `xfail` stays) | default taken 2026-10-31 |
+| 5 | 2026-10-31 | `docs/sprints/mid-evaluation.md`, `samples/demo/README.md`, `README.md` | wording: the offline demo command is now `make demo-replay` | `mid-evaluation.md` and `README.md` updated; `samples/demo/README.md` is Member 6's folder by history but Member 1's path: one line, left for Member 1 |
+| 6 | 2026-10-31 | `README.md`, `HANDOFF.md`, `frontend/src/features/_registry.generated.ts`, `scripts/demo_sprint_9.{sh,py}` | "real vs stub" row, Sprint 9 handoff, the regenerated feature registry (Docs tab), the Sprint 9 demo | default taken 2026-10-31 |
+| 7 | 2026-10-31 | root `README.md` / `docs/` (Q6) | the generated platform documents live in `docs/members/9/platform/` and are linked from `docs/README.md`; whether they replace sections of the root `README.md` is Member 1's call | open |

@@ -1,0 +1,94 @@
+{
+ "grounded_pct": 100.0,
+ "checked": 24,
+ "grounded": 24,
+ "ungrounded": 0,
+ "unverified": 1,
+ "claims": [
+  {
+   "kind": "BEHAVIOUR",
+   "text": "It offers a lightweight, ready-to-use starting point for developers who need to build command-line applications.",
+   "verdict": "unverified",
+   "why": "no code found that shows it",
+   "doc": "readme",
+   "sentence": "It offers a lightweight, ready-to-use starting point for developers who need to build command-line applications.",
+   "line": 3,
+   "by": "model",
+   "evidence": ""
+  }
+ ],
+ "removed": [],
+ "examples": [
+  {
+   "doc": "readme",
+   "line": 7,
+   "language": "bash",
+   "code": "python cli.py --help",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.0 s)",
+   "output": "usage: cli [-h] {count} ...\n\ncommand-line tool\n\npositional arguments:\n  {count}\n    count     count lines, words and characters\n\noptions:\n  -h, --help  show this help message and exit\n",
+   "backend": "local"
+  },
+  {
+   "doc": "readme",
+   "line": 26,
+   "language": "bash",
+   "code": "pytest",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.3 s)",
+   "output": "...                                                                      [100%]\n3 passed\n",
+   "backend": "local"
+  },
+  {
+   "doc": "report",
+   "line": 22,
+   "language": "bash",
+   "code": "pytest",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.3 s)",
+   "output": "...                                                                      [100%]\n3 passed\n",
+   "backend": "local"
+  },
+  {
+   "doc": "report",
+   "line": 28,
+   "language": "bash",
+   "code": "python cli.py --help",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.0 s)",
+   "output": "usage: cli [-h] {count} ...\n\ncommand-line tool\n\npositional arguments:\n  {count}\n    count     count lines, words and characters\n\noptions:\n  -h, --help  show this help message and exit\n",
+   "backend": "local"
+  }
+ ],
+ "coverage_pct": 100.0,
+ "by_doc": {
+  "readme": {
+   "grounded": 5,
+   "ungrounded": 0,
+   "unverified": 1,
+   "unchecked": 0
+  },
+  "architecture": {
+   "grounded": 4,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "summaries": {
+   "grounded": 7,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "report": {
+   "grounded": 8,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  }
+ }
+}

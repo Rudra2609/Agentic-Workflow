@@ -110,6 +110,12 @@ paths = ["docs/members/*/core-requests.md"]
 # the "real vs stub" row, the handoff notes, the regenerated feature registry
 8 = ["backend/src/hmap/core/config.py", ".env.example", "Makefile", "scripts/demo_sprint_8.sh",
      "scripts/demo_sprint_8.py", "README.md", "HANDOFF.md", "frontend/src/features/_registry.generated.ts"]
-9 =["Makefile", "scripts/demo*", "scripts/seed.sh", "scripts/reset*", "docs/README.md"]
+# Sprint 9 plan §1 (defaults taken 2026-10-31, Q1-Q8): the one-command demo (make demo / demo-replay / reset-demo /
+# report, pre-flight, seed, stop), docgen settings, switching on Member 6's repository injection check for docs.generate,
+# the "real vs stub" row and demo commands, the handoff notes, the regenerated feature registry, the mid-eval rename
+9 = ["Makefile", "scripts/demo*", "scripts/seed.sh", "scripts/seed.py", "scripts/reset*", "scripts/stop.sh",
+     "docs/README.md", "backend/src/hmap/core/config.py", ".env.example",
+     "backend/tests/verify/security/test_injection.py", "README.md", "HANDOFF.md",
+     "frontend/src/features/_registry.generated.ts", "docs/sprints/mid-evaluation.md"]
 10 = ["backend/tests/e2e/**", "scripts/demo_final.sh"]
 11 = ["scripts/pull_models.sh", "infra/**"]

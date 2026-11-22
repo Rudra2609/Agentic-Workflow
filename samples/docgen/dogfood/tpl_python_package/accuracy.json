@@ -1,0 +1,60 @@
+{
+ "grounded_pct": 100.0,
+ "checked": 23,
+ "grounded": 23,
+ "ungrounded": 0,
+ "unverified": 0,
+ "claims": [],
+ "removed": [],
+ "examples": [
+  {
+   "doc": "readme",
+   "line": 23,
+   "language": "bash",
+   "code": "pytest",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.3 s)",
+   "output": "..                                                                       [100%]\n2 passed\n",
+   "backend": "local"
+  },
+  {
+   "doc": "report",
+   "line": 24,
+   "language": "bash",
+   "code": "pytest",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.3 s)",
+   "output": "..                                                                       [100%]\n2 passed\n",
+   "backend": "local"
+  }
+ ],
+ "coverage_pct": 100.0,
+ "by_doc": {
+  "readme": {
+   "grounded": 4,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "architecture": {
+   "grounded": 5,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "summaries": {
+   "grounded": 6,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "report": {
+   "grounded": 8,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  }
+ }
+}

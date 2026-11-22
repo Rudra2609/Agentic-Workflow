@@ -1,0 +1,118 @@
+{
+ "_about": "Hand labels for the READMEs a model wrote from the code alone (tests/docgen/eval/run_eval.py --free). flag_ok: is each flagged claim really false for this repository (true) or a false alarm (false)? false_claims: concrete false claims found by reading the README that the checker did NOT flag (after the rule fixes of 2026-10-31). Labelled by the assistant that built Sprint 9 (2026-11-01), reasons in _why; Member 9 should re-check.",
+ "tcp_chat": {
+  "flag_ok": {
+   "LICENSE": true
+  },
+  "false_claims": [],
+  "_why": {
+   "LICENSE": "no LICENSE file in the repository"
+  }
+ },
+ "todo_api": {
+  "flag_ok": {
+   "LICENSE": true
+  },
+  "false_claims": [],
+  "_why": {
+   "LICENSE": "no LICENSE file"
+  }
+ },
+ "csv_report": {
+  "flag_ok": {
+   "LICENSE": true
+  },
+  "false_claims": [],
+  "_why": {
+   "LICENSE": "no LICENSE file"
+  }
+ },
+ "tpl_cli": {
+  "flag_ok": {
+   "pip install -e .": true,
+   "Python 3.9": true,
+   "setup.cfg": true,
+   "pyproject.toml": true,
+   "LICENSE": true
+  },
+  "false_claims": [],
+  "_why": {
+   "pip install -e .": "no pyproject.toml / setup.py: the command fails",
+   "Python 3.9": "no version is stated anywhere (unsupported)",
+   "setup.cfg": "does not exist",
+   "pyproject.toml": "does not exist"
+  }
+ },
+ "tpl_fastapi_service": {
+  "flag_ok": {
+   "pip install -r requirements.txt": true,
+   "requirements.txt": true,
+   "pip install fastapi uvicorn httpx": false,
+   "Docker": false,
+   "settings.py": false,
+   "LICENSE": true,
+   "docker run -p 8000:8000 python:3.11-slim bash -c \"     pip install fastapi uvicorn": false
+  },
+  "false_claims": [],
+  "_why": {
+   "pip install fastapi uvicorn httpx": "correct: the tests need httpx (found with importlib.util.find_spec, not an import)",
+   "docker run": "a valid command using a public image; flagged because the quoted continuation could not be parsed",
+   "Docker": "the README says a Dockerfile 'can be added later': not a claim",
+   "settings.py": "'Add a settings.py': a suggestion, not a claim"
+  }
+ },
+ "tpl_python_package": {
+  "flag_ok": {
+   "pip install -e .": true,
+   "pip install -e .[dev]": true,
+   "Python 3.8": true,
+   "setup.cfg": true,
+   "pyproject.toml": true,
+   "LICENSE": true
+  },
+  "false_claims": []
+ },
+ "tpl_tcp_server_client": {
+  "flag_ok": {
+   "Python 3.9": true,
+   "LICENSE": true
+  },
+  "false_claims": [],
+  "_why": {
+   "Python 3.9": "unsupported, and wrong: the README says the code uses the | union syntax, which needs 3.10"
+  }
+ },
+ "b2_broadcast_crash": {
+  "flag_ok": {
+   "pip install -r requirements.txt   # file contains pytest, pytest‑asyncio, etc.": true,
+   "python -m server --host 0.0.0.0 --port 5050": true,
+   "pytest": true,
+   "CHAT_HOST": true,
+   "CHAT_PORT": true,
+   "tests/test_framing.py": true,
+   "tests/test_protocol.py": true,
+   "tests/test_room.py": true,
+   "tests/test_server_client.py": true,
+   "tests/test_<module>.py": true,
+   "pytest -q": true,
+   "LICENSE": true
+  },
+  "false_claims": [],
+  "_why": {
+   "python -m server": "server.py has no command-line options",
+   "pytest": "the starter has no tests",
+   "CHAT_HOST": "never read"
+  }
+ },
+ "chatproto": {
+  "flag_ok": {
+   "pip install -e .": true,
+   "../variants/": false,
+   "LICENSE": true
+  },
+  "false_claims": [],
+  "_why": {
+   "../variants/": "exists next to the repository (outside the files the model and the checker saw): a false alarm"
+  }
+ }
+}

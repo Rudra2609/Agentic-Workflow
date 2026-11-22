@@ -1,0 +1,331 @@
+{
+ "grounded_pct": 100.0,
+ "checked": 3267,
+ "grounded": 3267,
+ "ungrounded": 0,
+ "unverified": 2,
+ "claims": [
+  {
+   "kind": "BEHAVIOUR",
+   "text": "hmap is a hierarchical multi‑agent AI execution platform that coordinates agents, tasks, and observability within a single‑process composition root.",
+   "verdict": "unverified",
+   "why": "no code found that shows it",
+   "doc": "readme",
+   "sentence": "hmap is a hierarchical multi‑agent AI execution platform that coordinates agents, tasks, and observability within a single‑process composition root.",
+   "line": 3,
+   "by": "model",
+   "evidence": ""
+  },
+  {
+   "kind": "BEHAVIOUR",
+   "text": "It enables developers and AI engineers to build, manage, and monitor complex agent‑driven workflows, providing built‑in support for task state machines, graph execution, and runtime tracing.",
+   "verdict": "unverified",
+   "why": "no code found that shows it",
+   "doc": "readme",
+   "sentence": "It enables developers and AI engineers to build, manage, and monitor complex agent‑driven workflows, providing built‑in support for task state machines, graph execution, and runtime tracing.",
+   "line": 3,
+   "by": "model",
+   "evidence": ""
+  }
+ ],
+ "removed": [],
+ "examples": [
+  {
+   "doc": "readme",
+   "line": 9,
+   "language": "bash",
+   "code": "make demo",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 10,
+   "language": "bash",
+   "code": "make demo-replay",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 11,
+   "language": "bash",
+   "code": "make api",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 12,
+   "language": "bash",
+   "code": "make agents",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 13,
+   "language": "bash",
+   "code": "make test",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 14,
+   "language": "bash",
+   "code": "make check",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 15,
+   "language": "bash",
+   "code": "hmap-agents",
+   "action": "skip",
+   "ok": null,
+   "why": "hmap-agents is not run by the verifier",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 16,
+   "language": "bash",
+   "code": "npm run dev",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 17,
+   "language": "bash",
+   "code": "npm run build",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 18,
+   "language": "bash",
+   "code": "python infra/observability/load/soak.py",
+   "action": "skip",
+   "ok": null,
+   "why": "needs psutil installed (a dependency or the project itself); the sandbox has not",
+   "output": "Traceback (most recent call last):\n  File \"infra/observability/load/soak.py\", line 27, in <module>\n    import psutil\nModuleNotFoundError: No module named 'psutil'\n",
+   "backend": "local"
+  },
+  {
+   "doc": "readme",
+   "line": 232,
+   "language": "bash",
+   "code": "pytest",
+   "action": "skip",
+   "ok": null,
+   "why": "needs hmap installed (a dependency or the project itself); the sandbox has not",
+   "output": "/manager/test_auto_approve_and_stop.py\nERROR backend/tests/manager/test_manager.py\nERROR backend/tests/manager/test_replace_graph.py\nERROR backend/tests/manager/test_replay_dead_letter.py\nERROR backend/tests/manager/test_runs_and_lifecycle.py\nERROR backend/tests/manager/test_store.py\nERROR backend/tests/manager/test_transitions.py\nERROR backend/tests/obs/test_telemetry.py\nERROR backend/tests/ops - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/planning - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/refine - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/research - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/services/accounts/test_account_store.py\nERROR backend/tests/services/accounts/test_mailer.py\nERROR backend/tests/services/artifact/test_artifact_store.py\nERROR backend/tests/services/context/test_context_store.py\nERROR backend/tests/services/registry/test_registry.py\nERROR backend/tests/services/test_artifact_delete.py\nERROR backend/tests/testing - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/verify/security/test_injection.py\nERROR backend/tests/verify/security/test_limits_and_secrets.py\nERROR backend/tests/verify/security/test_security_layer.py\nERROR backend/tests/verify/test_agent_api.py\nERROR backend/tests/verify/test_integration_real.py\nERROR backend/tests/verify/test_layers.py\n!!!!!!!!!!!!!!!!!!! Interrupted: 47 errors during collection !!!!!!!!!!!!!!!!!!!\n1 warning, 47 errors\n",
+   "backend": "local"
+  },
+  {
+   "doc": "readme",
+   "line": 233,
+   "language": "bash",
+   "code": "npm run test",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 65,
+   "language": "bash",
+   "code": "pytest",
+   "action": "skip",
+   "ok": null,
+   "why": "needs hmap installed (a dependency or the project itself); the sandbox has not",
+   "output": "/manager/test_auto_approve_and_stop.py\nERROR backend/tests/manager/test_manager.py\nERROR backend/tests/manager/test_replace_graph.py\nERROR backend/tests/manager/test_replay_dead_letter.py\nERROR backend/tests/manager/test_runs_and_lifecycle.py\nERROR backend/tests/manager/test_store.py\nERROR backend/tests/manager/test_transitions.py\nERROR backend/tests/obs/test_telemetry.py\nERROR backend/tests/ops - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/planning - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/refine - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/research - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/services/accounts/test_account_store.py\nERROR backend/tests/services/accounts/test_mailer.py\nERROR backend/tests/services/artifact/test_artifact_store.py\nERROR backend/tests/services/context/test_context_store.py\nERROR backend/tests/services/registry/test_registry.py\nERROR backend/tests/services/test_artifact_delete.py\nERROR backend/tests/testing - ModuleNotFoundError: No module named 'hmap'\nERROR backend/tests/verify/security/test_injection.py\nERROR backend/tests/verify/security/test_limits_and_secrets.py\nERROR backend/tests/verify/security/test_security_layer.py\nERROR backend/tests/verify/test_agent_api.py\nERROR backend/tests/verify/test_integration_real.py\nERROR backend/tests/verify/test_layers.py\n!!!!!!!!!!!!!!!!!!! Interrupted: 47 errors during collection !!!!!!!!!!!!!!!!!!!\n1 warning, 47 errors\n",
+   "backend": "local"
+  },
+  {
+   "doc": "report",
+   "line": 66,
+   "language": "bash",
+   "code": "npm run test",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 72,
+   "language": "bash",
+   "code": "make demo",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 73,
+   "language": "bash",
+   "code": "make demo-replay",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 74,
+   "language": "bash",
+   "code": "make api",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 75,
+   "language": "bash",
+   "code": "make agents",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 76,
+   "language": "bash",
+   "code": "make test",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 77,
+   "language": "bash",
+   "code": "make check",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 78,
+   "language": "bash",
+   "code": "hmap-agents",
+   "action": "skip",
+   "ok": null,
+   "why": "hmap-agents is not run by the verifier",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 79,
+   "language": "bash",
+   "code": "npm run dev",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 80,
+   "language": "bash",
+   "code": "npm run build",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 81,
+   "language": "bash",
+   "code": "python infra/observability/load/soak.py",
+   "action": "skip",
+   "ok": null,
+   "why": "needs psutil installed (a dependency or the project itself); the sandbox has not",
+   "output": "Traceback (most recent call last):\n  File \"infra/observability/load/soak.py\", line 27, in <module>\n    import psutil\nModuleNotFoundError: No module named 'psutil'\n",
+   "backend": "local"
+  }
+ ],
+ "coverage_pct": 30.7,
+ "by_doc": {
+  "readme": {
+   "grounded": 197,
+   "ungrounded": 0,
+   "unverified": 2,
+   "unchecked": 0
+  },
+  "api": {
+   "grounded": 361,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "architecture": {
+   "grounded": 176,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "summaries": {
+   "grounded": 2464,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "report": {
+   "grounded": 69,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  }
+ }
+}

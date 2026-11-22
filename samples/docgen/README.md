@@ -1,4 +1,12 @@
-# Documentation-grounding prep (Member 9, prepared ahead of Sprint 9)
+# Documentation samples (Member 9)
+
+**Sprint 9 (built 2026-10-31):** the real agent is `backend/src/hmap/agents/docgen/` (it ports and extends the prototype
+below). New folders: `unseen/seeded.json` (25 false sentences + 2 behaviour claims for repos the rules were never
+tuned on), `dogfood/<repo>/` (documents the agent wrote for 10 repositories, the platform included),
+`model_written/` (READMEs a model wrote without facts, with hand labels), `eval_results/` (`tests/docgen/eval/run_eval.py`).
+Recorded model answers: `samples/llm_cache/docgen/` (git-ignored: `git add -f`). Numbers: `docs/members/9/eval.md`.
+
+## The prototype (prepared ahead of Sprint 9)
 
 A working prototype of the core of Sprint 9: **documentation may only claim what the code really contains**
 ("if there's no Redis in the code, never say Redis"). Plain Python 3.11, standard library only: no Docker, no model,

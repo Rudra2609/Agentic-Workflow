@@ -1,0 +1,746 @@
+{
+ "name": "cloud",
+ "mode": "replay",
+ "seeded": {
+  "seen": {
+   "caught": 31,
+   "total": 31,
+   "by_type": {
+    "BEHAVIOUR": "0/3",
+    "COMMAND": "5/5",
+    "ENDPOINT": "4/4",
+    "ENV": "3/3",
+    "PATH": "3/3",
+    "PORT": "3/3",
+    "SYMBOL": "3/3",
+    "TECH": "8/8",
+    "VERSION": "2/2"
+   },
+   "misses": []
+  },
+  "unseen": {
+   "caught": 25,
+   "total": 25,
+   "by_type": {
+    "BEHAVIOUR": "0/2",
+    "COMMAND": "5/5",
+    "ENDPOINT": "2/2",
+    "ENV": "2/2",
+    "PATH": "2/2",
+    "PORT": "4/4",
+    "SYMBOL": "3/3",
+    "TECH": "6/6",
+    "VERSION": "1/1"
+   },
+   "misses": []
+  }
+ },
+ "false_alarms": {
+  "tcp_chat": {
+   "claims": 16,
+   "flagged": []
+  },
+  "todo_api": {
+   "claims": 23,
+   "flagged": []
+  },
+  "csv_report": {
+   "claims": 21,
+   "flagged": []
+  },
+  "tpl_cli": {
+   "claims": 4,
+   "flagged": []
+  },
+  "tpl_fastapi_service": {
+   "claims": 3,
+   "flagged": []
+  },
+  "tpl_python_package": {
+   "claims": 2,
+   "flagged": []
+  },
+  "tpl_tcp_server_client": {
+   "claims": 8,
+   "flagged": []
+  },
+  "b2_broadcast_crash": {
+   "claims": 5,
+   "flagged": []
+  },
+  "platform": {
+   "claims": 48,
+   "flagged": []
+  }
+ },
+ "generated": [
+  {
+   "repo": "tcp_chat",
+   "outcome": "success",
+   "grounded_pct": 100.0,
+   "checked": 60,
+   "removed": [],
+   "unverified": 0,
+   "still_ungrounded": 0,
+   "coverage_pct": 100.0,
+   "examples": {
+    "run": 2,
+    "failed": [],
+    "checked": 6
+   },
+   "endpoints_equal": null,
+   "endpoints": [
+    0,
+    0
+   ],
+   "model_calls": 4,
+   "tokens": 3208,
+   "rounds": 0,
+   "degraded": false,
+   "seconds": 0.4,
+   "behaviour": []
+  },
+  {
+   "repo": "todo_api",
+   "outcome": "success",
+   "grounded_pct": 100.0,
+   "checked": 85,
+   "removed": [],
+   "unverified": 0,
+   "still_ungrounded": 0,
+   "coverage_pct": 100.0,
+   "examples": {
+    "run": 2,
+    "failed": [],
+    "checked": 4
+   },
+   "endpoints_equal": true,
+   "endpoints": [
+    5,
+    5
+   ],
+   "model_calls": 4,
+   "tokens": 3645,
+   "rounds": 0,
+   "degraded": false,
+   "seconds": 0.4,
+   "behaviour": []
+  },
+  {
+   "repo": "csv_report",
+   "outcome": "success",
+   "grounded_pct": 100.0,
+   "checked": 69,
+   "removed": [],
+   "unverified": 0,
+   "still_ungrounded": 0,
+   "coverage_pct": 85.7,
+   "examples": {
+    "run": 2,
+    "failed": [],
+    "checked": 6
+   },
+   "endpoints_equal": true,
+   "endpoints": [
+    1,
+    1
+   ],
+   "model_calls": 4,
+   "tokens": 2695,
+   "rounds": 0,
+   "degraded": false,
+   "seconds": 2.0,
+   "behaviour": []
+  },
+  {
+   "repo": "tpl_cli",
+   "outcome": "success",
+   "grounded_pct": 100.0,
+   "checked": 24,
+   "removed": [],
+   "unverified": 1,
+   "still_ungrounded": 0,
+   "coverage_pct": 100.0,
+   "examples": {
+    "run": 4,
+    "failed": [],
+    "checked": 0
+   },
+   "endpoints_equal": null,
+   "endpoints": [
+    0,
+    0
+   ],
+   "model_calls": 4,
+   "tokens": 6690,
+   "rounds": 0,
+   "degraded": false,
+   "seconds": 0.4,
+   "behaviour": [
+    {
+     "text": "`tpl_cli` provides a command-line interface skeleton designed to process arguments, execute selected subcommands, and return exit codes.",
+     "verdict": "grounded",
+     "evidence": "\"\"\"Command-line tool skeleton: ``main(argv)`` parses arguments, runs one subcommand and returns an exit code."
+    },
+    {
+     "text": "It offers a lightweight, ready-to-use starting point for developers who need to build command-line applications.",
+     "verdict": "unverified",
+     "evidence": ""
+    }
+   ]
+  },
+  {
+   "repo": "tpl_fastapi_service",
+   "outcome": "success",
+   "grounded_pct": 97.87,
+   "checked": 47,
+   "removed": [
+    {
+     "doc": "readme",
+     "kind": "BEHAVIOUR",
+     "text": "This repository offers a minimal Python HTTP service skeleton that includes a health\u2011check route and a simple in\u2011memory CRUD resource.",
+     "why": "the code does something else (removed by the refine loop)",
+     "sentence": "This repository offers a minimal Python HTTP service skeleton that includes a health\u2011check route and a simple in\u2011memory CRUD resource."
+    }
+   ],
+   "unverified": 1,
+   "still_ungrounded": 0,
+   "coverage_pct": 100.0,
+   "examples": {
+    "run": 2,
+    "failed": [],
+    "checked": 0
+   },
+   "endpoints_equal": true,
+   "endpoints": [
+    3,
+    3
+   ],
+   "model_calls": 5,
+   "tokens": 3962,
+   "rounds": 2,
+   "degraded": false,
+   "seconds": 1.1,
+   "behaviour": [
+    {
+     "text": "It is intended for developers who need a lightweight starting point for building and testing basic web services without external dependencies.",
+     "verdict": "unverified",
+     "evidence": ""
+    },
+    {
+     "text": "This repository offers a minimal Python HTTP service skeleton that includes a health\u2011check route and a simple in\u2011memory CRUD resource.",
+     "verdict": "ungrounded",
+     "evidence": "@app.get(\"/health\")\ndef health() -> dict[str, str]:"
+    }
+   ]
+  },
+  {
+   "repo": "tpl_python_package",
+   "outcome": "success",
+   "grounded_pct": 100.0,
+   "checked": 23,
+   "removed": [],
+   "unverified": 0,
+   "still_ungrounded": 0,
+   "coverage_pct": 100.0,
+   "examples": {
+    "run": 2,
+    "failed": [],
+    "checked": 0
+   },
+   "endpoints_equal": null,
+   "endpoints": [
+    0,
+    0
+   ],
+   "model_calls": 2,
+   "tokens": 3051,
+   "rounds": 1,
+   "degraded": false,
+   "seconds": 0.3,
+   "behaviour": []
+  },
+  {
+   "repo": "tpl_tcp_server_client",
+   "outcome": "success",
+   "grounded_pct": 100.0,
+   "checked": 50,
+   "removed": [],
+   "unverified": 0,
+   "still_ungrounded": 0,
+   "coverage_pct": 100.0,
+   "examples": {
+    "run": 2,
+    "failed": [],
+    "checked": 4
+   },
+   "endpoints_equal": null,
+   "endpoints": [
+    0,
+    0
+   ],
+   "model_calls": 6,
+   "tokens": 4922,
+   "rounds": 0,
+   "degraded": false,
+   "seconds": 0.5,
+   "behaviour": [
+    {
+     "text": "It is designed for developers who need a lightweight, standard\u2011library\u2011only example of client\u2011server messaging in Python.",
+     "verdict": "grounded",
+     "evidence": "import argparse\nimport socket\nimport sys\nimport threading"
+    }
+   ]
+  },
+  {
+   "repo": "b2_broadcast_crash",
+   "outcome": "success",
+   "grounded_pct": 96.15,
+   "checked": 52,
+   "removed": [
+    {
+     "doc": "architecture",
+     "kind": "BEHAVIOUR",
+     "text": "The client uses path::client.main to read user input, path::server.handle_connection to echo lines, and path::framing.encode_frame to package messages for transmission.",
+     "why": "the code does something else (removed by the refine loop)",
+     "sentence": "The client uses path::client.main to read user input, path::server.handle_connection to echo lines, and path::framing.encode_frame to package messages for transmission."
+    },
+    {
+     "doc": "summaries",
+     "kind": "BEHAVIOUR",
+     "text": "The client uses path::client.main to read user input, path::server.handle_connection to echo lines, and path::framing.encode_frame to package messages for transmission.",
+     "why": "the code does something else (removed by the refine loop)",
+     "sentence": "The client uses path::client.main to read user input, path::server.handle_connection to echo lines, and path::framing.encode_frame to package messages for transmission."
+    }
+   ],
+   "unverified": 1,
+   "still_ungrounded": 0,
+   "coverage_pct": 69.2,
+   "examples": {
+    "run": 0,
+    "failed": [],
+    "checked": 2
+   },
+   "endpoints_equal": null,
+   "endpoints": [
+    0,
+    0
+   ],
+   "model_calls": 7,
+   "tokens": 6705,
+   "rounds": 1,
+   "degraded": false,
+   "seconds": 2.2,
+   "behaviour": [
+    {
+     "text": "b2_broadcast_crash is a simple chat system that lets multiple users exchange messages through a command\u2011line client and an echo server.",
+     "verdict": "unverified",
+     "evidence": ""
+    },
+    {
+     "text": "Messages are transmitted as length\u2011prefixed frames defined in framing.py, where each frame consists of a 4\u2011byte big\u2011endian length followed by a UTF\u20118 body.",
+     "verdict": "grounded",
+     "evidence": "return len(body).to_bytes(4, \"big\") + body"
+    },
+    {
+     "text": "The protocol for chat lines, including slash commands, is handled by protocol.py, while room.py maintains the set of connected clients identified by nickname.",
+     "verdict": "grounded",
+     "evidence": "self._clients: dict[str, object] = {}"
+    },
+    {
+     "text": "Messages are transmitted as length\u2011prefixed frames defined in framing.py, where each frame consists of a 4\u2011byte big\u2011endian length followed by a UTF\u20118 body.",
+     "verdict": "grounded",
+     "evidence": "return len(body).to_bytes(4, \"big\") + body"
+    },
+    {
+     "text": "The protocol for chat lines, including slash commands, is handled by protocol.py, while room.py maintains the set of connected clients identified by nickname.",
+     "verdict": "grounded",
+     "evidence": "self._clients: dict[str, object] = {}"
+    },
+    {
+     "text": "The client uses path::client.main to read user input, path::server.handle_connection to echo lines, and path::framing.encode_frame to package messages for trans",
+     "verdict": "ungrounded",
+     "evidence": "def handle(self, conn: socket.socket) -> None:"
+    },
+    {
+     "text": "The client uses path::client.main to read user input, path::server.handle_connection to echo lines, and path::framing.encode_frame to package messages for trans",
+     "verdict": "ungrounded",
+     "evidence": "def handle(self, conn: socket.socket) -> None:"
+    }
+   ]
+  },
+  {
+   "repo": "chatproto",
+   "outcome": "success",
+   "grounded_pct": 100.0,
+   "checked": 23,
+   "removed": [],
+   "unverified": 1,
+   "still_ungrounded": 0,
+   "coverage_pct": 100.0,
+   "examples": {
+    "run": 2,
+    "failed": [],
+    "checked": 0
+   },
+   "endpoints_equal": null,
+   "endpoints": [
+    0,
+    0
+   ],
+   "model_calls": 4,
+   "tokens": 2889,
+   "rounds": 1,
+   "degraded": false,
+   "seconds": 0.4,
+   "behaviour": [
+    {
+     "text": "chatproto is a tiny chat protocol implementation written in Python.",
+     "verdict": "grounded",
+     "evidence": "\"A tiny chat protocol (the kind of code the TCP-chat assignment asks for): commands, unique nicknames, message framing. "
+    },
+    {
+     "text": "The library is suitable for developers who need a simple, standard\u2011library\u2011only solution for building chat\u2011related functionality.",
+     "verdict": "unverified",
+     "evidence": ""
+    }
+   ]
+  },
+  {
+   "repo": "platform",
+   "outcome": "success",
+   "grounded_pct": 100.0,
+   "checked": 3267,
+   "removed": [],
+   "unverified": 2,
+   "still_ungrounded": 0,
+   "coverage_pct": 30.7,
+   "examples": {
+    "run": 0,
+    "failed": [],
+    "checked": 18
+   },
+   "endpoints_equal": true,
+   "endpoints": [
+    84,
+    84
+   ],
+   "model_calls": 7,
+   "tokens": 13234,
+   "rounds": 0,
+   "degraded": false,
+   "seconds": 8.9,
+   "behaviour": [
+    {
+     "text": "hmap is a hierarchical multi\u2011agent AI execution platform that coordinates agents, tasks, and observability within a single\u2011process composition root.",
+     "verdict": "unverified",
+     "evidence": ""
+    },
+    {
+     "text": "It enables developers and AI engineers to build, manage, and monitor complex agent\u2011driven workflows, providing built\u2011in support for task state machines, graph e",
+     "verdict": "unverified",
+     "evidence": ""
+    }
+   ]
+  }
+ ],
+ "model_written": {
+  "repos": [
+   {
+    "repo": "tcp_chat",
+    "claims": 17,
+    "flagged": [
+     {
+      "kind": "PATH",
+      "text": "LICENSE",
+      "why": "no such file",
+      "line": 199
+     }
+    ]
+   },
+   {
+    "repo": "todo_api",
+    "claims": 28,
+    "flagged": [
+     {
+      "kind": "PATH",
+      "text": "LICENSE",
+      "why": "no such file",
+      "line": 158
+     }
+    ]
+   },
+   {
+    "repo": "csv_report",
+    "claims": 34,
+    "flagged": [
+     {
+      "kind": "PATH",
+      "text": "LICENSE",
+      "why": "no such file",
+      "line": 184
+     }
+    ]
+   },
+   {
+    "repo": "tpl_cli",
+    "claims": 14,
+    "flagged": [
+     {
+      "kind": "COMMAND",
+      "text": "pip install -e .",
+      "why": "there is no pyproject.toml or setup.py",
+      "line": 52
+     },
+     {
+      "kind": "VERSION",
+      "text": "Python\u202f3.9",
+      "why": "no version is declared in the repository",
+      "line": 33
+     },
+     {
+      "kind": "PATH",
+      "text": "setup.cfg",
+      "why": "no such file or folder",
+      "line": 55
+     },
+     {
+      "kind": "PATH",
+      "text": "pyproject.toml",
+      "why": "no such file or folder",
+      "line": 55
+     },
+     {
+      "kind": "PATH",
+      "text": "LICENSE",
+      "why": "no such file",
+      "line": 172
+     }
+    ]
+   },
+   {
+    "repo": "tpl_fastapi_service",
+    "claims": 23,
+    "flagged": [
+     {
+      "kind": "COMMAND",
+      "text": "pip install -r requirements.txt",
+      "why": "requirements.txt does not exist",
+      "line": 48
+     },
+     {
+      "kind": "COMMAND",
+      "text": "pip install fastapi uvicorn httpx",
+      "why": "neither declared nor imported by the code: httpx",
+      "line": 54
+     },
+     {
+      "kind": "COMMAND",
+      "text": "docker run -p 8000:8000 python:3.11-slim bash -c \"     pip install fastapi uvicorn",
+      "why": "cannot be parsed",
+      "line": 72
+     },
+     {
+      "kind": "PATH",
+      "text": "requirements.txt",
+      "why": "no such file or folder",
+      "line": 51
+     },
+     {
+      "kind": "TECH",
+      "text": "Docker",
+      "why": "nothing in the code imports, declares or contains docker",
+      "line": 67
+     },
+     {
+      "kind": "PATH",
+      "text": "settings.py",
+      "why": "no such file or folder",
+      "line": 114
+     },
+     {
+      "kind": "PATH",
+      "text": "LICENSE",
+      "why": "no such file",
+      "line": 148
+     }
+    ]
+   },
+   {
+    "repo": "tpl_python_package",
+    "claims": 16,
+    "flagged": [
+     {
+      "kind": "COMMAND",
+      "text": "pip install -e .",
+      "why": "there is no pyproject.toml or setup.py",
+      "line": 44
+     },
+     {
+      "kind": "COMMAND",
+      "text": "pip install -e .[dev]",
+      "why": "there is no pyproject.toml or setup.py",
+      "line": 158
+     },
+     {
+      "kind": "VERSION",
+      "text": "Python 3.8",
+      "why": "no version is declared in the repository",
+      "line": 55
+     },
+     {
+      "kind": "PATH",
+      "text": "setup.cfg",
+      "why": "no such file or folder",
+      "line": 164
+     },
+     {
+      "kind": "PATH",
+      "text": "pyproject.toml",
+      "why": "no such file or folder",
+      "line": 164
+     },
+     {
+      "kind": "PATH",
+      "text": "LICENSE",
+      "why": "no such file",
+      "line": 170
+     }
+    ]
+   },
+   {
+    "repo": "tpl_tcp_server_client",
+    "claims": 27,
+    "flagged": [
+     {
+      "kind": "VERSION",
+      "text": "Python\u202f3.9",
+      "why": "no version is declared in the repository",
+      "line": 48
+     },
+     {
+      "kind": "PATH",
+      "text": "LICENSE",
+      "why": "no such file",
+      "line": 245
+     }
+    ]
+   },
+   {
+    "repo": "b2_broadcast_crash",
+    "claims": 40,
+    "flagged": [
+     {
+      "kind": "COMMAND",
+      "text": "pip install -r requirements.txt   # file contains pytest, pytest\u2011asyncio, etc.",
+      "why": "requirements.txt does not exist",
+      "line": 77
+     },
+     {
+      "kind": "COMMAND",
+      "text": "python -m server --host 0.0.0.0 --port 5050",
+      "why": "server.py has no --host, --port option (has no options)",
+      "line": 95
+     },
+     {
+      "kind": "COMMAND",
+      "text": "pytest",
+      "why": "0 test file(s)",
+      "line": 178
+     },
+     {
+      "kind": "ENV",
+      "text": "CHAT_HOST",
+      "why": "the code never reads this variable",
+      "line": 139
+     },
+     {
+      "kind": "ENV",
+      "text": "CHAT_PORT",
+      "why": "the code never reads this variable",
+      "line": 139
+     },
+     {
+      "kind": "TECH",
+      "text": "pytest",
+      "why": "nothing in the code imports, declares or contains pytest",
+      "line": 174
+     },
+     {
+      "kind": "PATH",
+      "text": "tests/test_framing.py",
+      "why": "no such file or folder",
+      "line": 182
+     },
+     {
+      "kind": "PATH",
+      "text": "tests/test_protocol.py",
+      "why": "no such file or folder",
+      "line": 183
+     },
+     {
+      "kind": "PATH",
+      "text": "tests/test_room.py",
+      "why": "no such file or folder",
+      "line": 184
+     },
+     {
+      "kind": "PATH",
+      "text": "tests/test_server_client.py",
+      "why": "no such file or folder",
+      "line": 185
+     },
+     {
+      "kind": "PATH",
+      "text": "tests/test_<module>.py",
+      "why": "no such file or folder",
+      "line": 188
+     },
+     {
+      "kind": "COMMAND",
+      "text": "pytest -q",
+      "why": "0 test file(s)",
+      "line": 199
+     },
+     {
+      "kind": "PATH",
+      "text": "LICENSE",
+      "why": "no such file",
+      "line": 211
+     }
+    ]
+   },
+   {
+    "repo": "chatproto",
+    "claims": 17,
+    "flagged": [
+     {
+      "kind": "COMMAND",
+      "text": "pip install -e .",
+      "why": "there is no pyproject.toml or setup.py",
+      "line": 54
+     },
+     {
+      "kind": "PATH",
+      "text": "../variants/",
+      "why": "no such file or folder",
+      "line": 10
+     },
+     {
+      "kind": "PATH",
+      "text": "LICENSE",
+      "why": "no such file",
+      "line": 174
+     }
+    ]
+   }
+  ],
+  "labels": {
+   "true_flags": 33,
+   "false_flags": 5,
+   "missed_false_claims": 0,
+   "precision": 0.868,
+   "recall": 1.0
+  }
+ }
+}

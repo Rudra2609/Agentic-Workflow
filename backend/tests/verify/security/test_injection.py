@@ -118,6 +118,18 @@ def test_repository_entry_points_are_switched_on_when_real(capability: str, owne
             assert shown.count("<<<FILE") == 1 and shown.count("FILE>>>") == 1, name
             assert injected_lines(ws.read(name)), name                           # flagged in the coding trace
         return
+    if capability == "docs.generate":
+        # Member 9 (Sprint 9): documents are built from the code's facts, never from the repository's own prose;
+        # AI-directed lines are blanked before anything is read and listed in the trace. The whole agent against
+        # these files (no forbidden phrase in any document): tests/docgen/test_injection_repo.py.
+        from hmap.agents.docgen.agent import sanitize_files
+
+        files = {n: (INJ / "repo" / n).read_text() for n in ("server.py", "CONTRIBUTING.md", "README.md")}
+        clean, found = sanitize_files(files)
+        assert {f.split(":")[0] for f in found} == {"server.py", "CONTRIBUTING.md", "README.md"}, found
+        for name, text in clean.items():
+            assert not [w for w in REPO_FORBIDDEN if w in text.lower()], name
+        return
     pytest.fail(f"{capability} is real now: {owner} must run samples/verify/injection/repo through it here")
 
 

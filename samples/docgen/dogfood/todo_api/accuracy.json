@@ -1,0 +1,110 @@
+{
+ "grounded_pct": 100.0,
+ "checked": 85,
+ "grounded": 85,
+ "ungrounded": 0,
+ "unverified": 0,
+ "claims": [],
+ "removed": [],
+ "examples": [
+  {
+   "doc": "readme",
+   "line": 9,
+   "language": "bash",
+   "code": "pip install -e \".[dev]\"",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 10,
+   "language": "bash",
+   "code": "python app.py",
+   "action": "check",
+   "ok": null,
+   "why": "long-running (a server or network client): checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 57,
+   "language": "bash",
+   "code": "pytest",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.3 s)",
+   "output": ".                                                                        [100%]\n1 passed\n",
+   "backend": "local"
+  },
+  {
+   "doc": "report",
+   "line": 24,
+   "language": "bash",
+   "code": "pytest",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.3 s)",
+   "output": ".                                                                        [100%]\n1 passed\n",
+   "backend": "local"
+  },
+  {
+   "doc": "report",
+   "line": 30,
+   "language": "bash",
+   "code": "pip install -e \".[dev]\"",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 31,
+   "language": "bash",
+   "code": "python app.py",
+   "action": "check",
+   "ok": null,
+   "why": "long-running (a server or network client): checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  }
+ ],
+ "coverage_pct": 100.0,
+ "by_doc": {
+  "readme": {
+   "grounded": 21,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "api": {
+   "grounded": 21,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "architecture": {
+   "grounded": 12,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "summaries": {
+   "grounded": 18,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "report": {
+   "grounded": 13,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  }
+ }
+}

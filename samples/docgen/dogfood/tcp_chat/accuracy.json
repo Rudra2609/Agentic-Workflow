@@ -1,0 +1,126 @@
+{
+ "grounded_pct": 100.0,
+ "checked": 60,
+ "grounded": 60,
+ "ungrounded": 0,
+ "unverified": 0,
+ "claims": [],
+ "removed": [],
+ "examples": [
+  {
+   "doc": "readme",
+   "line": 7,
+   "language": "bash",
+   "code": "pip install -r requirements.txt",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 8,
+   "language": "bash",
+   "code": "python client.py --nick VALUE",
+   "action": "check",
+   "ok": null,
+   "why": "long-running (a server or network client): checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 9,
+   "language": "bash",
+   "code": "python server.py",
+   "action": "check",
+   "ok": null,
+   "why": "long-running (a server or network client): checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "readme",
+   "line": 45,
+   "language": "bash",
+   "code": "pytest",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.4 s)",
+   "output": "..                                                                       [100%]\n2 passed\n",
+   "backend": "local"
+  },
+  {
+   "doc": "report",
+   "line": 26,
+   "language": "bash",
+   "code": "pytest",
+   "action": "run",
+   "ok": true,
+   "why": "ran in the local sandbox (0.4 s)",
+   "output": "..                                                                       [100%]\n2 passed\n",
+   "backend": "local"
+  },
+  {
+   "doc": "report",
+   "line": 32,
+   "language": "bash",
+   "code": "pip install -r requirements.txt",
+   "action": "check",
+   "ok": null,
+   "why": "install / infrastructure command: checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 33,
+   "language": "bash",
+   "code": "python client.py --nick VALUE",
+   "action": "check",
+   "ok": null,
+   "why": "long-running (a server or network client): checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  },
+  {
+   "doc": "report",
+   "line": 34,
+   "language": "bash",
+   "code": "python server.py",
+   "action": "check",
+   "ok": null,
+   "why": "long-running (a server or network client): checked against the facts, not run",
+   "output": "",
+   "backend": ""
+  }
+ ],
+ "coverage_pct": 100.0,
+ "by_doc": {
+  "readme": {
+   "grounded": 19,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "architecture": {
+   "grounded": 7,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "summaries": {
+   "grounded": 20,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  },
+  "report": {
+   "grounded": 14,
+   "ungrounded": 0,
+   "unverified": 0,
+   "unchecked": 0
+  }
+ }
+}
