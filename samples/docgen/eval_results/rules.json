@@ -1,0 +1,76 @@
+{
+ "name": "rules",
+ "mode": "replay",
+ "seeded": {
+  "seen": {
+   "caught": 31,
+   "total": 31,
+   "by_type": {
+    "BEHAVIOUR": "0/3",
+    "COMMAND": "5/5",
+    "ENDPOINT": "4/4",
+    "ENV": "3/3",
+    "PATH": "3/3",
+    "PORT": "3/3",
+    "SYMBOL": "3/3",
+    "TECH": "8/8",
+    "VERSION": "2/2"
+   },
+   "misses": []
+  },
+  "unseen": {
+   "caught": 25,
+   "total": 25,
+   "by_type": {
+    "BEHAVIOUR": "0/2",
+    "COMMAND": "5/5",
+    "ENDPOINT": "2/2",
+    "ENV": "2/2",
+    "PATH": "2/2",
+    "PORT": "4/4",
+    "SYMBOL": "3/3",
+    "TECH": "6/6",
+    "VERSION": "1/1"
+   },
+   "misses": []
+  }
+ },
+ "false_alarms": {
+  "tcp_chat": {
+   "claims": 18,
+   "flagged": []
+  },
+  "todo_api": {
+   "claims": 23,
+   "flagged": []
+  },
+  "csv_report": {
+   "claims": 21,
+   "flagged": []
+  },
+  "tpl_cli": {
+   "claims": 4,
+   "flagged": []
+  },
+  "tpl_fastapi_service": {
+   "claims": 4,
+   "flagged": []
+  },
+  "tpl_python_package": {
+   "claims": 2,
+   "flagged": []
+  },
+  "tpl_tcp_server_client": {
+   "claims": 9,
+   "flagged": []
+  },
+  "b2_broadcast_crash": {
+   "claims": 6,
+   "flagged": []
+  },
+  "platform": {
+   "claims": 44,
+   "flagged": []
+  }
+ }
+}

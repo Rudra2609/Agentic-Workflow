@@ -3,6 +3,9 @@
 **When:** after Sprint 6 is accepted + 2 buffer days (rehearsal, bug-fix only — no new features). (Changed
 2026-10-14: Member 6 also finishes before the mid-evaluation; it was "after Sprint 5".)
 **What is evaluated:** Members 1–6 — each demonstrably contributes to *one* continuous run.
+> Since Sprint 9 (Member 9) the offline demo described here is `make demo-replay`; `make demo` runs live with a
+> pre-flight check. The record below is kept as it was at the mid-evaluation.
+
 **Readiness owner:** Member 6 (the last sprint before the mid-eval) owns the gate in §4: `make demo`,
 `scripts/demo_chaos.sh`, `samples/demo/`, the real-vs-stub table. Member 5 hands over a research step that runs
 offline.

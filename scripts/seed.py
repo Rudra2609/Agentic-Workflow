@@ -3,10 +3,11 @@
 upload the sample assignment and stop at the human approval gate, so the presenter approves the plan in the
 dashboard and the audience watches the tasks run.
 
-Usage: scripts/seed.sh [API base URL, default http://127.0.0.1:8000] [document, default samples/demo/...]
+Usage: scripts/seed.sh [API base URL, default http://127.0.0.1:8000] [document, default samples/demo/...] [--if-empty]
+``--if-empty`` (used by ``make demo``, Sprint 9 item 9.17): do nothing when the account already has a project, so
+every start after ``make reset-demo`` gets the same demo state and later starts keep what the presenter did.
 Account: HMAP_SEED_EMAIL / HMAP_SEED_PASSWORD (default demo@example.test / "hmap local walkthrough"; local demo only —
 sign in to the dashboard with the same account to see the project).
-(Full one-command demo packaging with reset is Member 9's Sprint 9 work.)
 """
 
 import mimetypes
@@ -20,8 +21,10 @@ import demo_sprint_1 as demo  # reuse its tiny HTTP helpers
 
 
 def main() -> None:
-    demo.API = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8000").rstrip("/") + "/api"
-    doc = Path(sys.argv[2]) if len(sys.argv) > 2 else demo.DOC
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if_empty = "--if-empty" in sys.argv[1:]
+    demo.API = (args[0] if args else "http://127.0.0.1:8000").rstrip("/") + "/api"
+    doc = Path(args[1]) if len(args) > 1 else demo.DOC
     try:
         demo.call("GET", "/health")
     except OSError:
@@ -32,6 +35,9 @@ def main() -> None:
         demo.call("POST", "/auth/login", {"email": email, "password": password})
     except urllib.error.HTTPError:
         demo.sign_up("Demo presenter", email, password)
+    if if_empty and demo.call("GET", "/projects"):
+        print("the account already has projects: nothing seeded")
+        return
     pid = demo.call("POST", "/projects", {"name": f"Demo: {doc.stem.replace('_', ' ')}"})["project_id"]  # type: ignore[index]
     ctype = mimetypes.guess_type(doc.name)[0] or "application/octet-stream"
     boundary = "hmapseedboundary"

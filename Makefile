@@ -3,7 +3,7 @@ BACKEND := backend
 UV := uv --directory $(BACKEND)
 COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo 'docker compose' || echo docker-compose)
 
-.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api demo stop security coding-venv sandbox-image
+.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api demo demo-replay reset-demo report stop security coding-venv sandbox-image
 
 help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-12s %s\n", $$1, $$2}'
@@ -75,8 +75,17 @@ agents: ## run every discovered agent in one process
 api: ## run the FastAPI app with reload
 	$(UV) run uvicorn hmap.api.app:create_app --factory --reload --port 8000
 
-demo: ## the whole platform on this laptop, offline (replay + cached research): http://127.0.0.1:3000 (Sprint 6)
-	@scripts/demo.sh
+demo: ## the whole platform on this laptop, live (cloud keys, then Ollama), pre-flight first: http://127.0.0.1:3000 (Sprint 9)
+	@DEMO_MODE=live scripts/demo.sh
+
+demo-replay: ## the same demo offline: recorded answers + saved pages, works with Ollama stopped and Wi-Fi off
+	@DEMO_MODE=replay scripts/demo.sh
+
+reset-demo: ## back to the demo state: empty database + no artifacts (asks first; the next make demo seeds again)
+	@scripts/reset_demo.sh
+
+report: ## final-report skeleton from every member's research / design / eval docs -> reports/final-report.md
+	@$(UV) run --frozen python -m hmap.agents.docgen.compile_report
 
 stop: ## stop everything `make demo` started
 	@scripts/stop.sh

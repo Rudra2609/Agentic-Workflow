@@ -7,19 +7,25 @@ each step to a specialised AI agent: document intelligence, planning, research, 
 documentation and final review. The agents talk over a message bus, and a live dashboard shows their progress. Local
 LLMs (Ollama, `qwen3.5:9b`) do the work. Everything runs on one laptop; nothing is deployed.
 
-**Status:** Sprints 1–8 are done (communication layer, document intelligence, planning, refinement + observability,
-research, verification + security, autonomous coding, automated testing); Sprints 1–6 are the code shown at the
-mid-evaluation. Documentation and final review are still stub agents until Sprints 9–10 replace them (table below).
+**Status:** Sprints 1–9 are done (communication layer, document intelligence, planning, refinement + observability,
+research, verification + security, autonomous coding, automated testing, technical documentation + the one-command
+demo); Sprints 1–6 are the code shown at the mid-evaluation. Final review is still a stub agent until Sprint 10
+replaces it (table below).
 
 ## Quick start
 
-The whole platform in one command, offline (recorded model answers, saved research pages; needs uv, Node and Docker /
-Colima):
+The whole platform in one command (needs uv, Node and Docker / Colima). A pre-flight checks the laptop first and
+prints the fix for anything missing:
 
 ```bash
-make demo                    # http://127.0.0.1:3000 — demo account in samples/demo/README.md; make stop to stop
+make demo                    # live: team cloud keys first, local Ollama as fallback — http://127.0.0.1:3000
+make demo-replay             # offline: recorded model answers + saved pages (works with Ollama stopped, Wi-Fi off)
+make stop                    # stop everything make demo started
+make reset-demo              # back to the demo state (empty database, no artifacts); the next make demo seeds again
 scripts/demo_chaos.sh        # failure injection: kill the agents mid-research, watch the retry (3 rounds)
 ```
+
+Demo account: `samples/demo/README.md`. Runbook and troubleshooting: [docs/members/9/platform/](docs/members/9/platform/README.md).
 
 Step by step:
 
@@ -41,7 +47,7 @@ cd frontend && npm install && npm run dev      # http://localhost:3000
 
 `make help` lists every command. Run `make precommit` before committing or handing off.
 
-## What is real vs stub (after Sprint 8)
+## What is real vs stub (after Sprint 9)
 
 | Capability / part | Status | Owner | Notes |
 |---|---|---|---|
@@ -54,7 +60,7 @@ cd frontend && npm install && npm run dev      # http://localhost:3000
 | Security layer (signed messages, policy table, audit log, limits, key rotation), injection suite | **real** | M6 | `scripts/security_check.sh` |
 | `code.implement` + `code.revise` | **real** | M7 | templates, locate → plan → edit → check → debug in a jailed runner; one project head; Coding tab with diff and "Request changes" |
 | `test.run` | **real** | M8 | static → build → unit → integration → security → run stages in a Docker sandbox (`make sandbox-image`; local jailed runner without Docker); failures with hints; tests from the criteria when there are none; failed tests → `code.revise` → re-test (≤ 2 rounds); Testing tab |
-| `docs.generate` | stub | M9 | Sprint 9 (also full demo packaging) |
+| `docs.generate` + `docs.update` | **real** | M9 | README, API, architecture (Mermaid), code summaries, report sections from the code's facts (or the verified research); every claim checked against the code, documented examples run in the sandbox, ungrounded sentences removed; docs refreshed after code changes; Docs tab. Also `make demo` / `demo-replay` / `reset-demo` / `report` |
 | `review.final` | stub | M10 | Sprint 10 |
 | Model routing / tiers | role → model map (cloud keys first, local `qwen3.5:9b` fallback) | M11 | Sprint 11 router |
 

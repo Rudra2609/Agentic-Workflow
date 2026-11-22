@@ -211,6 +211,12 @@ class Settings(BaseModel):
         default="auto", description="known-vulnerable pinned dependencies (OSV); offline = cached answers only")
     testing_runtime: str | None = Field(default=None, description="docker --runtime, e.g. runsc (gVisor)")
     testing_image_node: str = Field(default="hmap-sandbox-node:1", description="sandbox image for JS/TS projects")
+    # --- technical documentation (Sprint 9, Member 9) ---
+    docgen_summary_limit: int = Field(default=60, ge=0, le=1000, description="public symbols summarised per run")
+    docgen_max_rounds: int = Field(default=2, ge=0, le=5, description="grounding -> fix rounds before the final gate")
+    docgen_run_examples: bool = Field(default=True, description="run documented snippets in the testing sandbox")
+    docgen_auto_update: bool = Field(default=True, description="code.completed -> docs.update when docs exist")
+    demo_min_free_gb: float | None = Field(default=None, ge=0, description="make demo pre-flight free RAM floor")
     # --- security layer (Sprint 6, Member 6; hmap.core.policy) ---
     agent_secrets: list[SecretStr] = Field(default_factory=list, repr=False,
                                            description="HMAP_AGENT_SECRETS 'kid:secret,...' (newest first); empty = "
@@ -289,6 +295,8 @@ class Settings(BaseModel):
             "HMAP_TESTING_CONCURRENCY": "testing_concurrency", "HMAP_TESTING_MAX_ROUNDS": "testing_max_rounds",
             "HMAP_TESTING_MUTANTS": "testing_mutants", "HMAP_TESTING_DEP_AUDIT": "testing_dep_audit",
             "HMAP_TESTING_RUNTIME": "testing_runtime", "HMAP_TESTING_IMAGE_NODE": "testing_image_node",
+            "HMAP_DOCGEN_SUMMARY_LIMIT": "docgen_summary_limit", "HMAP_DOCGEN_MAX_ROUNDS": "docgen_max_rounds",
+            "HMAP_DEMO_MIN_FREE_GB": "demo_min_free_gb",
             "HMAP_CLOUD_BASE_URL": "cloud_base_url",
             "HMAP_CLOUD_API_KEY": "cloud_api_key", "HMAP_GROQ_BASE_URL": "groq_base_url",
             "HMAP_GEMINI_BASE_URL": "gemini_base_url", "HMAP_PUBLIC_URL": "public_url",
@@ -312,7 +320,9 @@ class Settings(BaseModel):
                            ("HMAP_CODING_KEEP_WORK", "coding_keep_work"),
                            ("HMAP_TESTING_AUTO_REVISE", "testing_auto_revise"),
                            ("HMAP_TESTING_GENERATE", "testing_generate"),
-                           ("HMAP_TESTING_MUTATION", "testing_mutation"), ("HMAP_TESTING_FUZZ", "testing_fuzz")):
+                           ("HMAP_TESTING_MUTATION", "testing_mutation"), ("HMAP_TESTING_FUZZ", "testing_fuzz"),
+                           ("HMAP_DOCGEN_RUN_EXAMPLES", "docgen_run_examples"),
+                           ("HMAP_DOCGEN_AUTO_UPDATE", "docgen_auto_update")):
             if (value := get(key)) is not None:
                 data[field] = value.strip().lower() in ("1", "true", "yes", "on")
         if (value := get("HMAP_AGENT_SECRETS")) is not None:

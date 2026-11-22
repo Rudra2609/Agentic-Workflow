@@ -3,6 +3,7 @@
 import type { FeatureManifest } from "@/lib/features";
 import feature_coding from "./coding";
 import feature_doc_intel from "./doc_intel";
+import feature_docgen from "./docgen";
 import feature_echo from "./echo";
 import feature_ops from "./ops";
 import feature_planning from "./planning";
@@ -14,6 +15,7 @@ import feature_verify from "./verify";
 export const FEATURE_MODULES: readonly FeatureManifest[] = [
   feature_coding,
   feature_doc_intel,
+  feature_docgen,
   feature_echo,
   feature_ops,
   feature_planning,
