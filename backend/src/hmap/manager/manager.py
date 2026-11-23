@@ -58,7 +58,7 @@ from hmap.core.contracts import (
 )
 from hmap.core.errors import ErrorCode, HmapError
 from hmap.core.ids import new_execution_id, new_project_id, new_task_id, new_uuid
-from hmap.core.plugins import Plugin, ProjectStopped
+from hmap.core.plugins import NoRecovery, Plugin, ProjectStopped, RecoveryStrategy
 from hmap.manager.assignment import IN_FLIGHT_EXECUTIONS, agent_load, assignment_order, choose_agent
 from hmap.manager.config import ManagerConfig
 from hmap.manager.executor import GraphExecutor, NaiveTopologicalExecutor
@@ -92,6 +92,9 @@ PROJECT_STATE_EVENT: dict[ProjectState, str] = {
     ProjectState.REVIEWING: "project.reviewing",
 }
 
+
+# A settled (or waiting-for-review) run that gets a new task works again (Sprint 10 recovery).
+REOPENABLE_STATES = frozenset({ProjectState.COMPLETED, ProjectState.FAILED, ProjectState.REVIEWING})
 
 # A project in one of these states has work in flight: a new run must wait (or the project be stopped first).
 ACTIVE_PROJECT_STATES = frozenset({ProjectState.INGESTING, ProjectState.PLANNING, ProjectState.AWAITING_APPROVAL,
@@ -173,6 +176,7 @@ class Manager:
         self.config = config or ManagerConfig()
         self.plugins = list(plugins)
         self.executor: GraphExecutor = resolve_strategy(self.plugins, "executor", NaiveTopologicalExecutor())
+        self.recovery: RecoveryStrategy = resolve_strategy(self.plugins, "recovery", NoRecovery())  # Sprint 10
         self.hooks = HookDispatcher(self.plugins)
         self._clock = clock
         self._rng = rng or random.Random()
@@ -431,6 +435,13 @@ class Manager:
                 self._ensure_not_stopped(current)      # Stop pressed in the meantime
             saved = await u.tx.insert_task(task)
             await u.emit(self._task_event(EventType.TASK_CREATED.value, saved))
+            if current is not None and current.state in REOPENABLE_STATES:
+                # Sprint 10: new work for a settled run (a revision after the final review) reopens it
+                runs = list(current.runs)
+                if runs and runs[-1].outcome is not None:
+                    runs[-1] = runs[-1].model_copy(update={"outcome": None, "finished_at": None})
+                await self._move_project(u, current, ProjectState.EXECUTING, runs=runs,
+                                         data={"reason": "new work for a settled run", "task_id": saved.task_id})
         await self._after_change([project_id])
         return saved.task_id
 
@@ -637,6 +648,16 @@ class Manager:
             await self._move(u, task, S.CANCELLED, data={"reason": reason, "agent_id": agent_id})
         await self._after_change([task.project_id])
         return True
+
+    async def resume_review(self, project_id: str) -> None:
+        """REVIEWING (waiting for a person, Sprint 10) -> EXECUTING, then settle again: the recovery slot reads the
+        person's decision. A project in another state is left alone."""
+        async with self._unit() as u:
+            project = await u.tx.get_project(project_id)
+            if project is None or project.state != ProjectState.REVIEWING:
+                return
+            await self._move_project(u, project, ProjectState.EXECUTING, data={"reason": "review decision"})
+        await self._after_change([project_id])
 
     async def stop_project(self, project_id: str, reason: str = "stopped by user") -> int:
         """The human's Stop button: cancel every unfinished task (agents get ``task.cancelled`` and stop
@@ -1109,6 +1130,25 @@ class Manager:
                         changed = True
             if not changed:  # a custom executor proposed nothing applicable
                 break
+        verdict: str | None = None
+        if not isinstance(self.recovery, NoRecovery):   # Sprint 10: ask the recovery slot before settling
+            project = await self.store.get_project(project_id)
+            if project is None or project.state != ProjectState.EXECUTING:
+                return
+            tasks = [t for t in await self.store.list_tasks(project_id=project_id)
+                     if t.run == project.current_run and not t.replaced]
+            proposed = self.executor.outcome(tasks)
+            if proposed is None:
+                return
+            try:
+                verdict = await self.recovery.on_settle(project_id, proposed.value, self)
+            except ProjectStopped:
+                return
+            except Exception:
+                log.exception("recovery strategy failed for %s; settling as proposed", project_id)
+                verdict = None
+            if verdict == "hold":
+                return
         async with self._unit() as u:
             project = await u.tx.get_project(project_id)
             if project is None or project.state not in (ProjectState.EXECUTING, ProjectState.INGESTING):
@@ -1118,6 +1158,13 @@ class Manager:
             outcome = self.executor.outcome(tasks)
             if project.state == ProjectState.INGESTING and outcome != ProjectState.FAILED:
                 return      # still understanding the request; only a failure settles it (the plan moves it on)
+            if outcome is not None and verdict == ProjectState.COMPLETED.value:
+                outcome = ProjectState.COMPLETED     # the final review passed (Sprint 10)
+            if outcome is not None and verdict == ProjectState.REVIEWING.value \
+                    and project.state == ProjectState.EXECUTING:
+                await self._move_project(u, project, ProjectState.REVIEWING,
+                                         data={"reason": "waiting for a person's review decision", "run": run})
+                return
             if outcome is not None:
                 counts: dict[str, int] = {}
                 for t in tasks:
@@ -1167,6 +1214,12 @@ class Manager:
         return bool(project.refine) if project is not None else False
 
     async def _assign_traced(self, task: TaskRecord, agent_id: str, traceparent: str) -> bool:
+        extra: dict[str, Any] = {}
+        if not isinstance(self.recovery, NoRecovery):  # Sprint 10: e.g. the task table for the review agent
+            try:
+                extra = dict(await self.recovery.assign_inputs(task.to_dict(), self) or {})
+            except Exception:
+                log.exception("recovery strategy assign_inputs failed for %s", task.task_id)
         now = self._now()
         async with self._unit() as u:
             t = await u.tx.get_task(task.task_id)
@@ -1187,7 +1240,8 @@ class Manager:
             assign = TaskAssign(
                 task_id=t.task_id, execution_id=execution_id, capability=t.capability, objective=t.objective,
                 acceptance_criteria=t.acceptance_criteria, context_refs=t.context_refs, project_id=t.project_id,
-                artifact_refs=[*t.artifact_refs, *refs], inputs={**t.inputs, "dependency_artifacts": upstream},
+                artifact_refs=[*t.artifact_refs, *refs],
+                inputs={**t.inputs, "dependency_artifacts": upstream, **extra},
                 dependencies=t.depends_on, priority=t.priority,
                 cloud_ok=project.cloud_ok if project is not None else True, refine=self._refine_flag(t, project))
             env = make_envelope(assign, sender=self.config.manager_id, receiver=agent_id,

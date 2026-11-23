@@ -1,0 +1,486 @@
+{
+  "task_id": "T-01M6BJ515GANMNGQKB988K75T9",
+  "research_report_ref": {
+    "artifact_id": "ART-01M6BJ51FJZN3634DG8VVKDVFT",
+    "artifact_type": "research-report",
+    "version": 1,
+    "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/ART-01M6BJ51FJZN3634DG8VVKDVFT/v1/b4aac62d246882eabb38e2d12b898671a82deb5636895e4255f8fa9532e9c0b6",
+    "sha256": "b4aac62d246882eabb38e2d12b898671a82deb5636895e4255f8fa9532e9c0b6",
+    "media_type": "application/json",
+    "size_bytes": 112181,
+    "created_by": "research-rezttcsx",
+    "created_at": "2026-11-01T12:43:04.562303Z",
+    "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+    "supersedes": null
+  },
+  "claim_verdicts": [
+    {
+      "claim_id": "C1",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E1"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C2",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E2"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C3",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E4"
+      ],
+      "contradicting": [],
+      "explanation": "[C3.a] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words; [C3.b] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C4",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E5"
+      ],
+      "contradicting": [],
+      "explanation": "[C4.a] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words; [C4.b] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C5",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E3"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C6",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E7"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C7",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E8"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C8",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E9"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C9",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E18"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C10",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E19"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C11",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E20"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C12",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E21"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C13",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E22"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C14",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E23"
+      ],
+      "contradicting": [],
+      "explanation": "[C14.a] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words; [C14.b] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C15",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E24"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C16",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E25"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C17",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E26"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C18",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E27"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C19",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E28"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C20",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E29"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C21",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E30"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C22",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E31"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C23",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E32"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C24",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E33"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C25",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E34"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C26",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E35"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C27",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E10"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C28",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E36",
+        "https://en.wikipedia.org/wiki/Web_server"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim and an independent source agrees \u2014 judge: the passages contain 100% of the claim's content words \u2014 agreeing sites: wikipedia.org"
+    },
+    {
+      "claim_id": "C29",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E37"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C30",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E38"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C31",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E11"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C32",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E40"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C33",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E41"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C34",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E42"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C35",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E12"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C36",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E13"
+      ],
+      "contradicting": [],
+      "explanation": "[C36.a] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words; [C36.b] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C37",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E14"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C38",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E43"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C39",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E44"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C40",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E45"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C41",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E47"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C42",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E15"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C43",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E16"
+      ],
+      "contradicting": [],
+      "explanation": "[C43.a] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words; [C43.b] verified: the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C44",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E17"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C45",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E48"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    },
+    {
+      "claim_id": "C46",
+      "verdict": "VERIFIED",
+      "confidence": 0.6,
+      "supporting": [
+        "E49"
+      ],
+      "contradicting": [],
+      "explanation": "the quotes support the claim \u2014 judge: the passages contain 100% of the claim's content words"
+    }
+  ],
+  "follow_up_questions": [],
+  "summary": {
+    "verified": 46,
+    "unsupported": 0,
+    "conflicting": 0,
+    "needs_more": 0
+  }
+}

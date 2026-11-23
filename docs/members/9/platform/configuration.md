@@ -72,16 +72,27 @@ Generated from the code (`Settings.from_env` in `backend/src/hmap/core/config.py
 | `HMAP_CODING_SANDBOX` | Literal | auto | auto = macOS sandbox-exec (no network, no project folder) when present |
 | `HMAP_CODING_WORK_DIR` | Path / None | (not set) | per-task workspaces; unset = <tmp>/hmap-coding. Never inside the project folder (.env lives there) |
 
-## technical documentation + laptop demo (Sprint 9, Member 9)
+## final review & recovery (Sprint 10, Member 10)
 
 | Variable | Type | Default | What it does |
 |---|---|---|---|
 | `HMAP_DEMO_MIN_FREE_GB` | float / None | (not set) | make demo pre-flight free RAM floor |
+| `HMAP_RETRY_DELAYS_S` | tuple[float, ...] / None | (not set) | Manager backoff per retry (HMAP_RETRY_DELAYS_S=5,30,120); unset = the default |
+| `HMAP_REVIEW_AUTO_RECOVER` | bool | True | create revision tasks when the review says REVISE |
+| `HMAP_REVIEW_BUDGET_CALLS` | int | 40 | judge model calls per review |
+| `HMAP_REVIEW_HOLD_ON_ESCALATE` | bool | True | ESCALATE waits for a person (REVIEWING) |
+| `HMAP_REVIEW_JUDGE_SAMPLES` | int | 3 | judge votes per item (orders alternate) |
+| `HMAP_REVIEW_MAX_ROUNDS` | int | 2 | review -> revise rounds before escalating |
+| `HMAP_REVIEW_MIN_CONFIDENCE` | float | 0.6 | attribution confidence to act |
+
+## technical documentation + laptop demo (Sprint 9, Member 9)
+
+| Variable | Type | Default | What it does |
+|---|---|---|---|
 | `HMAP_DOCGEN_AUTO_UPDATE` | bool | True | code.completed -> docs.update when docs exist |
 | `HMAP_DOCGEN_MAX_ROUNDS` | int | 2 | grounding -> fix rounds before the final gate |
 | `HMAP_DOCGEN_RUN_EXAMPLES` | bool | True | run documented snippets in the testing sandbox |
 | `HMAP_DOCGEN_SUMMARY_LIMIT` | int | 60 | public symbols summarised per run |
-| `HMAP_RETRY_DELAYS_S` | tuple[float, ...] / None | (not set) | Manager backoff per retry (HMAP_RETRY_DELAYS_S=5,30,120); unset = the default |
 
 ## runtime
 

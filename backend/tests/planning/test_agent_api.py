@@ -113,7 +113,9 @@ def client(tmp_path) -> Iterator[TestClient]:  # type: ignore[no-untyped-def]
         yield c
 
 
-def _poll(client: TestClient, url: str, pred: Any, timeout: float = 20.0) -> Any:
+def _poll(client: TestClient, url: str, pred: Any, timeout: float = 60.0) -> Any:
+    # 60 s: since Sprint 10 the final review is a real agent (it was a 0.2 s stub); the full pipeline of these tests
+    # runs ~20 s alone and longer under the whole suite
     deadline = time.time() + timeout
     body = None
     while time.time() < deadline:

@@ -217,6 +217,13 @@ class Settings(BaseModel):
     docgen_run_examples: bool = Field(default=True, description="run documented snippets in the testing sandbox")
     docgen_auto_update: bool = Field(default=True, description="code.completed -> docs.update when docs exist")
     demo_min_free_gb: float | None = Field(default=None, ge=0, description="make demo pre-flight free RAM floor")
+    # --- final review & recovery (Sprint 10, Member 10) ---
+    review_max_rounds: int = Field(default=2, ge=0, le=5, description="review -> revise rounds before escalating")
+    review_judge_samples: int = Field(default=3, ge=1, le=7, description="judge votes per item (orders alternate)")
+    review_budget_calls: int = Field(default=40, ge=0, le=1000, description="judge model calls per review")
+    review_auto_recover: bool = Field(default=True, description="create revision tasks when the review says REVISE")
+    review_min_confidence: float = Field(default=0.6, ge=0, le=1, description="attribution confidence to act")
+    review_hold_on_escalate: bool = Field(default=True, description="ESCALATE waits for a person (REVIEWING)")
     # --- security layer (Sprint 6, Member 6; hmap.core.policy) ---
     agent_secrets: list[SecretStr] = Field(default_factory=list, repr=False,
                                            description="HMAP_AGENT_SECRETS 'kid:secret,...' (newest first); empty = "
@@ -297,6 +304,8 @@ class Settings(BaseModel):
             "HMAP_TESTING_RUNTIME": "testing_runtime", "HMAP_TESTING_IMAGE_NODE": "testing_image_node",
             "HMAP_DOCGEN_SUMMARY_LIMIT": "docgen_summary_limit", "HMAP_DOCGEN_MAX_ROUNDS": "docgen_max_rounds",
             "HMAP_DEMO_MIN_FREE_GB": "demo_min_free_gb",
+            "HMAP_REVIEW_MAX_ROUNDS": "review_max_rounds", "HMAP_REVIEW_JUDGE_SAMPLES": "review_judge_samples",
+            "HMAP_REVIEW_BUDGET_CALLS": "review_budget_calls", "HMAP_REVIEW_MIN_CONFIDENCE": "review_min_confidence",
             "HMAP_CLOUD_BASE_URL": "cloud_base_url",
             "HMAP_CLOUD_API_KEY": "cloud_api_key", "HMAP_GROQ_BASE_URL": "groq_base_url",
             "HMAP_GEMINI_BASE_URL": "gemini_base_url", "HMAP_PUBLIC_URL": "public_url",
@@ -322,7 +331,9 @@ class Settings(BaseModel):
                            ("HMAP_TESTING_GENERATE", "testing_generate"),
                            ("HMAP_TESTING_MUTATION", "testing_mutation"), ("HMAP_TESTING_FUZZ", "testing_fuzz"),
                            ("HMAP_DOCGEN_RUN_EXAMPLES", "docgen_run_examples"),
-                           ("HMAP_DOCGEN_AUTO_UPDATE", "docgen_auto_update")):
+                           ("HMAP_DOCGEN_AUTO_UPDATE", "docgen_auto_update"),
+                           ("HMAP_REVIEW_AUTO_RECOVER", "review_auto_recover"),
+                           ("HMAP_REVIEW_HOLD_ON_ESCALATE", "review_hold_on_escalate")):
             if (value := get(key)) is not None:
                 data[field] = value.strip().lower() in ("1", "true", "yes", "on")
         if (value := get("HMAP_AGENT_SECRETS")) is not None:

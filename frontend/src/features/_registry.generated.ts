@@ -9,6 +9,7 @@ import feature_ops from "./ops";
 import feature_planning from "./planning";
 import feature_refine from "./refine";
 import feature_research from "./research";
+import feature_review from "./review";
 import feature_testing from "./testing";
 import feature_verify from "./verify";
 
@@ -21,6 +22,7 @@ export const FEATURE_MODULES: readonly FeatureManifest[] = [
   feature_planning,
   feature_refine,
   feature_research,
+  feature_review,
   feature_testing,
   feature_verify,
 ];

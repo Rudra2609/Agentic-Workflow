@@ -1,4 +1,12 @@
-# Final review & recovery prep (Member 10, prepared ahead of Sprint 10)
+# Final review & recovery samples (Member 10)
+
+**Sprint 10 status:** these files are now the inputs of the real agent's tests and eval
+(`backend/tests/review/`, `uv run python -m tests.review.eval.run_eval`): the calibration set, the seeded scenarios
+(run through `hmap.agents.review`, same 12/12), `e2e/essay/` (golden scenario 2), `e2e/final_*.json` (recorded
+golden runs), `contracts/` (real agent JSON for the contract suite), `eval_results/`. The prototype scripts below
+still run on their own.
+
+## The prototype (prepared ahead of Sprint 10)
 
 Two working pieces for Sprint 10, runnable today with only Python 3.11 (no Docker, no model, no project code):
 
@@ -60,8 +68,10 @@ with a reason. The check is not trivially passing: replacing attribution with "t
 scenarios, and removing the flaky re-run rule fails 1.
 
 ## Honest limits
-- The labels are a **draft written with the data**; Member 10 must confirm each one (and ideally a second person
-  labels them too, so κ between people can be reported) before calling them human labels.
+- The labels were written with the data and re-checked one by one against the evidence on 2026-11-01: no label
+  changed (C03's rationale reworded; the six borderline calls carry a `review_note`). That check was not
+  independent of the author, so Member 10 still signs them off and a second person should label them
+  (`calibration/labels_second.jsonl`, `{"id", "label"}` per line) before κ is called agreement with human labels.
 - The scenarios and the rules were written together, so 12/12 is an upper bound. In Sprint 10 the evidence comes
   from real agents (`TestReport`, `VerificationReport`, `DocBundle`).
 - The "world after each revision" is scripted; no agent really revises anything here. The Manager integration

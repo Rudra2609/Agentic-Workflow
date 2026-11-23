@@ -58,6 +58,43 @@ class ManagerHandle(Protocol):
 
     async def get_task(self, task_id: str) -> dict[str, Any]: ...
 
+    async def list_tasks(self, project_id: str) -> list[dict[str, Any]]:
+        """Every task of the project (all runs, replaced ones included), read-only (Sprint 10)."""
+
+    async def get_project(self, project_id: str) -> dict[str, Any]:
+        """The project record (state, current run, ``plan_task_map``, approvals), read-only (Sprint 10)."""
+
+    async def resume_review(self, project_id: str) -> None:
+        """A project waiting in REVIEWING (a person's decision) goes back to EXECUTING and is settled again
+        (Sprint 10: accept-with-notes after an escalation)."""
+
+
+class RecoveryStrategy(Protocol):
+    """The ``recovery`` strategy slot (Sprint 10). The Manager asks it twice:
+
+    - ``assign_inputs``: extra ``TaskAssign.inputs`` for a task about to be assigned (``{}`` for most tasks; the
+      review agent gets the project's task table, which agents cannot read themselves);
+    - ``on_settle``: the run's tasks are all settled and the executor proposes ``outcome`` (``COMPLETED`` /
+      ``FAILED``). Return ``None`` to settle as proposed, ``"hold"`` after creating new work (revisions: the project
+      keeps executing), ``"REVIEWING"`` to wait for a person, or ``"COMPLETED"`` when the final review passed (also
+      after failed steps were re-run successfully). Called outside any store transaction; it may call
+      ``create_task`` / ``replace_graph``. It must create the work before returning ``"hold"``, or the project would
+      be asked again on every change."""
+
+    async def assign_inputs(self, task: dict[str, Any], manager: ManagerHandle) -> dict[str, Any]: ...
+
+    async def on_settle(self, project_id: str, outcome: str, manager: ManagerHandle) -> str | None: ...
+
+
+class NoRecovery:
+    """Sprint 1 behaviour: no extra inputs, settle as the executor proposes."""
+
+    async def assign_inputs(self, task: dict[str, Any], manager: ManagerHandle) -> dict[str, Any]:
+        return {}
+
+    async def on_settle(self, project_id: str, outcome: str, manager: ManagerHandle) -> str | None:
+        return None
+
 
 HookFn = Callable[[DomainEvent, ManagerHandle], Awaitable[None]]
 

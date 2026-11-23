@@ -1,0 +1,74 @@
+{
+  "task_id": "T-01M6BJ50M8SNKP4MB838HPT744",
+  "readme_ref": {
+    "artifact_id": "drd-T-01M6BJ50M8SNKP4MB838HPT744",
+    "artifact_type": "doc-readme",
+    "version": 1,
+    "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/drd-T-01M6BJ50M8SNKP4MB838HPT744/v1/8da8e768810a3034b5fe41a5e164e0ead10f21c741d8000f87f8dc450a0d7f5a",
+    "sha256": "8da8e768810a3034b5fe41a5e164e0ead10f21c741d8000f87f8dc450a0d7f5a",
+    "media_type": "text/markdown",
+    "size_bytes": 1517,
+    "created_by": "docgen-zw0acar3",
+    "created_at": "2026-11-01T12:43:14.980336Z",
+    "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+    "supersedes": null
+  },
+  "api_docs_ref": {
+    "artifact_id": "dap-T-01M6BJ50M8SNKP4MB838HPT744",
+    "artifact_type": "doc-api",
+    "version": 1,
+    "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/dap-T-01M6BJ50M8SNKP4MB838HPT744/v1/a38f9476a6cf13a7c34a7cf99d1fbafedc5e3f49047595ac2c63d8a36d84a072",
+    "sha256": "a38f9476a6cf13a7c34a7cf99d1fbafedc5e3f49047595ac2c63d8a36d84a072",
+    "media_type": "text/markdown",
+    "size_bytes": 87,
+    "created_by": "docgen-zw0acar3",
+    "created_at": "2026-11-01T12:43:14.981355Z",
+    "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+    "supersedes": null
+  },
+  "architecture_ref": {
+    "artifact_id": "dar-T-01M6BJ50M8SNKP4MB838HPT744",
+    "artifact_type": "doc-architecture",
+    "version": 1,
+    "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/dar-T-01M6BJ50M8SNKP4MB838HPT744/v1/71ff4c6a327e5e9e9f305856dd289692967834b0acd5baf5e5df0b0952c2fa09",
+    "sha256": "71ff4c6a327e5e9e9f305856dd289692967834b0acd5baf5e5df0b0952c2fa09",
+    "media_type": "text/markdown",
+    "size_bytes": 1155,
+    "created_by": "docgen-zw0acar3",
+    "created_at": "2026-11-01T12:43:14.982446Z",
+    "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+    "supersedes": null
+  },
+  "summaries_ref": {
+    "artifact_id": "dsu-T-01M6BJ50M8SNKP4MB838HPT744",
+    "artifact_type": "doc-summaries",
+    "version": 1,
+    "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/dsu-T-01M6BJ50M8SNKP4MB838HPT744/v1/c3106a55caf4f8eff4d24f2b593d61b68228db401498059d3bda80b3934526dc",
+    "sha256": "c3106a55caf4f8eff4d24f2b593d61b68228db401498059d3bda80b3934526dc",
+    "media_type": "application/json",
+    "size_bytes": 11280,
+    "created_by": "docgen-zw0acar3",
+    "created_at": "2026-11-01T12:43:14.983523Z",
+    "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+    "supersedes": null
+  },
+  "report_sections_ref": {
+    "artifact_id": "drp-T-01M6BJ50M8SNKP4MB838HPT744",
+    "artifact_type": "doc-report",
+    "version": 1,
+    "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/drp-T-01M6BJ50M8SNKP4MB838HPT744/v1/76dd0a2a5fa659811df6de9dff34685e34c0f91a7ccb4913daf6aa2167341dbf",
+    "sha256": "76dd0a2a5fa659811df6de9dff34685e34c0f91a7ccb4913daf6aa2167341dbf",
+    "media_type": "text/markdown",
+    "size_bytes": 8472,
+    "created_by": "docgen-zw0acar3",
+    "created_at": "2026-11-01T12:43:14.984527Z",
+    "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+    "supersedes": null
+  },
+  "accuracy_report": {
+    "grounded_pct": 100.0,
+    "ungrounded_claims": [],
+    "examples_verified": 3,
+    "examples_failed": 0
+  }
+}

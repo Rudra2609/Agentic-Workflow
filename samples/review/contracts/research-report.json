@@ -1,0 +1,2166 @@
+{
+  "task_id": "T-01M6BJ515E3X1T2GP2JZ5VSRD3",
+  "questions": [
+    "Which concurrency model (threading, multiprocessing, or selectors) works best with Python 3.11 standard library for handling \u226510 simultaneous TCP clients?",
+    "How can unique nicknames be enforced efficiently without external libraries?",
+    "What is the simplest data structure for a rolling buffer of the last 50 messages using only the standard library?",
+    "How can we accurately measure message latency on a local network using only standard library tools?",
+    "Is it true that threading operates within a single process, so all threads share the same memory space and are limited by the Global Interpreter Lock (GIL)?",
+    "Is it true that multiprocessing avoids the GIL by using separate processes, but incurs higher overhead compared to threading?"
+  ],
+  "claims": [
+    {
+      "id": "C1",
+      "text": "If you want your application to make better use of the computational\nresources of multi-core machines, you are advised to use\nmultiprocessing or concurrent.futures.ProcessPoolExecutor",
+      "evidence_ids": [
+        "E1"
+      ]
+    },
+    {
+      "id": "C2",
+      "text": "However, threading is still an appropriate model if you want to run\nmultiple I/O-bound tasks simultaneously",
+      "evidence_ids": [
+        "E2"
+      ]
+    },
+    {
+      "id": "C3",
+      "text": "concurrent.futures.ThreadPoolExecutor offers a higher level interface\nto push tasks to a background thread without blocking execution of the\ncalling thread, while still being able to retrieve their results when needed",
+      "evidence_ids": [
+        "E4"
+      ]
+    },
+    {
+      "id": "C4",
+      "text": "In CPython, due to the Global Interpreter Lock, only one thread\ncan execute Python code at once (even though certain performance-oriented\nlibraries might overcome this limitation).\nIf you want your application to make better use of the computational\nresources of multi-core machines, you are\u2026",
+      "evidence_ids": [
+        "E5"
+      ]
+    },
+    {
+      "id": "C5",
+      "text": "Unlike the multiprocessing module, which uses separate processes to\nbypass the global interpreter lock (GIL), the threading module operates\nwithin a single process, meaning that all threads share the same memory space",
+      "evidence_ids": [
+        "E3"
+      ]
+    },
+    {
+      "id": "C6",
+      "text": "while GIL elimination enables ~4x throughput on multi-core edge devices, the saturation cliff persists on single-core devices due to context switching overhead",
+      "evidence_ids": [
+        "E7"
+      ]
+    },
+    {
+      "id": "C7",
+      "text": "Python's Global Interpreter Lock prevents execution on more than one CPU core at the same time, even when multiple threads are used",
+      "evidence_ids": [
+        "E8"
+      ]
+    },
+    {
+      "id": "C8",
+      "text": "The results highlight a trade-off",
+      "evidence_ids": [
+        "E9"
+      ]
+    },
+    {
+      "id": "C9",
+      "text": "However, because most of the standard library is cross-platform Python code, only a few modules must be altered or rewritten for variant implementations",
+      "evidence_ids": [
+        "E18"
+      ]
+    },
+    {
+      "id": "C10",
+      "text": "In the case of many standard version-1, -2, or -6 UUIDs using unique MAC addresses and/or timestamps, collisions can occur only as a result of deliberate construction or error, such as manufacturing problems, skewed clocks, or software bugs",
+      "evidence_ids": [
+        "E19"
+      ]
+    },
+    {
+      "id": "C11",
+      "text": "The library also includes built-in operations for arithmetic operations, string processing, and descriptive statistics such as mean, median, and standard deviation",
+      "evidence_ids": [
+        "E20"
+      ]
+    },
+    {
+      "id": "C12",
+      "text": "== Libraries ==\nPython's large standard library is commonly cited as one of its greatest strengths",
+      "evidence_ids": [
+        "E21"
+      ]
+    },
+    {
+      "id": "C13",
+      "text": "== Collisions ==\nA collision occurs when the same UUID is generated more than once and is assigned to different referents",
+      "evidence_ids": [
+        "E22"
+      ]
+    },
+    {
+      "id": "C14",
+      "text": "Use of this form of import, although supported within the language, is generally discouraged as it pollutes the namespace of the calling module and will cause already defined names to be overwritten in the case of name clashes",
+      "evidence_ids": [
+        "E23"
+      ]
+    },
+    {
+      "id": "C15",
+      "text": "Python uses dynamic typing and a combination of reference counting and a cycle-detecting garbage collector for memory management",
+      "evidence_ids": [
+        "E24"
+      ]
+    },
+    {
+      "id": "C16",
+      "text": "Depending on the application, this may be viewed as a desirable feature or as the potential for a collision",
+      "evidence_ids": [
+        "E25"
+      ]
+    },
+    {
+      "id": "C17",
+      "text": "If you decide to\ngo the delimited route, you\u2019ll be receiving in some arbitrary chunk size, (4096\nor 8192 is frequently a good match for network buffer sizes), and scanning what\nyou\u2019ve received for a delimiter",
+      "evidence_ids": [
+        "E26"
+      ]
+    },
+    {
+      "id": "C18",
+      "text": "Parameter types are somewhat higher-level than\nin the C interface: as with read() and write() operations on Python\nfiles, buffer allocation on receive operations is automatic, and buffer length\nis implicit on send operations",
+      "evidence_ids": [
+        "E27"
+      ]
+    },
+    {
+      "id": "C19",
+      "text": "The library also provides extensive tools for transforming, filtering and summarizing data",
+      "evidence_ids": [
+        "E28"
+      ]
+    },
+    {
+      "id": "C20",
+      "text": "The shutdown is an advisory to the socket at the other end",
+      "evidence_ids": [
+        "E29"
+      ]
+    },
+    {
+      "id": "C21",
+      "text": "The logical protocol is informed of the transport layer instance, and can use it to send messages back and to check for the peer's identity",
+      "evidence_ids": [
+        "E30"
+      ]
+    },
+    {
+      "id": "C22",
+      "text": "Following this change, messages are no longer protected by end-to-end encryption and are not exclusively accessible only to the communicating users",
+      "evidence_ids": [
+        "E31"
+      ]
+    },
+    {
+      "id": "C23",
+      "text": "Python takes the automatic shutdown a step further, and says that when a socket\nis garbage collected, it will automatically do a close if it\u2019s needed",
+      "evidence_ids": [
+        "E32"
+      ]
+    },
+    {
+      "id": "C24",
+      "text": "Capabilities\nCoverage.py can do a number of things:\n- By default it will measure line (statement) coverage.\n- It can also measure branch coverage.\n- It can tell you what tests ran which lines.\n- It can produce reports in a number of formats: text, HTML, XML, LCOV, and JSON.\n- For advanced uses,\u2026",
+      "evidence_ids": [
+        "E33"
+      ]
+    },
+    {
+      "id": "C25",
+      "text": "For tie-breaking, Python 3 uses the round to even method: round(1.5) and round(2.5) both produce 2",
+      "evidence_ids": [
+        "E34"
+      ]
+    },
+    {
+      "id": "C26",
+      "text": "The cofounders agreed to build a system that used standard browser capabilities and provided an abstraction layer for Web developers to create stateful Web applications that had a persistent duplex connection to a Web server by holding two Hypertext Transfer Protocol (HTTP) connections open and\u2026",
+      "evidence_ids": [
+        "E35"
+      ]
+    },
+    {
+      "id": "C27",
+      "text": "When UUIDs are generated faster than the system clock can advance, the lower bits of the timestamp and the clock sequence can be incremented to simulate greater precision and ensure uniqueness",
+      "evidence_ids": [
+        "E10"
+      ]
+    },
+    {
+      "id": "C28",
+      "text": "The client\nsends a request and then does a shutdown(1)",
+      "evidence_ids": [
+        "E36"
+      ]
+    },
+    {
+      "id": "C29",
+      "text": "The BuildBot continuous-integration system relies on Twisted for client/server communication",
+      "evidence_ids": [
+        "E37"
+      ]
+    },
+    {
+      "id": "C30",
+      "text": "For instance, TLS/SSL server and client certificates, email certificates, code signing certificates, and qualified certificates are all end-entity certificates",
+      "evidence_ids": [
+        "E38"
+      ]
+    },
+    {
+      "id": "C31",
+      "text": "the threading module operates\nwithin a single process, meaning that all threads share the same memory space",
+      "evidence_ids": [
+        "E11"
+      ]
+    },
+    {
+      "id": "C32",
+      "text": "Tcl has coroutines and an event loop\nThe Erlang virtual machine has what might be called green processes \u2013 they are like operating system processes (they do not share state like threads do) but are implemented within the Erlang Run Time System (erts)",
+      "evidence_ids": [
+        "E40"
+      ]
+    },
+    {
+      "id": "C33",
+      "text": "PEPs are intended to explain new processes in Python, provide naming conventions or document the processes in the language",
+      "evidence_ids": [
+        "E41"
+      ]
+    },
+    {
+      "id": "C34",
+      "text": "Introduction\u00b6\nThe threading module provides a way to run multiple threads (smaller\nunits of a process) concurrently within a single process",
+      "evidence_ids": [
+        "E42"
+      ]
+    },
+    {
+      "id": "C35",
+      "text": "However, the GIL limits the performance gains of threading when it comes to\nCPU-bound tasks, as only one thread can execute Python bytecode at a time",
+      "evidence_ids": [
+        "E12"
+      ]
+    },
+    {
+      "id": "C36",
+      "text": "Stackless Python does not remove CPython's global interpreter lock (GIL), nor does it use multiple threads and/or processes. So it allows only cooperative multitasking on a shared CPU and not parallelism",
+      "evidence_ids": [
+        "E13"
+      ]
+    },
+    {
+      "id": "C37",
+      "text": "Despite this, threads remain a useful tool for achieving concurrency in many\nscenarios",
+      "evidence_ids": [
+        "E14"
+      ]
+    },
+    {
+      "id": "C38",
+      "text": "To use multiple CPU cores, one would still need to build an interprocess communication system on top of Stackless Python processes",
+      "evidence_ids": [
+        "E43"
+      ]
+    },
+    {
+      "id": "C39",
+      "text": "Threads are particularly useful when tasks are\nI/O bound, such as file operations or making network requests,\nwhere much of the time is spent waiting for external resources",
+      "evidence_ids": [
+        "E44"
+      ]
+    },
+    {
+      "id": "C40",
+      "text": "Note\nIn the Python 2.x series, this module contained camelCase names\nfor some methods and functions",
+      "evidence_ids": [
+        "E45"
+      ]
+    },
+    {
+      "id": "C41",
+      "text": "CPython implementation detail: In CPython, due to the Global Interpreter Lock, only one thread\ncan execute Python code at once (even though certain performance-oriented\nlibraries might overcome this limitation)",
+      "evidence_ids": [
+        "E47"
+      ]
+    },
+    {
+      "id": "C42",
+      "text": "Do not try to kill\nthe thread - part of the reason that threads are more efficient than processes\nis that they avoid the overhead associated with the automatic recycling of\nresources",
+      "evidence_ids": [
+        "E15"
+      ]
+    },
+    {
+      "id": "C43",
+      "text": "Thus, they are an alternative to event-based asynchronous programming and also avoid the overhead of using separate threads for single-core programs (because no mode switching between user mode and kernel mode needs to be done, so CPU usage can be reduced)",
+      "evidence_ids": [
+        "E16"
+      ]
+    },
+    {
+      "id": "C44",
+      "text": "When calling this function, the returned value can be iterated over much like a list",
+      "evidence_ids": [
+        "E17"
+      ]
+    },
+    {
+      "id": "C45",
+      "text": "A 13-bit or 14-bit \"uniquifying\" clock sequence extends the timestamp in order to handle cases where the processor clock does not advance fast enough, or where there are multiple processors and UUID generators per node",
+      "evidence_ids": [
+        "E48"
+      ]
+    },
+    {
+      "id": "C46",
+      "text": "A typical use case for threading includes managing a pool of worker\nthreads that can process multiple tasks concurrently",
+      "evidence_ids": [
+        "E49"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "If you want your application to make better use of the computational\nresources of multi-core machines, you are advised to use\nmultiprocessing or concurrent.futures.ProcessPoolExecutor",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S1.1",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E2",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "However, threading is still an appropriate model if you want to run\nmultiple I/O-bound tasks simultaneously",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S1.1",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E3",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "Unlike the multiprocessing module, which uses separate processes to\nbypass the global interpreter lock (GIL), the threading module operates\nwithin a single process, meaning that all threads share the same memory space",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S1.2",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E4",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "concurrent.futures.ThreadPoolExecutor offers a higher level interface\nto push tasks to a background thread without blocking execution of the\ncalling thread, while still being able to retrieve their results when needed",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S1.1",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E5",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "In CPython, due to the Global Interpreter Lock, only one thread\ncan execute Python code at once (even though certain performance-oriented\nlibraries might overcome this limitation).\nIf you want your application to make better use of the computational\nresources of multi-core machines, you are advised to use\nmultiprocessing or concurrent.futures.ProcessPoolExecutor.\nHowever, threading is still an appropriate model if you want to run\nmultiple I/O-bound tasks simultaneously",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S1.1",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E6",
+      "url": "https://arxiv.org/abs/2601.10582v4",
+      "quote": "outperforming multiprocessing (which is limited by ~8x memory overhead on devices with 512 MB-2 GB RAM) and asyncio (which blocks during CPU bound phases)",
+      "content_sha256": "cfeedebb862c52cf63004f4b1928b4012c92f3314d0d9895281842451473d63c",
+      "retrieved_at": "2026-10-14T08:52:16.385098Z",
+      "sub_question": "S1.1",
+      "page_artifact": {
+        "artifact_id": "rp-cfeedebb862c52cf63004f4b1928b401",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-cfeedebb862c52cf63004f4b1928b401/v1/e1b59c69da7dd99de864fe057514bad54766606f4c13ba0ce3f1f94411c39fc7",
+        "sha256": "e1b59c69da7dd99de864fe057514bad54766606f4c13ba0ce3f1f94411c39fc7",
+        "media_type": "application/json",
+        "size_bytes": 1960,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.541778Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E7",
+      "url": "https://arxiv.org/abs/2601.10582v4",
+      "quote": "while GIL elimination enables ~4x throughput on multi-core edge devices, the saturation cliff persists on single-core devices due to context switching overhead",
+      "content_sha256": "cfeedebb862c52cf63004f4b1928b4012c92f3314d0d9895281842451473d63c",
+      "retrieved_at": "2026-10-14T08:52:16.385098Z",
+      "sub_question": "S1.2",
+      "page_artifact": {
+        "artifact_id": "rp-cfeedebb862c52cf63004f4b1928b401",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-cfeedebb862c52cf63004f4b1928b401/v1/e1b59c69da7dd99de864fe057514bad54766606f4c13ba0ce3f1f94411c39fc7",
+        "sha256": "e1b59c69da7dd99de864fe057514bad54766606f4c13ba0ce3f1f94411c39fc7",
+        "media_type": "application/json",
+        "size_bytes": 1960,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.541778Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E8",
+      "url": "https://arxiv.org/abs/2603.04782v1",
+      "quote": "Python's Global Interpreter Lock prevents execution on more than one CPU core at the same time, even when multiple threads are used",
+      "content_sha256": "a8fe05a9daa19882cca612372e0f5f110147e36b850960123dacbfcc233b8de0",
+      "retrieved_at": "2026-10-14T09:12:40.593732Z",
+      "sub_question": "S1.2",
+      "page_artifact": {
+        "artifact_id": "rp-a8fe05a9daa19882cca612372e0f5f11",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a8fe05a9daa19882cca612372e0f5f11/v1/a8377107db495b81e86dfcc1b423e7057d0d4a6281405bf61983579a56592a2a",
+        "sha256": "a8377107db495b81e86dfcc1b423e7057d0d4a6281405bf61983579a56592a2a",
+        "media_type": "application/json",
+        "size_bytes": 2525,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.545136Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E9",
+      "url": "https://arxiv.org/abs/2603.04782v1",
+      "quote": "The results highlight a trade-off",
+      "content_sha256": "a8fe05a9daa19882cca612372e0f5f110147e36b850960123dacbfcc233b8de0",
+      "retrieved_at": "2026-10-14T09:12:40.593732Z",
+      "sub_question": "S1.2",
+      "page_artifact": {
+        "artifact_id": "rp-a8fe05a9daa19882cca612372e0f5f11",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a8fe05a9daa19882cca612372e0f5f11/v1/a8377107db495b81e86dfcc1b423e7057d0d4a6281405bf61983579a56592a2a",
+        "sha256": "a8377107db495b81e86dfcc1b423e7057d0d4a6281405bf61983579a56592a2a",
+        "media_type": "application/json",
+        "size_bytes": 2525,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.545136Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E10",
+      "url": "https://en.wikipedia.org/wiki/Universally_unique_identifier",
+      "quote": "When UUIDs are generated faster than the system clock can advance, the lower bits of the timestamp and the clock sequence can be incremented to simulate greater precision and ensure uniqueness",
+      "content_sha256": "408c9814762e630cd174743c08e61443e553af70bb01bc2e9756e2dd4dba2b2b",
+      "retrieved_at": "2026-10-14T08:56:06.618423Z",
+      "sub_question": "S4.2",
+      "page_artifact": {
+        "artifact_id": "rp-408c9814762e630cd174743c08e61443",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-408c9814762e630cd174743c08e61443/v1/83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "sha256": "83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "media_type": "application/json",
+        "size_bytes": 31197,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.551338Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E11",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "the threading module operates\nwithin a single process, meaning that all threads share the same memory space",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S5.1",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E12",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "However, the GIL limits the performance gains of threading when it comes to\nCPU-bound tasks, as only one thread can execute Python bytecode at a time",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S5.2",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E13",
+      "url": "https://en.wikipedia.org/wiki/Stackless_Python",
+      "quote": "Stackless Python does not remove CPython's global interpreter lock (GIL), nor does it use multiple threads and/or processes. So it allows only cooperative multitasking on a shared CPU and not parallelism",
+      "content_sha256": "b340a705f0cb3490d95e0dd2daeb194ff39133d89e0583ba21076edfb8a3df61",
+      "retrieved_at": "2026-10-14T09:12:38.859754Z",
+      "sub_question": "S5.2",
+      "page_artifact": {
+        "artifact_id": "rp-b340a705f0cb3490d95e0dd2daeb194f",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-b340a705f0cb3490d95e0dd2daeb194f/v1/7941ce3699ee09468ee3ac7bba64f3d8220e4cd6958cef62e03097a8ea9f2d40",
+        "sha256": "7941ce3699ee09468ee3ac7bba64f3d8220e4cd6958cef62e03097a8ea9f2d40",
+        "media_type": "application/json",
+        "size_bytes": 4032,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.544088Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E14",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "Despite this, threads remain a useful tool for achieving concurrency in many\nscenarios",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S5.3",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E15",
+      "url": "https://docs.python.org/3.15/howto/sockets.html",
+      "quote": "Do not try to kill\nthe thread - part of the reason that threads are more efficient than processes\nis that they avoid the overhead associated with the automatic recycling of\nresources",
+      "content_sha256": "a6a59b13fcc2168d68b113901f52e2dce1ba6bd34a7579f419b92b65879e6790",
+      "retrieved_at": "2026-10-14T08:52:34.033037Z",
+      "sub_question": "S6.2",
+      "page_artifact": {
+        "artifact_id": "rp-a6a59b13fcc2168d68b113901f52e2dc",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a6a59b13fcc2168d68b113901f52e2dc/v1/265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "sha256": "265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "media_type": "application/json",
+        "size_bytes": 18368,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.557033Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E16",
+      "url": "https://en.wikipedia.org/wiki/Stackless_Python",
+      "quote": "Thus, they are an alternative to event-based asynchronous programming and also avoid the overhead of using separate threads for single-core programs (because no mode switching between user mode and kernel mode needs to be done, so CPU usage can be reduced)",
+      "content_sha256": "b340a705f0cb3490d95e0dd2daeb194ff39133d89e0583ba21076edfb8a3df61",
+      "retrieved_at": "2026-10-14T09:12:38.859754Z",
+      "sub_question": "S6.2",
+      "page_artifact": {
+        "artifact_id": "rp-b340a705f0cb3490d95e0dd2daeb194f",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-b340a705f0cb3490d95e0dd2daeb194f/v1/7941ce3699ee09468ee3ac7bba64f3d8220e4cd6958cef62e03097a8ea9f2d40",
+        "sha256": "7941ce3699ee09468ee3ac7bba64f3d8220e4cd6958cef62e03097a8ea9f2d40",
+        "media_type": "application/json",
+        "size_bytes": 4032,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.544088Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E17",
+      "url": "https://en.wikipedia.org/wiki/Python_syntax_and_semantics",
+      "quote": "When calling this function, the returned value can be iterated over much like a list",
+      "content_sha256": "7c89ef880d36987a19654cc28a2860508b24546ec1dbb9e9b369e953960d9c26",
+      "retrieved_at": "2026-10-14T09:07:37.104761Z",
+      "sub_question": "S6.3",
+      "page_artifact": {
+        "artifact_id": "rp-7c89ef880d36987a19654cc28a286050",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-7c89ef880d36987a19654cc28a286050/v1/a431832cb154433e281c5829358b338705414c3595f23753380628df5fad6378",
+        "sha256": "a431832cb154433e281c5829358b338705414c3595f23753380628df5fad6378",
+        "media_type": "application/json",
+        "size_bytes": 36723,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.548769Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E18",
+      "url": "https://en.wikipedia.org/wiki/Python_%28programming_language%29",
+      "quote": "However, because most of the standard library is cross-platform Python code, only a few modules must be altered or rewritten for variant implementations",
+      "content_sha256": "5aa5b3ebaa9be6fce1559f518dda1a59cd4789c2a9bdad5641a2002f85029486",
+      "retrieved_at": "2026-10-14T09:00:23.762272Z",
+      "sub_question": "S2.1",
+      "page_artifact": {
+        "artifact_id": "rp-5aa5b3ebaa9be6fce1559f518dda1a59",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-5aa5b3ebaa9be6fce1559f518dda1a59/v1/8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "sha256": "8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "media_type": "application/json",
+        "size_bytes": 41257,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.555830Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E19",
+      "url": "https://en.wikipedia.org/wiki/Universally_unique_identifier",
+      "quote": "In the case of many standard version-1, -2, or -6 UUIDs using unique MAC addresses and/or timestamps, collisions can occur only as a result of deliberate construction or error, such as manufacturing problems, skewed clocks, or software bugs",
+      "content_sha256": "408c9814762e630cd174743c08e61443e553af70bb01bc2e9756e2dd4dba2b2b",
+      "retrieved_at": "2026-10-14T08:56:06.618423Z",
+      "sub_question": "S2.1",
+      "page_artifact": {
+        "artifact_id": "rp-408c9814762e630cd174743c08e61443",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-408c9814762e630cd174743c08e61443/v1/83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "sha256": "83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "media_type": "application/json",
+        "size_bytes": 31197,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.551338Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E20",
+      "url": "https://en.wikipedia.org/wiki/Pandas_%28software%29",
+      "quote": "The library also includes built-in operations for arithmetic operations, string processing, and descriptive statistics such as mean, median, and standard deviation",
+      "content_sha256": "7984807719ac1637a1d0b2594271492896faf4f6aaf139aea22f2eb9c4d33cd4",
+      "retrieved_at": "2026-10-14T08:56:01.354109Z",
+      "sub_question": "S2.1",
+      "page_artifact": {
+        "artifact_id": "rp-7984807719ac1637a1d0b25942714928",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-7984807719ac1637a1d0b25942714928/v1/892a1865fe3a9ffee3a9514b95121d4ae3f48dabee89c711920dd760117fee8a",
+        "sha256": "892a1865fe3a9ffee3a9514b95121d4ae3f48dabee89c711920dd760117fee8a",
+        "media_type": "application/json",
+        "size_bytes": 12724,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.547632Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E21",
+      "url": "https://en.wikipedia.org/wiki/Python_%28programming_language%29",
+      "quote": "== Libraries ==\nPython's large standard library is commonly cited as one of its greatest strengths",
+      "content_sha256": "5aa5b3ebaa9be6fce1559f518dda1a59cd4789c2a9bdad5641a2002f85029486",
+      "retrieved_at": "2026-10-14T09:00:23.762272Z",
+      "sub_question": "S2.1",
+      "page_artifact": {
+        "artifact_id": "rp-5aa5b3ebaa9be6fce1559f518dda1a59",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-5aa5b3ebaa9be6fce1559f518dda1a59/v1/8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "sha256": "8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "media_type": "application/json",
+        "size_bytes": 41257,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.555830Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E22",
+      "url": "https://en.wikipedia.org/wiki/Universally_unique_identifier",
+      "quote": "== Collisions ==\nA collision occurs when the same UUID is generated more than once and is assigned to different referents",
+      "content_sha256": "408c9814762e630cd174743c08e61443e553af70bb01bc2e9756e2dd4dba2b2b",
+      "retrieved_at": "2026-10-14T08:56:06.618423Z",
+      "sub_question": "S2.2",
+      "page_artifact": {
+        "artifact_id": "rp-408c9814762e630cd174743c08e61443",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-408c9814762e630cd174743c08e61443/v1/83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "sha256": "83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "media_type": "application/json",
+        "size_bytes": 31197,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.551338Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E23",
+      "url": "https://en.wikipedia.org/wiki/Python_syntax_and_semantics",
+      "quote": "Use of this form of import, although supported within the language, is generally discouraged as it pollutes the namespace of the calling module and will cause already defined names to be overwritten in the case of name clashes",
+      "content_sha256": "7c89ef880d36987a19654cc28a2860508b24546ec1dbb9e9b369e953960d9c26",
+      "retrieved_at": "2026-10-14T09:07:37.104761Z",
+      "sub_question": "S2.2",
+      "page_artifact": {
+        "artifact_id": "rp-7c89ef880d36987a19654cc28a286050",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-7c89ef880d36987a19654cc28a286050/v1/a431832cb154433e281c5829358b338705414c3595f23753380628df5fad6378",
+        "sha256": "a431832cb154433e281c5829358b338705414c3595f23753380628df5fad6378",
+        "media_type": "application/json",
+        "size_bytes": 36723,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.548769Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E24",
+      "url": "https://en.wikipedia.org/wiki/Python_%28programming_language%29",
+      "quote": "Python uses dynamic typing and a combination of reference counting and a cycle-detecting garbage collector for memory management",
+      "content_sha256": "5aa5b3ebaa9be6fce1559f518dda1a59cd4789c2a9bdad5641a2002f85029486",
+      "retrieved_at": "2026-10-14T09:00:23.762272Z",
+      "sub_question": "S2.2",
+      "page_artifact": {
+        "artifact_id": "rp-5aa5b3ebaa9be6fce1559f518dda1a59",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-5aa5b3ebaa9be6fce1559f518dda1a59/v1/8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "sha256": "8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "media_type": "application/json",
+        "size_bytes": 41257,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.555830Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E25",
+      "url": "https://en.wikipedia.org/wiki/Universally_unique_identifier",
+      "quote": "Depending on the application, this may be viewed as a desirable feature or as the potential for a collision",
+      "content_sha256": "408c9814762e630cd174743c08e61443e553af70bb01bc2e9756e2dd4dba2b2b",
+      "retrieved_at": "2026-10-14T08:56:06.618423Z",
+      "sub_question": "S2.2",
+      "page_artifact": {
+        "artifact_id": "rp-408c9814762e630cd174743c08e61443",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-408c9814762e630cd174743c08e61443/v1/83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "sha256": "83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "media_type": "application/json",
+        "size_bytes": 31197,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.551338Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E26",
+      "url": "https://docs.python.org/3.15/howto/sockets.html",
+      "quote": "If you decide to\ngo the delimited route, you\u2019ll be receiving in some arbitrary chunk size, (4096\nor 8192 is frequently a good match for network buffer sizes), and scanning what\nyou\u2019ve received for a delimiter",
+      "content_sha256": "a6a59b13fcc2168d68b113901f52e2dce1ba6bd34a7579f419b92b65879e6790",
+      "retrieved_at": "2026-10-14T08:52:34.033037Z",
+      "sub_question": "S3.1",
+      "page_artifact": {
+        "artifact_id": "rp-a6a59b13fcc2168d68b113901f52e2dc",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a6a59b13fcc2168d68b113901f52e2dc/v1/265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "sha256": "265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "media_type": "application/json",
+        "size_bytes": 18368,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.557033Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E27",
+      "url": "https://docs.python.org/3/library/socket.html",
+      "quote": "Parameter types are somewhat higher-level than\nin the C interface: as with read() and write() operations on Python\nfiles, buffer allocation on receive operations is automatic, and buffer length\nis implicit on send operations",
+      "content_sha256": "b69bc9b9156a8a9e5f68b51347821123f50969a0e65eaed4fc4747e8e5f42a05",
+      "retrieved_at": "2026-10-14T08:52:37.914243Z",
+      "sub_question": "S3.1",
+      "page_artifact": {
+        "artifact_id": "rp-b69bc9b9156a8a9e5f68b51347821123",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-b69bc9b9156a8a9e5f68b51347821123/v1/cb03e840ac1bf1b583cd5b63a0ff26b2d7a13b2fa3b02e2c72195456cc5bcea2",
+        "sha256": "cb03e840ac1bf1b583cd5b63a0ff26b2d7a13b2fa3b02e2c72195456cc5bcea2",
+        "media_type": "application/json",
+        "size_bytes": 74849,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.550051Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E28",
+      "url": "https://en.wikipedia.org/wiki/Pandas_%28software%29",
+      "quote": "The library also provides extensive tools for transforming, filtering and summarizing data",
+      "content_sha256": "7984807719ac1637a1d0b2594271492896faf4f6aaf139aea22f2eb9c4d33cd4",
+      "retrieved_at": "2026-10-14T08:56:01.354109Z",
+      "sub_question": "S3.1",
+      "page_artifact": {
+        "artifact_id": "rp-7984807719ac1637a1d0b25942714928",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-7984807719ac1637a1d0b25942714928/v1/892a1865fe3a9ffee3a9514b95121d4ae3f48dabee89c711920dd760117fee8a",
+        "sha256": "892a1865fe3a9ffee3a9514b95121d4ae3f48dabee89c711920dd760117fee8a",
+        "media_type": "application/json",
+        "size_bytes": 12724,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.547632Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E29",
+      "url": "https://docs.python.org/3.15/howto/sockets.html",
+      "quote": "The shutdown is an advisory to the socket at the other end",
+      "content_sha256": "a6a59b13fcc2168d68b113901f52e2dce1ba6bd34a7579f419b92b65879e6790",
+      "retrieved_at": "2026-10-14T08:52:34.033037Z",
+      "sub_question": "S3.2",
+      "page_artifact": {
+        "artifact_id": "rp-a6a59b13fcc2168d68b113901f52e2dc",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a6a59b13fcc2168d68b113901f52e2dc/v1/265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "sha256": "265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "media_type": "application/json",
+        "size_bytes": 18368,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.557033Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E30",
+      "url": "https://en.wikipedia.org/wiki/Twisted_%28software%29",
+      "quote": "The logical protocol is informed of the transport layer instance, and can use it to send messages back and to check for the peer's identity",
+      "content_sha256": "4cf1d652d41ad08aaba5e1e6beeb0715bdfc09e13f2f930ad51ef5573a5d9f6f",
+      "retrieved_at": "2026-10-14T09:12:46.619758Z",
+      "sub_question": "S3.2",
+      "page_artifact": {
+        "artifact_id": "rp-4cf1d652d41ad08aaba5e1e6beeb0715",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-4cf1d652d41ad08aaba5e1e6beeb0715/v1/f6b2de73ee014cd1b30b6ff1a59a65f98c6fd508de287ee43ad8ba7ccc737b81",
+        "sha256": "f6b2de73ee014cd1b30b6ff1a59a65f98c6fd508de287ee43ad8ba7ccc737b81",
+        "media_type": "application/json",
+        "size_bytes": 7753,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.558206Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E31",
+      "url": "https://en.wikipedia.org/wiki/Instagram",
+      "quote": "Following this change, messages are no longer protected by end-to-end encryption and are not exclusively accessible only to the communicating users",
+      "content_sha256": "c2a5cf617904fcb6a0baadb1573190f71af08d3c09f5aaec91033d4f118e4c4b",
+      "retrieved_at": "2026-10-14T09:12:57.334310Z",
+      "sub_question": "S3.2",
+      "page_artifact": {
+        "artifact_id": "rp-c2a5cf617904fcb6a0baadb1573190f7",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-c2a5cf617904fcb6a0baadb1573190f7/v1/84452bb9bbe9a7f4751d443f57a45c0c839f9d317986357a9c1af1269eee4a1b",
+        "sha256": "84452bb9bbe9a7f4751d443f57a45c0c839f9d317986357a9c1af1269eee4a1b",
+        "media_type": "application/json",
+        "size_bytes": 85747,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.553799Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E32",
+      "url": "https://docs.python.org/3.15/howto/sockets.html",
+      "quote": "Python takes the automatic shutdown a step further, and says that when a socket\nis garbage collected, it will automatically do a close if it\u2019s needed",
+      "content_sha256": "a6a59b13fcc2168d68b113901f52e2dce1ba6bd34a7579f419b92b65879e6790",
+      "retrieved_at": "2026-10-14T08:52:34.033037Z",
+      "sub_question": "S4.1",
+      "page_artifact": {
+        "artifact_id": "rp-a6a59b13fcc2168d68b113901f52e2dc",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a6a59b13fcc2168d68b113901f52e2dc/v1/265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "sha256": "265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "media_type": "application/json",
+        "size_bytes": 18368,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.557033Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E33",
+      "url": "https://coverage.readthedocs.io/",
+      "quote": "Capabilities\nCoverage.py can do a number of things:\n- By default it will measure line (statement) coverage.\n- It can also measure branch coverage.\n- It can tell you what tests ran which lines.\n- It can produce reports in a number of formats: text, HTML, XML, LCOV, and JSON.\n- For advanced uses, there\u2019s an API, and the result data is available in a SQLite database",
+      "content_sha256": "4fc74eadf181ccda1da5e441d746bd88f33f7229d453bcf41fe49c45571de0fc",
+      "retrieved_at": "2026-10-14T08:58:13.822062Z",
+      "sub_question": "S4.1",
+      "page_artifact": {
+        "artifact_id": "rp-4fc74eadf181ccda1da5e441d746bd88",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-4fc74eadf181ccda1da5e441d746bd88/v1/459a84055b2fe63fc90a6a2439c594e193b9d8f63918ce095315166999429682",
+        "sha256": "459a84055b2fe63fc90a6a2439c594e193b9d8f63918ce095315166999429682",
+        "media_type": "application/json",
+        "size_bytes": 4365,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.559407Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E34",
+      "url": "https://en.wikipedia.org/wiki/Python_%28programming_language%29",
+      "quote": "For tie-breaking, Python 3 uses the round to even method: round(1.5) and round(2.5) both produce 2",
+      "content_sha256": "5aa5b3ebaa9be6fce1559f518dda1a59cd4789c2a9bdad5641a2002f85029486",
+      "retrieved_at": "2026-10-14T09:00:23.762272Z",
+      "sub_question": "S4.1",
+      "page_artifact": {
+        "artifact_id": "rp-5aa5b3ebaa9be6fce1559f518dda1a59",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-5aa5b3ebaa9be6fce1559f518dda1a59/v1/8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "sha256": "8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "media_type": "application/json",
+        "size_bytes": 41257,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.555830Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E35",
+      "url": "https://en.wikipedia.org/wiki/JSON",
+      "quote": "The cofounders agreed to build a system that used standard browser capabilities and provided an abstraction layer for Web developers to create stateful Web applications that had a persistent duplex connection to a Web server by holding two Hypertext Transfer Protocol (HTTP) connections open and recycling them before standard browser time-outs if no further data were exchanged",
+      "content_sha256": "f4ca1856947ded8e91b837cba3ac991ddcf046e586feff9aab67d9d724e09325",
+      "retrieved_at": "2026-10-14T09:05:55.343957Z",
+      "sub_question": "S4.1",
+      "page_artifact": {
+        "artifact_id": "rp-f4ca1856947ded8e91b837cba3ac991d",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-f4ca1856947ded8e91b837cba3ac991d/v1/4d207d9ca4f1b044e7cad800ae0a0c5755fab0d0ec7620a7abb774c8101bb340",
+        "sha256": "4d207d9ca4f1b044e7cad800ae0a0c5755fab0d0ec7620a7abb774c8101bb340",
+        "media_type": "application/json",
+        "size_bytes": 22010,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.552539Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E36",
+      "url": "https://docs.python.org/3.15/howto/sockets.html",
+      "quote": "The client\nsends a request and then does a shutdown(1)",
+      "content_sha256": "a6a59b13fcc2168d68b113901f52e2dce1ba6bd34a7579f419b92b65879e6790",
+      "retrieved_at": "2026-10-14T08:52:34.033037Z",
+      "sub_question": "S4.2",
+      "page_artifact": {
+        "artifact_id": "rp-a6a59b13fcc2168d68b113901f52e2dc",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a6a59b13fcc2168d68b113901f52e2dc/v1/265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "sha256": "265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "media_type": "application/json",
+        "size_bytes": 18368,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.557033Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E37",
+      "url": "https://en.wikipedia.org/wiki/Twisted_%28software%29",
+      "quote": "The BuildBot continuous-integration system relies on Twisted for client/server communication",
+      "content_sha256": "4cf1d652d41ad08aaba5e1e6beeb0715bdfc09e13f2f930ad51ef5573a5d9f6f",
+      "retrieved_at": "2026-10-14T09:12:46.619758Z",
+      "sub_question": "S4.2",
+      "page_artifact": {
+        "artifact_id": "rp-4cf1d652d41ad08aaba5e1e6beeb0715",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-4cf1d652d41ad08aaba5e1e6beeb0715/v1/f6b2de73ee014cd1b30b6ff1a59a65f98c6fd508de287ee43ad8ba7ccc737b81",
+        "sha256": "f6b2de73ee014cd1b30b6ff1a59a65f98c6fd508de287ee43ad8ba7ccc737b81",
+        "media_type": "application/json",
+        "size_bytes": 7753,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.558206Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E38",
+      "url": "https://en.wikipedia.org/wiki/Public_key_certificate",
+      "quote": "For instance, TLS/SSL server and client certificates, email certificates, code signing certificates, and qualified certificates are all end-entity certificates",
+      "content_sha256": "85f40f19d7af3c723ad5acd2ad2982ce04b5aa1b03c78e5be505a828ed24bac2",
+      "retrieved_at": "2026-10-14T08:56:10.137997Z",
+      "sub_question": "S4.2",
+      "page_artifact": {
+        "artifact_id": "rp-85f40f19d7af3c723ad5acd2ad2982ce",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-85f40f19d7af3c723ad5acd2ad2982ce/v1/e643b599f1652bf3340a414945ab1cdca99c95cc25dc59e91e2dbaba0f9fa4a4",
+        "sha256": "e643b599f1652bf3340a414945ab1cdca99c95cc25dc59e91e2dbaba0f9fa4a4",
+        "media_type": "application/json",
+        "size_bytes": 29082,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.560558Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E39",
+      "url": "https://en.wikipedia.org/wiki/Green_thread",
+      "quote": "There are also mechanisms which allow use of native threads and reduce the overhead of thread activation and synchronization",
+      "content_sha256": "08d7c25a5e78ee7efffe55dc22f83cd7506a36b12899ff47373063b7f9a1d9d8",
+      "retrieved_at": "2026-10-14T08:52:18.871754Z",
+      "sub_question": "S4.2",
+      "page_artifact": {
+        "artifact_id": "rp-08d7c25a5e78ee7efffe55dc22f83cd7",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-08d7c25a5e78ee7efffe55dc22f83cd7/v1/29842f41d0401913562a5125b565d9667b13f88fb32bfa7c777f0f704d35aa46",
+        "sha256": "29842f41d0401913562a5125b565d9667b13f88fb32bfa7c777f0f704d35aa46",
+        "media_type": "application/json",
+        "size_bytes": 7790,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.542976Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E40",
+      "url": "https://en.wikipedia.org/wiki/Green_thread",
+      "quote": "Tcl has coroutines and an event loop\nThe Erlang virtual machine has what might be called green processes \u2013 they are like operating system processes (they do not share state like threads do) but are implemented within the Erlang Run Time System (erts)",
+      "content_sha256": "08d7c25a5e78ee7efffe55dc22f83cd7506a36b12899ff47373063b7f9a1d9d8",
+      "retrieved_at": "2026-10-14T08:52:18.871754Z",
+      "sub_question": "S5.1",
+      "page_artifact": {
+        "artifact_id": "rp-08d7c25a5e78ee7efffe55dc22f83cd7",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-08d7c25a5e78ee7efffe55dc22f83cd7/v1/29842f41d0401913562a5125b565d9667b13f88fb32bfa7c777f0f704d35aa46",
+        "sha256": "29842f41d0401913562a5125b565d9667b13f88fb32bfa7c777f0f704d35aa46",
+        "media_type": "application/json",
+        "size_bytes": 7790,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.542976Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E41",
+      "url": "https://en.wikipedia.org/wiki/Python_%28programming_language%29",
+      "quote": "PEPs are intended to explain new processes in Python, provide naming conventions or document the processes in the language",
+      "content_sha256": "5aa5b3ebaa9be6fce1559f518dda1a59cd4789c2a9bdad5641a2002f85029486",
+      "retrieved_at": "2026-10-14T09:00:23.762272Z",
+      "sub_question": "S5.1",
+      "page_artifact": {
+        "artifact_id": "rp-5aa5b3ebaa9be6fce1559f518dda1a59",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-5aa5b3ebaa9be6fce1559f518dda1a59/v1/8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "sha256": "8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "media_type": "application/json",
+        "size_bytes": 41257,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.555830Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E42",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "Introduction\u00b6\nThe threading module provides a way to run multiple threads (smaller\nunits of a process) concurrently within a single process",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S5.1",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E43",
+      "url": "https://en.wikipedia.org/wiki/Stackless_Python",
+      "quote": "To use multiple CPU cores, one would still need to build an interprocess communication system on top of Stackless Python processes",
+      "content_sha256": "b340a705f0cb3490d95e0dd2daeb194ff39133d89e0583ba21076edfb8a3df61",
+      "retrieved_at": "2026-10-14T09:12:38.859754Z",
+      "sub_question": "S5.3",
+      "page_artifact": {
+        "artifact_id": "rp-b340a705f0cb3490d95e0dd2daeb194f",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-b340a705f0cb3490d95e0dd2daeb194f/v1/7941ce3699ee09468ee3ac7bba64f3d8220e4cd6958cef62e03097a8ea9f2d40",
+        "sha256": "7941ce3699ee09468ee3ac7bba64f3d8220e4cd6958cef62e03097a8ea9f2d40",
+        "media_type": "application/json",
+        "size_bytes": 4032,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.544088Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E44",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "Threads are particularly useful when tasks are\nI/O bound, such as file operations or making network requests,\nwhere much of the time is spent waiting for external resources",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S5.3",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E45",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "Note\nIn the Python 2.x series, this module contained camelCase names\nfor some methods and functions",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S5.3",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E46",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "This module also defines the following constant:\n- threading.TIMEOUT_MAX\u00b6\n- The maximum value allowed for the timeout parameter of blocking functions ( Lock.acquire() ,RLock.acquire() ,Condition.wait() , etc.)",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S5.3",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E47",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "CPython implementation detail: In CPython, due to the Global Interpreter Lock, only one thread\ncan execute Python code at once (even though certain performance-oriented\nlibraries might overcome this limitation)",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S6.1",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E48",
+      "url": "https://en.wikipedia.org/wiki/Universally_unique_identifier",
+      "quote": "A 13-bit or 14-bit \"uniquifying\" clock sequence extends the timestamp in order to handle cases where the processor clock does not advance fast enough, or where there are multiple processors and UUID generators per node",
+      "content_sha256": "408c9814762e630cd174743c08e61443e553af70bb01bc2e9756e2dd4dba2b2b",
+      "retrieved_at": "2026-10-14T08:56:06.618423Z",
+      "sub_question": "S6.3",
+      "page_artifact": {
+        "artifact_id": "rp-408c9814762e630cd174743c08e61443",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-408c9814762e630cd174743c08e61443/v1/83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "sha256": "83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "media_type": "application/json",
+        "size_bytes": 31197,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.551338Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E49",
+      "url": "https://docs.python.org/3/library/threading.html",
+      "quote": "A typical use case for threading includes managing a pool of worker\nthreads that can process multiple tasks concurrently",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "sub_question": "S6.3",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E50",
+      "url": "https://en.wikipedia.org/wiki/Python_syntax_and_semantics",
+      "quote": "Operators can be overloaded in Python by defining special member functions \u2013 for instance, defining a method named __add__ on a class permits one to use the + operator on objects of that class",
+      "content_sha256": "7c89ef880d36987a19654cc28a2860508b24546ec1dbb9e9b369e953960d9c26",
+      "retrieved_at": "2026-10-14T09:07:37.104761Z",
+      "sub_question": "S2.1",
+      "page_artifact": {
+        "artifact_id": "rp-7c89ef880d36987a19654cc28a286050",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-7c89ef880d36987a19654cc28a286050/v1/a431832cb154433e281c5829358b338705414c3595f23753380628df5fad6378",
+        "sha256": "a431832cb154433e281c5829358b338705414c3595f23753380628df5fad6378",
+        "media_type": "application/json",
+        "size_bytes": 36723,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.548769Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E51",
+      "url": "https://en.wikipedia.org/wiki/Pandas_%28software%29",
+      "quote": "Indices are also immutable, which allows them to be safely shared across multiple objects.\npandas' syntax for mapping index values to relevant data is the same syntax Python uses to map dictionary keys to values",
+      "content_sha256": "7984807719ac1637a1d0b2594271492896faf4f6aaf139aea22f2eb9c4d33cd4",
+      "retrieved_at": "2026-10-14T08:56:01.354109Z",
+      "sub_question": "S2.1",
+      "page_artifact": {
+        "artifact_id": "rp-7984807719ac1637a1d0b25942714928",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-7984807719ac1637a1d0b25942714928/v1/892a1865fe3a9ffee3a9514b95121d4ae3f48dabee89c711920dd760117fee8a",
+        "sha256": "892a1865fe3a9ffee3a9514b95121d4ae3f48dabee89c711920dd760117fee8a",
+        "media_type": "application/json",
+        "size_bytes": 12724,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.547632Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E52",
+      "url": "https://docs.python.org/3.15/howto/sockets.html",
+      "quote": "This tells the server \u201cThis\nclient is done sending, but can still receive.\u201d  The server can detect \u201cEOF\u201d by\na receive of 0 bytes",
+      "content_sha256": "a6a59b13fcc2168d68b113901f52e2dce1ba6bd34a7579f419b92b65879e6790",
+      "retrieved_at": "2026-10-14T08:52:34.033037Z",
+      "sub_question": "S2.2",
+      "page_artifact": {
+        "artifact_id": "rp-a6a59b13fcc2168d68b113901f52e2dc",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a6a59b13fcc2168d68b113901f52e2dc/v1/265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "sha256": "265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "media_type": "application/json",
+        "size_bytes": 18368,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.557033Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E53",
+      "url": "https://en.wikipedia.org/wiki/Public_key_certificate",
+      "quote": "The subject of the certificate matches the hostname (not to be confused with the domain name) to which the client is trying to connect",
+      "content_sha256": "85f40f19d7af3c723ad5acd2ad2982ce04b5aa1b03c78e5be505a828ed24bac2",
+      "retrieved_at": "2026-10-14T08:56:10.137997Z",
+      "sub_question": "S2.2",
+      "page_artifact": {
+        "artifact_id": "rp-85f40f19d7af3c723ad5acd2ad2982ce",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-85f40f19d7af3c723ad5acd2ad2982ce/v1/e643b599f1652bf3340a414945ab1cdca99c95cc25dc59e91e2dbaba0f9fa4a4",
+        "sha256": "e643b599f1652bf3340a414945ab1cdca99c95cc25dc59e91e2dbaba0f9fa4a4",
+        "media_type": "application/json",
+        "size_bytes": 29082,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.560558Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E54",
+      "url": "https://en.wikipedia.org/wiki/Glossary_of_computer_science",
+      "quote": "client\nA piece of computer hardware or software that accesses a service made available by a server",
+      "content_sha256": "53cd8b896c41b179b1983b1046335b294248d411aacf85f122453a7366659dae",
+      "retrieved_at": "2026-10-14T09:09:50.553729Z",
+      "sub_question": "S2.2",
+      "page_artifact": {
+        "artifact_id": "rp-53cd8b896c41b179b1983b1046335b29",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-53cd8b896c41b179b1983b1046335b29/v1/24b80bed8dd5c301068b7fac8329570bac548f649270e94b87563e2008c67903",
+        "sha256": "24b80bed8dd5c301068b7fac8329570bac548f649270e94b87563e2008c67903",
+        "media_type": "application/json",
+        "size_bytes": 118585,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.546325Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "id": "E55",
+      "url": "https://docs.python.org/3.15/howto/sockets.html",
+      "quote": "The client application (your browser, for example) uses \u201cclient\u201d sockets exclusively; the web server it\u2019s talking to uses both \u201cserver\u201d sockets and \u201cclient\u201d sockets",
+      "content_sha256": "a6a59b13fcc2168d68b113901f52e2dce1ba6bd34a7579f419b92b65879e6790",
+      "retrieved_at": "2026-10-14T08:52:34.033037Z",
+      "sub_question": "S2.2",
+      "page_artifact": {
+        "artifact_id": "rp-a6a59b13fcc2168d68b113901f52e2dc",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a6a59b13fcc2168d68b113901f52e2dc/v1/265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "sha256": "265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "media_type": "application/json",
+        "size_bytes": 18368,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.557033Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://docs.python.org/3/library/threading.html",
+      "title": "threading \u2014 Thread-based parallelism",
+      "score": 0.5,
+      "score_breakdown": {
+        "relevance": 0.5,
+        "authority": 1.0,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "ddg",
+      "kind": "web",
+      "retrieved_at": "2026-10-14T09:12:42.728110Z",
+      "content_sha256": "69676edb69eca55bf4f655751145f9ecf7f61cda7b4e774345933356ac6cef8f",
+      "page_artifact": {
+        "artifact_id": "rp-69676edb69eca55bf4f655751145f9ec",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-69676edb69eca55bf4f655751145f9ec/v1/1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "sha256": "1f547169b2a57ea985a89f3f1a803208d33c0d8f8b298d80a86805b565f60112",
+        "media_type": "application/json",
+        "size_bytes": 50651,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.019586Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://arxiv.org/abs/2601.10582v4",
+      "title": "Mitigating GIL Bottlenecks in Edge AI Systems",
+      "score": 0.475,
+      "score_breakdown": {
+        "relevance": 0.5,
+        "authority": 0.95,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "arxiv",
+      "kind": "arxiv",
+      "retrieved_at": "2026-10-14T08:52:16.385098Z",
+      "content_sha256": "cfeedebb862c52cf63004f4b1928b4012c92f3314d0d9895281842451473d63c",
+      "page_artifact": {
+        "artifact_id": "rp-cfeedebb862c52cf63004f4b1928b401",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-cfeedebb862c52cf63004f4b1928b401/v1/e1b59c69da7dd99de864fe057514bad54766606f4c13ba0ce3f1f94411c39fc7",
+        "sha256": "e1b59c69da7dd99de864fe057514bad54766606f4c13ba0ce3f1f94411c39fc7",
+        "media_type": "application/json",
+        "size_bytes": 1960,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.541778Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.04782v1",
+      "title": "Unlocking Python's Cores: Hardware Usage and Energy Implications of Removing the GIL",
+      "score": 0.4673,
+      "score_breakdown": {
+        "relevance": 0.4919,
+        "authority": 0.95,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "arxiv",
+      "kind": "arxiv",
+      "retrieved_at": "2026-10-14T09:12:40.593732Z",
+      "content_sha256": "a8fe05a9daa19882cca612372e0f5f110147e36b850960123dacbfcc233b8de0",
+      "page_artifact": {
+        "artifact_id": "rp-a8fe05a9daa19882cca612372e0f5f11",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a8fe05a9daa19882cca612372e0f5f11/v1/a8377107db495b81e86dfcc1b423e7057d0d4a6281405bf61983579a56592a2a",
+        "sha256": "a8377107db495b81e86dfcc1b423e7057d0d4a6281405bf61983579a56592a2a",
+        "media_type": "application/json",
+        "size_bytes": 2525,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.545136Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Universally_unique_identifier",
+      "title": "Universally unique identifier",
+      "score": 0.45,
+      "score_breakdown": {
+        "relevance": 0.5,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T08:56:06.618423Z",
+      "content_sha256": "408c9814762e630cd174743c08e61443e553af70bb01bc2e9756e2dd4dba2b2b",
+      "page_artifact": {
+        "artifact_id": "rp-408c9814762e630cd174743c08e61443",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-408c9814762e630cd174743c08e61443/v1/83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "sha256": "83374a08d53fefae0f65d0be425b85c6d16ca798c14f3b89931b1cc69dc4700b",
+        "media_type": "application/json",
+        "size_bytes": 31197,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.551338Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Stackless_Python",
+      "title": "Stackless Python",
+      "score": 0.4427,
+      "score_breakdown": {
+        "relevance": 0.4919,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T09:12:38.859754Z",
+      "content_sha256": "b340a705f0cb3490d95e0dd2daeb194ff39133d89e0583ba21076edfb8a3df61",
+      "page_artifact": {
+        "artifact_id": "rp-b340a705f0cb3490d95e0dd2daeb194f",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-b340a705f0cb3490d95e0dd2daeb194f/v1/7941ce3699ee09468ee3ac7bba64f3d8220e4cd6958cef62e03097a8ea9f2d40",
+        "sha256": "7941ce3699ee09468ee3ac7bba64f3d8220e4cd6958cef62e03097a8ea9f2d40",
+        "media_type": "application/json",
+        "size_bytes": 4032,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.544088Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://docs.python.org/3.15/howto/sockets.html",
+      "title": "Socket Programming HOWTO",
+      "score": 0.5,
+      "score_breakdown": {
+        "relevance": 0.5,
+        "authority": 1.0,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "ddg",
+      "kind": "web",
+      "retrieved_at": "2026-10-14T08:52:34.033037Z",
+      "content_sha256": "a6a59b13fcc2168d68b113901f52e2dce1ba6bd34a7579f419b92b65879e6790",
+      "page_artifact": {
+        "artifact_id": "rp-a6a59b13fcc2168d68b113901f52e2dc",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-a6a59b13fcc2168d68b113901f52e2dc/v1/265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "sha256": "265a0d71b9b29b0e281486e689ea49924e48f380de018f44787f889508a9b219",
+        "media_type": "application/json",
+        "size_bytes": 18368,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.557033Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Python_syntax_and_semantics",
+      "title": "Python syntax and semantics",
+      "score": 0.45,
+      "score_breakdown": {
+        "relevance": 0.5,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T09:07:37.104761Z",
+      "content_sha256": "7c89ef880d36987a19654cc28a2860508b24546ec1dbb9e9b369e953960d9c26",
+      "page_artifact": {
+        "artifact_id": "rp-7c89ef880d36987a19654cc28a286050",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-7c89ef880d36987a19654cc28a286050/v1/a431832cb154433e281c5829358b338705414c3595f23753380628df5fad6378",
+        "sha256": "a431832cb154433e281c5829358b338705414c3595f23753380628df5fad6378",
+        "media_type": "application/json",
+        "size_bytes": 36723,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.548769Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Python_%28programming_language%29",
+      "title": "Python (programming language)",
+      "score": 0.45,
+      "score_breakdown": {
+        "relevance": 0.5,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T09:00:23.762272Z",
+      "content_sha256": "5aa5b3ebaa9be6fce1559f518dda1a59cd4789c2a9bdad5641a2002f85029486",
+      "page_artifact": {
+        "artifact_id": "rp-5aa5b3ebaa9be6fce1559f518dda1a59",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-5aa5b3ebaa9be6fce1559f518dda1a59/v1/8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "sha256": "8dcda7a09101d34b7b4e8b42ae567f420bcbbc416ea5cb59225a25959c7fe141",
+        "media_type": "application/json",
+        "size_bytes": 41257,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.555830Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Pandas_%28software%29",
+      "title": "Pandas (software)",
+      "score": 0.4289,
+      "score_breakdown": {
+        "relevance": 0.4766,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T08:56:01.354109Z",
+      "content_sha256": "7984807719ac1637a1d0b2594271492896faf4f6aaf139aea22f2eb9c4d33cd4",
+      "page_artifact": {
+        "artifact_id": "rp-7984807719ac1637a1d0b25942714928",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-7984807719ac1637a1d0b25942714928/v1/892a1865fe3a9ffee3a9514b95121d4ae3f48dabee89c711920dd760117fee8a",
+        "sha256": "892a1865fe3a9ffee3a9514b95121d4ae3f48dabee89c711920dd760117fee8a",
+        "media_type": "application/json",
+        "size_bytes": 12724,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.547632Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://docs.python.org/3/library/socket.html",
+      "title": "socket \u2014 Low-level networking interface",
+      "score": 0.4841,
+      "score_breakdown": {
+        "relevance": 0.4841,
+        "authority": 1.0,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "ddg",
+      "kind": "web",
+      "retrieved_at": "2026-10-14T08:52:37.914243Z",
+      "content_sha256": "b69bc9b9156a8a9e5f68b51347821123f50969a0e65eaed4fc4747e8e5f42a05",
+      "page_artifact": {
+        "artifact_id": "rp-b69bc9b9156a8a9e5f68b51347821123",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-b69bc9b9156a8a9e5f68b51347821123/v1/cb03e840ac1bf1b583cd5b63a0ff26b2d7a13b2fa3b02e2c72195456cc5bcea2",
+        "sha256": "cb03e840ac1bf1b583cd5b63a0ff26b2d7a13b2fa3b02e2c72195456cc5bcea2",
+        "media_type": "application/json",
+        "size_bytes": 74849,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.550051Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Twisted_%28software%29",
+      "title": "Twisted (software)",
+      "score": 0.4427,
+      "score_breakdown": {
+        "relevance": 0.4919,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T09:12:46.619758Z",
+      "content_sha256": "4cf1d652d41ad08aaba5e1e6beeb0715bdfc09e13f2f930ad51ef5573a5d9f6f",
+      "page_artifact": {
+        "artifact_id": "rp-4cf1d652d41ad08aaba5e1e6beeb0715",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-4cf1d652d41ad08aaba5e1e6beeb0715/v1/f6b2de73ee014cd1b30b6ff1a59a65f98c6fd508de287ee43ad8ba7ccc737b81",
+        "sha256": "f6b2de73ee014cd1b30b6ff1a59a65f98c6fd508de287ee43ad8ba7ccc737b81",
+        "media_type": "application/json",
+        "size_bytes": 7753,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.558206Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Instagram",
+      "title": "Instagram",
+      "score": 0.4159,
+      "score_breakdown": {
+        "relevance": 0.4621,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T09:12:57.334310Z",
+      "content_sha256": "c2a5cf617904fcb6a0baadb1573190f71af08d3c09f5aaec91033d4f118e4c4b",
+      "page_artifact": {
+        "artifact_id": "rp-c2a5cf617904fcb6a0baadb1573190f7",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-c2a5cf617904fcb6a0baadb1573190f7/v1/84452bb9bbe9a7f4751d443f57a45c0c839f9d317986357a9c1af1269eee4a1b",
+        "sha256": "84452bb9bbe9a7f4751d443f57a45c0c839f9d317986357a9c1af1269eee4a1b",
+        "media_type": "application/json",
+        "size_bytes": 85747,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.553799Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://coverage.readthedocs.io/",
+      "title": "Coverage.py",
+      "score": 0.4919,
+      "score_breakdown": {
+        "relevance": 0.4919,
+        "authority": 1.0,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "ddg",
+      "kind": "web",
+      "retrieved_at": "2026-10-14T08:58:13.822062Z",
+      "content_sha256": "4fc74eadf181ccda1da5e441d746bd88f33f7229d453bcf41fe49c45571de0fc",
+      "page_artifact": {
+        "artifact_id": "rp-4fc74eadf181ccda1da5e441d746bd88",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-4fc74eadf181ccda1da5e441d746bd88/v1/459a84055b2fe63fc90a6a2439c594e193b9d8f63918ce095315166999429682",
+        "sha256": "459a84055b2fe63fc90a6a2439c594e193b9d8f63918ce095315166999429682",
+        "media_type": "application/json",
+        "size_bytes": 4365,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.559407Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/JSON",
+      "title": "JSON",
+      "score": 0.4427,
+      "score_breakdown": {
+        "relevance": 0.4919,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T09:05:55.343957Z",
+      "content_sha256": "f4ca1856947ded8e91b837cba3ac991ddcf046e586feff9aab67d9d724e09325",
+      "page_artifact": {
+        "artifact_id": "rp-f4ca1856947ded8e91b837cba3ac991d",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-f4ca1856947ded8e91b837cba3ac991d/v1/4d207d9ca4f1b044e7cad800ae0a0c5755fab0d0ec7620a7abb774c8101bb340",
+        "sha256": "4d207d9ca4f1b044e7cad800ae0a0c5755fab0d0ec7620a7abb774c8101bb340",
+        "media_type": "application/json",
+        "size_bytes": 22010,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.552539Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Public_key_certificate",
+      "title": "Public key certificate",
+      "score": 0.45,
+      "score_breakdown": {
+        "relevance": 0.5,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T08:56:10.137997Z",
+      "content_sha256": "85f40f19d7af3c723ad5acd2ad2982ce04b5aa1b03c78e5be505a828ed24bac2",
+      "page_artifact": {
+        "artifact_id": "rp-85f40f19d7af3c723ad5acd2ad2982ce",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-85f40f19d7af3c723ad5acd2ad2982ce/v1/e643b599f1652bf3340a414945ab1cdca99c95cc25dc59e91e2dbaba0f9fa4a4",
+        "sha256": "e643b599f1652bf3340a414945ab1cdca99c95cc25dc59e91e2dbaba0f9fa4a4",
+        "media_type": "application/json",
+        "size_bytes": 29082,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.560558Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Green_thread",
+      "title": "Green thread",
+      "score": 0.4357,
+      "score_breakdown": {
+        "relevance": 0.4841,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T08:52:18.871754Z",
+      "content_sha256": "08d7c25a5e78ee7efffe55dc22f83cd7506a36b12899ff47373063b7f9a1d9d8",
+      "page_artifact": {
+        "artifact_id": "rp-08d7c25a5e78ee7efffe55dc22f83cd7",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-08d7c25a5e78ee7efffe55dc22f83cd7/v1/29842f41d0401913562a5125b565d9667b13f88fb32bfa7c777f0f704d35aa46",
+        "sha256": "29842f41d0401913562a5125b565d9667b13f88fb32bfa7c777f0f704d35aa46",
+        "media_type": "application/json",
+        "size_bytes": 7790,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.542976Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Glossary_of_computer_science",
+      "title": "Glossary of computer science",
+      "score": 0.4159,
+      "score_breakdown": {
+        "relevance": 0.4621,
+        "authority": 0.9,
+        "recency": 1.0,
+        "novelty": 1.0
+      },
+      "provider": "wikipedia",
+      "kind": "wiki",
+      "retrieved_at": "2026-10-14T09:09:50.553729Z",
+      "content_sha256": "53cd8b896c41b179b1983b1046335b294248d411aacf85f122453a7366659dae",
+      "page_artifact": {
+        "artifact_id": "rp-53cd8b896c41b179b1983b1046335b29",
+        "artifact_type": "research-page",
+        "version": 1,
+        "uri": "file://P-01M6BJ50H1AG04XA710D8ERPY8/rp-53cd8b896c41b179b1983b1046335b29/v1/24b80bed8dd5c301068b7fac8329570bac548f649270e94b87563e2008c67903",
+        "sha256": "24b80bed8dd5c301068b7fac8329570bac548f649270e94b87563e2008c67903",
+        "media_type": "application/json",
+        "size_bytes": 118585,
+        "created_by": "research-rezttcsx",
+        "created_at": "2026-11-01T12:43:04.546325Z",
+        "access_scope": "P-01M6BJ50H1AG04XA710D8ERPY8",
+        "supersedes": null
+      }
+    }
+  ],
+  "coverage": {
+    "S1.1": 1.0,
+    "S1.2": 1.0,
+    "S2.1": 0.75,
+    "S2.2": 1.0,
+    "S3.1": 1.0,
+    "S3.2": 1.0,
+    "S4.1": 1.0,
+    "S4.2": 1.0,
+    "S5.1": 1.0,
+    "S5.2": 1.0,
+    "S5.3": 1.0,
+    "S6.1": 0.5,
+    "S6.2": 1.0,
+    "S6.3": 1.0
+  },
+  "stop_reason": "low_novelty",
+  "summary_markdown": "## Which concurrency model (threading, multiprocessing, or selectors) works best with Python 3.11 standard library for handling \u226510 simultaneous TCP clients?\n\n**Compare threading, multiprocessing, and selectors for handling 10+ concurrent TCP clients in Python 3.11 standard library.** \u2014 100 % covered\n- If you want your application to make better use of the computational\nresources of multi-core machines, you are advised to use\nmultiprocessing or concurrent.futures.ProcessPoolExecutor [1]\n- However, threading is still an appropriate model if you want to run\nmultiple I/O-bound tasks simultaneously [1]\n- concurrent.futures.ThreadPoolExecutor offers a higher level interface\nto push tasks to a background thread without blocking execution of the\ncalling thread, while still being able to retrieve their results when needed [1]\n- In CPython, due to the Global Interpreter Lock, only one thread\ncan execute Python code at once (even though certain performance-oriented\nlibraries might overcome this limitation).\nIf you want your application to make better use of the computational\nresources of multi-core machines, you are\u2026 [1]\n\n**Identify any limitations or pitfalls of each concurrency model when used for a chat server (e.g., GIL, process overhead, selector edge cases).** \u2014 100 % covered\n- Unlike the multiprocessing module, which uses separate processes to\nbypass the global interpreter lock (GIL), the threading module operates\nwithin a single process, meaning that all threads share the same memory space [1]\n- while GIL elimination enables ~4x throughput on multi-core edge devices, the saturation cliff persists on single-core devices due to context switching overhead [2]\n- Python's Global Interpreter Lock prevents execution on more than one CPU core at the same time, even when multiple threads are used [3]\n- The results highlight a trade-off [3]\n\n## How can unique nicknames be enforced efficiently without external libraries?\n\n**Describe a standard\u2011library method to enforce unique nicknames without external packages.** \u2014 75 % covered\n- However, because most of the standard library is cross-platform Python code, only a few modules must be altered or rewritten for variant implementations [4]\n- In the case of many standard version-1, -2, or -6 UUIDs using unique MAC addresses and/or timestamps, collisions can occur only as a result of deliberate construction or error, such as manufacturing problems, skewed clocks, or software bugs [5]\n- The library also includes built-in operations for arithmetic operations, string processing, and descriptive statistics such as mean, median, and standard deviation [6]\n- == Libraries ==\nPython's large standard library is commonly cited as one of its greatest strengths [4]\n\n**Explain how to handle nickname collisions efficiently when a client proposes an already\u2011taken name.** \u2014 100 % covered\n- == Collisions ==\nA collision occurs when the same UUID is generated more than once and is assigned to different referents [5]\n- Use of this form of import, although supported within the language, is generally discouraged as it pollutes the namespace of the calling module and will cause already defined names to be overwritten in the case of name clashes [7]\n- Python uses dynamic typing and a combination of reference counting and a cycle-detecting garbage collector for memory management [4]\n- Depending on the application, this may be viewed as a desirable feature or as the potential for a collision [5]\n\n## What is the simplest data structure for a rolling buffer of the last 50 messages using only the standard library?\n\n**Find the simplest standard\u2011library data structure for a fixed\u2011size rolling buffer of the last 50 messages.** \u2014 100 % covered\n- If you decide to\ngo the delimited route, you\u2019ll be receiving in some arbitrary chunk size, (4096\nor 8192 is frequently a good match for network buffer sizes), and scanning what\nyou\u2019ve received for a delimiter [8]\n- Parameter types are somewhat higher-level than\nin the C interface: as with read() and write() operations on Python\nfiles, buffer allocation on receive operations is automatic, and buffer length\nis implicit on send operations [9]\n- The library also provides extensive tools for transforming, filtering and summarizing data [6]\n\n**Show how to serialize and retrieve messages from the rolling buffer for new clients.** \u2014 100 % covered\n- The shutdown is an advisory to the socket at the other end [8]\n- The logical protocol is informed of the transport layer instance, and can use it to send messages back and to check for the peer's identity [10]\n- Following this change, messages are no longer protected by end-to-end encryption and are not exclusively accessible only to the communicating users [11]\n\n## How can we accurately measure message latency on a local network using only standard library tools?\n\n**Identify standard\u2011library tools to measure round\u2011trip message latency between server and client on a LAN.** \u2014 100 % covered\n- Python takes the automatic shutdown a step further, and says that when a socket\nis garbage collected, it will automatically do a close if it\u2019s needed [8]\n- Capabilities\nCoverage.py can do a number of things:\n- By default it will measure line (statement) coverage.\n- It can also measure branch coverage.\n- It can tell you what tests ran which lines.\n- It can produce reports in a number of formats: text, HTML, XML, LCOV, and JSON.\n- For advanced uses,\u2026 [12]\n- For tie-breaking, Python 3 uses the round to even method: round(1.5) and round(2.5) both produce 2 [4]\n- The cofounders agreed to build a system that used standard browser capabilities and provided an abstraction layer for Web developers to create stateful Web applications that had a persistent duplex connection to a Web server by holding two Hypertext Transfer Protocol (HTTP) connections open and\u2026 [13]\n\n**Explain how to account for clock drift and ensure accurate latency numbers without external synchronization.** \u2014 100 % covered\n- When UUIDs are generated faster than the system clock can advance, the lower bits of the timestamp and the clock sequence can be incremented to simulate greater precision and ensure uniqueness [5]\n- The client\nsends a request and then does a shutdown(1) [8]\n- The BuildBot continuous-integration system relies on Twisted for client/server communication [10]\n- For instance, TLS/SSL server and client certificates, email certificates, code signing certificates, and qualified certificates are all end-entity certificates [14]\n\n## Is it true that threading operates within a single process, so all threads share the same memory space and are limited by the Global Interpreter Lock (GIL)?\n\n**Explain how threads share memory within a single process in Python.** \u2014 100 % covered\n- the threading module operates\nwithin a single process, meaning that all threads share the same memory space [1]\n- Tcl has coroutines and an event loop\nThe Erlang virtual machine has what might be called green processes \u2013 they are like operating system processes (they do not share state like threads do) but are implemented within the Erlang Run Time System (erts) [15]\n- PEPs are intended to explain new processes in Python, provide naming conventions or document the processes in the language [4]\n- Introduction\u00b6\nThe threading module provides a way to run multiple threads (smaller\nunits of a process) concurrently within a single process [1]\n\n**Describe the effect of the Global Interpreter Lock (GIL) on CPU-bound threading in CPython.** \u2014 100 % covered\n- However, the GIL limits the performance gains of threading when it comes to\nCPU-bound tasks, as only one thread can execute Python bytecode at a time [1]\n- Stackless Python does not remove CPython's global interpreter lock (GIL), nor does it use multiple threads and/or processes. So it allows only cooperative multitasking on a shared CPU and not parallelism [16]\n\n**Identify situations where Python threading can still be beneficial despite the GIL.** \u2014 100 % covered\n- Despite this, threads remain a useful tool for achieving concurrency in many\nscenarios [1]\n- To use multiple CPU cores, one would still need to build an interprocess communication system on top of Stackless Python processes [16]\n- Threads are particularly useful when tasks are\nI/O bound, such as file operations or making network requests,\nwhere much of the time is spent waiting for external resources [1]\n- Note\nIn the Python 2.x series, this module contained camelCase names\nfor some methods and functions [1]\n\n## Is it true that multiprocessing avoids the GIL by using separate processes, but incurs higher overhead compared to threading?\n\n**Explain how multiprocessing creates separate processes that bypass the GIL in Python.** \u2014 50 % covered\n- CPython implementation detail: In CPython, due to the Global Interpreter Lock, only one thread\ncan execute Python code at once (even though certain performance-oriented\nlibraries might overcome this limitation) [1]\n\n**Compare the overhead of creating processes versus threads in Python.** \u2014 100 % covered\n- Do not try to kill\nthe thread - part of the reason that threads are more efficient than processes\nis that they avoid the overhead associated with the automatic recycling of\nresources [8]\n- Thus, they are an alternative to event-based asynchronous programming and also avoid the overhead of using separate threads for single-core programs (because no mode switching between user mode and kernel mode needs to be done, so CPU usage can be reduced) [16]\n\n**List typical use\u2011cases where multiprocessing is preferred over threading.** \u2014 100 % covered\n- When calling this function, the returned value can be iterated over much like a list [7]\n- A 13-bit or 14-bit \"uniquifying\" clock sequence extends the timestamp in order to handle cases where the processor clock does not advance fast enough, or where there are multiple processors and UUID generators per node [5]\n- A typical use case for threading includes managing a pool of worker\nthreads that can process multiple tasks concurrently [1]\n\n## Sources\n1. https://docs.python.org/3/library/threading.html \u2014 https://docs.python.org/3/library/threading.html\n2. Mitigating GIL Bottlenecks in Edge AI Systems \u2014 https://arxiv.org/abs/2601.10582v4\n3. Unlocking Python's Cores: Hardware Usage and Energy Implications of Removing the GIL \u2014 https://arxiv.org/abs/2603.04782v1\n4. Python (programming language) \u2014 https://en.wikipedia.org/wiki/Python_%28programming_language%29\n5. Universally unique identifier \u2014 https://en.wikipedia.org/wiki/Universally_unique_identifier\n6. Pandas (software) \u2014 https://en.wikipedia.org/wiki/Pandas_%28software%29\n7. Python syntax and semantics \u2014 https://en.wikipedia.org/wiki/Python_syntax_and_semantics\n8. Socket Programming HOWTO \u2014 https://docs.python.org/3.15/howto/sockets.html\n9. socket \u2014 Low-level networking interface \u2014 https://docs.python.org/3/library/socket.html\n10. Twisted (software) \u2014 https://en.wikipedia.org/wiki/Twisted_%28software%29\n11. Instagram \u2014 https://en.wikipedia.org/wiki/Instagram\n12. Coverage.py \u2014 https://coverage.readthedocs.io/\n13. JSON \u2014 https://en.wikipedia.org/wiki/JSON\n14. Public key certificate \u2014 https://en.wikipedia.org/wiki/Public_key_certificate\n15. Green thread \u2014 https://en.wikipedia.org/wiki/Green_thread\n16. Stackless Python \u2014 https://en.wikipedia.org/wiki/Stackless_Python\n\n_Stopped: low novelty._\n",
+  "sub_questions": [
+    {
+      "id": "S1.1",
+      "question": 0,
+      "text": "Compare threading, multiprocessing, and selectors for handling 10+ concurrent TCP clients in Python 3.11 standard library.",
+      "queries": [
+        "python 3.11 threading vs multiprocessing sockets",
+        "python selectors concurrency TCP",
+        "performance threading multiprocessing python 3.11"
+      ],
+      "success_criteria": "Explain which model offers the best scalability and simplicity for \u226510 simultaneous TCP clients, citing performance characteristics and standard\u2011library limitations.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S1.2",
+      "question": 0,
+      "text": "Identify any limitations or pitfalls of each concurrency model when used for a chat server (e.g., GIL, process overhead, selector edge cases).",
+      "queries": [
+        "python threading GIL network server",
+        "multiprocessing overhead sockets python",
+        "selectors edge cases python chat server"
+      ],
+      "success_criteria": "List the main drawbacks of each model relevant to a multi\u2011client chat server and how they affect reliability or resource use.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S2.1",
+      "question": 1,
+      "text": "Describe a standard\u2011library method to enforce unique nicknames without external packages.",
+      "queries": [
+        "python set unique values check",
+        "track unique usernames python standard library",
+        "enforce unique nickname dictionary python"
+      ],
+      "success_criteria": "Provide a concise algorithm using built\u2011in data structures (e.g., set or dict) that guarantees nickname uniqueness at connection time.",
+      "coverage": 0.75,
+      "status": "partial"
+    },
+    {
+      "id": "S2.2",
+      "question": 1,
+      "text": "Explain how to handle nickname collisions efficiently when a client proposes an already\u2011taken name.",
+      "queries": [
+        "python handle duplicate username retry",
+        "nickname collision resolution python",
+        "prompt for new nickname python server"
+      ],
+      "success_criteria": "Detail a lightweight approach (e.g., loop with set membership test) that minimizes blocking and uses only the standard library.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S3.1",
+      "question": 2,
+      "text": "Find the simplest standard\u2011library data structure for a fixed\u2011size rolling buffer of the last 50 messages.",
+      "queries": [
+        "python collections deque fixed length",
+        "rolling buffer python standard library",
+        "store last N items python list"
+      ],
+      "success_criteria": "Recommend using collections.deque with maxlen=50 and explain how it automatically discards oldest entries.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S3.2",
+      "question": 2,
+      "text": "Show how to serialize and retrieve messages from the rolling buffer for new clients.",
+      "queries": [
+        "deque iterate python chat history",
+        "send last N messages python socket",
+        "convert deque to list python"
+      ],
+      "success_criteria": "Provide a short code snippet that converts the deque to a list or iterates over it to send history to a newly connected client.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S4.1",
+      "question": 3,
+      "text": "Identify standard\u2011library tools to measure round\u2011trip message latency between server and client on a LAN.",
+      "queries": [
+        "python time monotonic latency measurement",
+        "measure socket round trip time python",
+        "timestamp messages python standard library"
+      ],
+      "success_criteria": "Describe using time.monotonic() or time.perf_counter() with timestamps embedded in messages to compute latency.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S4.2",
+      "question": 3,
+      "text": "Explain how to account for clock drift and ensure accurate latency numbers without external synchronization.",
+      "queries": [
+        "clock drift python time.monotonic",
+        "synchronizing timestamps python client server",
+        "accurate latency measurement python without NTP"
+      ],
+      "success_criteria": "Recommend using monotonic clocks on both ends and calculating differences locally to avoid cross\u2011machine clock issues.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S5.1",
+      "question": 4,
+      "text": "Explain how threads share memory within a single process in Python.",
+      "queries": [
+        "python threads shared memory",
+        "how threads share memory python"
+      ],
+      "success_criteria": "Answer must state that all threads run in the same process address space, sharing global variables and objects.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S5.2",
+      "question": 4,
+      "text": "Describe the effect of the Global Interpreter Lock (GIL) on CPU-bound threading in CPython.",
+      "queries": [
+        "python GIL effect threading",
+        "cpu bound threads GIL python"
+      ],
+      "success_criteria": "Answer must note that the GIL allows only one thread to execute Python bytecode at a time, limiting parallel CPU usage.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S5.3",
+      "question": 4,
+      "text": "Identify situations where Python threading can still be beneficial despite the GIL.",
+      "queries": [
+        "python threading useful despite GIL",
+        "io bound threading python"
+      ],
+      "success_criteria": "Answer must mention that I/O\u2011bound or external\u2011library tasks can benefit because the GIL is released during blocking operations.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S6.1",
+      "question": 5,
+      "text": "Explain how multiprocessing creates separate processes that bypass the GIL in Python.",
+      "queries": [
+        "python multiprocessing bypass GIL",
+        "multiprocessing separate processes python"
+      ],
+      "success_criteria": "Answer must state that each process has its own interpreter and memory space, so each has an independent GIL.",
+      "coverage": 0.5,
+      "status": "exhausted"
+    },
+    {
+      "id": "S6.2",
+      "question": 5,
+      "text": "Compare the overhead of creating processes versus threads in Python.",
+      "queries": [
+        "process creation overhead python",
+        "thread vs process overhead python"
+      ],
+      "success_criteria": "Answer must include that processes incur higher start\u2011up cost and inter\u2011process communication overhead compared to threads.",
+      "coverage": 1.0,
+      "status": "covered"
+    },
+    {
+      "id": "S6.3",
+      "question": 5,
+      "text": "List typical use\u2011cases where multiprocessing is preferred over threading.",
+      "queries": [
+        "when to use multiprocessing python",
+        "multiprocessing vs threading use cases"
+      ],
+      "success_criteria": "Answer must cite CPU\u2011bound workloads and tasks needing true parallelism as primary reasons.",
+      "coverage": 1.0,
+      "status": "covered"
+    }
+  ]
+}

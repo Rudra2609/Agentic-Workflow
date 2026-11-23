@@ -128,7 +128,7 @@ def test_agents_capabilities_health(client: TestClient) -> None:
     caps = {c["capability"]: c["status"] for c in client.get("/api/agents/capabilities").json()}
     assert caps["document.extract"] == "real"   # Member 2's doc_intel agent (Sprint 2) replaced the stub
     assert caps["plan.generate"] == "real"      # Member 3's planner (Sprint 3) replaced the stub
-    assert caps["review.final"] == "stub"
+    assert caps["review.final"] == "real"         # Member 10's review agent (Sprint 10): no stub is left
     assert client.get("/api/health").json()["status"] == "ok"
     assert client.get("/openapi.json").status_code == 200
 
