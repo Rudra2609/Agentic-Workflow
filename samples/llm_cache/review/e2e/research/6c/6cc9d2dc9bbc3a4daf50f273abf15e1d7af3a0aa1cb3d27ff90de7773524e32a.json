@@ -1,0 +1,160 @@
+{
+  "format": 1,
+  "key": "6cc9d2dc9bbc3a4daf50f273abf15e1d7af3a0aa1cb3d27ff90de7773524e32a",
+  "key_ingredients": {
+    "max_tokens": 1500,
+    "messages": [
+      {
+        "content": "You plan web research for a student software project. Split each question into 1-4 specific sub-questions that a few web pages can answer (definitions, how something works, trade-offs, limits, typical numbers). For each give 2-3 short search queries in plain words (3-8 words, no quotes, no site: or other operators) and one sentence saying what a good answer must contain. Stay on the questions; do not add unrelated topics.",
+        "role": "system"
+      },
+      {
+        "content": "Questions:\n0. Which concurrency model (threading, multiprocessing, or selectors) works best with Python 3.11 standard library for handling ≥10 simultaneous TCP clients?\n1. How can unique nicknames be enforced efficiently without external libraries?\n2. What is the simplest data structure for a rolling buffer of the last 50 messages using only the standard library?\n3. How can we accurately measure message latency on a local network using only standard library tools?\n\nProject context (for relevance only): Find out what the team needs to know before designing: the techniques, libraries and pitfalls the requirements involve. | Project requirements: The server must accept at least 10 clients connected at the same time.; Each client must choose a unique nickname when it connects.; A message sent by one client must be delivered to every other connected client.; The server shall announce when a client joins or leaves the chat.; Clients should be able to send a private message with the command /msg.; The server may keep a history of the last 50 messages for new clients.\n\nConstraints of the project: every research question has an answer with sources; the answers name the options considered",
+        "role": "user"
+      }
+    ],
+    "plugin": "research",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "DraftSubQuestion": {
+          "properties": {
+            "queries": {
+              "description": "2-3 short web search queries (plain words, no quotes or operators)",
+              "items": {
+                "type": "string"
+              },
+              "title": "Queries",
+              "type": "array"
+            },
+            "question": {
+              "description": "index (0-based) of the brief question this belongs to",
+              "title": "Question",
+              "type": "integer"
+            },
+            "success_criteria": {
+              "default": "",
+              "description": "what an answer must contain, in one sentence",
+              "title": "Success Criteria",
+              "type": "string"
+            },
+            "text": {
+              "description": "one specific, answerable sub-question",
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "question",
+            "text",
+            "queries"
+          ],
+          "title": "DraftSubQuestion",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "sub_questions": {
+          "items": {
+            "$ref": "#/$defs/DraftSubQuestion"
+          },
+          "title": "Sub Questions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sub_questions"
+      ],
+      "title": "PlanAnswer",
+      "type": "object"
+    },
+    "seed": null,
+    "temperature": 0.2,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "research",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T12:41:13.373401+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "sub_questions": {
+          "items": {
+            "properties": {
+              "queries": {
+                "description": "2-3 short web search queries (plain words, no quotes or operators)",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Queries",
+                "type": "array"
+              },
+              "question": {
+                "description": "index (0-based) of the brief question this belongs to",
+                "title": "Question",
+                "type": "integer"
+              },
+              "success_criteria": {
+                "default": "",
+                "description": "what an answer must contain, in one sentence",
+                "title": "Success Criteria",
+                "type": "string"
+              },
+              "text": {
+                "description": "one specific, answerable sub-question",
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "question",
+              "text",
+              "queries"
+            ],
+            "title": "DraftSubQuestion",
+            "type": "object"
+          },
+          "title": "Sub Questions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "sub_questions"
+      ],
+      "title": "PlanAnswer",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You plan web research for a student software project. Split each question into 1-4 specific sub-questions that a few web pages can answer (definitions, how something works, trade-offs, limits, typical numbers). For each give 2-3 short search queries in plain words (3-8 words, no quotes, no site: or other operators) and one sentence saying what a good answer must contain. Stay on the questions; do not add unrelated topics.",
+        "role": "system"
+      },
+      {
+        "content": "Questions:\n0. Which concurrency model (threading, multiprocessing, or selectors) works best with Python 3.11 standard library for handling ≥10 simultaneous TCP clients?\n1. How can unique nicknames be enforced efficiently without external libraries?\n2. What is the simplest data structure for a rolling buffer of the last 50 messages using only the standard library?\n3. How can we accurately measure message latency on a local network using only standard library tools?\n\nProject context (for relevance only): Find out what the team needs to know before designing: the techniques, libraries and pitfalls the requirements involve. | Project requirements: The server must accept at least 10 clients connected at the same time.; Each client must choose a unique nickname when it connects.; A message sent by one client must be delivered to every other connected client.; The server shall announce when a client joins or leaves the chat.; Clients should be able to send a private message with the command /msg.; The server may keep a history of the last 50 messages for new clients.\n\nConstraints of the project: every research question has an answer with sources; the answers name the options considered",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b",
+    "options": {
+      "num_predict": 1500,
+      "seed": null,
+      "temperature": 0.2
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"sub_questions\": [\n    {\n      \"question\": 0,\n      \"text\": \"Compare threading, multiprocessing, and selectors for handling 10+ concurrent TCP clients in Python 3.11 standard library.\",\n      \"queries\": [\"python 3.11 threading vs multiprocessing sockets\", \"python selectors concurrency TCP\", \"performance threading multiprocessing python 3.11\"],\n      \"success_criteria\": \"Explain which model offers the best scalability and simplicity for ≥10 simultaneous TCP clients, citing performance characteristics and standard‑library limitations.\"\n    },\n    {\n      \"question\": 0,\n      \"text\": \"Identify any limitations or pitfalls of each concurrency model when used for a chat server (e.g., GIL, process overhead, selector edge cases).\",\n      \"queries\": [\"python threading GIL network server\", \"multiprocessing overhead sockets python\", \"selectors edge cases python chat server\"],\n      \"success_criteria\": \"List the main drawbacks of each model relevant to a multi‑client chat server and how they affect reliability or resource use.\"\n    },\n    {\n      \"question\": 1,\n      \"text\": \"Describe a standard‑library method to enforce unique nicknames without external packages.\",\n      \"queries\": [\"python set unique values check\", \"track unique usernames python standard library\", \"enforce unique nickname dictionary python\"],\n      \"success_criteria\": \"Provide a concise algorithm using built‑in data structures (e.g., set or dict) that guarantees nickname uniqueness at connection time.\"\n    },\n    {\n      \"question\": 1,\n      \"text\": \"Explain how to handle nickname collisions efficiently when a client proposes an already‑taken name.\",\n      \"queries\": [\"python handle duplicate username retry\", \"nickname collision resolution python\", \"prompt for new nickname python server\"],\n      \"success_criteria\": \"Detail a lightweight approach (e.g., loop with set membership test) that minimizes blocking and uses only the standard library.\"\n    },\n    {\n      \"question\": 2,\n      \"text\": \"Find the simplest standard‑library data structure for a fixed‑size rolling buffer of the last 50 messages.\",\n      \"queries\": [\"python collections deque fixed length\", \"rolling buffer python standard library\", \"store last N items python list\"],\n      \"success_criteria\": \"Recommend using collections.deque with maxlen=50 and explain how it automatically discards oldest entries.\"\n    },\n    {\n      \"question\": 2,\n      \"text\": \"Show how to serialize and retrieve messages from the rolling buffer for new clients.\",\n      \"queries\": [\"deque iterate python chat history\", \"send last N messages python socket\", \"convert deque to list python\"],\n      \"success_criteria\": \"Provide a short code snippet that converts the deque to a list or iterates over it to send history to a newly connected client.\"\n    },\n    {\n      \"question\": 3,\n      \"text\": \"Identify standard‑library tools to measure round‑trip message latency between server and client on a LAN.\",\n      \"queries\": [\"python time monotonic latency measurement\", \"measure socket round trip time python\", \"timestamp messages python standard library\"],\n      \"success_criteria\": \"Describe using time.monotonic() or time.perf_counter() with timestamps embedded in messages to compute latency.\"\n    },\n    {\n      \"question\": 3,\n      \"text\": \"Explain how to account for clock drift and ensure accurate latency numbers without external synchronization.\",\n      \"queries\": [\"clock drift python time.monotonic\", \"synchronizing timestamps python client server\", \"accurate latency measurement python without NTP\"],\n      \"success_criteria\": \"Recommend using monotonic clocks on both ends and calculating differences locally to avoid cross‑machine clock issues.\"\n    }\n  ]\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 661,
+      "latency_s": 2.2102,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 820,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

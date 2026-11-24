@@ -3,7 +3,7 @@ BACKEND := backend
 UV := uv --directory $(BACKEND)
 COMPOSE := $(shell docker compose version >/dev/null 2>&1 && echo 'docker compose' || echo docker-compose)
 
-.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api demo demo-replay reset-demo report stop security coding-venv sandbox-image
+.PHONY: help setup doctor cloud-check test test-unit lint fmt typecheck schemas contracts-snapshot check precommit regression infra-up infra-down obs-up obs-down obs-open agents api demo demo-replay demo-final reset-demo report stop security coding-venv sandbox-image
 
 help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-12s %s\n", $$1, $$2}'
@@ -80,6 +80,9 @@ demo: ## the whole platform on this laptop, live (cloud keys, then Ollama), pre-
 
 demo-replay: ## the same demo offline: recorded answers + saved pages, works with Ollama stopped and Wi-Fi off
 	@DEMO_MODE=replay scripts/demo.sh
+
+demo-final: ## the three golden end-to-end scenarios on the whole platform, replayed (Sprint 10; --record: see the script)
+	@scripts/demo_final.sh
 
 reset-demo: ## back to the demo state: empty database + no artifacts (asks first; the next make demo seeds again)
 	@scripts/reset_demo.sh

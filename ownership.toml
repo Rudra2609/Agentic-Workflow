@@ -117,5 +117,15 @@ paths = ["docs/members/*/core-requests.md"]
      "docs/README.md", "backend/src/hmap/core/config.py", ".env.example",
      "backend/tests/verify/security/test_injection.py", "README.md", "HANDOFF.md",
      "frontend/src/features/_registry.generated.ts", "docs/sprints/mid-evaluation.md"]
-10 = ["backend/tests/e2e/**", "scripts/demo_final.sh"]
+# Sprint 10 plan §1 (defaults taken 2026-11-01, Q1-Q9): the e2e scenarios + contract suite + "no silent stubs", the
+# final and Sprint 10 demos, review settings, the README real-vs-stub row, handoff notes, the regenerated feature
+# registry and config reference, the Make target; the test that still expected a review stub. Member 1's own changes
+# for Q1 / Q3 (the recovery slot in the Manager, ManagerHandle reads) are listed so the check reports them for sign-off.
+10 = ["backend/tests/e2e/**", "scripts/demo_final.sh", "scripts/demo_final.py", "scripts/demo_sprint_10.sh",
+      "scripts/demo_sprint_10.py", "backend/src/hmap/core/config.py", ".env.example", "Makefile", "README.md",
+      "HANDOFF.md", "docs/README.md", "frontend/src/features/_registry.generated.ts",
+      "docs/members/9/platform/configuration.md", "backend/tests/api/test_api.py",
+      "backend/tests/core/runtime/test_discovery.py", "backend/tests/planning/test_agent_api.py",
+      "backend/src/hmap/manager/manager.py",
+      "backend/src/hmap/core/plugins.py", "ownership.toml"]
 11 = ["scripts/pull_models.sh", "infra/**"]

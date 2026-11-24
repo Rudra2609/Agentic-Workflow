@@ -1,0 +1,487 @@
+{
+  "project_id": "P-01M6BJ50H1AG04XA710D8ERPY8",
+  "version": 1,
+  "tasks": [
+    {
+      "id": "research",
+      "title": "Research the approach",
+      "description": "Find out what the team needs to know before designing: the techniques, libraries and pitfalls the requirements involve.",
+      "agent_capability": "research.run",
+      "requirement_ids": [],
+      "acceptance_criteria": [
+        "every research question has an answer with sources",
+        "the answers name the options considered"
+      ],
+      "depends_on": [],
+      "priority": "high",
+      "est_effort": 2.0,
+      "phase": "research",
+      "research_questions": [
+        "Which concurrency model (threading, multiprocessing, or selectors) works best with Python 3.11 standard library for handling \u226510 simultaneous TCP clients?",
+        "How can unique nicknames be enforced efficiently without external libraries?",
+        "What is the simplest data structure for a rolling buffer of the last 50 messages using only the standard library?",
+        "How can we accurately measure message latency on a local network using only standard library tools?"
+      ]
+    },
+    {
+      "id": "verify",
+      "title": "Check the research findings",
+      "description": "Verify the research report's claims against its sources before the design relies on them.",
+      "agent_capability": "verify.claims",
+      "requirement_ids": [],
+      "acceptance_criteria": [
+        "every claim the design uses is supported by a source",
+        "unsupported claims are marked"
+      ],
+      "depends_on": [
+        "research"
+      ],
+      "priority": "high",
+      "est_effort": 1.0,
+      "phase": "research",
+      "research_questions": []
+    },
+    {
+      "id": "design",
+      "title": "Design the solution",
+      "description": "Decide the structure: modules, interfaces and data formats for every part, and set up the project skeleton.",
+      "agent_capability": "code.implement",
+      "requirement_ids": [],
+      "acceptance_criteria": [
+        "each part has a module and an interface",
+        "the skeleton runs",
+        "the design follows the constraints",
+        "C1 respected: Use Python 3.11 and the standard library only.",
+        "C2 respected: Use TCP sockets; do not use a web framework."
+      ],
+      "depends_on": [
+        "verify"
+      ],
+      "priority": "high",
+      "est_effort": 2.0,
+      "phase": "design",
+      "research_questions": []
+    },
+    {
+      "id": "T1",
+      "title": "Implement core chat server",
+      "description": "Create a TCP server that accepts connections, enforces unique nicknames, broadcasts messages, and announces joins/leaves.",
+      "agent_capability": "code.implement",
+      "requirement_ids": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R7"
+      ],
+      "acceptance_criteria": [
+        "R1: The server must accept at least 10 clients connected at the same time.",
+        "R2: Each client must choose a unique nickname when it connects.",
+        "R3: A message sent by one client must be delivered to every other connected client.",
+        "R4: The server shall announce when a client joins or leaves the chat.",
+        "R7: The server must not crash when a client disconnects without warning."
+      ],
+      "depends_on": [
+        "design"
+      ],
+      "priority": "urgent",
+      "est_effort": 8.0,
+      "phase": "implement",
+      "research_questions": []
+    },
+    {
+      "id": "T2",
+      "title": "Add private messaging command",
+      "description": "Extend the server to parse the /msg command and deliver a private message to the specified recipient.",
+      "agent_capability": "code.implement",
+      "requirement_ids": [
+        "R5"
+      ],
+      "acceptance_criteria": [
+        "R5: Clients should be able to send a private message with the command /msg."
+      ],
+      "depends_on": [
+        "T1"
+      ],
+      "priority": "high",
+      "est_effort": 4.0,
+      "phase": "implement",
+      "research_questions": []
+    },
+    {
+      "id": "T4",
+      "title": "Test connection capacity and latency",
+      "description": "Run load tests with 10+ simulated clients and measure message delivery time to ensure it is under one second.",
+      "agent_capability": "test.run",
+      "requirement_ids": [
+        "R1",
+        "R8"
+      ],
+      "acceptance_criteria": [
+        "R1: The server must accept at least 10 clients connected at the same time.",
+        "R8: Messages should reach other clients within one second on a local network."
+      ],
+      "depends_on": [
+        "T1"
+      ],
+      "priority": "high",
+      "est_effort": 5.0,
+      "phase": "test",
+      "research_questions": []
+    },
+    {
+      "id": "T6",
+      "title": "Test server robustness on abrupt disconnects",
+      "description": "Simulate unexpected client terminations and verify the server remains stable.",
+      "agent_capability": "test.run",
+      "requirement_ids": [
+        "R7"
+      ],
+      "acceptance_criteria": [
+        "R7: The server must not crash when a client disconnects without warning."
+      ],
+      "depends_on": [
+        "T1"
+      ],
+      "priority": "high",
+      "est_effort": 3.0,
+      "phase": "test",
+      "research_questions": []
+    },
+    {
+      "id": "T3",
+      "title": "Implement message history buffer",
+      "description": "Store the last 50 broadcast messages and send them to newly connected clients.",
+      "agent_capability": "code.implement",
+      "requirement_ids": [
+        "R6"
+      ],
+      "acceptance_criteria": [
+        "R6: The server may keep a history of the last 50 messages for new clients."
+      ],
+      "depends_on": [
+        "T1"
+      ],
+      "priority": "low",
+      "est_effort": 3.0,
+      "phase": "implement",
+      "research_questions": []
+    },
+    {
+      "id": "T5",
+      "title": "Validate core and private messaging functionality",
+      "description": "Execute functional tests for nickname uniqueness, broadcast, join/leave announcements, and private messages.",
+      "agent_capability": "test.run",
+      "requirement_ids": [
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6"
+      ],
+      "acceptance_criteria": [
+        "R2: Each client must choose a unique nickname when it connects.",
+        "R3: A message sent by one client must be delivered to every other connected client.",
+        "R4: The server shall announce when a client joins or leaves the chat.",
+        "R5: Clients should be able to send a private message with the command /msg.",
+        "R6: The server may keep a history of the last 50 messages for new clients."
+      ],
+      "depends_on": [
+        "T2",
+        "T3"
+      ],
+      "priority": "urgent",
+      "est_effort": 6.0,
+      "phase": "test",
+      "research_questions": []
+    },
+    {
+      "id": "T7",
+      "title": "Prepare README",
+      "description": "Produce the deliverable D2: README.",
+      "agent_capability": "docs.generate",
+      "requirement_ids": [],
+      "acceptance_criteria": [
+        "D2 exists: README",
+        "it matches the finished, tested work"
+      ],
+      "depends_on": [
+        "T4",
+        "T5",
+        "T6"
+      ],
+      "priority": "high",
+      "est_effort": 2.0,
+      "phase": "document",
+      "research_questions": []
+    },
+    {
+      "id": "T8",
+      "title": "Prepare Design report",
+      "description": "Produce the deliverable D3: Design report.",
+      "agent_capability": "docs.generate",
+      "requirement_ids": [],
+      "acceptance_criteria": [
+        "D3 exists: Design report",
+        "it matches the finished, tested work"
+      ],
+      "depends_on": [
+        "T4",
+        "T5",
+        "T6"
+      ],
+      "priority": "normal",
+      "est_effort": 2.0,
+      "phase": "document",
+      "research_questions": []
+    },
+    {
+      "id": "review",
+      "title": "Final review",
+      "description": "Check the finished work against every requirement, constraint, deliverable and the marking scheme before it is handed in.",
+      "agent_capability": "review.final",
+      "requirement_ids": [],
+      "acceptance_criteria": [
+        "every must requirement is met",
+        "every deliverable is present",
+        "C1 respected: Use Python 3.11 and the standard library only.",
+        "C2 respected: Use TCP sockets; do not use a web framework.",
+        "C3 respected: Work in groups of at most two students.",
+        "C4 respected: Submit everything on the course portal before 23:59 on Friday of week 6.",
+        "D1 handed in: Source code ZIP (ZIP)",
+        "D2 handed in: README",
+        "D3 handed in: Design report",
+        "checked against the marking scheme (6 criteria, 100 marks)"
+      ],
+      "depends_on": [
+        "T7",
+        "T8"
+      ],
+      "priority": "high",
+      "est_effort": 1.0,
+      "phase": "review",
+      "research_questions": []
+    }
+  ],
+  "roadmap": {
+    "phases": [
+      {
+        "id": "g-research",
+        "name": "Research",
+        "task_ids": [
+          "research",
+          "verify"
+        ],
+        "parent_id": null
+      },
+      {
+        "id": "g-design",
+        "name": "Design",
+        "task_ids": [
+          "design"
+        ],
+        "parent_id": null
+      },
+      {
+        "id": "g-implement",
+        "name": "Build",
+        "task_ids": [],
+        "parent_id": null
+      },
+      {
+        "id": "g-test",
+        "name": "Test",
+        "task_ids": [
+          "T4",
+          "T5",
+          "T6"
+        ],
+        "parent_id": null
+      },
+      {
+        "id": "g-document",
+        "name": "Document",
+        "task_ids": [
+          "T7",
+          "T8"
+        ],
+        "parent_id": null
+      },
+      {
+        "id": "g-review",
+        "name": "Review",
+        "task_ids": [
+          "review"
+        ],
+        "parent_id": null
+      },
+      {
+        "id": "g-implement-core",
+        "name": "Core",
+        "task_ids": [
+          "T1"
+        ],
+        "parent_id": "g-implement"
+      },
+      {
+        "id": "g-implement-messaging",
+        "name": "Messaging",
+        "task_ids": [
+          "T2"
+        ],
+        "parent_id": "g-implement"
+      },
+      {
+        "id": "g-implement-history",
+        "name": "History",
+        "task_ids": [
+          "T3"
+        ],
+        "parent_id": "g-implement"
+      }
+    ],
+    "milestones": [
+      {
+        "name": "Research checked",
+        "task_ids": [
+          "research",
+          "verify"
+        ]
+      },
+      {
+        "name": "Design ready",
+        "task_ids": [
+          "design"
+        ]
+      },
+      {
+        "name": "Built and tested",
+        "task_ids": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6"
+        ]
+      },
+      {
+        "name": "Documents ready",
+        "task_ids": [
+          "T7",
+          "T8"
+        ]
+      },
+      {
+        "name": "Ready to hand in",
+        "task_ids": [
+          "review"
+        ]
+      }
+    ],
+    "markdown": "# Plan\n\n12 steps, about 39 hours of work; with enough agents working in parallel the longest chain (critical path) takes 26 hours over 8 stages.\n\n## Research\n\n- **research** Research the approach (research.run, 2 h, high) **(critical)**\n- **verify** Check the research findings (verify.claims, 1 h, high) \u2014 after research **(critical)**\n\n## Design\n\n- **design** Design the solution (code.implement, 2 h, high) \u2014 after verify **(critical)**\n\n## Build\n\n- *Core*\n  - **T1** Implement core chat server (code.implement, 8 h, urgent) [R1, R2, R3, R4, R7] \u2014 after design **(critical)**\n- *Messaging*\n  - **T2** Add private messaging command (code.implement, 4 h, high) [R5] \u2014 after T1 **(critical)**\n- *History*\n  - **T3** Implement message history buffer (code.implement, 3 h, low) [R6] \u2014 after T1\n\n## Test\n\n- **T4** Test connection capacity and latency (test.run, 5 h, high) [R1, R8] \u2014 after T1\n- **T5** Validate core and private messaging functionality (test.run, 6 h, urgent) [R2, R3, R4, R5, R6] \u2014 after T2, T3 **(critical)**\n- **T6** Test server robustness on abrupt disconnects (test.run, 3 h, high) [R7] \u2014 after T1\n\n## Document\n\n- **T7** Prepare README (docs.generate, 2 h, high) \u2014 after T4, T5, T6 **(critical)**\n- **T8** Prepare Design report (docs.generate, 2 h, normal) \u2014 after T4, T5, T6\n\n## Review\n\n- **review** Final review (review.final, 1 h, high) \u2014 after T7, T8 **(critical)**\n\n## Critical path\n\nresearch (Research the approach) -> verify (Check the research findings) -> design (Design the solution) -> T1 (Implement core chat server) -> T2 (Add private messaging command) -> T5 (Validate core and private messaging functionality) -> T7 (Prepare README) -> review (Final review)\n\n## Stages (steps in one stage can run at the same time)\n\n1. research\n2. verify\n3. design\n4. T1\n5. T2, T3, T4, T6\n6. T5\n7. T7, T8\n8. review\n"
+  },
+  "coverage_matrix": {
+    "R1": [
+      "T1",
+      "T4"
+    ],
+    "R2": [
+      "T1",
+      "T5"
+    ],
+    "R3": [
+      "T1",
+      "T5"
+    ],
+    "R4": [
+      "T1",
+      "T5"
+    ],
+    "R5": [
+      "T2",
+      "T5"
+    ],
+    "R6": [
+      "T3",
+      "T5"
+    ],
+    "R7": [
+      "T1",
+      "T6"
+    ],
+    "R8": [
+      "T4"
+    ]
+  },
+  "edges": [
+    {
+      "from": "research",
+      "to": "verify"
+    },
+    {
+      "from": "verify",
+      "to": "design"
+    },
+    {
+      "from": "design",
+      "to": "T1"
+    },
+    {
+      "from": "T1",
+      "to": "T2"
+    },
+    {
+      "from": "T1",
+      "to": "T4"
+    },
+    {
+      "from": "T1",
+      "to": "T6"
+    },
+    {
+      "from": "T1",
+      "to": "T3"
+    },
+    {
+      "from": "T2",
+      "to": "T5"
+    },
+    {
+      "from": "T3",
+      "to": "T5"
+    },
+    {
+      "from": "T4",
+      "to": "T7"
+    },
+    {
+      "from": "T5",
+      "to": "T7"
+    },
+    {
+      "from": "T6",
+      "to": "T7"
+    },
+    {
+      "from": "T4",
+      "to": "T8"
+    },
+    {
+      "from": "T5",
+      "to": "T8"
+    },
+    {
+      "from": "T6",
+      "to": "T8"
+    },
+    {
+      "from": "T7",
+      "to": "review"
+    },
+    {
+      "from": "T8",
+      "to": "review"
+    }
+  ]
+}

@@ -1,0 +1,374 @@
+{
+  "tcp": {
+    "project_id": "P-01M6BJ171M7QMMEEDDQH6SVZYJ",
+    "project_state": "COMPLETED",
+    "capabilities": {
+      "document.extract": [
+        "COMPLETED"
+      ],
+      "plan.generate": [
+        "COMPLETED"
+      ],
+      "research.run": [
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "test.run": [
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "review.final": [
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "verify.claims": [
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "code.implement": [
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "docs.generate": [
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "docs.update": [
+        "COMPLETED"
+      ]
+    },
+    "rounds": [
+      {
+        "round": 0,
+        "recommendation": "REVISE",
+        "completeness": 0.833,
+        "failures": [
+          [
+            "D2",
+            "DOC_MISMATCH",
+            "T-01M6BJ1JNZG8X6M3RBWTGERX9R"
+          ],
+          [
+            "D3",
+            "DOC_MISMATCH",
+            "T-01M6BJ1JNZG8X6M3RBWTGERX9R"
+          ]
+        ],
+        "items": {
+          "R1": "PASS",
+          "R2": "PASS",
+          "R3": "PASS",
+          "R4": "PASS",
+          "R5": "PASS",
+          "R6": "PASS",
+          "R7": "PASS",
+          "R8": "PASS",
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PARTIAL",
+          "C4": "PARTIAL",
+          "D1": "PASS",
+          "D2": "PARTIAL",
+          "D3": "PARTIAL",
+          "E1": "PARTIAL",
+          "E2": "PARTIAL",
+          "E3": "PARTIAL",
+          "E4": "PARTIAL",
+          "E5": "PARTIAL",
+          "E6": "PARTIAL"
+        },
+        "stop_reason": null,
+        "created": [
+          [
+            "revise",
+            "docs.update"
+          ],
+          [
+            "review",
+            "review.final"
+          ]
+        ],
+        "stale_of": null
+      },
+      {
+        "round": 1,
+        "recommendation": "PASS",
+        "completeness": 0.917,
+        "failures": [],
+        "items": {
+          "R1": "PASS",
+          "R2": "PASS",
+          "R3": "PASS",
+          "R4": "PASS",
+          "R5": "PASS",
+          "R6": "PASS",
+          "R7": "PASS",
+          "R8": "PASS",
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PARTIAL",
+          "C4": "PARTIAL",
+          "D1": "PASS",
+          "D2": "PASS",
+          "D3": "PASS",
+          "E1": "PARTIAL",
+          "E2": "PARTIAL",
+          "E3": "PARTIAL",
+          "E4": "PARTIAL",
+          "E5": "PARTIAL",
+          "E6": "PARTIAL"
+        },
+        "stop_reason": null,
+        "created": [],
+        "stale_of": null
+      }
+    ],
+    "tasks": 18,
+    "revision_happened": true
+  },
+  "essay": {
+    "project_id": "P-01M6BJ3GRWXSWZ1QPQR545D8Y9",
+    "project_state": "COMPLETED",
+    "capabilities": {
+      "document.extract": [
+        "COMPLETED"
+      ],
+      "plan.generate": [
+        "COMPLETED"
+      ],
+      "docs.generate": [
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "review.final": [
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "research.run": [
+        "COMPLETED"
+      ],
+      "verify.claims": [
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED"
+      ]
+    },
+    "rounds": [
+      {
+        "round": 0,
+        "recommendation": "REVISE",
+        "completeness": 0.786,
+        "failures": [
+          [
+            "R1",
+            "DOC_MISMATCH",
+            "T-01M6BJ3GW6XY3KDRVSRAJWVHY7"
+          ],
+          [
+            "C1",
+            "DOC_MISMATCH",
+            "T-01M6BJ3GW60EPJ7NHAHDKQGVXA"
+          ],
+          [
+            "D1",
+            "DOC_MISMATCH",
+            "T-01M6BJ3GW60EPJ7NHAHDKQGVXA"
+          ]
+        ],
+        "items": {
+          "R1": "PARTIAL",
+          "R2": "PASS",
+          "R3": "PASS",
+          "R4": "PASS",
+          "R5": "PASS",
+          "C1": "PARTIAL",
+          "D1": "PARTIAL",
+          "E1": "PARTIAL",
+          "E2": "PARTIAL",
+          "E3": "PARTIAL"
+        },
+        "stop_reason": null,
+        "created": [
+          [
+            "revise",
+            "docs.generate"
+          ],
+          [
+            "revise",
+            "docs.generate"
+          ],
+          [
+            "rerun",
+            "verify.claims"
+          ],
+          [
+            "rerun",
+            "verify.claims"
+          ],
+          [
+            "rerun",
+            "verify.claims"
+          ],
+          [
+            "review",
+            "review.final"
+          ]
+        ],
+        "stale_of": null
+      },
+      {
+        "round": 1,
+        "recommendation": "PASS",
+        "completeness": 1.0,
+        "failures": [],
+        "items": {
+          "R1": "PASS",
+          "R2": "PASS",
+          "R3": "PASS",
+          "R4": "PASS",
+          "R5": "PASS",
+          "C1": "PASS",
+          "D1": "PASS",
+          "E1": "PARTIAL",
+          "E2": "PARTIAL",
+          "E3": "PARTIAL"
+        },
+        "stop_reason": null,
+        "created": [],
+        "stale_of": null
+      }
+    ],
+    "tasks": 19
+  },
+  "change": {
+    "project_id": "P-01M6BJ3JAB6QKAA0D5SCXSYYRF",
+    "kept": 2,
+    "project_state": "COMPLETED",
+    "capabilities": {
+      "document.extract": [
+        "COMPLETED"
+      ],
+      "plan.generate": [
+        "COMPLETED"
+      ],
+      "code.implement": [
+        "CANCELLED",
+        "CANCELLED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "docs.generate": [
+        "CANCELLED",
+        "CANCELLED",
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "test.run": [
+        "CANCELLED",
+        "COMPLETED",
+        "CANCELLED",
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "verify.claims": [
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "review.final": [
+        "CANCELLED",
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "research.run": [
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "plan.replan": [
+        "COMPLETED"
+      ]
+    },
+    "rounds": [
+      {
+        "round": 0,
+        "recommendation": "PASS",
+        "completeness": 0.923,
+        "failures": [],
+        "items": {
+          "R1": "PASS",
+          "R2": "PASS",
+          "R3": "PASS",
+          "R4": "PASS",
+          "R5": "PASS",
+          "R6": "PASS",
+          "R7": "PASS",
+          "R8": "PASS",
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PARTIAL",
+          "D1": "PASS",
+          "D2": "PASS",
+          "D3": "PASS",
+          "D4": "PARTIAL",
+          "H1": "PASS",
+          "E1": "PARTIAL",
+          "E2": "PARTIAL",
+          "E3": "PARTIAL",
+          "E4": "PARTIAL",
+          "E5": "PARTIAL",
+          "E6": "PARTIAL"
+        },
+        "stop_reason": null,
+        "created": [],
+        "stale_of": null
+      },
+      {
+        "round": 0,
+        "recommendation": "PASS",
+        "completeness": 0.923,
+        "failures": [],
+        "items": {
+          "R1": "PASS",
+          "R2": "PASS",
+          "R3": "PASS",
+          "R4": "PASS",
+          "R5": "PASS",
+          "R6": "PASS",
+          "R7": "PASS",
+          "R8": "PASS",
+          "C1": "PASS",
+          "C2": "PASS",
+          "C3": "PARTIAL",
+          "D1": "PASS",
+          "D2": "PASS",
+          "D3": "PASS",
+          "D4": "PARTIAL",
+          "H1": "PASS",
+          "E1": "PARTIAL",
+          "E2": "PARTIAL",
+          "E3": "PARTIAL",
+          "E4": "PARTIAL",
+          "E5": "PARTIAL",
+          "E6": "PARTIAL"
+        },
+        "stop_reason": null,
+        "created": [],
+        "stale_of": "T-01M6BJ45AN6MDD53MJ9JT9CVRC"
+      }
+    ],
+    "tasks": 25
+  }
+}

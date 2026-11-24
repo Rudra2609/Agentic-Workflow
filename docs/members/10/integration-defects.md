@@ -1,0 +1,32 @@
+# Integration defects (Sprint 10 item 10.20)
+
+Found while closing the loop and running the golden scenarios on the whole platform (fake, replay and live with the
+team keys). Each one is fixed (where), handled on Member 10's side, or left with its owner, with how to reproduce.
+The list is closed when every row is fixed or accepted by Member 1.
+
+| # | Found by | Owner | Defect | Status |
+|---|---|---|---|---|
+| 1 | reading the code | M1 | The `recovery` strategy slot was declared but never read by the Manager: a plug-in "providing recovery" did nothing | **fixed** by Member 1 (Q1): `assign_inputs` / `on_settle` / `resume_review`, `NoRecovery` default |
+| 2 | reading the code | M1 | `review.final` is the graph's sink, so the project became COMPLETED (and `project.completed` fired) the moment the review step finished, even when it said REVISE; tasks created afterwards were not reconciled | **fixed** (Q1): `on_settle` holds the run; a task created for a settled run reopens it |
+| 3 | reading the code | M1 | `ManagerHandle` had no `list_tasks` / `get_project` (the Manager had both): hooks could not see the plan's task ids | **fixed** (Q3) |
+| 4 | reading the code | M1 | `NEEDS_REVISION` is only reachable from `RESULT_SUBMITTED` / `REVIEWING`; a COMPLETED step cannot be marked | accepted (Q2): revisions are new tasks with `parent_task_id`; `revision.requested` marks the original |
+| 5 | loop test | M1 | plan tasks of one graph share one `created_at`: ordering by creation time is not topological | handled in `recovery.execute` (fixpoint); worth knowing for anyone sorting tasks |
+| 6 | design | M8 | Member 8's test → revise loop also reacts to the test runs recovery creates (two loops fixing one failure) | handled: recovery's `test.run` carries `inputs.loop` at the round limit, so `refine_loop.decide` stops (tested) |
+| 7 | design | M8 | `TestReport` has no per-test requirement ids: a failing test step marks every requirement that step covers | open, Member 8 backlog: per-test `requirement_ids` in the testing trace would make attribution per requirement |
+| 8 | design | M1 | `ArtifactRef` has no task id; the review maps artifacts to steps through the task table (result artifact ids) | accepted (no contract change) |
+| 9 | full suite | M1 | `tests/api/test_api.py` and `tests/core/runtime/test_discovery.py` asserted that `review.final` is still a stub | **fixed** (the stub is replaced; the discovery test now checks that no `stub-*` agent runs) |
+| 10 | full suite | M9 | the configuration reference drift test fails after any new setting until `python -m hmap.agents.docgen.config_reference` is run | regenerated; expected behaviour (it is the drift check), noted in the handoff |
+| 11 | stub pipeline / planning tests | M10 | the real reviewer escalated goal-only and stub projects (no requirement set; stub output; unchecked constraints) and the projects waited for a person forever | **fixed** in the review: stub output, unchecked constraints and "no requirements" never block |
+| 12 | live run 1 | M10 | process constraints ("groups of at most two students", "submit before Friday 23:59") were judged FAIL and sent to the coding step to fix | **fixed**: process / submission constraints are "needs a person", never revised |
+| 13 | live run 1 | M10 | the judge answered FAIL with **no** evidence lines ("the evidence section is empty") | **fixed**: no evidence lines → the judge is not asked |
+| 14 | live run 1 | M10 | "web frameworks are not allowed" (a trailing negative and a category word) was not checked against the code | **fixed**: trailing negatives, category words (web / networking framework → known libraries), the code's imports always given as evidence |
+| 15 | live run 1 | M10 | a replan created by recovery became a "human change request" item in the next review | **fixed**: only a person's replans count |
+| 16 | live run 1 | M5 (data) | the offline research corpus (`samples/research`, `HMAP_RESEARCH_MODE=cached`) has no sources outside networking / Python topics: a report on version control got 0 pages, so the docs agent had nothing verified to write and every requirement was "not shown" (correctly escalated) | open, Member 5 / 11: the golden report scenario uses a topic the corpus covers (threads vs coroutines); any other offline topic needs its pages added to the corpus or `HMAP_RESEARCH_MODE=online` |
+| 17 | live run 1 | M1 / M9 | the demo's `TaskInspector` link `/features/ops?task=` is the only task deep link; the Review tab reuses it | accepted |
+| 18 | live run 2 | M9 | the generated README / report carried sentences the code does not support on the first pass (D2, D3 DOC_MISMATCH) | not a defect: found by the review, fixed by one targeted `docs.update`, round 1 PASS (the loop doing its job) |
+| 19 | the testing loop | M1 | `review.completed` is emitted by a hook right after the run settles: a client reading events at the instant the project becomes COMPLETED may not see it yet | handled in the tests and demos (wait for the event) |
+| 20 | live run 3 | M2 / M10 | doc_intel sometimes files a submission rule ("submit on the portal before Friday") as a **deliverable**; the review then judged it FAIL | **fixed** in the review: process wording makes a deliverable "needs a person"; "the checks could not tell" is no longer shown to the judge as evidence |
+| 21 | replay | M1 / all | plan steps running in parallel finish in a different order each run → a different project head → different prompts → a recording that does not replay (Sprint 7's trap) | handled in `demo_final.sh` (`HMAP_PLAN_MAX_PARALLEL=1`); any replayed demo with parallel steps needs the same |
+| 22 | browser check | M10 | a doc mismatch on a requirement only code steps cover was sent to a coding step | **fixed**: no covering step of the right kind → the project's own step of that kind |
+| 23 | single-model tier | M11 | with every role on local `qwen3.5:9b` a golden scenario does not finish in 90 min on this laptop (coding steps ~15 min each, all hitting the coding time limit); on one cloud model (Groq Qwen) all three complete, but most calls hit the rate limit | accepted by Member 1 (cloud single-model tier, `DEMO_TIER=single-cloud`); local tier left to Member 11; eval.md §6 |
+| 24 | browser check | M1 | the project header for `REVIEWING` says "The finished work is being reviewed." also when the review is waiting for a person (the Review tab says so) | open, Member 1 (`StateChip` wording) |
