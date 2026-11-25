@@ -263,4 +263,8 @@ ALL_TABLES: tuple[str, ...] = tuple(metadata.tables)
 MEMBER_TABLES: dict[str, str] = {
     "research_chunks": "Member 5, migration 005 (hmap.agents.research.index)",
     "security_audit": "Member 6, migration 006 (hmap.core.policy.PgAudit)",
+    "model_registry": "Member 11, migration 011 (hmap.agents.models.store)",
+    "route_decisions": "Member 11, migration 011 (hmap.agents.models.store)",
+    "benchmark_results": "Member 11, migration 011 (hmap.agents.models.store)",
+    "finetune_runs": "Member 11, migration 011 (hmap.agents.models.store)",
 }

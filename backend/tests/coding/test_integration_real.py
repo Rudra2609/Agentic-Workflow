@@ -47,7 +47,9 @@ def test_code_implement_and_revise_on_rabbitmq_and_postgres(stack: TestClient) -
     refs = task["executions"][-1]["result_refs"]
     assert [r["artifact_type"] for r in refs] == TYPES
     assert hidden_pass(files_from_tar(get_bytes(client, pid, refs[1])))
-    events = client.get("/api/events", params={"project_id": pid, "limit": 500}).json()
+    # the event reaches the feed through the outbox a moment after the task settles: wait for it (Sprint 11)
+    events = poll(client, f"/api/events?project_id={pid}&limit=500",
+                  lambda evs: any(e["event_type"] == "code.completed" for e in evs), timeout=30)
     assert [e["data"]["files_changed"] for e in events if e["event_type"] == "code.completed"] == [["stats.py"]]
     r = client.post(f"/api/coding/runs/{pid}/{tid}/revise", json={"required_changes": ["document median"]})
     assert r.status_code == 202, r.text

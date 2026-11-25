@@ -25,6 +25,11 @@ Telemetry (Sprint 4): every ``generate`` / ``embed`` / ``read_images`` call is a
 with the model, provider, token counts and whether the cache answered — never the prompt or the answer — and feeds
 the ``hmap_llm_*`` metrics (latency, tokens, calls by outcome).
 
+Routing (Sprint 11, the ``llm_provider`` plug-in slot): with a ``route`` strategy the gateway asks it before every
+live chat call (never for replay hits, fake mode or embeddings) which cloud routes to try, in which order, and which
+local model / provider to fall back to; ``None`` keeps the role maps. The replay key does not include the model, so
+routing never changes what a replay answers.
+
 Permission (both lanes): ``HMAP_CLOUD_OK=false`` or a client bound with ``cloud_ok=False`` (a local-only project) is a
 hard "never call the cloud"; otherwise ``allow_cloud`` decides per call; when neither is given the key pool is used
 for mapped roles, and the legacy provider is not.
@@ -58,6 +63,7 @@ from hmap.core.llm.providers.base import ChatProvider, ChatRequest, LocalProvide
 from hmap.core.llm.providers.ollama import OllamaProvider
 from hmap.core.llm.providers.openai_compat import OpenAICompatProvider
 from hmap.core.llm.structured import MAX_REPAIRS, generate_structured, inline_refs
+from hmap.core.plugins import RouteOutcome, RoutePlan, RouteQuery, RouteStrategy
 from hmap.core.tracing import get_logger
 from hmap.obs import metrics as obs_metrics
 from hmap.obs import telemetry
@@ -90,8 +96,9 @@ class _Shared:
 
     def __init__(self, settings: Settings, mode: LLMMode, local: LocalProvider | None, cloud: ChatProvider | None,
                  fake: FakeLLM | None, cache: ReplayCache, cloud_roles: frozenset[str],
-                 router: CloudRouter | None) -> None:
+                 router: CloudRouter | None, route: RouteStrategy | None = None) -> None:
         self.settings = settings
+        self.route = route
         self.mode = mode
         self._local = local
         self.cloud = cloud
@@ -100,6 +107,9 @@ class _Shared:
         self.cache = cache
         self.cloud_roles = cloud_roles
         self.semaphore = asyncio.Semaphore(max(1, settings.llm_max_concurrency))
+        listener = getattr(route, "observe_attempt", None)
+        if router is not None and listener is not None:
+            router.attempt_listener = listener
 
     @property
     def local(self) -> LocalProvider:
@@ -139,7 +149,8 @@ class Gateway:
                  fake: FakeLLM | None = None, cache: ReplayCache | None = None, mode: LLMMode | None = None,
                  plugin: str = "default", preamble: str | None = None, prompt_version: str = "1",
                  cloud_ok: bool | None = None, cloud_roles: frozenset[str] | None = None,
-                 cloud_router: CloudRouter | None = None, max_repairs: int = MAX_REPAIRS) -> None:
+                 cloud_router: CloudRouter | None = None, max_repairs: int = MAX_REPAIRS,
+                 route: RouteStrategy | None = None) -> None:
         """``cloud`` (deprecated legacy lane) defaults to an :class:`OpenAICompatProvider` when ``cloud_base_url``
         and ``cloud_api_key`` are both set. ``cloud_router`` (the team key pool) defaults to
         :meth:`CloudRouter.from_settings` — ``None`` when no keys/role map are configured. Neither is built in
@@ -156,7 +167,7 @@ class Gateway:
         self._shared = _Shared(settings, resolved_mode, local, cloud, fake,
                                cache if cache is not None else ReplayCache(settings.llm_cache_dir),
                                cloud_roles if cloud_roles is not None else CHAT_ROLES,
-                               cloud_router if networked else None)
+                               cloud_router if networked else None, route)
         self.plugin = validate_plugin_name(plugin)
         self.preamble = preamble
         self.prompt_version = prompt_version
@@ -201,6 +212,11 @@ class Gateway:
     @property
     def cloud_router(self) -> CloudRouter | None:
         return self._shared.router
+
+    @property
+    def route(self) -> RouteStrategy | None:
+        """The ``llm_provider`` strategy (Sprint 11), shared by every bound client; ``None``: the role maps decide."""
+        return self._shared.route
 
     def cloud_usage(self) -> dict[str, dict[str, Any]]:
         """Per key fingerprint counters of the team key pool (for ``/api/llm/usage``); ``{}`` without a pool.
@@ -388,10 +404,23 @@ class Gateway:
                 self._log(role, usage.model, "cache", usage, started)
                 return LLMResponse(text=str(response.get("text", "")), usage=usage)
 
-        request = ChatRequest(model=self.model_for(role), messages=self._with_preamble(msgs), role=role,
+        query, plan = self._route(role, msgs, max_tokens=max_tokens, structured=schema_json is not None,
+                                  allow_cloud=allow_cloud)
+        model = plan.local_model if plan is not None and plan.local_model else self.model_for(role)
+        request = ChatRequest(model=model, messages=self._with_preamble(msgs), role=role,
                               json_schema=send_format, max_tokens=max_tokens, temperature=temperature, seed=seed,
                               think=think)
-        resp, provider = await self._dispatch(request, allow_cloud)
+        try:
+            resp, provider = await self._dispatch(request, allow_cloud, plan)
+        except Exception as exc:
+            self._observe(query, plan, RouteOutcome(provider="error", model=model, ok=False,
+                                                    latency_s=time.perf_counter() - started,
+                                                    error=str(getattr(exc, "code", "")) or type(exc).__name__))
+            raise
+        self._observe(query, plan, RouteOutcome(provider=provider, model=resp.usage.model or model, ok=True,
+                                                latency_s=time.perf_counter() - started,
+                                                input_tokens=resp.usage.input_tokens,
+                                                output_tokens=resp.usage.output_tokens))
         if self.mode == "record" or (self.mode == "replay" and self._records_missing):
             self.cache.save(self.plugin, key, {
                 "role": role, "prompt_version": self.prompt_version, "key_ingredients": ingredients,
@@ -421,11 +450,48 @@ class Gateway:
             return False
         return self._cloud_permitted(allow_cloud, legacy=True)
 
-    async def _dispatch(self, request: ChatRequest, allow_cloud: bool | None) -> tuple[LLMResponse, str]:
+    def _route(self, role: str, msgs: list[Message], *, max_tokens: int, structured: bool,
+               allow_cloud: bool | None) -> tuple[RouteQuery | None, RoutePlan | None]:
+        """Ask the ``llm_provider`` strategy (Sprint 11); ``(None, None)`` without one or when it fails."""
+        route = self._shared.route
+        if route is None:
+            return None, None
         router = self._shared.router
-        if router is not None and router.handles(request.role):
+        try:
+            default_model: str | None = self.model_for(role)
+        except LLMConfigError:
+            default_model = None
+        chars = sum(len(m.content) for m in msgs) + len(self.preamble or "")
+        query = RouteQuery(role=role, plugin=self.plugin, est_tokens=int(chars / 3.5) + max_tokens,
+                           max_tokens=max_tokens, structured=structured,
+                           cloud_allowed=router is not None and self._cloud_permitted(allow_cloud, legacy=False),
+                           default_model=default_model,
+                           default_routes=tuple(router.routes_for(role)) if router is not None else (),
+                           pool=router.available() if router is not None else {})
+        try:
+            return query, route.decide(query)
+        except Exception:  # a broken router must never break a call: the role maps decide
+            log.exception("llm.route.failed", plugin=self.plugin, role=role)
+            return query, None
+
+    def _observe(self, query: RouteQuery | None, plan: RoutePlan | None, outcome: RouteOutcome) -> None:
+        route = self._shared.route
+        if route is None or query is None:
+            return
+        try:
+            route.observe(query, plan, outcome)
+        except Exception:
+            log.exception("llm.route.observe_failed", plugin=self.plugin)
+
+    async def _dispatch(self, request: ChatRequest, allow_cloud: bool | None,
+                        plan: RoutePlan | None = None) -> tuple[LLMResponse, str]:
+        router = self._shared.router
+        routes = plan.cloud_routes if plan is not None else None
+        if routes is not None and not routes:
+            pass  # the router said: no cloud for this call
+        elif router is not None and (routes is not None or router.handles(request.role)):
             if self._cloud_permitted(allow_cloud, legacy=False):
-                pooled = await router.chat(request, plugin=self.plugin)
+                pooled = await router.chat(request, plugin=self.plugin, routes=routes)
                 if pooled is not None:
                     return pooled, pooled.usage.provider
         elif (cloud := self._shared.cloud) is not None and self._cloud_allowed(request.role, allow_cloud):
@@ -434,6 +500,8 @@ class Gateway:
             except (HmapError, httpx.HTTPError) as exc:
                 log.warning("llm.cloud.fallback", plugin=self.plugin, role=request.role,
                             error_code=str(getattr(exc, "code", type(exc).__name__)), error=str(exc)[:200])
+        if plan is not None and plan.local is not None:   # a routed backend serialises its own calls (scheduler)
+            return await plan.local.chat(request), str(plan.local.name)
         local = self._shared.local
         async with self._shared.semaphore:
             return await local.chat(request), local.name

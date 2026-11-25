@@ -74,6 +74,9 @@ class CloudRouter:
                 self.role_map[role] = usable
         self.max_transient_retries = max_transient_retries
         self.local_fallbacks = 0
+        # Sprint 11: called with (provider, model, role, outcome, latency_s) after each HTTP attempt (the router's
+        # per-route statistics); must not raise
+        self.attempt_listener: Callable[[str, str, str, Outcome, float], None] | None = None
         self._client = client
         self._owns_client = owns_client
 
@@ -115,11 +118,24 @@ class CloudRouter:
     def handles(self, role: str) -> bool:
         return role in self.role_map
 
-    async def chat(self, request: ChatRequest, *, plugin: str = "default") -> LLMResponse | None:
-        """Answer from the cloud, or ``None`` when every route/key is cooling, disabled or failing."""
+    def routes_for(self, role: str) -> list[tuple[str, str]]:
+        return list(self.role_map.get(role, []))
+
+    def available(self) -> dict[str, int]:
+        """Provider -> keys usable right now (not cooling, not disabled)."""
+        return {name: backend.pool.available() for name, backend in self.backends.items()}
+
+    async def chat(self, request: ChatRequest, *, plugin: str = "default",
+                   routes: Sequence[tuple[str, str]] | None = None) -> LLMResponse | None:
+        """Answer from the cloud, or ``None`` when every route/key is cooling, disabled or failing. ``routes``
+        (Sprint 11, the router) replaces the role's configured routes for this call; providers without keys are
+        skipped."""
         attempts = 0
-        for provider_name, model in self.role_map.get(request.role, []):
-            backend = self.backends[provider_name]
+        chosen = self.role_map.get(request.role, []) if routes is None else routes
+        for provider_name, model in chosen:
+            backend = self.backends.get(provider_name)
+            if backend is None:
+                continue
             tried: set[str] = set()
             transient = 0
             while (lease := backend.pool.acquire(exclude=tried)) is not None:
@@ -147,9 +163,14 @@ class CloudRouter:
         started = time.perf_counter()
 
         def emit(outcome: Outcome, level: str = "warning", **extra: Any) -> None:
+            latency = round(time.perf_counter() - started, 4)
             getattr(log, level)("llm.cloud.call", plugin=plugin, role=request.role, provider=backend.name,
-                                model=model, key=fp, latency_s=round(time.perf_counter() - started, 4),
-                                outcome=outcome, **extra)
+                                model=model, key=fp, latency_s=latency, outcome=outcome, **extra)
+            if self.attempt_listener is not None:
+                try:
+                    self.attempt_listener(backend.name, model, request.role, outcome, latency)
+                except Exception:  # a listener never breaks a call
+                    log.exception("llm.cloud.listener_failed")
 
         try:
             resp = await backend.provider.send(request, api_key=lease.secret(), model=model)

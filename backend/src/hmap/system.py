@@ -24,7 +24,7 @@ from hmap.core.config import Settings
 from hmap.core.llm.base import LLMClient
 from hmap.core.plugins import Plugin
 from hmap.core.runtime.discovery import discover
-from hmap.core.runtime.host import AgentHost, HostDeps
+from hmap.core.runtime.host import AgentHost, HostDeps, route_strategy
 from hmap.core.tracing import get_logger
 from hmap.manager.config import ManagerConfig
 from hmap.manager.manager import Manager
@@ -142,9 +142,10 @@ class HmapSystem:
             bus = InMemoryBus()
         persistence = (postgres_persistence(settings.database_url, cfg.lease_s) if settings.store == "postgres"
                        else in_memory_persistence(cfg.lease_s))
-        return cls(bus=bus, artifacts=LocalFSArtifactStore(settings.artifact_root), llm=build_llm(settings),
-                   plugins=plugins if plugins is not None else discover(settings.enabled_plugins()),
-                   config=cfg, persistence=persistence)
+        found = plugins if plugins is not None else discover(settings.enabled_plugins())
+        return cls(bus=bus, artifacts=LocalFSArtifactStore(settings.artifact_root),
+                   llm=build_llm(settings, route=route_strategy(found, settings)),
+                   plugins=found, config=cfg, persistence=persistence)
 
     # ------------------------------------------------------------------ lifecycle
 

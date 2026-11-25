@@ -97,6 +97,21 @@ def parse_key_list(raw: str | None) -> list[str]:
     return out
 
 
+def parse_route_overrides(raw: str) -> dict[str, str]:
+    """``plugin:role=model,...`` (``*`` for any plug-in) -> ``{"plugin:role": model}``; malformed entries raise
+    without echoing values."""
+    out: dict[str, str] = {}
+    for entry in (e.strip() for e in raw.split(",")):
+        if not entry:
+            continue
+        target, sep, model = entry.partition("=")
+        plugin, colon, role = target.strip().partition(":")
+        if not sep or not colon or not plugin or not role.strip() or not model.strip():
+            raise ValueError("HMAP_ROUTE_OVERRIDES entries look like plugin:role=model (use * for any plug-in)")
+        out[f"{plugin.strip()}:{role.strip()}"] = model.strip()
+    return out
+
+
 def parse_cloud_role_map(raw: str, providers: tuple[str, ...] = CLOUD_PROVIDERS) -> dict[str, list[CloudRoute]]:
     """``"coder=groq:<model>|gemini:<model>,reasoner=gemini:<model>"`` -> ``{"coder": [("groq", m), ("gemini", m)],
     ...}``; ``none``/``off``/``local`` -> ``{}`` (every role local). Errors name the entry by position and never echo
@@ -224,6 +239,21 @@ class Settings(BaseModel):
     review_auto_recover: bool = Field(default=True, description="create revision tasks when the review says REVISE")
     review_min_confidence: float = Field(default=0.6, ge=0, le=1, description="attribution confidence to act")
     review_hold_on_escalate: bool = Field(default=True, description="ESCALATE waits for a person (REVIEWING)")
+    # --- local models & routing (Sprint 11, Member 11; hmap.agents.models) ---
+    router: Literal["on", "off"] = Field(default="on", description="the model router orders each live call's "
+                                         "routes (off = the role maps, exactly as before Sprint 11)")
+    route_overrides: dict[str, str] = Field(default_factory=dict, description="HMAP_ROUTE_OVERRIDES "
+                                            "'plugin:role=model,...' (a model, or provider:model for the cloud)")
+    route_log_days: float = Field(default=7.0, ge=0, description="days a route decision is kept")
+    mlx_base_url: str | None = Field(default=None, description="mlx_lm.server (OpenAI-compatible), e.g. "
+                                     "http://127.0.0.1:8080/v1")
+    llamacpp_base_url: str | None = Field(default=None, description="llama.cpp llama-server, e.g. "
+                                          "http://127.0.0.1:8081/v1")
+    model_tier: Literal["0", "lite", "1", "2"] = Field(default="1", description="which local models this laptop "
+                                                        "has (scripts/pull_models.sh)")
+    warmup: bool = Field(default=True, description="make demo preloads the local models")
+    models_allow_pull: bool = Field(default=False, description="the Models tab may start 'ollama pull' (tier "
+                                    "models only)")
     # --- security layer (Sprint 6, Member 6; hmap.core.policy) ---
     agent_secrets: list[SecretStr] = Field(default_factory=list, repr=False,
                                            description="HMAP_AGENT_SECRETS 'kid:secret,...' (newest first); empty = "
@@ -306,6 +336,8 @@ class Settings(BaseModel):
             "HMAP_DEMO_MIN_FREE_GB": "demo_min_free_gb",
             "HMAP_REVIEW_MAX_ROUNDS": "review_max_rounds", "HMAP_REVIEW_JUDGE_SAMPLES": "review_judge_samples",
             "HMAP_REVIEW_BUDGET_CALLS": "review_budget_calls", "HMAP_REVIEW_MIN_CONFIDENCE": "review_min_confidence",
+            "HMAP_ROUTER": "router", "HMAP_ROUTE_LOG_DAYS": "route_log_days", "HMAP_MLX_BASE_URL": "mlx_base_url",
+            "HMAP_LLAMACPP_BASE_URL": "llamacpp_base_url", "HMAP_MODEL_TIER": "model_tier",
             "HMAP_CLOUD_BASE_URL": "cloud_base_url",
             "HMAP_CLOUD_API_KEY": "cloud_api_key", "HMAP_GROQ_BASE_URL": "groq_base_url",
             "HMAP_GEMINI_BASE_URL": "gemini_base_url", "HMAP_PUBLIC_URL": "public_url",
@@ -333,7 +365,9 @@ class Settings(BaseModel):
                            ("HMAP_DOCGEN_RUN_EXAMPLES", "docgen_run_examples"),
                            ("HMAP_DOCGEN_AUTO_UPDATE", "docgen_auto_update"),
                            ("HMAP_REVIEW_AUTO_RECOVER", "review_auto_recover"),
-                           ("HMAP_REVIEW_HOLD_ON_ESCALATE", "review_hold_on_escalate")):
+                           ("HMAP_REVIEW_HOLD_ON_ESCALATE", "review_hold_on_escalate"),
+                           ("HMAP_WARMUP", "warmup"),
+                           ("HMAP_MODELS_ALLOW_PULL", "models_allow_pull")):
             if (value := get(key)) is not None:
                 data[field] = value.strip().lower() in ("1", "true", "yes", "on")
         if (value := get("HMAP_AGENT_SECRETS")) is not None:
@@ -346,8 +380,11 @@ class Settings(BaseModel):
             data["research_providers"] = tuple(p.strip() for p in value.split(",") if p.strip())
         if (value := get("HMAP_LLM_RECORD_MISSING")) is not None:
             data["llm_record_missing"] = frozenset(p.strip() for p in value.split(",") if p.strip())
-        if (value := get("HMAP_ROLE_MAP")) is not None:
+        # HMAP_MODEL_ROLES (the Sprint 11 spec's name) is an alias; HMAP_ROLE_MAP wins when both are set
+        if (value := get("HMAP_ROLE_MAP") or get("HMAP_MODEL_ROLES")) is not None:
             data["role_map"] = parse_role_map(value)
+        if (value := get("HMAP_ROUTE_OVERRIDES")) is not None:
+            data["route_overrides"] = parse_route_overrides(value)
         if (value := get("HMAP_CLOUD_ROLE_MAP")) is not None:
             data["cloud_role_map"] = parse_cloud_role_map(value)
         data["groq_api_keys"] = parse_key_list(get("HMAP_GROQ_API_KEYS"))
