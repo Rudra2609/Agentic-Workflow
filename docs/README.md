@@ -18,6 +18,7 @@ This folder is the single source of truth for *how we build the project*, sprint
 | 7 | `sprints/sprint-01 … sprint-11` | The full plan for each sprint (exactly one owner per sprint, 11 members = 11 sprints) |
 | 8 | [members/9/platform/](members/9/platform/README.md) | How the platform really runs: README, architecture, API reference, configuration, runbook, troubleshooting (generated from the code by the documentation agent, then reviewed; Sprint 9) |
 | 9 | [members/10/](members/10/README.md) | The end-to-end proof: the three golden scenarios (`scripts/demo_final.sh`), the review & recovery loop, the [integration defects](members/10/integration-defects.md) found and their owners (Sprint 10) |
+| 10 | [members/11/](members/11/README.md) | Local models & routing, the benchmark table, the [release gate](members/11/release.md) and the [demo-day runbook](members/11/runbook.md) (Sprint 11) |
 
 ## One-paragraph summary of the plan
 

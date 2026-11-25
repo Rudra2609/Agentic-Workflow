@@ -84,6 +84,17 @@ demo-replay: ## the same demo offline: recorded answers + saved pages, works wit
 demo-final: ## the three golden end-to-end scenarios on the whole platform, replayed (Sprint 10; --record: see the script)
 	@scripts/demo_final.sh
 
+models-pull: ## local models for a tier: make models-pull TIER=lite|1|2 (0 = replay only; Sprint 11)
+	@scripts/pull_models.sh --tier $(or $(TIER),1)
+
+bench: ## model benchmark, replayed (quick set, every recorded model) + the router's quality table (Sprint 11)
+	@cd backend && for f in ../samples/models/bench/results/quick_*.json; do m=$$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['model'])" $$f); \
+	  HMAP_ENV_FILE=none $(UV) run --frozen python -m hmap.agents.models.bench.run quick --mode replay --models $$m; done; \
+	  $(UV) run --frozen python -m hmap.agents.models.bench.run table >/dev/null && echo "table: samples/models/bench/table.json"
+
+release-matrix: ## final release gate: every sprint's tests x LLM mode x router on/off x tier (Sprint 11; long)
+	@scripts/release_matrix.sh
+
 reset-demo: ## back to the demo state: empty database + no artifacts (asks first; the next make demo seeds again)
 	@scripts/reset_demo.sh
 
