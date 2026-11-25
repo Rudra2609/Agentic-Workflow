@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "2b32990d94490cca7cd3c13a49443771b9dee718d6c712014b411590c6dad329",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a tiny URL router with exception classes `NotFound(Exception)` and `MethodNotAllowed(Exception)`.\n\n- `Router()`; `add(method: str, pattern: str, handler)` registers a route. Patterns look like `/users/{id}/posts`;\n  a `{name}` segment matches exactly one non-empty path segment.\n- `dispatch(method: str, path: str) -> tuple[handler, dict[str, str]]` returns the handler and the captured parameters.\n  Paths and patterns must have the same number of segments. A trailing slash is ignored (`/users/` == `/users`).\n- When both a static route and a parameter route match a path (e.g. `/users/me` and `/users/{id}`), the static one wins.\n- Raise `MethodNotAllowed` if some route matches the path but not the method, and `NotFound` if no route matches the path.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:48:08.614951+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a tiny URL router with exception classes `NotFound(Exception)` and `MethodNotAllowed(Exception)`.\n\n- `Router()`; `add(method: str, pattern: str, handler)` registers a route. Patterns look like `/users/{id}/posts`;\n  a `{name}` segment matches exactly one non-empty path segment.\n- `dispatch(method: str, path: str) -> tuple[handler, dict[str, str]]` returns the handler and the captured parameters.\n  Paths and patterns must have the same number of segments. A trailing slash is ignored (`/users/` == `/users`).\n- When both a static route and a parameter route match a path (e.g. `/users/me` and `/users/{id}`), the static one wins.\n- Raise `MethodNotAllowed` if some route matches the path but not the method, and `NotFound` if no route matches the path.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nA tiny URL router with support for static and parameter segments,\nmethod‑based routing and proper error handling.\n\nExceptions\n----------\n- NotFound: raised when no route matches the requested path.\n- MethodNotAllowed: raised when the path matches a route but the HTTP\n  method does not.\n\nClasses\n-------\n- Router: register routes with ``add`` and resolve them with ``dispatch``.\n\"\"\"\n\nfrom __future__ import annotations\n\nfrom dataclasses import dataclass\nfrom typing import Any, Callable, Dict, List, Tuple\n\n\nclass NotFound(Exception):\n    \"\"\"Raised when no route matches the requested path.\"\"\"\n\n\nclass MethodNotAllowed(Exception):\n    \"\"\"Raised when the path matches a route but the HTTP method does not.\"\"\"\n\n\n@dataclass(frozen=True)\nclass _Route:\n    method: str\n    pattern: str\n    segments: Tuple[str, ...]\n    handler: Callable[..., Any]\n    static_count: int  # number of static (non‑parameter) segments\n\n    @staticmethod\n    def _split(pattern: str) -> Tuple[str, ...]:\n        \"\"\"Normalize a pattern and split it into its path segments.\"\"\"\n        # Remove a single trailing slash (except for root \"/\")\n        if pattern != \"/\" and pattern.endswith(\"/\"):\n            pattern = pattern[:-1]\n        # Strip leading slash for uniform splitting\n        pattern = pattern.lstrip(\"/\")\n        # Empty string -> root path -> empty tuple\n        return tuple(pattern.split(\"/\")) if pattern else ()\n\n    @classmethod\n    def create(cls, method: str, pattern: str, handler: Callable[..., Any]) -> \"_Route\":\n        segs = cls._split(pattern)\n        static_cnt = sum(1 for s in segs if not (s.startswith(\"{\") and s.endswith(\"}\")))\n        return cls(method.upper(), pattern, segs, handler, static_cnt)\n\n\nclass Router:\n    \"\"\"A minimal router supporting static and parameter segments.\"\"\"\n\n    def __init__(self) -> None:\n        # All routes, regardless of method, kept in insertion order.\n        self._routes: List[_Route] = []\n\n    def add(self, method: str, pattern: str, handler: Callable[..., Any]) -> None:\n        \"\"\"\n        Register a new route.\n\n        Parameters\n        ----------\n        method: HTTP method (e.g. \"GET\", \"POST\").\n        pattern: URL pattern, e.g. \"/users/{id}/posts\".\n        handler: Callable to be returned on a successful dispatch.\n        \"\"\"\n        route = _Route.create(method, pattern, handler)\n        self._routes.append(route)\n\n    def dispatch(self, method: str, path: str) -> Tuple[Callable[..., Any], Dict[str, str]]:\n        \"\"\"\n        Resolve a request to a handler and extracted parameters.\n\n        Parameters\n        ----------\n        method: HTTP method of the request.\n        path: Request path (trailing slash is ignored).\n\n        Returns\n        -------\n        (handler, params) where ``params`` maps parameter names to their values.\n\n        Raises\n        ------\n        NotFound: if no route matches the path.\n        MethodNotAllowed: if the path matches a route but not the method.\n        \"\"\"\n        method = method.upper()\n        path_segs = _Route._split(path)\n\n        # First collect all routes whose pattern matches the path (ignoring method)\n        matching: List[Tuple[_Route, Dict[str, str]]] = []\n        for route in self._routes:\n            if len(route.segments) != len(path_segs):\n                continue\n            params: Dict[str, str] = {}\n            ok = True\n            for pat_seg, path_seg in zip(route.segments, path_segs):\n                if pat_seg.startswith(\"{\") and pat_seg.endswith(\"}\"):\n                    name = pat_seg[1:-1]\n                    if not path_seg:  # non‑empty segment required\n                        ok = False\n                        break\n                    params[name] = path_seg\n                else:\n                    if pat_seg != path_seg:\n                        ok = False\n                        break\n            if ok:\n                matching.append((route, params))\n\n        if not matching:\n            raise NotFound(f\"No route matches path {path!r}\")\n\n        # Separate matches by method\n        method_matches = [(r, p) for r, p in matching if r.method == method]\n\n        if not method_matches:\n            raise MethodNotAllowed(f\"Path {path!r} exists but not for method {method!r}\")\n\n        # Choose the best match: highest static segment count wins.\n        # If still tied, the earlier registered route (preserved by list order) wins.\n        best_route, best_params = max(\n            method_matches,\n            key=lambda rp: rp[0].static_count,\n        )\n        return best_route.handler, best_params\n\n\n__all__ = [\"Router\", \"NotFound\", \"MethodNotAllowed\"]\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 309,
+      "latency_s": 2.9343,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 1286,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "key": "09527d38d7842409e6bea01a9e2d8f93e3866c00469c23c0ec7badfb90a73b3a",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: The library API must respond within 200 ms.\nQUOTE: Every endpoint should respond within 300 ms for a database of 10,000 books.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.957174+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: The library API must respond within 200 ms.\nQUOTE: Every endpoint should respond within 300 ms for a database of 10,000 books.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "{ \"rationale\": \"The quote specifies a response time of 300 ms for a database of 10,000 books, which is longer than the claimed 200 ms. Therefore, the quote contradicts the claim.\", \"verdict\": \"CONTRADICTED\" }",
+    "usage": {
+      "input_tokens": 114,
+      "latency_s": 10.68,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 65,
+      "provider": "ollama"
+    }
+  },
+  "role": "judge"
+}

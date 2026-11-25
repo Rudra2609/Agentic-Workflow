@@ -1,0 +1,374 @@
+{
+  "format": 1,
+  "key": "46de1b4db7f8904069f296aafabcd43f6fd4fb7298228d8ea36bc0b508847c04",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Algorithms Lab 3 — Empirical Analysis of Sorting\n\nImplement insertion sort, merge sort, quick sort (with random pivot) and heap sort.\n\nRequirements:\n- Each algorithm must sort a list of integers in non-decreasing order and must not use the language's built-in sort functions.\n- Measure the running time of each algorithm on inputs of size 1,000, 10,000 and 100,000 for three input types: random, already sorted and reverse sorted.\n- Repeat every measurement 5 times and report the median.\n- Plot running time versus input size for every algorithm on a log-log scale.\n- Count the number of comparisons performed by each algorithm and report them alongside the times.\n\nYou may use C++ or Java. Python is not permitted for this lab because of timing noise.\n\nDeliverables: source files, a CSV file with all measurements, and a lab write-up (max 4 pages) that compares the observed growth rates with the theoretical complexity.\n\nMarks: implementations 40, experiment design and measurements 20, plots 15, write-up 25. Total 100.\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.974160+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Algorithms Lab 3 — Empirical Analysis of Sorting\n\nImplement insertion sort, merge sort, quick sort (with random pivot) and heap sort.\n\nRequirements:\n- Each algorithm must sort a list of integers in non-decreasing order and must not use the language's built-in sort functions.\n- Measure the running time of each algorithm on inputs of size 1,000, 10,000 and 100,000 for three input types: random, already sorted and reverse sorted.\n- Repeat every measurement 5 times and report the median.\n- Plot running time versus input size for every algorithm on a log-log scale.\n- Count the number of comparisons performed by each algorithm and report them alongside the times.\n\nYou may use C++ or Java. Python is not permitted for this lab because of timing noise.\n\nDeliverables: source files, a CSV file with all measurements, and a lab write-up (max 4 pages) that compares the observed growth rates with the theoretical complexity.\n\nMarks: implementations 40, experiment design and measurements 20, plots 15, write-up 25. Total 100.\n",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "{\n  \"requirements\": [\n    {\n      \"id\": \"R1\",\n      \"text\": \"Each algorithm must sort a list of integers in non-decreasing order and must not use the language's built-in sort functions.\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"Each algorithm must sort a list of integers in non-decreasing order and must not use the language's built-in sort functions.\"\n    },\n    {\n      \"id\": \"R2\",\n      \"text\": \"Measure the running time of each algorithm on inputs of size 1,000, 10,000 and 100,000 for three input types: random, already sorted and reverse sorted.\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"Measure the running time of each algorithm on inputs of size 1,000, 10,000 and 100,000 for three input types: random, already sorted and reverse sorted.\"\n    },\n    {\n      \"id\": \"R3\",\n      \"text\": \"Repeat every measurement 5 times and report the median.\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"Repeat every measurement 5 times and report the median.\"\n    },\n    {\n      \"id\": \"R4\",\n      \"text\": \"Count the number of comparisons performed by each algorithm and report them alongside the times.\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"Count the number of comparisons performed by each algorithm and report them alongside the times.\"\n    },\n    {\n      \"id\": \"R5\",\n      \"text\": \"Plot running time versus input size for every algorithm on a log-log scale.\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"Plot running time versus input size for every algorithm on a log-log scale.\"\n    },\n    {\n      \"id\": \"R6\",\n      \"text\": \"Compare the observed growth rates with the theoretical complexity in the write-up.\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"compares the observed growth rates with the theoretical complexity\"\n    }\n  ],\n  \"constraints\": [\n    {\n      \"id\": \"C1\",\n      \"text\": \"Use C++ or Java. Python is not permitted.\",\n      \"kind\": \"technology\"\n    },\n    {\n      \"id\": \"C2\",\n      \"text\": \"Lab write-up must be max 4 pages.\",\n      \"kind\": \"format\"\n    }\n  ],\n  \"deliverables\": [\n    {\n      \"id\": \"D1\",\n      \"name\": \"source files\",\n      \"format\": \"code\"\n    },\n    {\n      \"id\": \"D2\",\n      \"name\": \"CSV file with all measurements\",\n      \"format\": \"csv\"\n    },\n    {\n      \"id\": \"D3\",\n      \"name\": \"lab write-up\",\n      \"format\": \"document\"\n    }\n  ],\n  \"evaluation_criteria\": [\n    {\n      \"id\": \"E1\",\n      \"criterion\": \"implementations\",\n      \"max_marks\": 40\n    },\n    {\n      \"id\": \"E2\",\n      \"criterion\": \"experiment design and measurements\",\n      \"max_marks\": 20\n    },\n    {\n      \"id\": \"E3\",\n      \"criterion\": \"plots\",\n      \"max_marks\": 15\n    },\n    {\n      \"id\": \"E4\",\n      \"criterion\": \"write-up\",\n      \"max_marks\": 25\n    }\n  ],\"open_questions\": []}",
+    "usage": {
+      "input_tokens": 369,
+      "latency_s": 86.112,
+      "model": "qwen3.5:4b",
+      "output_tokens": 846,
+      "provider": "ollama"
+    }
+  },
+  "role": "reasoner"
+}

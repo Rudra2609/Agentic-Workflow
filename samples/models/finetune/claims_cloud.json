@@ -1,0 +1,40 @@
+{
+ "set": "M6 benchmark, 56 held-out claims (clean/natural/wrong_number/unsupported_claim)",
+ "rows": [
+  {
+   "judge": "local 4B base",
+   "strict": 0.75,
+   "binary": 0.875,
+   "wrongly_accepted": 6,
+   "wrongly_doubted": 1
+  },
+  {
+   "judge": "local 4B lora",
+   "strict": 0.839,
+   "binary": 0.893,
+   "wrongly_accepted": 5,
+   "wrongly_doubted": 1
+  },
+  {
+   "judge": "qwen3.8-27b",
+   "strict": 0.661,
+   "binary": 0.946,
+   "wrongly_accepted": 1,
+   "wrongly_doubted": 2
+  },
+  {
+   "judge": "gpt-oss-120b",
+   "strict": 0.679,
+   "binary": 0.929,
+   "wrongly_accepted": 2,
+   "wrongly_doubted": 2
+  },
+  {
+   "judge": "gpt-oss-20b",
+   "strict": 0.786,
+   "binary": 0.946,
+   "wrongly_accepted": 2,
+   "wrongly_doubted": 1
+  }
+ ]
+}

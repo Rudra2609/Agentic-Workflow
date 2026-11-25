@@ -1,0 +1,43 @@
+{
+ "adapter": "samples/models/finetune/adapters/ft-20261101-2318-e599",
+ "base": {
+  "heldout_m6": {
+   "n": 56,
+   "accuracy": 0.875,
+   "invalid": 0,
+   "strict": 0.75,
+   "wrongly_accepted": 6
+  },
+  "test_split": {
+   "n": 30,
+   "accuracy": 0.9,
+   "invalid": 0
+  },
+  "regression": {
+   "critique": 0.7,
+   "extraction": 0.572
+  }
+ },
+ "heldout_n": 56,
+ "test_n": 30,
+ "lora": {
+  "heldout_m6": {
+   "n": 56,
+   "accuracy": 0.893,
+   "invalid": 0,
+   "strict": 0.839,
+   "wrongly_accepted": 5
+  },
+  "test_split": {
+   "n": 30,
+   "accuracy": 0.933,
+   "invalid": 0
+  },
+  "regression": {
+   "critique": 0.6,
+   "extraction": 0.787
+  }
+ },
+ "delta_heldout": 0.018,
+ "verdict": "no clear change on the held-out M6 set: 0.875 -> 0.893 supported-vs-not (1 claim of 56; \u00b10.03 is noise). The strict 3-way label rose 0.75 -> 0.839, but refutes / not_enough give the same platform verdict. Free cloud judges on the same claims: 0.929-0.946 (claims_cloud.json)"
+}

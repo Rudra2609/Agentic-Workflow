@@ -1,0 +1,55 @@
+{
+ "note": "quality per role from the quick set (samples/models/bench/results/quick_*.json); fast / classify are a proxy (extraction + verify)",
+ "roles": {
+  "classify": {
+   "groq:openai/gpt-oss-120b": 0.968,
+   "groq:openai/gpt-oss-20b": 0.756,
+   "groq:qwen/qwen3.8-27b": 0.993,
+   "llama3.1:8b": 0.877,
+   "qwen2.5-coder:7b": 0.889,
+   "qwen3.5:4b": 0.976,
+   "qwen3.5:9b": 0.946,
+   "qwen3:8b": 0.916
+  },
+  "coder": {
+   "groq:openai/gpt-oss-120b": 0.8,
+   "groq:openai/gpt-oss-20b": 0.76,
+   "groq:qwen/qwen3.8-27b": 0.96,
+   "llama3.1:8b": 0.2,
+   "qwen2.5-coder:7b": 0.28,
+   "qwen3.5:4b": 0.56,
+   "qwen3.5:9b": 0.68,
+   "qwen3:8b": 0.32
+  },
+  "fast": {
+   "groq:openai/gpt-oss-120b": 0.968,
+   "groq:openai/gpt-oss-20b": 0.756,
+   "groq:qwen/qwen3.8-27b": 0.993,
+   "llama3.1:8b": 0.877,
+   "qwen2.5-coder:7b": 0.889,
+   "qwen3.5:4b": 0.976,
+   "qwen3.5:9b": 0.946,
+   "qwen3:8b": 0.916
+  },
+  "judge": {
+   "groq:openai/gpt-oss-120b": 0.986,
+   "groq:openai/gpt-oss-20b": 0.909,
+   "groq:qwen/qwen3.8-27b": 1.0,
+   "llama3.1:8b": 0.445,
+   "qwen2.5-coder:7b": 0.544,
+   "qwen3.5:4b": 0.85,
+   "qwen3.5:9b": 0.772,
+   "qwen3:8b": 0.73
+  },
+  "reasoner": {
+   "groq:openai/gpt-oss-120b": 0.982,
+   "groq:openai/gpt-oss-20b": 0.512,
+   "groq:qwen/qwen3.8-27b": 0.993,
+   "llama3.1:8b": 0.887,
+   "qwen2.5-coder:7b": 0.932,
+   "qwen3.5:4b": 0.961,
+   "qwen3.5:9b": 0.96,
+   "qwen3:8b": 0.952
+  }
+ }
+}

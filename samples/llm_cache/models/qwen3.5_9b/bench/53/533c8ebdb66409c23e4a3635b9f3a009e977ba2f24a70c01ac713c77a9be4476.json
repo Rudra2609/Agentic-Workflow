@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "533c8ebdb66409c23e4a3635b9f3a009e977ba2f24a70c01ac713c77a9be4476",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `EchoServer` using only the Python standard library (`socket`, `threading` or `socketserver`).\n\n- `EchoServer(host: str = \"127.0.0.1\", port: int = 0)`; port 0 means \"pick a free port\".\n- `start() -> int` starts serving in the background (it must return immediately) and returns the actual port.\n- For every line a client sends (terminated by `\\n`), the server replies with the same line in UPPER CASE, followed by `\\n`.\n- Several clients must be served at the same time; one idle client must not block the others.\n- `stop()` stops the server and releases the port.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.050913+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `EchoServer` using only the Python standard library (`socket`, `threading` or `socketserver`).\n\n- `EchoServer(host: str = \"127.0.0.1\", port: int = 0)`; port 0 means \"pick a free port\".\n- `start() -> int` starts serving in the background (it must return immediately) and returns the actual port.\n- For every line a client sends (terminated by `\\n`), the server replies with the same line in UPPER CASE, followed by `\\n`.\n- Several clients must be served at the same time; one idle client must not block the others.\n- `stop()` stops the server and releases the port.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport socket\nimport threading\nfrom typing import Optional\n\n\nclass EchoServer:\n    \"\"\"\n    A multi-threaded TCP echo server that converts incoming lines to uppercase.\n    \n    Attributes:\n        host: The hostname or IP address to bind the server to.\n        port: The port number to listen on (0 for a random free port).\n        _server_socket: The underlying socket object.\n        _stop_event: An event to signal threads to stop.\n    \"\"\"\n\n    def __init__(self, host: str = \"127.0.0.1\", port: int = 0):\n        self.host = host\n        self.port = port\n        self._server_socket: Optional[socket.socket] = None\n        self._stop_event = threading.Event()\n\n    def _handle_client(self, client_socket: socket.socket) -> None:\n        \"\"\"\n        Handles a single client connection in a separate thread.\n        \n        Reads lines from the client, converts them to uppercase, and sends them back.\n        The loop terminates when an empty line is received or EOF occurs.\n        \"\"\"\n        try:\n            while not self._stop_event.is_set():\n                # Receive data with a buffer size of 4096 bytes\n                data = client_socket.recv(4096)\n                \n                if not data:\n                    # Connection closed by client\n                    break\n                \n                # Decode bytes to string, handling potential partial lines or encoding issues gracefully\n                try:\n                    line = data.decode('utf-8')\n                    \n                    # If the line doesn't end with \\n, it might be a partial message.\n                    # However, the requirement says \"For every line... terminated by \\n\".\n                    # We will process what we have. If it's not terminated, we still echo it \n                    # but without adding an extra newline if one isn't there, \n                    # though strictly speaking, standard TCP streams are byte streams.\n                    # To be robust against partial reads:\n                    \n                    if line.endswith('\\n'):\n                        response = line.upper() + '\\n'\n                    else:\n                        # If we received data without a newline, it's likely the end of the stream \n                        # or a partial read that shouldn't happen in this simple echo context \n                        # unless the client sends huge chunks. \n                        # We will treat non-newline terminated data as a complete message for simplicity,\n                        # but strictly following \"terminated by \\n\", we might wait.\n                        # Given standard socket behavior and the requirement, let's assume \n                        # valid lines end with \\n. If not, we echo what we got + \\n to ensure termination?\n                        # Or just echo as is? The prompt says \"replies with the same line in UPPER CASE, followed by \\n\".\n                        # So even if it lacks \\n, we add it? \n                        # Let's stick to: if it has \\n, use it. If not, treat as a line and add \\n.\n                        response = line.upper() + '\\n'\n\n                    client_socket.sendall(response.encode('utf-8'))\n                except UnicodeDecodeError:\n                    # If decoding fails, send back the raw bytes converted to upper case? \n                    # Or just ignore? Let's try to decode latin-1 as a fallback for binary-ish data.\n                    try:\n                        line = data.decode('latin-1')\n                        response = line.upper() + '\\n'\n                        client_socket.sendall(response.encode('latin-1'))\n                    except Exception:\n                        # If all else fails, just close the connection or send error\n                        break\n\n        except ConnectionResetError:\n            pass\n        except BrokenPipeError:\n            pass\n        finally:\n            client_socket.close()\n\n    def start(self) -> int:\n        \"\"\"\n        Starts the server in a background thread.\n        \n        Returns:\n            The actual port number the server is listening on.\n        \"\"\"\n        # Create the socket\n        self._server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        \n        # Allow address reuse to avoid \"Address already in use\" errors if restarting quickly\n        self._server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n        \n        # Bind to the host and port\n        if self.port == 0:\n            # Let the OS pick a free port\n            self._server_socket.bind((self.host, 0))\n            self._server_socket.listen()\n            actual_port = self._server_socket.getsockname()[1]\n        else:\n            self._server_socket.bind((self.host, self.port))\n            self._server_socket.listen()\n            actual_port = self.port\n        \n        # Start the server thread\n        server_thread = threading.Thread(target=self._run_server_loop, daemon=True)\n        server_thread.start()\n        \n        return actual_port\n\n    def _run_server_loop(self) -> None:\n        \"\"\"\n        The main loop for the server socket. Accepts connections and spawns threads.\n        \"\"\"\n        while not self._stop_event.is_set():\n            try:\n                client_socket, addr = self._server_socket.accept()\n                # Create a new thread for each client\n                client_thread = threading.Thread(\n                    target=self._handle_client, \n                    args=(client_socket,), \n                    daemon=True\n                )\n                client_thread.start()\n            except socket.error:\n                if self._stop_event.is_set():\n                    break\n                # Ignore transient errors during shutdown\n\n    def stop(self) -> None:\n        \"\"\"\n        Stops the server and releases the port.\n        \"\"\"\n        if self._server_socket:\n            self._stop_event.set()\n            # Close the listening socket\n            try:\n                self._server_socket.close()\n            except Exception:\n                pass\n            \n            # Wait a brief moment for threads to finish their current iteration\n            # and clean up. Since they are daemon threads, they will exit when \n            # the main program exits, but we want to ensure the socket is closed.\n            # The threads in _handle_client will eventually hit the stop_event check \n            # or an exception on close.\n            \n            self._server_socket = None\n```",
+    "usage": {
+      "input_tokens": 220,
+      "latency_s": 210.934,
+      "model": "qwen3.5:9b",
+      "output_tokens": 1335,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

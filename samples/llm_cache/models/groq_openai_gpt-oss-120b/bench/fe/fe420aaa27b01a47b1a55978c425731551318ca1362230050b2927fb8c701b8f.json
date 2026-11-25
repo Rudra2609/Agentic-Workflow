@@ -1,0 +1,105 @@
+{
+  "format": 1,
+  "key": "fe420aaa27b01a47b1a55978c425731551318ca1362230050b2927fb8c701b8f",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: asyncio runs coroutines in parallel on multiple CPU cores.\nQUOTE: asyncio uses a single-threaded event loop; coroutines take turns running on one thread and yield control at await points.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:45:20.092729+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: asyncio runs coroutines in parallel on multiple CPU cores.\nQUOTE: asyncio uses a single-threaded event loop; coroutines take turns running on one thread and yield control at await points.",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 512,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"rationale\":\"The quote states that asyncio uses a single-threaded event loop where coroutines take turns, directly contradicting the claim that they run in parallel on multiple CPU cores.\",\"verdict\":\"CONTRADICTED\"}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 306,
+      "latency_s": 0.7258,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 131,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

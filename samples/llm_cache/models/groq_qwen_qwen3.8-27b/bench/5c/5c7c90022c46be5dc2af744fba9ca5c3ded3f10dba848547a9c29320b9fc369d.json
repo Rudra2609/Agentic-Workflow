@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "5c7c90022c46be5dc2af744fba9ca5c3ded3f10dba848547a9c29320b9fc369d",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `merge_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]`.\n\nEach interval is `(start, end)` with start <= end. Merge all overlapping intervals; intervals that only touch\n(like `(1, 2)` and `(2, 3)`) also merge. Return the merged intervals as tuples sorted by start.\nThe input may be unsorted and must not be modified.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:42:16.345064+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `merge_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]`.\n\nEach interval is `(start, end)` with start <= end. Merge all overlapping intervals; intervals that only touch\n(like `(1, 2)` and `(2, 3)`) also merge. Return the merged intervals as tuples sorted by start.\nThe input may be unsorted and must not be modified.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\ndef merge_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:\n    if not intervals:\n        return []\n    \n    # Sort by start, then by end\n    sorted_intervals = sorted(intervals, key=lambda x: (x[0], x[1]))\n    \n    merged = [list(sorted_intervals[0])]\n    \n    for start, end in sorted_intervals[1:]:\n        last = merged[-1]\n        # If current interval overlaps or touches the last merged interval\n        if start <= last[1]:\n            last[1] = max(last[1], end)\n        else:\n            merged.append([start, end])\n    \n    return [tuple(interval) for interval in merged]\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 156,
+      "latency_s": 0.4551,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 167,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

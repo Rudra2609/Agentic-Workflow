@@ -1,0 +1,8 @@
+--- round 1
+    killed the agents process 18176 while execution 8PRY7AB3 ran on research-h6vyt7yv
+    waiting for the Manager to notice (heartbeats stop -> lease expires -> execution abandoned)...
+    after 42 s: execution #1 timed_out, step retry_scheduled; starting a new agents process
+    2 executions: #1 superseded on research-h6vyt7yv, #2 succeeded on research-zkyne2p1; recovered in 76 s
+    OK: retried as a new execution on a new agent; dead letters now: 0
+
+CHAOS: 1/1 rounds recovered. Operations page: http://127.0.0.1:3000/features/ops (why a step failed, dead letters); traces in Jaeger when `make obs-up` runs.

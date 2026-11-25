@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "e5474b93bec941e31faba033775edb46341010df315fefe136b3b8c93921b60e",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.049319+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport sys\nfrom collections import deque\n\ndef topo_order(deps: dict[str, list[str]]) -> list[str]:\n    \"\"\"\n    Perform a topological sort on the tasks defined by dependencies.\n    \n    Args:\n        deps: A dictionary where keys are task names and values are lists of \n               prerequisite tasks that must come before the key task.\n    \n    Returns:\n        A list of task names in topologically sorted order. Tasks with no \n        prerequisites appear first (in alphabetical order among ready tasks).\n    \n    Raises:\n        ValueError: If a cycle is detected in the dependency graph.\n    \"\"\"\n    # Ensure all prerequisite tasks mentioned in values exist as keys in deps.\n    # This handles cases where a task is only listed as a dependency and never \n    # has its own dependencies defined (it effectively has an empty list).\n    all_tasks = set(deps.keys())\n    for prereqs in deps.values():\n        all_tasks.update(prereqs)\n    \n    # Initialize the graph with tasks that have no outgoing edges (no prerequisites)\n    # or where the key is missing but appears as a prerequisite.\n    # We will build the adjacency list and in-degree map explicitly.\n    \n    # Map task -> list of tasks that depend on it (reverse graph for Kahn's algo logic, \n    # but standard Kahn's uses task -> prerequisites. Let's stick to standard Kahn's).\n    # Standard Kahn's:\n    # 1. Calculate in-degree for every node.\n    # 2. Queue contains nodes with in-degree 0.\n    # 3. Pop node, add to result, decrement in-degree of neighbors (nodes that depend on it).\n    \n    # Build the graph where edge A -> B means A must come before B.\n    # deps[B] = [A, C] means A and C are prerequisites for B.\n    # So edges are A->B and C->B.\n    \n    in_degree = {task: 0 for task in all_tasks}\n    graph = {task: [] for task in all_tasks}\n    \n    for task, prereqs in deps.items():\n        for prereq in prereqs:\n            # Edge from prereq to task\n            if prereq not in all_tasks:\n                raise ValueError(f\"Prerequisite '{prereq}' is not defined as a task.\")\n            graph[prereq].append(task)\n            in_degree[task] += 1\n            \n    # Initialize queue with tasks having 0 in-degree, sorted alphabetically\n    queue = deque(sorted([task for task, degree in in_degree.items() if degree == 0]))\n    \n    result = []\n    \n    while queue:\n        current = queue.popleft()\n        result.append(current)\n        \n        # Get neighbors (tasks that depend on current)\n        neighbors = graph[current]\n        \n        # Sort neighbors to ensure deterministic processing order when multiple become ready?\n        # Actually, Kahn's algorithm processes nodes. The order in which we add them \n        # to the queue matters for the final sort order.\n        # We need to decrement in-degrees and add to queue if 0.\n        # To maintain alphabetical order at each step, we should process neighbors \n        # and add them to the queue in sorted order? \n        # Wait, standard Kahn's with a priority queue (min-heap) or simply sorting \n        # the available nodes at each step achieves lexicographical topological sort.\n        # Since we use a deque, we pop from left. If we push multiple items, they \n        # come out in order of insertion. So we must insert them in alphabetical order.\n        \n        for neighbor in neighbors:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n        \n        # Re-sort the queue? No, that's O(N log N) every step.\n        # Instead, we can use a heap or just ensure we add to the queue in order \n        # and never have out-of-order items waiting? \n        # Actually, simply sorting the initial queue and adding new 0-degree nodes \n        # isn't enough if they are added out of order relative to existing ones.\n        # Example: Queue has [A]. Neighbors of A become ready: C, B.\n        # If we add C then B, queue is [C, B]. Next pop is C. Correct? No, B should come before C.\n        # So we must keep the queue sorted or use a heap.\n        # Given constraints and simplicity, let's just sort the queue whenever we add new items?\n        # Or better: Use a min-heap logic simulation with sorting.\n        # Since N is likely small for such problems, sorting the list of ready tasks \n        # at each step is O(N log N) per step, total O(N^2 log N). Acceptable.\n        \n        # Let's refine: The queue should always contain tasks with in-degree 0.\n        # When we add new ones, we should maintain the sorted order.\n        # Since deque doesn't support efficient insertion at arbitrary positions, \n        # let's just use a list and treat it as a queue, or sort the list of ready tasks.\n        \n        # Actually, the standard way to get lexicographical topological sort is:\n        # Use a min-heap (or sorted list) for the set of available nodes.\n        pass\n\n    # Re-implementing with a sorted list approach for the \"ready\" set\n    ready = sorted([task for task, degree in in_degree.items() if degree == 0])\n    \n    result = []\n    \n    while ready:\n        current = ready.pop(0) # Take the first (alphabetically smallest)\n        result.append(current)\n        \n        for neighbor in graph[current]:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                ready.append(neighbor)\n        \n        # Re-sort the ready list to maintain alphabetical order\n        ready.sort()\n        \n    # Check if all tasks were processed (cycle detection)\n    if len(result) != len(all_tasks):\n        raise ValueError(\"Cycle detected in dependencies\")\n    \n    return result\n```",
+    "usage": {
+      "input_tokens": 176,
+      "latency_s": 241.754,
+      "model": "qwen3.5:9b",
+      "output_tokens": 1347,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

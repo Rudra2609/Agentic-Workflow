@@ -1,0 +1,105 @@
+{
+  "format": 1,
+  "key": "4c14a3c8916f4e140675ba332899cc8a7b8eeebb68fd1ef17c99a7024d495ad1",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: robots.txt technically prevents crawlers from downloading disallowed pages.\nQUOTE: Compliance with robots.txt is voluntary; the file cannot technically stop a crawler from requesting a page.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:12.018235+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: robots.txt technically prevents crawlers from downloading disallowed pages.\nQUOTE: Compliance with robots.txt is voluntary; the file cannot technically stop a crawler from requesting a page.",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 512,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"rationale\":\"The quote explicitly states that robots.txt cannot technically stop a crawler from requesting a page, directly opposing the claim that it technically prevents such downloads.\",\"verdict\":\"CONTRADICTED\"}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 302,
+      "latency_s": 0.5694,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 77,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

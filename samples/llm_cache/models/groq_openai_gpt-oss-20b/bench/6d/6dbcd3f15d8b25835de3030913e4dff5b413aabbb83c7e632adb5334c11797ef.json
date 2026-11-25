@@ -1,0 +1,105 @@
+{
+  "format": 1,
+  "key": "6dbcd3f15d8b25835de3030913e4dff5b413aabbb83c7e632adb5334c11797ef",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: More than half of the surveyed students preferred asyncio.\nQUOTE: Of the 40 students surveyed, 18 preferred asyncio, 15 preferred threads and 7 had no preference.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:17.022161+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: More than half of the surveyed students preferred asyncio.\nQUOTE: Of the 40 students surveyed, 18 preferred asyncio, 15 preferred threads and 7 had no preference.",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 512,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"rationale\":\"The quote states that 18 out of 40 students preferred asyncio, which is 45%, less than half, so the claim is contradicted.\",\"verdict\":\"CONTRADICTED\"}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 304,
+      "latency_s": 0.6073,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 92,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

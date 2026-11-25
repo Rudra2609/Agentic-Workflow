@@ -1,0 +1,15 @@
+{
+ "set": "m6_verify",
+ "member": 6,
+ "model": "groq:qwen/qwen3.8-27b",
+ "role": "judge",
+ "task": "claim verification (accuracy)",
+ "status": "ok",
+ "score": 0.674,
+ "extra": {
+  "kappa": 0.281,
+  "error_recall": 0.939
+ },
+ "seconds": 3.3,
+ "log_tail": ""
+}

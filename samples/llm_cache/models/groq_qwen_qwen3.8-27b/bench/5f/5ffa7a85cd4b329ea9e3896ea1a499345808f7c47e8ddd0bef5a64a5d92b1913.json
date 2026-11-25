@@ -1,0 +1,190 @@
+{
+  "format": 1,
+  "key": "5ffa7a85cd4b329ea9e3896ea1a499345808f7c47e8ddd0bef5a64a5d92b1913",
+  "key_ingredients": {
+    "max_tokens": 1024,
+    "messages": [
+      {
+        "content": "You are a strict reviewer. Given a task and the output produced for it, list concrete problems in the output: missing items, wrong logic, false facts, claims not backed by the given facts, inconsistencies, rule violations. Describe each problem specifically, naming the exact element that is wrong. If the output is correct and complete, return verdict ok and no major or critical issues.",
+        "role": "system"
+      },
+      {
+        "content": "TASK:\nAssignment rule: write the expression parser by hand; using Python's eval or any parser generator is not allowed. Task: implement evaluate(expr: str) -> float for + - * / and parentheses.\n\nOUTPUT TO REVIEW:\ndef evaluate(expr: str) -> float:\n    allowed = set('0123456789+-*/(). ')\n    if not set(expr) <= allowed:\n        raise ValueError('bad character')\n    return float(eval(expr))",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "$defs": {
+        "Issue": {
+          "properties": {
+            "category": {
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Category",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "severity": {
+              "enum": [
+                "info",
+                "minor",
+                "major",
+                "critical"
+              ],
+              "title": "Severity",
+              "type": "string"
+            }
+          },
+          "required": [
+            "category",
+            "severity",
+            "description"
+          ],
+          "title": "Issue",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "ok",
+            "needs_revision"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issues",
+        "verdict"
+      ],
+      "title": "Critique",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:40:46.317588+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "issues": {
+          "items": {
+            "properties": {
+              "category": {
+                "enum": [
+                  "FORMAT",
+                  "SCHEMA",
+                  "OMISSION",
+                  "HALLUCINATION",
+                  "FACTUAL",
+                  "LOGIC",
+                  "REQUIREMENT_VIOLATION",
+                  "CONSISTENCY",
+                  "STYLE",
+                  "SAFETY"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "description": {
+                "title": "Description",
+                "type": "string"
+              },
+              "severity": {
+                "enum": [
+                  "info",
+                  "minor",
+                  "major",
+                  "critical"
+                ],
+                "title": "Severity",
+                "type": "string"
+              }
+            },
+            "required": [
+              "category",
+              "severity",
+              "description"
+            ],
+            "title": "Issue",
+            "type": "object"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "ok",
+            "needs_revision"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issues",
+        "verdict"
+      ],
+      "title": "Critique",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a strict reviewer. Given a task and the output produced for it, list concrete problems in the output: missing items, wrong logic, false facts, claims not backed by the given facts, inconsistencies, rule violations. Describe each problem specifically, naming the exact element that is wrong. If the output is correct and complete, return verdict ok and no major or critical issues.",
+        "role": "system"
+      },
+      {
+        "content": "TASK:\nAssignment rule: write the expression parser by hand; using Python's eval or any parser generator is not allowed. Task: implement evaluate(expr: str) -> float for + - * / and parentheses.\n\nOUTPUT TO REVIEW:\ndef evaluate(expr: str) -> float:\n    allowed = set('0123456789+-*/(). ')\n    if not set(expr) <= allowed:\n        raise ValueError('bad character')\n    return float(eval(expr))",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 1024,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"issues\": [{\"category\": \"REQUIREMENT_VIOLATION\", \"severity\": \"critical\", \"description\": \"The implementation uses Python's built-in `eval` function, which is explicitly forbidden by the task assignment rule ('using Python's eval or any parser generator is not allowed').\"}, {\"category\": \"OMISSION\", \"severity\": \"critical\", \"description\": \"The task requires writing the expression parser by hand, but no parsing logic (e.g., recursive descent, shunting-yard algorithm) is implemented. The function simply delegates to `eval`.\"}], \"verdict\": \"needs_revision\"}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 425,
+      "latency_s": 0.3483,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 126,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

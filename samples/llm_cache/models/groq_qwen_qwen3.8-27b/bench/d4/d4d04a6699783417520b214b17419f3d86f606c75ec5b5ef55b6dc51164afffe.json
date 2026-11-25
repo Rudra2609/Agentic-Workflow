@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "d4d04a6699783417520b214b17419f3d86f606c75ec5b5ef55b6dc51164afffe",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `is_valid_ipv4(s: str) -> bool`.\n\nValid means exactly four parts separated by dots, each part made only of the digits 0-9, value 0..255,\nand no leading zeros (the part \"0\" itself is fine, \"01\" is not). No surrounding spaces, no signs.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:41:22.121643+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `is_valid_ipv4(s: str) -> bool`.\n\nValid means exactly four parts separated by dots, each part made only of the digits 0-9, value 0..255,\nand no leading zeros (the part \"0\" itself is fine, \"01\" is not). No surrounding spaces, no signs.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\ndef is_valid_ipv4(s: str) -> bool:\n    if not isinstance(s, str):\n        return False\n    parts = s.split('.')\n    if len(parts) != 4:\n        return False\n    for part in parts:\n        if not part:\n            return False\n        if not part.isdigit():\n            return False\n        # Check for leading zeros\n        if len(part) > 1 and part[0] == '0':\n            return False\n        value = int(part)\n        if value < 0 or value > 255:\n            return False\n    return True\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 139,
+      "latency_s": 0.3594,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 139,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

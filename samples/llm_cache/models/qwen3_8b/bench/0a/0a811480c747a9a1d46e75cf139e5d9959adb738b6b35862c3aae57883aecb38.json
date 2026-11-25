@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "0a811480c747a9a1d46e75cf139e5d9959adb738b6b35862c3aae57883aecb38",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `dict_diff(old: dict, new: dict) -> list[str]` that compares two (possibly nested) dicts.\n\n- Report `\"added: <path>\"` for keys only in `new`, `\"removed: <path>\"` for keys only in `old`, and\n  `\"changed: <path>\"` for keys in both whose values differ.\n- When both values are dicts, compare recursively instead of reporting the parent as changed.\n- `<path>` joins nested keys with dots, e.g. `db.port`. Keys are strings.\n- Return the list sorted alphabetically.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.092255+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `dict_diff(old: dict, new: dict) -> list[str]` that compares two (possibly nested) dicts.\n\n- Report `\"added: <path>\"` for keys only in `new`, `\"removed: <path>\"` for keys only in `old`, and\n  `\"changed: <path>\"` for keys in both whose values differ.\n- When both values are dicts, compare recursively instead of reporting the parent as changed.\n- `<path>` joins nested keys with dots, e.g. `db.port`. Keys are strings.\n- Return the list sorted alphabetically.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3:8b"
+  },
+  "response": {
+    "text": "```python\nfrom typing import Dict, List\n\ndef dict_diff(old: Dict, new: Dict) -> List[str]:\n    def compare_dicts(old_dict: Dict, new_dict: Dict, path: str = \"\") -> List[str]:\n        diff = []\n        all_keys = set(old_dict.keys()).union(set(new_dict.keys()))\n        for key in sorted(all_keys):\n            full_path = f\"{path}.{key}\" if path else key\n            if key in old_dict and key in new_dict:\n                if isinstance(old_dict[key], dict) and isinstance(new_dict[key], dict):\n                    sub_diff = compare_dicts(old_dict[key], new_dict[key], full_path)\n                    diff.extend(sub_diff)\n                else:\n                    if old_dict[key] != new_dict[key]:\n                        diff.append(f\"changed: {full_path}\")\n            elif key in old_dict:\n                diff.append(f\"removed: {full_path}\")\n            else:\n                diff.append(f\"added: {full_path}\")\n        return diff\n\n    return compare_dicts(old, new)\n```",
+    "usage": {
+      "input_tokens": 190,
+      "latency_s": 109.78,
+      "model": "qwen3:8b",
+      "output_tokens": 213,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

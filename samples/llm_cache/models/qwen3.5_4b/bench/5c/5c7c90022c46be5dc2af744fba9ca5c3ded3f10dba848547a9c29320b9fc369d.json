@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "5c7c90022c46be5dc2af744fba9ca5c3ded3f10dba848547a9c29320b9fc369d",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `merge_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]`.\n\nEach interval is `(start, end)` with start <= end. Merge all overlapping intervals; intervals that only touch\n(like `(1, 2)` and `(2, 3)`) also merge. Return the merged intervals as tuples sorted by start.\nThe input may be unsorted and must not be modified.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.002655+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `merge_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]`.\n\nEach interval is `(start, end)` with start <= end. Merge all overlapping intervals; intervals that only touch\n(like `(1, 2)` and `(2, 3)`) also merge. Return the merged intervals as tuples sorted by start.\nThe input may be unsorted and must not be modified.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nfrom typing import List, Tuple\n\ndef merge_intervals(intervals: List[Tuple[int, int]]) -> List[Tuple[int, int]]:\n    \"\"\"\n    Merge all overlapping intervals. Intervals that only touch are also merged.\n    \n    Args:\n        intervals: A list of (start, end) tuples. May be unsorted.\n        \n    Returns:\n        A list of merged non-overlapping intervals, sorted by start time.\n    \"\"\"\n    if not intervals:\n        return []\n    \n    # Create a copy to avoid modifying the input\n    result = []\n    \n    # Sort by start time first, then by end time for stability\n    sorted_intervals = sorted(intervals, key=lambda x: (x[0], x[1]))\n    \n    current_start, current_end = sorted_intervals[0]\n    \n    for next_start, next_end in sorted_intervals[1:]:\n        # If the next interval overlaps or touches the current one\n        if next_start <= current_end:\n            # Merge them by extending the current end if needed\n            current_end = max(current_end, next_end)\n        else:\n            # No overlap, save the current interval and start a new one\n            result.append((current_start, current_end))\n            current_start, current_end = next_start, next_end\n    \n    # Append the last interval\n    result.append((current_start, current_end))\n    \n    return result\n```",
+    "usage": {
+      "input_tokens": 156,
+      "latency_s": 34.958,
+      "model": "qwen3.5:4b",
+      "output_tokens": 309,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

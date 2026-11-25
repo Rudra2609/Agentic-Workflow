@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "56dcae5650583cd6c6ebcd205df3cec9d1befc765574a13a5cf78a9a5ca6d614",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `validate(data: dict, schema: dict[str, type]) -> list[str]`.\n\n`schema` maps each required field name to its expected Python type (e.g. `{\"name\": str, \"age\": int}`).\nReturn a sorted list of error strings:\n- `\"missing: <field>\"` for a schema field not in `data`,\n- `\"type: <field>\"` when the value is not an instance of the expected type — note that `bool` must **not**\n  count as `int` (and `int` must not count as `float`),\n- `\"extra: <field>\"` for keys in `data` that are not in `schema`.\nReturn `[]` when the data is valid.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:42:51.743680+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `validate(data: dict, schema: dict[str, type]) -> list[str]`.\n\n`schema` maps each required field name to its expected Python type (e.g. `{\"name\": str, \"age\": int}`).\nReturn a sorted list of error strings:\n- `\"missing: <field>\"` for a schema field not in `data`,\n- `\"type: <field>\"` when the value is not an instance of the expected type — note that `bool` must **not**\n  count as `int` (and `int` must not count as `float`),\n- `\"extra: <field>\"` for keys in `data` that are not in `schema`.\nReturn `[]` when the data is valid.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\ndef validate(data: dict, schema: dict[str, type]) -> list[str]:\n    errors = []\n    \n    # Check for missing fields\n    for field in schema:\n        if field not in data:\n            errors.append(f\"missing: {field}\")\n    \n    # Check for type mismatches\n    for field, expected_type in schema.items():\n        if field in data:\n            value = data[field]\n            # Special handling: bool should not count as int\n            if expected_type is int and isinstance(value, bool):\n                errors.append(f\"type: {field}\")\n            elif expected_type is float and isinstance(value, int) and not isinstance(value, bool):\n                errors.append(f\"type: {field}\")\n            elif not isinstance(value, expected_type):\n                errors.append(f\"type: {field}\")\n    \n    # Check for extra fields\n    for field in data:\n        if field not in schema:\n            errors.append(f\"extra: {field}\")\n    \n    return sorted(errors)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 225,
+      "latency_s": 0.5805,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 222,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

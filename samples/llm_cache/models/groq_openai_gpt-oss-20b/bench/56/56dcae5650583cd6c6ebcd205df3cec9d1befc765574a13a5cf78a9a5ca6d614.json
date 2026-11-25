@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "56dcae5650583cd6c6ebcd205df3cec9d1befc765574a13a5cf78a9a5ca6d614",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `validate(data: dict, schema: dict[str, type]) -> list[str]`.\n\n`schema` maps each required field name to its expected Python type (e.g. `{\"name\": str, \"age\": int}`).\nReturn a sorted list of error strings:\n- `\"missing: <field>\"` for a schema field not in `data`,\n- `\"type: <field>\"` when the value is not an instance of the expected type — note that `bool` must **not**\n  count as `int` (and `int` must not count as `float`),\n- `\"extra: <field>\"` for keys in `data` that are not in `schema`.\nReturn `[]` when the data is valid.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:44.183356+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `validate(data: dict, schema: dict[str, type]) -> list[str]`.\n\n`schema` maps each required field name to its expected Python type (e.g. `{\"name\": str, \"age\": int}`).\nReturn a sorted list of error strings:\n- `\"missing: <field>\"` for a schema field not in `data`,\n- `\"type: <field>\"` when the value is not an instance of the expected type — note that `bool` must **not**\n  count as `int` (and `int` must not count as `float`),\n- `\"extra: <field>\"` for keys in `data` that are not in `schema`.\nReturn `[]` when the data is valid.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n# solution.py\nfrom __future__ import annotations\n\ndef validate(data: dict, schema: dict[str, type]) -> list[str]:\n    \"\"\"\n    Validate a dictionary against a schema.\n\n    Parameters\n    ----------\n    data : dict\n        The dictionary to validate.\n    schema : dict[str, type]\n        Mapping of required field names to expected Python types.\n\n    Returns\n    -------\n    list[str]\n        Sorted list of error messages. Empty list if data is valid.\n    \"\"\"\n    errors: list[str] = []\n\n    # Check for missing fields\n    for field, expected_type in schema.items():\n        if field not in data:\n            errors.append(f\"missing: {field}\")\n            continue\n\n        value = data[field]\n        # Use type(value) to avoid bool being considered int and int not being considered float\n        if type(value) is not expected_type:\n            errors.append(f\"type: {field}\")\n\n    # Check for extra fields\n    for field in data:\n        if field not in schema:\n            errors.append(f\"extra: {field}\")\n\n    return sorted(errors)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 275,
+      "latency_s": 0.7396,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 313,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "e5474b93bec941e31faba033775edb46341010df315fefe136b3b8c93921b60e",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "llama3.1:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.917464+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "llama3.1:8b"
+  },
+  "response": {
+    "text": "```python\nfrom typing import Dict, List\n\ndef topo_order(deps: Dict[str, List[str]]) -> List[str]:\n    \"\"\"\n    Compute a topological order of tasks.\n\n    Args:\n    deps: A dictionary mapping tasks to their prerequisites.\n\n    Returns:\n    A list of tasks in topological order. Tasks that appear only as prerequisites\n    are also part of the result.\n\n    Raises:\n    ValueError: If there is a cycle in the dependencies.\n    \"\"\"\n    visited = set()\n    order = []\n    ready = set()\n\n    def dfs(task: str) -> None:\n        \"\"\"\n        Perform a depth-first search from the given task.\n\n        Args:\n        task: The task to start the search from.\n        \"\"\"\n        if task in visited:\n            if task not in order:\n                raise ValueError(f\"Cycle detected: {task} is not in the order\")\n            return\n\n        visited.add(task)\n        for prereq in deps.get(task, []):\n            dfs(prereq)\n\n        ready.add(task)\n\n    for task in deps:\n        dfs(task)\n\n    # Add tasks that appear only as prerequisites\n    for task in deps:\n        if task not in ready:\n            order.append(task)\n\n    # Add tasks in alphabetical order\n    order.extend(sorted(ready - set(order)))\n\n    return order\n```",
+    "usage": {
+      "input_tokens": 170,
+      "latency_s": 38.698,
+      "model": "llama3.1:8b",
+      "output_tokens": 271,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

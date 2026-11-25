@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "key": "8e9ead0af4f1283306f621205c6234a998a0c54a3850935f661adc7314731603",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: HotStuff has linear communication complexity in the common case.\nQUOTE: HotStuff achieves linear communication complexity for the leader to drive a decision in the common case.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.997591+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: HotStuff has linear communication complexity in the common case.\nQUOTE: HotStuff achieves linear communication complexity for the leader to drive a decision in the common case.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "{ \"rationale\": \"The quote explicitly states that HotStuff achieves linear communication complexity specifically when the leader drives a decision, which directly supports the claim about the common case.\", \"verdict\": \"SUPPORTED\" }",
+    "usage": {
+      "input_tokens": 113,
+      "latency_s": 5.114,
+      "model": "qwen3.5:4b",
+      "output_tokens": 45,
+      "provider": "ollama"
+    }
+  },
+  "role": "judge"
+}

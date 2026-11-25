@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2414fb8dc2acbb3d69dce4819048e4c708083f08efdaac3a7617da5b1a395cdd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "llama3.1:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.925281+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "llama3.1:8b"
+  },
+  "response": {
+    "text": "```python\nimport threading\nfrom queue import Queue\nfrom typing import Callable, List\n\ndef parallel_map(fn: Callable, items: List, workers: int) -> List:\n    if workers < 1:\n        raise ValueError(\"workers must be at least 1\")\n\n    results = [None] * len(items)\n    queue = Queue()\n    stop = threading.Event()\n\n    def worker():\n        while not stop.is_set():\n            item, index = queue.get()\n            try:\n                results[index] = fn(item)\n            except Exception as e:\n                stop.set()\n                raise e\n            queue.task_done()\n\n    threads = []\n    for _ in range(workers):\n        thread = threading.Thread(target=worker)\n        thread.start()\n        threads.append(thread)\n\n    for i, item in enumerate(items):\n        queue.put((item, i))\n\n    queue.join()\n\n    stop.set()\n\n    for thread in threads:\n        thread.join()\n\n    return results\n```",
+    "usage": {
+      "input_tokens": 157,
+      "latency_s": 29.37,
+      "model": "llama3.1:8b",
+      "output_tokens": 196,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

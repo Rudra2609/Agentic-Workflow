@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "95ddd26c98123f6b00d67c2eda5062736a1c44a867896e58067c39a47f1216f8",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `BankAccount` and an exception class `InsufficientFunds(Exception)`.\n\n- `BankAccount(owner: str, balance: float = 0)` — raise `ValueError` if the starting balance is negative.\n- `deposit(amount)` and `withdraw(amount)`: raise `ValueError` if amount <= 0;\n  `withdraw` raises `InsufficientFunds` if amount is larger than the balance (balance unchanged).\n- `balance` is a read-only property.\n- `history` is a list of `(\"deposit\", amount)` / `(\"withdraw\", amount)` tuples for successful operations only, in order.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.003726+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `BankAccount` and an exception class `InsufficientFunds(Exception)`.\n\n- `BankAccount(owner: str, balance: float = 0)` — raise `ValueError` if the starting balance is negative.\n- `deposit(amount)` and `withdraw(amount)`: raise `ValueError` if amount <= 0;\n  `withdraw` raises `InsufficientFunds` if amount is larger than the balance (balance unchanged).\n- `balance` is a read-only property.\n- `history` is a list of `(\"deposit\", amount)` / `(\"withdraw\", amount)` tuples for successful operations only, in order.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nclass InsufficientFunds(Exception):\n    \"\"\"Exception raised when there are insufficient funds to complete a withdrawal.\"\"\"\n    pass\n\n\nclass BankAccount:\n    def __init__(self, owner: str, balance: float = 0):\n        if balance < 0:\n            raise ValueError(\"Starting balance cannot be negative.\")\n        self.owner = owner\n        self.balance = balance\n        self.history = []\n\n    def deposit(self, amount: float) -> None:\n        if amount <= 0:\n            raise ValueError(\"Deposit amount must be positive.\")\n        self.balance += amount\n        self.history.append((\"deposit\", amount))\n\n    def withdraw(self, amount: float) -> None:\n        if amount <= 0:\n            raise ValueError(\"Withdrawal amount must be positive.\")\n        if amount > self.balance:\n            raise InsufficientFunds(f\"Insufficient funds. Balance: {self.balance}, Withdrawal: {amount}\")\n        self.balance -= amount\n        self.history.append((\"withdraw\", amount))\n\n    @property\n    def balance(self) -> float:\n        return self._balance\n\n    @balance.setter\n    def balance(self, value: float) -> None:\n        # This setter is only used for internal consistency if needed, \n        # but the property is declared read-only in requirements.\n        # However, to allow initialization and potential future adjustments without breaking logic,\n        # we keep it simple. The requirement says \"read-only\", so we should not define a setter.\n        pass\n\n    # Re-implementing balance as strictly read-only per requirements\n    @property\n    def balance(self) -> float:\n        return self._balance\n\n    # To allow setting during __init__, we need a way to set it initially.\n    # Since the requirement says \"read-only\", we cannot have a setter.\n    # We will store the initial value in an instance variable and expose it via property.\n    def _set_initial_balance(self, value: float) -> None:\n        self._balance = value\n\n    @property\n    def balance(self) -> float:\n        return self._balance\n```",
+    "usage": {
+      "input_tokens": 203,
+      "latency_s": 53.676,
+      "model": "qwen3.5:4b",
+      "output_tokens": 458,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

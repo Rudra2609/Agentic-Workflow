@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "1e06b5b68e92dfa95d76e8ad12ba678cfefeaeee8b72bb6b31eee5b81884d5b3",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `to_roman(n: int) -> str` and `from_roman(s: str) -> int`.\n\n- `to_roman` handles 1..3999 using standard subtractive notation (4 = IV, 9 = IX, 40 = XL, 90 = XC, 400 = CD, 900 = CM);\n  raise `ValueError` outside that range.\n- `from_roman` accepts only upper-case numerals in canonical form (exactly what `to_roman` would produce) and raises\n  `ValueError` for anything else, e.g. `\"IIII\"`, `\"IC\"`, `\"VX\"`, `\"\"`, `\"iv\"`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "llama3.1:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.927224+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `to_roman(n: int) -> str` and `from_roman(s: str) -> int`.\n\n- `to_roman` handles 1..3999 using standard subtractive notation (4 = IV, 9 = IX, 40 = XL, 90 = XC, 400 = CD, 900 = CM);\n  raise `ValueError` outside that range.\n- `from_roman` accepts only upper-case numerals in canonical form (exactly what `to_roman` would produce) and raises\n  `ValueError` for anything else, e.g. `\"IIII\"`, `\"IC\"`, `\"VX\"`, `\"\"`, `\"iv\"`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "llama3.1:8b"
+  },
+  "response": {
+    "text": "```python\ndef to_roman(n: int) -> str:\n    \"\"\"Convert an integer to a Roman numeral.\"\"\"\n    if not 1 <= n <= 3999:\n        raise ValueError(\"Input must be between 1 and 3999\")\n\n    roman_numerals = {\n        1000: \"M\", 900: \"CM\", 500: \"D\", 400: \"CD\",\n        100: \"C\", 90: \"XC\", 50: \"L\", 40: \"XL\",\n        10: \"X\", 9: \"IX\", 5: \"V\", 4: \"IV\", 1: \"I\"\n    }\n\n    result = \"\"\n    for value, numeral in roman_numerals.items():\n        while n >= value:\n            result += numeral\n            n -= value\n\n    return result\n\n\ndef from_roman(s: str) -> int:\n    \"\"\"Convert a Roman numeral to an integer.\"\"\"\n    if not s:\n        raise ValueError(\"Input cannot be empty\")\n\n    roman_numerals = {\n        \"M\": 1000, \"CM\": 900, \"D\": 500, \"CD\": 400,\n        \"C\": 100, \"XC\": 90, \"L\": 50, \"XL\": 40,\n        \"X\": 10, \"IX\": 9, \"V\": 5, \"IV\": 4, \"I\": 1\n    }\n\n    result = 0\n    i = 0\n    while i < len(s):\n        for numeral, value in roman_numerals.items():\n            if s[i:].startswith(numeral):\n                result += value\n                i += len(numeral)\n                break\n        else:\n            raise ValueError(\"Invalid Roman numeral\")\n\n    return result\n```",
+    "usage": {
+      "input_tokens": 208,
+      "latency_s": 103.605,
+      "model": "llama3.1:8b",
+      "output_tokens": 372,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

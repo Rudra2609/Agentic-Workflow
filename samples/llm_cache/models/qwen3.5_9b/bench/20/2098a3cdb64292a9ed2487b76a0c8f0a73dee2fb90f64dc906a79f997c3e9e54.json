@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2098a3cdb64292a9ed2487b76a0c8f0a73dee2fb90f64dc906a79f997c3e9e54",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.049715+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport time\nfrom typing import Callable, Optional\n\n\nclass TokenBucket:\n    \"\"\"\n    A token bucket implementation for rate limiting.\n    \n    Tokens are added at a constant rate up to a maximum capacity.\n    The bucket starts full.\n    \"\"\"\n\n    def __init__(self, rate: float, capacity: int, clock: Optional[Callable[[], float]] = None):\n        \"\"\"\n        Initialize the TokenBucket.\n        \n        Args:\n            rate: Number of tokens to add per second.\n            capacity: Maximum number of tokens the bucket can hold.\n            clock: A zero-argument function returning the current time in seconds.\n                   Defaults to time.monotonic.\n        \n        Raises:\n            ValueError: If rate <= 0 or capacity < 1.\n        \"\"\"\n        if rate <= 0:\n            raise ValueError(\"rate must be greater than 0\")\n        if capacity < 1:\n            raise ValueError(\"capacity must be at least 1\")\n\n        self._rate = rate\n        self._capacity = capacity\n        \n        # Use the provided clock or default to time.monotonic\n        self._clock = clock if clock is not None else time.monotonic\n        \n        # Initial state: bucket is full\n        self._tokens = float(capacity)\n        self._last_refill_time = self._clock()\n\n    def _refill(self) -> None:\n        \"\"\"Refill tokens based on elapsed time since last refill.\"\"\"\n        now = self._clock()\n        elapsed = now - self._last_refill_time\n        \n        if elapsed > 0:\n            # Calculate how many tokens to add\n            tokens_to_add = elapsed * self._rate\n            self._tokens = min(self._capacity, self._tokens + tokens_to_add)\n        \n        self._last_refill_time = now\n\n    def allow(self) -> bool:\n        \"\"\"\n        Check if a request can be allowed.\n        \n        Refills the bucket based on elapsed time, then consumes one token if available.\n        \n        Returns:\n            True if a token was consumed (request allowed), False otherwise.\n        \"\"\"\n        self._refill()\n        \n        if self._tokens >= 1.0:\n            self._tokens -= 1.0\n            return True\n        \n        return False\n```",
+    "usage": {
+      "input_tokens": 194,
+      "latency_s": 102.183,
+      "model": "qwen3.5:9b",
+      "output_tokens": 499,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

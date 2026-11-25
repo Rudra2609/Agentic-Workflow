@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "2bf04df0a870b199507dd0f0ae39c469b0c6fc7d58d44d614aabad63291dce01",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `markdown_table(rows: list[dict], columns: list[str] | None = None) -> str`.\n\n- Columns default to the keys of the first row, in order. With no rows and no columns, return `\"\"`.\n- Output: a header line, a separator line, then one line per row, joined with `\\n` (no trailing newline):\n\n      | name | age |\n      | --- | --- |\n      | ann | 20 |\n\n- Values are converted with `str()`. A missing key gives an empty cell, i.e. two spaces between the pipes: `|  |`.\n- A `|` inside a value must be escaped as `\\|`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:13:37.500479+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `markdown_table(rows: list[dict], columns: list[str] | None = None) -> str`.\n\n- Columns default to the keys of the first row, in order. With no rows and no columns, return `\"\"`.\n- Output: a header line, a separator line, then one line per row, joined with `\\n` (no trailing newline):\n\n      | name | age |\n      | --- | --- |\n      | ann | 20 |\n\n- Values are converted with `str()`. A missing key gives an empty cell, i.e. two spaces between the pipes: `|  |`.\n- A `|` inside a value must be escaped as `\\|`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n# solution.py\ndef markdown_table(rows: list[dict], columns: list[str] | None = None) -> str:\n    \"\"\"\n    Convert a list of dictionaries into a Markdown table string.\n\n    Parameters\n    ----------\n    rows : list[dict]\n        The data rows.\n    columns : list[str] | None, optional\n        The column order. If None, uses the keys of the first row in insertion order.\n        If rows is empty, returns an empty string.\n\n    Returns\n    -------\n    str\n        The Markdown table representation.\n    \"\"\"\n    if not rows:\n        return \"\"\n\n    # Determine columns\n    if columns is None:\n        columns = list(rows[0].keys())\n\n    def escape(value: str) -> str:\n        return value.replace(\"|\", r\"\\|\")\n\n    # Build header\n    header_cells = [f\" {escape(str(col))} \" for col in columns]\n    header = \"|\" + \"|\".join(header_cells) + \"|\"\n\n    # Build separator\n    separator_cells = [\" --- \" for _ in columns]\n    separator = \"|\" + \"|\".join(separator_cells) + \"|\"\n\n    # Build rows\n    row_lines = []\n    for row in rows:\n        cells = []\n        for col in columns:\n            val = row.get(col, \"\")\n            cells.append(f\" {escape(str(val))} \")\n        row_lines.append(\"|\" + \"|\".join(cells) + \"|\")\n\n    return \"\\n\".join([header, separator] + row_lines)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 266,
+      "latency_s": 0.8399,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 351,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

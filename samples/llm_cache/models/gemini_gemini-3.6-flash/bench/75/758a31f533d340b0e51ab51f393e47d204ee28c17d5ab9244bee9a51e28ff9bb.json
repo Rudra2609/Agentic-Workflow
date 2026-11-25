@@ -1,0 +1,381 @@
+{
+  "format": 1,
+  "key": "758a31f533d340b0e51ab51f393e47d204ee28c17d5ab9244bee9a51e28ff9bb",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "CS-342 Computer Networks — Lab Assignment 4\nMulti-Client Chat Server\n\nObjective\nIn this lab you will build a text chat system made of a server and a command-line client.\n\nFunctional requirements\n1. The server must accept connections from at least 10 concurrent clients.\n2. Each client must register a unique username before sending messages. Duplicate usernames shall be rejected with an error message.\n3. Every message sent by a client must be broadcast to all other connected clients, prefixed with the sender's username.\n4. The server must support private messages using the command /msg <user> <text>.\n5. The server shall notify all clients when a user joins or leaves the chat.\n6. A client should be able to list the users who are online with the /who command.\n\nConstraints\n- Implement everything in Python 3 using only the standard library (socket, threading or asyncio). Third-party networking frameworks are not allowed.\n- The server must listen on port 5050 by default; the port may be changed with a command-line argument.\n\nDeliverables\n- Source code (server.py and client.py) submitted as a single zip file.\n- A README explaining how to run the server and the client.\n- A 2-page report (PDF) explaining the concurrency model you chose.\n- A demo video of at most 3 minutes.\n\nEvaluation (100 marks)\n| Criterion | Marks |\n| Correct broadcast to all clients | 25 |\n| Username registration and duplicates | 15 |\n| Private messages | 15 |\n| Join/leave notifications | 10 |\n| Code quality and comments | 15 |\n| Report | 20 |\n\nSubmission deadline: end of week 9. Late submissions lose 10% per day.\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "gemini-3.6-flash",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "gemini",
+  "recorded_at": "2026-11-02T06:52:42.168023+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "CS-342 Computer Networks — Lab Assignment 4\nMulti-Client Chat Server\n\nObjective\nIn this lab you will build a text chat system made of a server and a command-line client.\n\nFunctional requirements\n1. The server must accept connections from at least 10 concurrent clients.\n2. Each client must register a unique username before sending messages. Duplicate usernames shall be rejected with an error message.\n3. Every message sent by a client must be broadcast to all other connected clients, prefixed with the sender's username.\n4. The server must support private messages using the command /msg <user> <text>.\n5. The server shall notify all clients when a user joins or leaves the chat.\n6. A client should be able to list the users who are online with the /who command.\n\nConstraints\n- Implement everything in Python 3 using only the standard library (socket, threading or asyncio). Third-party networking frameworks are not allowed.\n- The server must listen on port 5050 by default; the port may be changed with a command-line argument.\n\nDeliverables\n- Source code (server.py and client.py) submitted as a single zip file.\n- A README explaining how to run the server and the client.\n- A 2-page report (PDF) explaining the concurrency model you chose.\n- A demo video of at most 3 minutes.\n\nEvaluation (100 marks)\n| Criterion | Marks |\n| Correct broadcast to all clients | 25 |\n| Username registration and duplicates | 15 |\n| Private messages | 15 |\n| Join/leave notifications | 10 |\n| Code quality and comments | 15 |\n| Report | 20 |\n\nSubmission deadline: end of week 9. Late submissions lose 10% per day.\n",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "Here is the structured information extracted verbatim from the provided document:\n\n### Requirements\n* **R1**: Server must handle at least 10 concurrent clients.\n  * **source_quote**: `\"The server must accept connections from at least 10 concurrent clients.\"`\n* **R2**: Client username registration and uniqueness.\n  * **source_quote**: `\"Each client must register a unique username before sending messages. Duplicate usernames shall be rejected with an error message.\"`\n* **R3**: Message broadcasting.\n  * **source_quote**: `\"Every message sent by a client must be broadcast to all other connected clients, prefixed with the sender's username.\"`\n* **R4**: Private messaging support.\n  * **source_quote**: `\"The server must support private messages using the command /msg <user> <text>.\"`\n* **R5**: Join/leave notifications.\n  * **source_quote**: `\"The server shall notify all clients when a user joins or leaves the chat.\"`\n* **R6**: Online user listing.\n  * **source_quote**: `\"A client should be able to list the users who are online with the /who command.\"`\n\n---\n\n### Constraints\n* **C1**: Language and library restrictions.\n  * **source_quote**: `\"Implement everything in Python 3 using only the standard library (socket, threading or asyncio). Third-party networking frameworks are not allowed.\"`\n* **C2**: Server listening port and command-line argument configuration.\n  * **source_quote**: `\"The server must listen on port 5050 by default; the port may be changed with a command-line argument.\"`\n* **C3**: Submission file format rule.\n  * **source_quote**: `\"Source code (server.py and client.py) submitted as a single zip file.\"`\n* **C4**: Report length and format restriction.\n  * **source_quote**: `\"A 2-page report (PDF) explaining the concurrency model you chose.\"`\n* **C5**: Demo video length restriction.\n  * **source_quote**: `\"A demo video of at most 3 minutes.\"`\n* **C6**: Submission deadline.\n  * **source_quote**: `\"Submission deadline: end of week 9.\"`\n* **C7**: Late submission penalty rule.\n  * **source_quote**: `\"Late submissions lose 10% per day.\"`\n\n---\n\n### Deliverables\n* **D1**: Source code files inside a zip archive.\n  * **source_quote**: `\"Source code (server.py and client.py) submitted as a single zip file.\"`\n* **D2**: Execution README file.\n  * **source_quote**: `\"A README explaining how to run the server and the client.\"`\n* **D3**: Concurrency model report.\n  * **source_quote**: `\"A 2-page report (PDF) explaining the concurrency model you chose.\"`\n* **D4**: Demonstration video.\n  * **source_quote**: `\"A demo video of at most 3 minutes.\"`\n\n---\n\n### Evaluation Criteria\n* **E1**: Correct broadcast to all clients.\n  * **Marks**: 25\n  * **source_quote**: `\"Correct broadcast to all clients | 25\"`\n* **E2**: Username registration and handling of duplicates.\n  * **Marks**: 15\n  * **source_quote**: `\"Username registration and duplicates | 15\"`\n* **E3**: Private messaging functionality.\n  * **Marks**: 15\n  * **source_quote**: `\"Private messages | 15\"`\n* **E4**: Notifications for user join/leave events.\n  * **Marks**: 10\n  * **source_quote**: `\"Join/leave notifications | 10\"`\n* **E5**: Code quality and commenting.\n  * **Marks**: 15\n  * **source_quote**: `\"Code quality and comments | 15\"`\n* **E6**: Report evaluation.\n  * **Marks**: 20\n  * **source_quote**: `\"Report | 20\"`",
+    "usage": {
+      "cached": false,
+      "input_tokens": 496,
+      "latency_s": 3.8755,
+      "model": "gemini-3.6-flash",
+      "output_tokens": 904,
+      "provider": "gemini"
+    }
+  },
+  "role": "reasoner"
+}

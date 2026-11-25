@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "f5a7e250617143cce32f182acffaf8ca7e21c66cf5d11b087fb0cb84f7c100dd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:46:27.543309+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nA minimal multi‑client TCP chat server that follows the specification\ndescribed in the task.  Only the Python standard library is used.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport socket\nimport threading\nfrom typing import Dict, Tuple, List, Optional\n\n\nclass ChatServer:\n    \"\"\"\n    Multi‑client TCP chat server.\n\n    Usage\n    -----\n    >>> server = ChatServer()\n    >>> port = server.start()\n    >>> # clients can now connect to (\"127.0.0.1\", port)\n    >>> server.stop()\n    \"\"\"\n\n    def __init__(self, host: str = \"127.0.0.1\", port: int = 0):\n        self._host = host\n        self._port = port\n        self._sock: Optional[socket.socket] = None\n\n        # Mapping username -> (socket, lock for that socket)\n        self._clients: Dict[str, Tuple[socket.socket, threading.Lock]] = {}\n        self._clients_lock = threading.Lock()\n\n        self._accept_thread: Optional[threading.Thread] = None\n        self._stop_event = threading.Event()\n        self._client_threads: List[threading.Thread] = []\n\n    # --------------------------------------------------------------------- #\n    # Public API\n    # --------------------------------------------------------------------- #\n    def start(self) -> int:\n        \"\"\"Start listening in a background thread and return the bound port.\"\"\"\n        if self._sock is not None:\n            raise RuntimeError(\"Server already started\")\n\n        self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n        self._sock.bind((self._host, self._port))\n        self._sock.listen()\n\n        # Retrieve the actual port (important when port==0)\n        _, bound_port = self._sock.getsockname()\n        self._port = bound_port\n\n        self._accept_thread = threading.Thread(\n            target=self._accept_loop, daemon=True, name=\"ChatServer-Accept\"\n        )\n        self._accept_thread.start()\n        return bound_port\n\n    def stop(self) -> None:\n        \"\"\"Shut down the server and all client connections.\"\"\"\n        self._stop_event.set()\n\n        # Close listening socket to unblock accept()\n        if self._sock:\n            try:\n                self._sock.close()\n            except OSError:\n                pass\n            self._sock = None\n\n        # Wait for accept thread to finish\n        if self._accept_thread:\n            self._accept_thread.join()\n            self._accept_thread = None\n\n        # Close all client sockets\n        with self._clients_lock:\n            clients = list(self._clients.items())\n            self._clients.clear()\n\n        for username, (csock, _) in clients:\n            try:\n                csock.shutdown(socket.SHUT_RDWR)\n            except OSError:\n                pass\n            csock.close()\n\n        # Wait for client handler threads\n        for t in self._client_threads:\n            t.join()\n        self._client_threads.clear()\n\n        self._stop_event.clear()\n\n    # --------------------------------------------------------------------- #\n    # Internal helpers\n    # --------------------------------------------------------------------- #\n    def _accept_loop(self) -> None:\n        \"\"\"Accept new connections until stop is requested.\"\"\"\n        while not self._stop_event.is_set():\n            try:\n                client_sock, _ = self._sock.accept()  # type: ignore[arg-type]\n            except OSError:\n                # Socket closed -> exit loop\n                break\n\n            t = threading.Thread(\n                target=self._handle_client,\n                args=(client_sock,),\n                daemon=True,\n                name=f\"ChatServer-Client-{client_sock.fileno()}\",\n            )\n            self._client_threads.append(t)\n            t.start()\n\n    def _handle_client(self, client_sock: socket.socket) -> None:\n        \"\"\"Process a single client connection.\"\"\"\n        client_file = client_sock.makefile(\"rwb\")\n        username: Optional[str] = None\n\n        try:\n            # ---- registration -------------------------------------------------\n            first_line = client_file.readline()\n            if not first_line:\n                return  # client closed immediately\n\n            try:\n                decoded = first_line.decode(\"utf-8\").rstrip(\"\\n\")\n            except UnicodeDecodeError:\n                client_sock.sendall(b\"ERROR invalid encoding\\n\")\n                return\n\n            if not decoded.startswith(\"NAME \"):\n                client_sock.sendall(b\"ERROR expected NAME command\\n\")\n                return\n\n            requested_name = decoded[5:].strip()\n            if not requested_name:\n                client_sock.sendall(b\"ERROR empty name\\n\")\n                return\n\n            # Try to register the name\n            with self._clients_lock:\n                if requested_name in self._clients:\n                    client_sock.sendall(b\"ERROR name taken\\n\")\n                    return\n                # Reserve the name\n                self._clients[requested_name] = (client_sock, threading.Lock())\n                username = requested_name\n\n            client_sock.sendall(b\"OK\\n\")\n            self._broadcast(f\"* {username} joined\\n\", exclude=username)\n\n            # ---- main message loop -------------------------------------------\n            while not self._stop_event.is_set():\n                line_bytes = client_file.readline()\n                if not line_bytes:\n                    break  # client disconnected\n\n                try:\n                    line = line_bytes.decode(\"utf-8\").rstrip(\"\\n\")\n                except UnicodeDecodeError:\n                    # ignore malformed line\n                    continue\n\n                # Broadcast to others\n                self._broadcast(f\"{username}: {line}\\n\", exclude=username)\n\n        finally:\n            # Cleanup on disconnect / error\n            if username:\n                with self._clients_lock:\n                    # Remove from registry if still present\n                    self._clients.pop(username, None)\n                self._broadcast(f\"* {username} left\\n\", exclude=username)\n\n            try:\n                client_sock.shutdown(socket.SHUT_RDWR)\n            except OSError:\n                pass\n            client_sock.close()\n            client_file.close()\n\n    def _broadcast(self, message: str, exclude: Optional[str] = None) -> None:\n        \"\"\"Send *message* to all registered clients except *exclude*.\"\"\"\n        data = message.encode(\"utf-8\")\n        with self._clients_lock:\n            targets = [\n                (uname, csock, lock)\n                for uname, (csock, lock) in self._clients.items()\n                if uname != exclude\n            ]\n\n        for uname, csock, lock in targets:\n            # Each socket has its own lock to avoid interleaved writes\n            with lock:\n                try:\n                    csock.sendall(data)\n                except OSError:\n                    # If sending fails, treat it as a disconnect; cleanup will happen\n                    # in the client handler thread.\n                    pass\n\n\n__all__ = [\"ChatServer\"]\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 341,
+      "latency_s": 3.4536,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 1482,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

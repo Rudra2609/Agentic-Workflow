@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "e5474b93bec941e31faba033775edb46341010df315fefe136b3b8c93921b60e",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:42:22.870748+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport heapq\nfrom collections import defaultdict\n\n\ndef topo_order(deps: dict[str, list[str]]) -> list[str]:\n    # Build the set of all tasks\n    all_tasks = set(deps.keys())\n    for prereqs in deps.values():\n        for p in prereqs:\n            all_tasks.add(p)\n\n    # Build adjacency: prereq -> tasks that depend on it\n    # and in-degree count for each task\n    graph = defaultdict(list)\n    in_degree = {task: 0 for task in all_tasks}\n\n    for task, prereqs in deps.items():\n        for p in prereqs:\n            graph[p].append(task)\n            in_degree[task] += 1\n\n    # Initialize min-heap with all tasks that have in-degree 0\n    heap = []\n    for task in all_tasks:\n        if in_degree[task] == 0:\n            heapq.heappush(heap, task)\n\n    result = []\n    while heap:\n        task = heapq.heappop(heap)\n        result.append(task)\n        for neighbor in graph[task]:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                heapq.heappush(heap, neighbor)\n\n    if len(result) != len(all_tasks):\n        raise ValueError(\"Cycle detected in dependencies\")\n\n    return result\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 176,
+      "latency_s": 0.6576,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 300,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

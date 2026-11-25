@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "f257650703c6f72278d09ef4c96f014a668fd71d092f7670eca231aa1b5ca411",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.050123+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport string\n\ndef vigenere_encrypt(text: str, key: str) -> str:\n    \"\"\"\n    Encrypts the given text using the Vigenère cipher.\n    \n    Args:\n        text: The input text to encrypt.\n        key: The encryption key (must be non-empty and contain only letters).\n        \n    Returns:\n        The encrypted text with the same case as the original, non-letters unchanged.\n        \n    Raises:\n        ValueError: If the key is empty or contains non-letter characters.\n    \"\"\"\n    if not key:\n        raise ValueError(\"Key cannot be empty.\")\n    \n    # Validate key and prepare normalized key\n    key_lower = key.lower()\n    for char in key_lower:\n        if char not in string.ascii_letters:\n            raise ValueError(\"Key must contain only letters.\")\n            \n    key_index = 0\n    \n    result = []\n    \n    for char in text:\n        if char.isalpha():\n            # Determine shift amount based on current key character\n            shift = ord(key_lower[key_index % len(key_lower)]) - ord('a')\n            \n            # Encrypt the character\n            base = ord('A') if char.isupper() else ord('a')\n            encrypted_char = chr((ord(char) - base + shift) % 26 + base)\n            result.append(encrypted_char)\n            \n            # Advance key position\n            key_index += 1\n        else:\n            # Non-letters are copied unchanged and do not advance the key\n            result.append(char)\n            \n    return ''.join(result)\n\n\ndef vigenere_decrypt(text: str, key: str) -> str:\n    \"\"\"\n    Decrypts the given text using the Vigenère cipher.\n    \n    Args:\n        text: The input text to decrypt.\n        key: The decryption key (must be non-empty and contain only letters).\n        \n    Returns:\n        The decrypted text with the same case as the original, non-letters unchanged.\n        \n    Raises:\n        ValueError: If the key is empty or contains non-letter characters.\n    \"\"\"\n    if not key:\n        raise ValueError(\"Key cannot be empty.\")\n    \n    # Validate key and prepare normalized key\n    key_lower = key.lower()\n    for char in key_lower:\n        if char not in string.ascii_letters:\n            raise ValueError(\"Key must contain only letters.\")\n            \n    key_index = 0\n    \n    result = []\n    \n    for char in text:\n        if char.isalpha():\n            # Determine shift amount based on current key character\n            shift = ord(key_lower[key_index % len(key_lower)]) - ord('a')\n            \n            # Decrypt the character (subtract shift)\n            base = ord('A') if char.isupper() else ord('a')\n            decrypted_char = chr((ord(char) - base - shift) % 26 + base)\n            result.append(decrypted_char)\n            \n            # Advance key position\n            key_index += 1\n        else:\n            # Non-letters are copied unchanged and do not advance the key\n            result.append(char)\n            \n    return ''.join(result)\n```",
+    "usage": {
+      "input_tokens": 194,
+      "latency_s": 117.886,
+      "model": "qwen3.5:9b",
+      "output_tokens": 682,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

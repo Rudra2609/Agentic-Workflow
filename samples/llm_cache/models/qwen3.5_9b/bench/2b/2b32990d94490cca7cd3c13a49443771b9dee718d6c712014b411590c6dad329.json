@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2b32990d94490cca7cd3c13a49443771b9dee718d6c712014b411590c6dad329",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a tiny URL router with exception classes `NotFound(Exception)` and `MethodNotAllowed(Exception)`.\n\n- `Router()`; `add(method: str, pattern: str, handler)` registers a route. Patterns look like `/users/{id}/posts`;\n  a `{name}` segment matches exactly one non-empty path segment.\n- `dispatch(method: str, path: str) -> tuple[handler, dict[str, str]]` returns the handler and the captured parameters.\n  Paths and patterns must have the same number of segments. A trailing slash is ignored (`/users/` == `/users`).\n- When both a static route and a parameter route match a path (e.g. `/users/me` and `/users/{id}`), the static one wins.\n- Raise `MethodNotAllowed` if some route matches the path but not the method, and `NotFound` if no route matches the path.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.052021+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a tiny URL router with exception classes `NotFound(Exception)` and `MethodNotAllowed(Exception)`.\n\n- `Router()`; `add(method: str, pattern: str, handler)` registers a route. Patterns look like `/users/{id}/posts`;\n  a `{name}` segment matches exactly one non-empty path segment.\n- `dispatch(method: str, path: str) -> tuple[handler, dict[str, str]]` returns the handler and the captured parameters.\n  Paths and patterns must have the same number of segments. A trailing slash is ignored (`/users/` == `/users`).\n- When both a static route and a parameter route match a path (e.g. `/users/me` and `/users/{id}`), the static one wins.\n- Raise `MethodNotAllowed` if some route matches the path but not the method, and `NotFound` if no route matches the path.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom typing import Callable, Dict, Tuple, Any\n\nclass NotFound(Exception):\n    \"\"\"Raised when no route matches the given path.\"\"\"\n    pass\n\nclass MethodNotAllowed(Exception):\n    \"\"\"Raised when a route matches the path but not the HTTP method.\"\"\"\n    pass\n\nclass Router:\n    def __init__(self):\n        # Store routes as (method, pattern, handler)\n        self.routes: list = []\n        \n    def add(self, method: str, pattern: str, handler: Callable) -> None:\n        \"\"\"\n        Registers a route.\n        Patterns look like '/users/{id}/posts'.\n        A '{name}' segment matches exactly one non-empty path segment.\n        \"\"\"\n        self.routes.append((method, pattern, handler))\n\n    def _normalize_path(self, path: str) -> str:\n        \"\"\"Remove trailing slash if present, unless the path is just '/'. \"\"\"\n        if path == \"/\":\n            return path\n        return path.rstrip('/')\n\n    def _compile_pattern(self, pattern: str) -> Tuple[str, re.Pattern]:\n        \"\"\"\n        Converts a pattern string like '/users/{id}/posts' into a regex.\n        Returns the original pattern and the compiled regex.\n        \"\"\"\n        # Normalize pattern (remove trailing slash for consistency with dispatch logic)\n        norm_pattern = self._normalize_path(pattern)\n        \n        # Escape special regex characters except '{' and '}'\n        escaped = re.escape(norm_pattern)\n        \n        # Replace {name} with a capturing group for non-empty segments\n        # We use [^/]+ to match one or more characters that are not '/'\n        regex = re.sub(r'\\{[^}]+\\}', r'([^/]+)', escaped)\n        \n        return norm_pattern, re.compile(f\"^{regex}$\")\n\n    def _match_static_routes(self, path: str, method: str) -> Tuple[bool, Callable, Dict[str, str]]:\n        \"\"\"\n        Checks if any static route (no parameters) matches the path and method.\n        Returns (matched, handler, params). If matched is False, returns (False, None, {}).\n        \"\"\"\n        for m, p, h in self.routes:\n            # Check method first\n            if m != method:\n                continue\n            \n            # Check if pattern has parameters\n            if '{' in p:\n                continue\n            \n            # Static route match check\n            if path == p:\n                return True, h, {}\n        \n        return False, None, {}\n\n    def _match_param_routes(self, path: str, method: str) -> Tuple[bool, Callable, Dict[str, str]]:\n        \"\"\"\n        Checks if any parameterized route matches the path and method.\n        Static routes are handled separately to ensure they win.\n        \"\"\"\n        compiled_patterns = {}\n        \n        # Pre-compile all param patterns once per dispatch call for efficiency\n        for m, p, h in self.routes:\n            if '{' not in p:\n                continue\n            \n            if m not in compiled_patterns:\n                compiled_patterns[m] = []\n            \n            norm_p, regex = self._compile_pattern(p)\n            compiled_patterns[m].append((norm_p, regex, h))\n\n        # Try to match against pre-compiled patterns\n        for m, pattern_list in compiled_patterns.items():\n            if m != method:\n                continue\n            \n            for norm_p, regex, h in pattern_list:\n                match = regex.match(path)\n                if match:\n                    # Extract groups. The regex adds a leading '^' and trailing '$'.\n                    # Groups are 1-indexed in the match object.\n                    params = dict(zip(regex.groupindex.keys(), match.groups()))\n                    return True, h, params\n        \n        return False, None, {}\n\n    def dispatch(self, method: str, path: str) -> Tuple[Callable, Dict[str, str]]:\n        \"\"\"\n        Dispatches a request to the appropriate handler.\n        Returns (handler, params).\n        Raises NotFound if no route matches the path.\n        Raises MethodNotAllowed if a route matches the path but not the method.\n        \"\"\"\n        norm_path = self._normalize_path(path)\n        \n        # 1. Check for static route match first (highest priority)\n        matched_static, handler, params = self._match_static_routes(norm_path, method)\n        if matched_static:\n            return handler, params\n        \n        # 2. Check for parameterized route match\n        matched_param, handler, params = self._match_param_routes(norm_path, method)\n        if matched_param:\n            return handler, params\n        \n        # 3. Determine exception\n        # We need to know if ANY route matches the path regardless of method to decide between \n        # NotFound and MethodNotAllowed.\n        \n        # Check if any route (static or param) matches the path ignoring method\n        any_match = False\n        for m, p, h in self.routes:\n            norm_p, regex = self._compile_pattern(p)\n            match = regex.match(norm_path)\n            if match:\n                any_match = True\n                break\n        \n        if not any_match:\n            raise NotFound(\"No route matches the given path.\")\n        else:\n            # A route exists for this path, but the method didn't match.\n            raise MethodNotAllowed(f\"Method {method} is not allowed for the given path.\")\n```",
+    "usage": {
+      "input_tokens": 254,
+      "latency_s": 185.152,
+      "model": "qwen3.5:9b",
+      "output_tokens": 1165,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

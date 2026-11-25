@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "d4d04a6699783417520b214b17419f3d86f606c75ec5b5ef55b6dc51164afffe",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `is_valid_ipv4(s: str) -> bool`.\n\nValid means exactly four parts separated by dots, each part made only of the digits 0-9, value 0..255,\nand no leading zeros (the part \"0\" itself is fine, \"01\" is not). No surrounding spaces, no signs.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.002018+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `is_valid_ipv4(s: str) -> bool`.\n\nValid means exactly four parts separated by dots, each part made only of the digits 0-9, value 0..255,\nand no leading zeros (the part \"0\" itself is fine, \"01\" is not). No surrounding spaces, no signs.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nimport re\n\ndef is_valid_ipv4(s: str) -> bool:\n    \"\"\"\n    Validates if a string is a valid IPv4 address.\n    \n    A valid IPv4 address must:\n    - Contain exactly four parts separated by dots.\n    - Each part consists only of digits 0-9.\n    - Each part represents a value between 0 and 255 inclusive.\n    - No leading zeros are allowed (except for the single digit '0').\n    - No surrounding spaces or signs.\n    \n    Args:\n        s (str): The string to validate.\n        \n    Returns:\n        bool: True if the string is a valid IPv4 address, False otherwise.\n    \"\"\"\n    # Check for leading/trailing whitespace or non-digit characters outside of dots\n    if not s or s[0].isspace() or s[-1].isspace():\n        return False\n    \n    # Split by dot and check each part\n    parts = s.split('.')\n    \n    # Must have exactly 4 parts\n    if len(parts) != 4:\n        return False\n    \n    for part in parts:\n        # Check if part is empty\n        if not part:\n            return False\n        \n        # Check if part contains non-digit characters\n        if not part.isdigit():\n            return False\n        \n        # Check for leading zeros (e.g., \"01\", \"00\" are invalid, but \"0\" is valid)\n        if len(part) > 1 and part[0] == '0':\n            return False\n        \n        # Convert to integer and check range\n        try:\n            value = int(part)\n            if not (0 <= value <= 255):\n                return False\n        except ValueError:\n            return False\n    \n    return True\n```",
+    "usage": {
+      "input_tokens": 139,
+      "latency_s": 44.12,
+      "model": "qwen3.5:4b",
+      "output_tokens": 387,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

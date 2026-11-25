@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "f5a7e250617143cce32f182acffaf8ca7e21c66cf5d11b087fb0cb84f7c100dd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.966167+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "```python\nimport socket\nimport threading\n\nclass ChatServer:\n    def __init__(self, host: str = \"127.0.0.1\", port: int = 0):\n        self.host = host\n        self.port = port\n        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        self.server_socket.bind((self.host, self.port))\n        self.server_socket.listen(5)\n        self.clients = {}\n        self.lock = threading.Lock()\n\n    def start(self) -> int:\n        self.port = self.server_socket.getsockname()[1]\n        threading.Thread(target=self.accept_connections, daemon=True).start()\n        return self.port\n\n    def stop(self):\n        with self.lock:\n            for client in self.clients.values():\n                client['conn'].close()\n            self.clients.clear()\n        self.server_socket.close()\n\n    def accept_connections(self):\n        while True:\n            conn, addr = self.server_socket.accept()\n            threading.Thread(target=self.handle_client, args=(conn, addr), daemon=True).start()\n\n    def handle_client(self, conn, addr):\n        try:\n            with self.lock:\n                name = conn.recv(1024).decode('utf-8').strip()\n                if name in self.clients:\n                    conn.sendall(b'ERROR name taken\\n')\n                    conn.close()\n                    return\n                self.clients[name] = {'conn': conn, 'addr': addr}\n                conn.sendall(b'OK\\n')\n                for other_name, other_client in self.clients.items():\n                    if other_name != name:\n                        other_client['conn'].sendall(f'* {name} joined\\n'.encode('utf-8'))\n\n            while True:\n                message = conn.recv(1024).decode('utf-8').strip()\n                if not message:\n                    break\n                with self.lock:\n                    for other_name, other_client in self.clients.items():\n                        if other_name != name:\n                            other_client['conn'].sendall(f'{name}: {message}\\n'.encode('utf-8'))\n\n        except Exception as e:\n            print(f\"Error handling client {addr}: {e}\")\n        finally:\n            with self.lock:\n                del self.clients[name]\n                for other_name, other_client in self.clients.items():\n                    other_client['conn'].sendall(f'* {name} left\\n'.encode('utf-8'))\n                conn.close()\n```",
+    "usage": {
+      "input_tokens": 282,
+      "latency_s": 79.851,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 494,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

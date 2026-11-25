@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2414fb8dc2acbb3d69dce4819048e4c708083f08efdaac3a7617da5b1a395cdd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.005637+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nimport threading\nfrom concurrent.futures import ThreadPoolExecutor, as_completed\nfrom typing import List, Callable, Any\n\ndef parallel_map(fn: Callable[[Any], Any], items: List[Any], workers: int) -> List[Any]:\n    \"\"\"\n    Applies fn to every item in items using at most 'workers' threads.\n    Returns results in the same order as items.\n    Raises ValueError if workers < 1.\n    Raises the exception from fn if any item processing fails.\n    \"\"\"\n    if workers < 1:\n        raise ValueError(\"workers must be at least 1\")\n\n    if not items:\n        return []\n\n    results = [None] * len(items)\n    exceptions = [None] * len(items)\n    lock = threading.Lock()\n\n    def worker(item, index):\n        try:\n            result = fn(item)\n            with lock:\n                results[index] = result\n        except Exception as e:\n            with lock:\n                exceptions[index] = e\n\n    with ThreadPoolExecutor(max_workers=workers) as executor:\n        futures = []\n        for i, item in enumerate(items):\n            future = executor.submit(worker, item, i)\n            futures.append(future)\n\n        # Wait for all tasks to complete\n        for future in as_completed(futures):\n            pass  # Just wait for completion\n\n    # Check for any exceptions\n    for exc in exceptions:\n        if exc is not None:\n            raise exc\n\n    return results\n```",
+    "usage": {
+      "input_tokens": 160,
+      "latency_s": 33.035,
+      "model": "qwen3.5:4b",
+      "output_tokens": 325,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

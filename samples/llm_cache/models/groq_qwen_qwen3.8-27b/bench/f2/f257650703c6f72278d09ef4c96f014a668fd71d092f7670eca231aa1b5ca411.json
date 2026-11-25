@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "f257650703c6f72278d09ef4c96f014a668fd71d092f7670eca231aa1b5ca411",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:42:53.367072+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\ndef _validate_key(key: str) -> None:\n    if not key:\n        raise ValueError(\"Key must not be empty\")\n    for ch in key:\n        if not ch.isalpha() or not ch.isascii():\n            raise ValueError(\"Key must contain only ASCII letters\")\n\n\ndef vigenere_encrypt(text: str, key: str) -> str:\n    _validate_key(key)\n    key_lower = key.lower()\n    key_len = len(key_lower)\n    result = []\n    key_idx = 0\n    for ch in text:\n        if ch.isalpha() and ch.isascii():\n            shift = ord(key_lower[key_idx]) - ord('a')\n            if ch.isupper():\n                base = ord('A')\n            else:\n                base = ord('a')\n            new_code = (ord(ch) - base + shift) % 26 + base\n            result.append(chr(new_code))\n            key_idx = (key_idx + 1) % key_len\n        else:\n            result.append(ch)\n    return ''.join(result)\n\n\ndef vigenere_decrypt(text: str, key: str) -> str:\n    _validate_key(key)\n    key_lower = key.lower()\n    key_len = len(key_lower)\n    result = []\n    key_idx = 0\n    for ch in text:\n        if ch.isalpha() and ch.isascii():\n            shift = ord(key_lower[key_idx]) - ord('a')\n            if ch.isupper():\n                base = ord('A')\n            else:\n                base = ord('a')\n            new_code = (ord(ch) - base - shift) % 26 + base\n            result.append(chr(new_code))\n            key_idx = (key_idx + 1) % key_len\n        else:\n            result.append(ch)\n    return ''.join(result)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 194,
+      "latency_s": 0.9984,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 415,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

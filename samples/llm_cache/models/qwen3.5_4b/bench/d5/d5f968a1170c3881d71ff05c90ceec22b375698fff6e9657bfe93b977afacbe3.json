@@ -1,0 +1,203 @@
+{
+  "format": 1,
+  "key": "d5f968a1170c3881d71ff05c90ceec22b375698fff6e9657bfe93b977afacbe3",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Write the expression grammar (precedence and associativity rules).\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"Hand-written lexer producing tokens with line and column.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Recursive-descent parser that builds an AST.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"Evaluator that walks the AST.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"Syntax errors reported with line and column, continuing with the next line.\"\n  },\n  {\n   \"id\": \"R6\",\n   \"text\": \"File of at least 20 test expressions with expected outputs.\"\n  },\n  {\n   \"id\": \"R7\",\n   \"text\": \"One-page explanation of the grammar.\"\n  }\n ],\n \"constraints\": [\n  \"no parser generators\",\n  \"C, C++, Java or Python\"\n ],\n \"deliverables\": [\n  \"source code\",\n  \"test expression file\",\n  \"grammar explanation\"\n ],\n \"notes\": \"The parser is derived from the grammar and consumes the lexer's tokens; the evaluator walks the parser's AST; the explanation document describes the final grammar.\"\n}",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "PlanTask": {
+          "properties": {
+            "capability": {
+              "enum": [
+                "research.run",
+                "verify.claims",
+                "code.implement",
+                "test.run",
+                "docs.generate",
+                "review.final"
+              ],
+              "title": "Capability",
+              "type": "string"
+            },
+            "depends_on": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Depends On",
+              "type": "array"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "phase": {
+              "enum": [
+                "research",
+                "design",
+                "implement",
+                "test",
+                "document",
+                "review"
+              ],
+              "title": "Phase",
+              "type": "string"
+            },
+            "requirement_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Requirement Ids",
+              "type": "array"
+            },
+            "title": {
+              "title": "Title",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "capability",
+            "requirement_ids",
+            "depends_on",
+            "phase"
+          ],
+          "title": "PlanTask",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/PlanTask"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.983934+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "tasks": {
+          "items": {
+            "properties": {
+              "capability": {
+                "enum": [
+                  "research.run",
+                  "verify.claims",
+                  "code.implement",
+                  "test.run",
+                  "docs.generate",
+                  "review.final"
+                ],
+                "title": "Capability",
+                "type": "string"
+              },
+              "depends_on": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Depends On",
+                "type": "array"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "phase": {
+                "enum": [
+                  "research",
+                  "design",
+                  "implement",
+                  "test",
+                  "document",
+                  "review"
+                ],
+                "title": "Phase",
+                "type": "string"
+              },
+              "requirement_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Requirement Ids",
+                "type": "array"
+              },
+              "title": {
+                "title": "Title",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "capability",
+              "requirement_ids",
+              "depends_on",
+              "phase"
+            ],
+            "title": "PlanTask",
+            "type": "object"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Write the expression grammar (precedence and associativity rules).\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"Hand-written lexer producing tokens with line and column.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Recursive-descent parser that builds an AST.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"Evaluator that walks the AST.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"Syntax errors reported with line and column, continuing with the next line.\"\n  },\n  {\n   \"id\": \"R6\",\n   \"text\": \"File of at least 20 test expressions with expected outputs.\"\n  },\n  {\n   \"id\": \"R7\",\n   \"text\": \"One-page explanation of the grammar.\"\n  }\n ],\n \"constraints\": [\n  \"no parser generators\",\n  \"C, C++, Java or Python\"\n ],\n \"deliverables\": [\n  \"source code\",\n  \"test expression file\",\n  \"grammar explanation\"\n ],\n \"notes\": \"The parser is derived from the grammar and consumes the lexer's tokens; the evaluator walks the parser's AST; the explanation document describes the final grammar.\"\n}",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "{\n  \"tasks\": [\n    {\n      \"id\": \"T1\",\n      \"title\": \"Define Expression Grammar\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R1\"],\n      \"depends_on\": [],\n      \"phase\": \"design\"\n    },\n    {\n      \"id\": \"T2\",\n      \"title\": \"Draft Lexer Specification\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R2\"],\n      \"depends_on\": [\"T1\"],\n      \"phase\": \"design\"\n    },\n    {\n      \"id\": \"T3\",\n      \"title\": \"Draft Parser Specification\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R3\"],\n      \"depends_on\": [\"T1\"],\n      \"phase\": \"design\"\n    },\n    {\n      \"id\": \"T4\",\n      \"title\": \"Draft Evaluator Specification\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R4\"],\n      \"depends_on\": [\"T1\"],\n      \"phase\": \"design\"\n    },\n    {\n      \"id\": \"T5\",\n      \"title\": \"Draft Error Handling Specification\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R5\"],\n      \"depends_on\": [\"T1\"],\n      \"phase\": \"design\"\n    },\n    {\n      \"id\": \"T6\",\n      \"title\": \"Compile Test Cases\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R6\"],\n      \"depends_on\": [],\n      \"phase\": \"design\"\n    },\n    {\n      \"id\": \"T7\",\n      \"title\": \"Draft Grammar Explanation\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R7\"],\n      \"depends_on\": [\"T1\"],\n      \"phase\": \"design\"\n    },\n    {\n      \"id\": \"T8\",\n      \"title\": \"Implement Lexer\",\n      \"capability\": \"code.implement\",\n      \"requirement_ids\": [\"R2\"],\n      \"depends_on\": [\"T2\"],\n      \"phase\": \"implement\"\n    },\n    {\n      \"id\": \"T9\",\n      \"title\": \"Implement Recursive-Descent Parser\",\n      \"capability\": \"code.implement\",\n      \"requirement_ids\": [\"R3\"],\n      \"depends_on\": [\"T1\", \"T8\"],\n      \"phase\": \"implement\"\n    },\n    {\n      \"id\": \"T10\",\n      \"title\": \"Implement Evaluator\",\n      \"capability\": \"code.implement\",\n      \"requirement_ids\": [\"R4\"],\n      \"depends_on\": [\"T1\", \"T9\"],\n      \"phase\": \"implement\"\n    },\n    {\n      \"id\": \"T11\",\n      \"title\": \"Implement Error Handling Logic\",\n      \"capability\": \"code.implement\",\n      \"requirement_ids\": [\"R5\"],\n      \"depends_on\": [\"T1\", \"T9\", \"T10\"],\n      \"phase\": \"implement\"\n    },\n    {\n      \"id\": \"T12\",\n      \"title\": \"Run Test Suite\",\n      \"capability\": \"test.run\",\n      \"requirement_ids\": [\"R6\"],\n      \"depends_on\": [\"T8\", \"T9\", \"T10\", \"T11\"],\n      \"phase\": \"test\"\n    },\n    {\n      \"id\": \"T13\",\n      \"title\": \"Generate Grammar Documentation\",\n      \"capability\": \"docs.generate\",\n      \"requirement_ids\": [\"R7\"],\n      \"depends_on\": [\"T12\"],\n      \"phase\": \"document\"\n    },\n    {\n      \"id\": \"T14\",\n      \"title\": \"Final System Review\",\n      \"capability\": \"review.final\",\n      \"requirement_ids\": [\"R1\", \"R2\", \"R3\", \"R4\", \"R5\", \"R6\", \"R7\"],\n      \"depends_on\": [\"T12\", \"T13\"],\n      \"phase\": \"review\"\n    }\n  ]\n}",
+    "usage": {
+      "input_tokens": 471,
+      "latency_s": 96.447,
+      "model": "qwen3.5:4b",
+      "output_tokens": 993,
+      "provider": "ollama"
+    }
+  },
+  "role": "reasoner"
+}

@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "1c629f334ad10563b32109c819c9dce4b5ec9886f76774905f6cc60f9b1e1255",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:45:54.876441+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport csv\nimport io\nfrom typing import Dict, List\n\n\ndef column_means(csv_text: str) -> Dict[str, float]:\n    \"\"\"\n    Compute the mean of each numeric column in a CSV string.\n\n    The first line of ``csv_text`` is treated as a header. For each column:\n      * Empty cells are ignored.\n      * If every non‑empty cell can be parsed as a float, the column is included\n        in the result with the arithmetic mean of those values.\n      * Columns containing any non‑numeric non‑empty value, or columns that have\n        no non‑empty values, are omitted.\n\n    The CSV is parsed with the :mod:`csv` module to correctly handle quoted\n    fields and delimiters.\n\n    Parameters\n    ----------\n    csv_text:\n        The CSV data as a single string.\n\n    Returns\n    -------\n    dict[str, float]\n        Mapping from column name to the mean of its numeric values.\n    \"\"\"\n    # Use StringIO to treat the input string as a file-like object for csv.reader\n    f = io.StringIO(csv_text)\n    reader = csv.reader(f)\n\n    try:\n        header = next(reader)\n    except StopIteration:\n        # Empty input – no columns to process\n        return {}\n\n    # Prepare containers for each column: list of numeric values and a flag for non‑numeric detection\n    values: List[List[float]] = [[] for _ in header]\n    has_non_numeric: List[bool] = [False] * len(header)\n\n    for row in reader:\n        # Pad rows that are shorter than the header with empty strings\n        if len(row) < len(header):\n            row = row + [''] * (len(header) - len(row))\n        # Truncate rows that are longer than the header\n        row = row[:len(header)]\n\n        for idx, cell in enumerate(row):\n            cell = cell.strip()\n            if cell == '':\n                # Empty cell – ignore\n                continue\n            try:\n                num = float(cell)\n                values[idx].append(num)\n            except ValueError:\n                # Mark column as containing non‑numeric data\n                has_non_numeric[idx] = True\n\n    # Build the result dictionary\n    result: Dict[str, float] = {}\n    for idx, col_name in enumerate(header):\n        if has_non_numeric[idx]:\n            continue  # Skip columns with any non‑numeric entry\n        if not values[idx]:\n            continue  # Skip columns with no numeric data\n        mean_val = sum(values[idx]) / len(values[idx])\n        result[col_name] = mean_val\n\n    return result\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 208,
+      "latency_s": 1.6376,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 580,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

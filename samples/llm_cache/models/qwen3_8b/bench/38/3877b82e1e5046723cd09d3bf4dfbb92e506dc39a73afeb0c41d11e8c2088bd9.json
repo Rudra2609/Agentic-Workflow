@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "key": "3877b82e1e5046723cd09d3bf4dfbb92e506dc39a73afeb0c41d11e8c2088bd9",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: SQLite supports concurrent writes from many processes without any locking.\nQUOTE: SQLite allows many readers at once, but only one writer can hold the database write lock at any moment.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.076910+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: SQLite supports concurrent writes from many processes without any locking.\nQUOTE: SQLite allows many readers at once, but only one writer can hold the database write lock at any moment.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3:8b"
+  },
+  "response": {
+    "text": "{ \"rationale\": \"The quote contradicts the claim because it states that only one writer can hold the write lock at a time, which implies SQLite does not support concurrent writes from multiple processes.\", \"verdict\": \"CONTRADICTED\" }",
+    "usage": {
+      "input_tokens": 119,
+      "latency_s": 69.8,
+      "model": "qwen3:8b",
+      "output_tokens": 53,
+      "provider": "ollama"
+    }
+  },
+  "role": "judge"
+}

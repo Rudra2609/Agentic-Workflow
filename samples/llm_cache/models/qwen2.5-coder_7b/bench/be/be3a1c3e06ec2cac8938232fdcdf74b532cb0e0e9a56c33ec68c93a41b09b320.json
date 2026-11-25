@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "be3a1c3e06ec2cac8938232fdcdf74b532cb0e0e9a56c33ec68c93a41b09b320",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.965739+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "```python\nimport heapq\n\ndef shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]:\n    if start == goal:\n        return (0, [start])\n    \n    if start not in graph or goal not in graph:\n        return (float(\"inf\"), [])\n    \n    queue = [(0, start, [start])]\n    visited = set()\n    \n    while queue:\n        (cost, node, path) = heapq.heappop(queue)\n        if node == goal:\n            return (cost, path)\n        if node not in visited:\n            visited.add(node)\n            for neighbor, weight in graph[node].items():\n                if neighbor not in visited:\n                    heapq.heappush(queue, (cost + weight, neighbor, path + [neighbor]))\n    \n    return (float(\"inf\"), [])\n```",
+    "usage": {
+      "input_tokens": 187,
+      "latency_s": 29.01,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 179,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

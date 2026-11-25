@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "1c629f334ad10563b32109c819c9dce4b5ec9886f76774905f6cc60f9b1e1255",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "llama3.1:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.916345+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "llama3.1:8b"
+  },
+  "response": {
+    "text": "```python\nimport csv\nfrom typing import Dict\n\ndef column_means(csv_text: str) -> Dict[str, float]:\n    reader = csv.reader(csv_text.splitlines())\n    headers = next(reader)\n    column_means = {}\n\n    for header in headers:\n        values = [float(row) for row in reader if row and row[headers.index(header)]]\n        if len(values) > 1:\n            column_means[header] = sum(values) / len(values)\n\n    return column_means\n```",
+    "usage": {
+      "input_tokens": 148,
+      "latency_s": 15.538,
+      "model": "llama3.1:8b",
+      "output_tokens": 103,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

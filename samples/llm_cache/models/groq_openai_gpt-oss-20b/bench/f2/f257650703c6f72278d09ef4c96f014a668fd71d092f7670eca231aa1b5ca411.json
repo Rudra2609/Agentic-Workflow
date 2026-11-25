@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "f257650703c6f72278d09ef4c96f014a668fd71d092f7670eca231aa1b5ca411",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:46.099743+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n# solution.py\ndef _validate_key(key: str) -> str:\n    if not key:\n        raise ValueError(\"Key must not be empty\")\n    if not key.isalpha():\n        raise ValueError(\"Key must contain only letters\")\n    return key.lower()\n\n\ndef _shift_char(c: str, shift: int) -> str:\n    if c.isupper():\n        base = ord('A')\n    else:\n        base = ord('a')\n    return chr(base + (ord(c) - base + shift) % 26)\n\n\ndef vigenere_encrypt(text: str, key: str) -> str:\n    \"\"\"\n    Encrypt `text` using the Vigenère cipher with the given `key`.\n\n    Parameters\n    ----------\n    text : str\n        The plaintext to encrypt.\n    key : str\n        The encryption key. Must be non-empty and contain only letters.\n\n    Returns\n    -------\n    str\n        The ciphertext.\n\n    Raises\n    ------\n    ValueError\n        If the key is empty or contains non-letter characters.\n    \"\"\"\n    key = _validate_key(key)\n    result = []\n    key_len = len(key)\n    key_index = 0\n\n    for ch in text:\n        if ch.isalpha():\n            shift = ord(key[key_index % key_len]) - ord('a')\n            result.append(_shift_char(ch, shift))\n            key_index += 1\n        else:\n            result.append(ch)\n\n    return ''.join(result)\n\n\ndef vigenere_decrypt(text: str, key: str) -> str:\n    \"\"\"\n    Decrypt `text` using the Vigenère cipher with the given `key`.\n\n    Parameters\n    ----------\n    text : str\n        The ciphertext to decrypt.\n    key : str\n        The decryption key. Must be non-empty and contain only letters.\n\n    Returns\n    -------\n    str\n        The plaintext.\n\n    Raises\n    ------\n    ValueError\n        If the key is empty or contains non-letter characters.\n    \"\"\"\n    key = _validate_key(key)\n    result = []\n    key_len = len(key)\n    key_index = 0\n\n    for ch in text:\n        if ch.isalpha():\n            shift = ord(key[key_index % key_len]) - ord('a')\n            result.append(_shift_char(ch, -shift))\n            key_index += 1\n        else:\n            result.append(ch)\n\n    return ''.join(result)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 247,
+      "latency_s": 1.0209,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 520,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

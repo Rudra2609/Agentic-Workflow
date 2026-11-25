@@ -1,0 +1,22 @@
+{
+ "stack": "rabbitmq+postgres",
+ "projects": 40,
+ "rounds": 1,
+ "concurrency": 20,
+ "agent_sets": 2,
+ "steps_per_project": 8,
+ "stub_delay_s": 0.05,
+ "completed": 40,
+ "failed_or_timed_out": 0,
+ "elapsed_s": 76.58,
+ "steps_per_s": 4.18,
+ "projects_per_min": 31.3,
+ "latency_s": {
+  "p50": 17.064,
+  "p95": 51.688,
+  "max": 54.542
+ },
+ "max_queue_depth": 201,
+ "rss_max_mb": 200.0,
+ "system_free_min_gb": 1.63
+}

@@ -1,0 +1,381 @@
+{
+  "format": 1,
+  "key": "5908d863bb11e29a140140fcf1a811ee5ff0c55dfa5ecd899c03bddc7f287357",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Distributed Systems — Term Paper\nTopic: Consensus Algorithms in Practice\n\nWrite a survey-style report comparing Paxos, Raft and one Byzantine fault tolerant protocol of your choice (for example PBFT or HotStuff).\n\nYour report must:\n1. Explain how each algorithm reaches agreement, including leader election where relevant.\n2. State the fault model of each algorithm (crash faults vs Byzantine faults) and how many failures it tolerates.\n3. Compare the message complexity of the three algorithms in normal operation.\n4. Describe at least two real systems that use each of Paxos and Raft.\n5. Discuss one known limitation or failure case for each algorithm.\n\nThe report should be between 3000 and 4000 words. Cite at least 8 sources, of which at least 4 must be peer-reviewed papers. Use IEEE citation style.\n\nSubmit the report as a PDF and a one-slide summary (PPTX or PDF) for the in-class discussion.\n\nEvaluation\nTechnical accuracy — 40%\nDepth of comparison — 25%\nUse of sources and citations — 15%\nWriting quality and structure — 20%\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:10:42.407907+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Distributed Systems — Term Paper\nTopic: Consensus Algorithms in Practice\n\nWrite a survey-style report comparing Paxos, Raft and one Byzantine fault tolerant protocol of your choice (for example PBFT or HotStuff).\n\nYour report must:\n1. Explain how each algorithm reaches agreement, including leader election where relevant.\n2. State the fault model of each algorithm (crash faults vs Byzantine faults) and how many failures it tolerates.\n3. Compare the message complexity of the three algorithms in normal operation.\n4. Describe at least two real systems that use each of Paxos and Raft.\n5. Discuss one known limitation or failure case for each algorithm.\n\nThe report should be between 3000 and 4000 words. Cite at least 8 sources, of which at least 4 must be peer-reviewed papers. Use IEEE citation style.\n\nSubmit the report as a PDF and a one-slide summary (PPTX or PDF) for the in-class discussion.\n\nEvaluation\nTechnical accuracy — 40%\nDepth of comparison — 25%\nUse of sources and citations — 15%\nWriting quality and structure — 20%\n",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"requirements\":[{\"id\":\"R1\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"Write a survey-style report comparing Paxos, Raft and one Byzantine fault tolerant protocol of your choice (for example PBFT or HotStuff).\",\"text\":\"Produce a survey-style report comparing Paxos, Raft, and a chosen Byzantine fault tolerant protocol.\"},{\"id\":\"R2\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"Your report must: 1. Explain how each algorithm reaches agreement, including leader election where relevant.\",\"text\":\"Explain how each algorithm reaches agreement, including leader election where relevant.\"},{\"id\":\"R3\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"2. State the fault model of each algorithm (crash faults vs Byzantine faults) and how many failures it tolerates.\",\"text\":\"State the fault model of each algorithm and the number of failures it tolerates.\"},{\"id\":\"R4\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"3. Compare the message complexity of the three algorithms in normal operation.\",\"text\":\"Compare the message complexity of the three algorithms in normal operation.\"},{\"id\":\"R5\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"4. Describe at least two real systems that use each of Paxos and Raft.\",\"text\":\"Describe at least two real systems that use each of Paxos and Raft.\"},{\"id\":\"R6\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"5. Discuss one known limitation or failure case for each algorithm.\",\"text\":\"Discuss one known limitation or failure case for each algorithm.\"},{\"id\":\"R7\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"The report should be between 3000 and 4000 words.\",\"text\":\"Ensure the report length is between 3000 and 4000 words.\"},{\"id\":\"R8\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"Cite at least 8 sources, of which at least 4 must be peer-reviewed papers.\",\"text\":\"Cite at least 8 sources, with at least 4 peer-reviewed papers.\"},{\"id\":\"R9\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"Use IEEE citation style.\",\"text\":\"Use IEEE citation style for all citations.\"},{\"id\":\"R10\",\"type\":\"functional\",\"priority\":\"must\",\"source_quote\":\"Submit the report as a PDF and a one-slide summary (PPTX or PDF) for the in-class discussion.\",\"text\":\"Submit the report as a PDF and a one-slide summary (PPTX or PDF).\"}],\"constraints\":[{\"id\":\"C1\",\"kind\":\"format\",\"text\":\"Report must be submitted as a PDF.\"},{\"id\":\"C2\",\"kind\":\"format\",\"text\":\"One-slide summary must be PPTX or PDF.\"},{\"id\":\"C3\",\"kind\":\"length\",\"text\":\"Report length must be between 3000 and 4000 words.\"},{\"id\":\"C4\",\"kind\":\"source\",\"text\":\"At least 8 sources cited, with at least 4 peer-reviewed papers.\"},{\"id\":\"C5\",\"kind\":\"citation\",\"text\":\"Citations must follow IEEE style.\"}],\"deliverables\":[{\"id\":\"D1\",\"name\":\"Survey Report\",\"format\":\"PDF\"},{\"id\":\"D2\",\"name\":\"One-slide Summary\",\"format\":\"PPTX or PDF\"}],\"evaluation_criteria\":[{\"id\":\"E1\",\"criterion\":\"Technical accuracy\",\"max_marks\":40},{\"id\":\"E2\",\"criterion\":\"Depth of comparison\",\"max_marks\":25},{\"id\":\"E3\",\"criterion\":\"Use of sources and citations\",\"max_marks\":15},{\"id\":\"E4\",\"criterion\":\"Writing quality and structure\",\"max_marks\":20}],\"open_questions\":[]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 971,
+      "latency_s": 1.2982,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 774,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

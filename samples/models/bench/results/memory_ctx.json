@@ -1,0 +1,84 @@
+{
+ "qwen3.5:4b": {
+  "2048": {
+   "system_delta_gb": 2.83,
+   "deltas": [
+    2.77,
+    2.89
+   ],
+   "ollama_reported_gb": [
+    3.11,
+    3.11
+   ],
+   "predicted_gb": 2.72,
+   "error_vs_delta_gb": -0.11
+  },
+  "8192": {
+   "system_delta_gb": 2.98,
+   "deltas": [
+    2.96,
+    3.01
+   ],
+   "ollama_reported_gb": [
+    3.41,
+    3.41
+   ],
+   "predicted_gb": 2.92,
+   "error_vs_delta_gb": -0.07
+  },
+  "32768": {
+   "system_delta_gb": 3.58,
+   "deltas": [
+    3.5,
+    3.66
+   ],
+   "ollama_reported_gb": [
+    4.35,
+    4.35
+   ],
+   "predicted_gb": 3.72,
+   "error_vs_delta_gb": 0.14
+  }
+ },
+ "qwen3.5:9b": {
+  "2048": {
+   "system_delta_gb": 5.75,
+   "deltas": [
+    5.59,
+    5.92
+   ],
+   "ollama_reported_gb": [
+    6.13,
+    6.13
+   ],
+   "predicted_gb": 5.7,
+   "error_vs_delta_gb": -0.06
+  },
+  "8192": {
+   "system_delta_gb": 6.34,
+   "deltas": [
+    6.16,
+    6.53
+   ],
+   "ollama_reported_gb": [
+    6.45,
+    6.45
+   ],
+   "predicted_gb": 5.9,
+   "error_vs_delta_gb": -0.45
+  },
+  "32768": {
+   "system_delta_gb": 7.52,
+   "deltas": [
+    7.1,
+    7.95
+   ],
+   "ollama_reported_gb": [
+    6.69,
+    6.69
+   ],
+   "predicted_gb": 6.7,
+   "error_vs_delta_gb": -0.82
+  }
+ }
+}

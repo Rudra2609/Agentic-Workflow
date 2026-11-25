@@ -1,0 +1,105 @@
+{
+  "format": 1,
+  "key": "a720747fc6a966d6136fd2fcc50748a080815a24e013face44de9af599f39481",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: bcrypt is a suitable algorithm for storing passwords.\nQUOTE: Password hashing functions such as bcrypt, scrypt and Argon2 are deliberately slow, which makes brute-force attacks on stolen hashes expensive; they are recommended for password storage.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:41:15.896349+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: bcrypt is a suitable algorithm for storing passwords.\nQUOTE: Password hashing functions such as bcrypt, scrypt and Argon2 are deliberately slow, which makes brute-force attacks on stolen hashes expensive; they are recommended for password storage.",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 512,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"rationale\": \"The quote explicitly states that bcrypt is recommended for password storage, which directly supports the claim that it is a suitable algorithm for this purpose.\", \"verdict\": \"SUPPORTED\"}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 225,
+      "latency_s": 0.1714,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 41,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

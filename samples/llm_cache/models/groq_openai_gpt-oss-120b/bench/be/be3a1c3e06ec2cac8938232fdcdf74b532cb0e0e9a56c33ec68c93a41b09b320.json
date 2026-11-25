@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "be3a1c3e06ec2cac8938232fdcdf74b532cb0e0e9a56c33ec68c93a41b09b320",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:46:18.752252+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nImplementation of a shortest‑path routine for directed weighted graphs.\n\nThe public API consists of a single function:\n    shortest_path(graph, start, goal) -> (total_cost, path)\n\nThe function uses Dijkstra's algorithm and works with non‑negative edge\nweights. It gracefully handles missing nodes and unreachable goals.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport heapq\nfrom typing import Dict, List, Tuple\n\n\ndef shortest_path(\n    graph: Dict[str, Dict[str, float]],\n    start: str,\n    goal: str,\n) -> Tuple[float, List[str]]:\n    \"\"\"\n    Compute the cheapest path from ``start`` to ``goal`` in a directed weighted graph.\n\n    Parameters\n    ----------\n    graph :\n        Mapping ``u -> {v: w, ...}`` where ``w`` is a non‑negative float representing\n        the weight of the edge ``u -> v``. Nodes may appear only as targets; they are\n        considered part of the graph if they are reachable via an incoming edge.\n    start :\n        Identifier of the source node.\n    goal :\n        Identifier of the destination node.\n\n    Returns\n    -------\n    (total_cost, path) :\n        * ``total_cost`` – sum of edge weights along the cheapest path. If the goal\n          cannot be reached or either endpoint is unknown, ``float('inf')`` is\n          returned.\n        * ``path`` – list of node identifiers from ``start`` to ``goal`` inclusive.\n          If no path exists, an empty list is returned.\n\n    Notes\n    -----\n    * If ``start == goal`` the function returns ``(0.0, [start])`` regardless of\n      whether the node appears in ``graph``.\n    * The algorithm runs in ``O(E log V)`` time using a binary heap.\n    \"\"\"\n    # Trivial case\n    if start == goal:\n        return 0.0, [start]\n\n    # If start node is completely unknown (no outgoing edges and never a target)\n    # we still treat it as a node with no outgoing edges.\n    # The algorithm will immediately conclude that goal is unreachable.\n    # No special handling needed beyond the normal Dijkstra loop.\n\n    # Priority queue: (accumulated_cost, node)\n    frontier: List[Tuple[float, str]] = [(0.0, start)]\n    # Best known cost to each node\n    best_cost: Dict[str, float] = {start: 0.0}\n    # To reconstruct the path\n    predecessor: Dict[str, str] = {}\n\n    while frontier:\n        cur_cost, u = heapq.heappop(frontier)\n\n        # If we popped a stale entry, skip it\n        if cur_cost != best_cost.get(u, float(\"inf\")):\n            continue\n\n        # Goal reached – we can stop early\n        if u == goal:\n            break\n\n        # Retrieve outgoing edges; missing key means no outgoing edges\n        for v, w in graph.get(u, {}).items():\n            if w < 0:\n                raise ValueError(\"Edge weights must be non‑negative\")\n            new_cost = cur_cost + w\n            if new_cost < best_cost.get(v, float(\"inf\")):\n                best_cost[v] = new_cost\n                predecessor[v] = u\n                heapq.heappush(frontier, (new_cost, v))\n\n    # If goal never discovered, return failure\n    if goal not in best_cost:\n        return float(\"inf\"), []\n\n    # Reconstruct path backwards from goal to start\n    path: List[str] = []\n    node = goal\n    while node != start:\n        path.append(node)\n        node = predecessor[node]  # type: ignore[arg-type]  # guaranteed to exist\n    path.append(start)\n    path.reverse()\n\n    return best_cost[goal], path\n\n\n__all__ = [\"shortest_path\"]\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 249,
+      "latency_s": 2.1946,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 841,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

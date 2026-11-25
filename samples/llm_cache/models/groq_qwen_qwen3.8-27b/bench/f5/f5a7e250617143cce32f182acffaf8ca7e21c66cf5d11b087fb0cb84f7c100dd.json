@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "f5a7e250617143cce32f182acffaf8ca7e21c66cf5d11b087fb0cb84f7c100dd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:43:26.483456+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport socket\nimport threading\nimport queue\n\n\nclass ChatServer:\n    def __init__(self, host: str = \"127.0.0.1\", port: int = 0):\n        self.host = host\n        self.port = port\n        self._server_socket = None\n        self._running = False\n        self._lock = threading.Lock()\n        self._clients = {}  # username -> client info dict\n        self._accept_thread = None\n        self._client_threads = []\n\n    def start(self) -> int:\n        self._server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        self._server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n        self._server_socket.bind((self.host, self.port))\n        self._server_socket.listen(5)\n        self._running = True\n        self._accept_thread = threading.Thread(target=self._accept_loop, daemon=True)\n        self._accept_thread.start()\n        return self._server_socket.getsockname()[1]\n\n    def stop(self):\n        self._running = False\n        if self._server_socket:\n            try:\n                self._server_socket.close()\n            except Exception:\n                pass\n        # Close all client sockets\n        with self._lock:\n            for username, info in list(self._clients.items()):\n                try:\n                    info['socket'].close()\n                except Exception:\n                    pass\n            self._clients.clear()\n        # Wait for threads to finish\n        if self._accept_thread:\n            self._accept_thread.join(timeout=2)\n        for t in self._client_threads:\n            t.join(timeout=2)\n        self._client_threads.clear()\n\n    def _accept_loop(self):\n        while self._running:\n            try:\n                client_socket, addr = self._server_socket.accept()\n                client_socket.settimeout(1.0)\n                t = threading.Thread(target=self._handle_client, args=(client_socket,), daemon=True)\n                t.start()\n                self._client_threads.append(t)\n            except Exception:\n                break\n\n    def _handle_client(self, client_socket):\n        username = None\n        try:\n            # Read first line for NAME\n            line = self._read_line(client_socket)\n            if line is None:\n                return\n            parts = line.split(' ', 1)\n            if len(parts) < 2 or parts[0] != 'NAME':\n                client_socket.close()\n                return\n            username = parts[1].strip()\n            if not username:\n                client_socket.close()\n                return\n\n            with self._lock:\n                if username in self._clients:\n                    # Name taken\n                    client_socket.sendall(b\"ERROR name taken\\n\")\n                    client_socket.close()\n                    return\n                # Register\n                self._clients[username] = {\n                    'socket': client_socket,\n                    'queue': queue.Queue()\n                }\n                # Notify other clients\n                for other_name, info in self._clients.items():\n                    if other_name != username:\n                        info['queue'].put(f\"* {username} joined\\n\")\n\n            # Send OK\n            client_socket.sendall(b\"OK\\n\")\n\n            # Start a sender thread for this client\n            sender_thread = threading.Thread(target=self._sender_loop, args=(username, client_socket), daemon=True)\n            sender_thread.start()\n\n            # Read messages\n            while self._running:\n                line = self._read_line(client_socket)\n                if line is None:\n                    break\n                if not line:\n                    continue\n                # Broadcast to other clients\n                with self._lock:\n                    for other_name, info in self._clients.items():\n                        if other_name != username:\n                            info['queue'].put(f\"{username}: {line}\\n\")\n        except Exception:\n            pass\n        finally:\n            # Cleanup\n            with self._lock:\n                if username and username in self._clients:\n                    del self._clients[username]\n                    # Notify other clients\n                    for other_name, info in self._clients.items():\n                        info['queue'].put(f\"* {username} left\\n\")\n            try:\n                client_socket.close()\n            except Exception:\n                pass\n\n    def _sender_loop(self, username, client_socket):\n        with self._lock:\n            info = self._clients.get(username)\n        if info is None:\n            return\n        q = info['queue']\n        while self._running:\n            try:\n                msg = q.get(timeout=0.5)\n                client_socket.sendall(msg.encode('utf-8'))\n            except queue.Empty:\n                continue\n            except Exception:\n                break\n\n    def _read_line(self, sock):\n        data = b\"\"\n        while True:\n            try:\n                chunk = sock.recv(1024)\n                if not chunk:\n                    return None\n                data += chunk\n                if b\"\\n\" in data:\n                    line, _, _ = data.partition(b\"\\n\")\n                    return line.decode('utf-8')\n            except socket.timeout:\n                continue\n            except Exception:\n                return None\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 295,
+      "latency_s": 2.3799,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 1142,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}
