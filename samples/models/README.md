@@ -1,5 +1,11 @@
 # Local models & routing prep (Member 11, prepared ahead of Sprint 11)
 
+> **Sprint 11 (2026-11-01):** these prototypes became the real plug-in `backend/src/hmap/agents/models/` (the GGUF
+> reader → `gguf.py`, the memory model → `hardware.py`, the router policies → `router.py` + the benchmark harness in
+> `bench/`). This folder now also holds the plug-in's data: `bench/` (benchmark results, gold-set runs, the router's
+> quality table `bench/table.json`), `finetune/` (the dataset, runs, adapters, the held-out result), `release/` (the
+> release matrix). The prototypes and checks below still run and are kept as the record of what was predicted.
+
 Builds on the Sprint 11 §0 model bake-off already on main (`docs/members/11/model-choice.md`,
 `samples/model_bakeoff/`). Three working pieces, runnable with only Python 3.11 (no Ollama, no models, no project
 code; the checks read the snapshot in `data/`):
