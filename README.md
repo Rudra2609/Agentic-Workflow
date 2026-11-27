@@ -7,10 +7,11 @@ each step to a specialised AI agent: document intelligence, planning, research, 
 documentation and final review. The agents talk over a message bus, and a live dashboard shows their progress. Local
 LLMs (Ollama, `qwen3.5:9b`) do the work. Everything runs on one laptop; nothing is deployed.
 
-**Status:** Sprints 1–10 are done (communication layer, document intelligence, planning, refinement + observability,
+**Status:** Sprints 1–11 are built (communication layer, document intelligence, planning, refinement + observability,
 research, verification + security, autonomous coding, automated testing, technical documentation + the one-command
-demo, final review + recovery + the end-to-end scenarios); Sprints 1–6 are the code shown at the mid-evaluation. No
-pipeline step is a stub any more (table below).
+demo, final review + recovery + the end-to-end scenarios, local models + routing + the release gate); Sprints 1–6 are
+the code shown at the mid-evaluation. No pipeline step is a stub any more (table below). The release gate's personal
+steps (live rehearsals, video, sign-off) are listed in `docs/members/11/release.md`.
 
 ## Quick start
 
@@ -47,7 +48,7 @@ cd frontend && npm install && npm run dev      # http://localhost:3000
 
 `make help` lists every command. Run `make precommit` before committing or handing off.
 
-## What is real vs stub (after Sprint 10)
+## What is real vs stub (after Sprint 11)
 
 | Capability / part | Status | Owner | Notes |
 |---|---|---|---|
@@ -62,7 +63,7 @@ cd frontend && npm install && npm run dev      # http://localhost:3000
 | `test.run` | **real** | M8 | static → build → unit → integration → security → run stages in a Docker sandbox (`make sandbox-image`; local jailed runner without Docker); failures with hints; tests from the criteria when there are none; failed tests → `code.revise` → re-test (≤ 2 rounds); Testing tab |
 | `docs.generate` + `docs.update` | **real** | M9 | README, API, architecture (Mermaid), code summaries, report sections from the code's facts (or the verified research); every claim checked against the code, documented examples run in the sandbox, ungrounded sentences removed; docs refreshed after code changes; Docs tab. Also `make demo` / `demo-replay` / `reset-demo` / `report` |
 | `review.final` + recovery | **real** | M10 | objective checks first (tests, verified claims, deliverables, docs, constraints), an LLM judge with order swap + votes for the rest; each failure traced to its step; revise / re-run / replan / ask a person through the Manager's `recovery` slot (≤ 2 rounds, plateau and oscillation stops); Review tab with override / accept / request changes. `scripts/demo_final.sh`: the three golden scenarios |
-| Model routing / tiers | role → model map (cloud keys first, local `qwen3.5:9b` fallback) | M11 | Sprint 11 router |
+| Model routing / tiers, registry, benchmarks | **real** | M11 | the `llm_provider` router (`HMAP_ROUTER=on` by default; off = the role maps: cloud keys first, local `qwen3.5:9b` fallback): orders each call's routes by key state, recent 429s, prompt size and measured quality, logs why; model registry, memory feasibility, swap-aware scheduler, benchmarks on every member's gold set, LoRA experiment; Models page. `make models-pull TIER=…`, `make bench`, `make release-matrix` |
 
 Stub agents that remain (the `echo` test agent) say so in the dashboard ("placeholder, sample content");
 `tests/e2e/test_no_silent_stubs.py` fails when a stub is unflagged or this table disagrees with the code.

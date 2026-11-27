@@ -128,4 +128,15 @@ paths = ["docs/members/*/core-requests.md"]
       "backend/tests/core/runtime/test_discovery.py", "backend/tests/planning/test_agent_api.py",
       "backend/src/hmap/manager/manager.py",
       "backend/src/hmap/core/plugins.py", "ownership.toml"]
-11 = ["scripts/pull_models.sh", "infra/**"]
+# Sprint 11 plan §4 (defaults taken 2026-11-01, Q1-Q12): the llm_provider slot in the gateway (Member 1, Q1), the
+# migration's tables in the member-table list, the model tiers / warm-up / model host in make demo, the Sprint 11 demo,
+# the release matrix, router settings, Make targets, README / handoff / docs index, regenerated registry and config
+# reference, the release gate's own records.
+11 = ["scripts/pull_models.sh", "infra/**", "backend/src/hmap/core/plugins.py", "backend/src/hmap/core/llm/gateway.py",
+      "backend/src/hmap/core/llm/cloud.py", "backend/src/hmap/system.py", "backend/src/hmap/core/runtime/host.py",
+      "backend/tests/core/llm/test_route_slot.py", "backend/src/hmap/db/tables.py", "backend/tests/db/test_migrations.py",
+      "backend/tests/coding/test_integration_real.py", "backend/src/hmap/core/config.py",
+      ".env.example", "Makefile", "scripts/demo.sh", "scripts/demo_preflight.py", "scripts/demo_sprint_11.sh",
+      "scripts/demo_sprint_11.py", "scripts/release_matrix.sh", "scripts/release_matrix.py", "README.md", "HANDOFF.md",
+      "docs/README.md", "frontend/src/features/_registry.generated.ts", "docs/members/9/platform/configuration.md",
+      "ownership.toml"]

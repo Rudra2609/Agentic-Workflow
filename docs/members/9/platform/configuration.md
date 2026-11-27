@@ -72,18 +72,21 @@ Generated from the code (`Settings.from_env` in `backend/src/hmap/core/config.py
 | `HMAP_CODING_SANDBOX` | Literal | auto | auto = macOS sandbox-exec (no network, no project folder) when present |
 | `HMAP_CODING_WORK_DIR` | Path / None | (not set) | per-task workspaces; unset = <tmp>/hmap-coding. Never inside the project folder (.env lives there) |
 
-## final review & recovery (Sprint 10, Member 10)
+## local models & routing (Sprint 11, Member 11)
 
 | Variable | Type | Default | What it does |
 |---|---|---|---|
 | `HMAP_DEMO_MIN_FREE_GB` | float / None | (not set) | make demo pre-flight free RAM floor |
+| `HMAP_LLAMACPP_BASE_URL` | str / None | (not set) | llama.cpp llama-server, e.g. http://127.0.0.1:8081/v1 |
+| `HMAP_MLX_BASE_URL` | str / None | (not set) | mlx_lm.server (OpenAI-compatible), e.g. http://127.0.0.1:8080/v1 |
+| `HMAP_MODELS_ALLOW_PULL` | bool | False | the Models tab may start 'ollama pull' (tier models only) |
+| `HMAP_MODEL_ROLES` |  | (not set) | the Sprint 11 spec's name for HMAP_ROLE_MAP (an alias; HMAP_ROLE_MAP wins) |
+| `HMAP_MODEL_TIER` | Literal | 1 | which local models this laptop has (scripts/pull_models.sh) |
 | `HMAP_RETRY_DELAYS_S` | tuple[float, ...] / None | (not set) | Manager backoff per retry (HMAP_RETRY_DELAYS_S=5,30,120); unset = the default |
-| `HMAP_REVIEW_AUTO_RECOVER` | bool | True | create revision tasks when the review says REVISE |
-| `HMAP_REVIEW_BUDGET_CALLS` | int | 40 | judge model calls per review |
-| `HMAP_REVIEW_HOLD_ON_ESCALATE` | bool | True | ESCALATE waits for a person (REVIEWING) |
-| `HMAP_REVIEW_JUDGE_SAMPLES` | int | 3 | judge votes per item (orders alternate) |
-| `HMAP_REVIEW_MAX_ROUNDS` | int | 2 | review -> revise rounds before escalating |
-| `HMAP_REVIEW_MIN_CONFIDENCE` | float | 0.6 | attribution confidence to act |
+| `HMAP_ROUTER` | Literal | on | the model router orders each live call's routes (off = the role maps, exactly as before Sprint 11) |
+| `HMAP_ROUTE_LOG_DAYS` | float | 7.0 | days a route decision is kept |
+| `HMAP_ROUTE_OVERRIDES` | dict | {} | HMAP_ROUTE_OVERRIDES 'plugin:role=model,...' (a model, or provider:model for the cloud) |
+| `HMAP_WARMUP` | bool | True | make demo preloads the local models |
 
 ## technical documentation + laptop demo (Sprint 9, Member 9)
 
@@ -144,6 +147,17 @@ Generated from the code (`Settings.from_env` in `backend/src/hmap/core/config.py
 | `HMAP_RESEARCH_MODE` | Literal | cached | online = live search + fetch (cached on disk); cached = cache + offline corpus only, never the network; local = the local corpus only |
 | `HMAP_RESEARCH_PROVIDERS` | tuple | ('wikipedia', 'arxiv', 'ddg', 'local') | search providers in order (HMAP_RESEARCH_PROVIDERS) |
 | `HMAP_RESEARCH_RATE_PER_HOST` | float | 1.0 | requests per second per host |
+
+## final review & recovery (Sprint 10, Member 10)
+
+| Variable | Type | Default | What it does |
+|---|---|---|---|
+| `HMAP_REVIEW_AUTO_RECOVER` | bool | True | create revision tasks when the review says REVISE |
+| `HMAP_REVIEW_BUDGET_CALLS` | int | 40 | judge model calls per review |
+| `HMAP_REVIEW_HOLD_ON_ESCALATE` | bool | True | ESCALATE waits for a person (REVIEWING) |
+| `HMAP_REVIEW_JUDGE_SAMPLES` | int | 3 | judge votes per item (orders alternate) |
+| `HMAP_REVIEW_MAX_ROUNDS` | int | 2 | review -> revise rounds before escalating |
+| `HMAP_REVIEW_MIN_CONFIDENCE` | float | 0.6 | attribution confidence to act |
 
 ## automated testing & execution (Sprint 8, Member 8)
 
