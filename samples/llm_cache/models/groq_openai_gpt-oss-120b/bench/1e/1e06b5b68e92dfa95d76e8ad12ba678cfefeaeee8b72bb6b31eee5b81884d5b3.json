@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "1e06b5b68e92dfa95d76e8ad12ba678cfefeaeee8b72bb6b31eee5b81884d5b3",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `to_roman(n: int) -> str` and `from_roman(s: str) -> int`.\n\n- `to_roman` handles 1..3999 using standard subtractive notation (4 = IV, 9 = IX, 40 = XL, 90 = XC, 400 = CD, 900 = CM);\n  raise `ValueError` outside that range.\n- `from_roman` accepts only upper-case numerals in canonical form (exactly what `to_roman` would produce) and raises\n  `ValueError` for anything else, e.g. `\"IIII\"`, `\"IC\"`, `\"VX\"`, `\"\"`, `\"iv\"`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:48:16.215596+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `to_roman(n: int) -> str` and `from_roman(s: str) -> int`.\n\n- `to_roman` handles 1..3999 using standard subtractive notation (4 = IV, 9 = IX, 40 = XL, 90 = XC, 400 = CD, 900 = CM);\n  raise `ValueError` outside that range.\n- `from_roman` accepts only upper-case numerals in canonical form (exactly what `to_roman` would produce) and raises\n  `ValueError` for anything else, e.g. `\"IIII\"`, `\"IC\"`, `\"VX\"`, `\"\"`, `\"iv\"`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nProvides conversion between integers and Roman numerals.\n\nFunctions\n---------\nto_roman(n: int) -> str\n    Convert an integer (1‑3999) to its canonical Roman numeral representation.\n    Raises ValueError for numbers outside the allowed range.\n\nfrom_roman(s: str) -> int\n    Convert a canonical Roman numeral (uppercase) back to an integer.\n    Raises ValueError for any non‑canonical or malformed input.\n\"\"\"\n\nfrom __future__ import annotations\n\n# Mapping of Roman symbols to values in descending order, including subtractive pairs.\n_ROMAN_PAIRS = [\n    (\"M\", 1000),\n    (\"CM\", 900),\n    (\"D\", 500),\n    (\"CD\", 400),\n    (\"C\", 100),\n    (\"XC\", 90),\n    (\"L\", 50),\n    (\"XL\", 40),\n    (\"X\", 10),\n    (\"IX\", 9),\n    (\"V\", 5),\n    (\"IV\", 4),\n    (\"I\", 1),\n]\n\n# Reverse lookup for parsing.\n_SYMBOL_TO_VALUE = {\n    \"I\": 1,\n    \"V\": 5,\n    \"X\": 10,\n    \"L\": 50,\n    \"C\": 100,\n    \"D\": 500,\n    \"M\": 1000,\n}\n\n\ndef to_roman(n: int) -> str:\n    \"\"\"\n    Convert an integer to a Roman numeral (canonical form).\n\n    Parameters\n    ----------\n    n : int\n        Integer to convert. Must be between 1 and 3999 inclusive.\n\n    Returns\n    -------\n    str\n        Canonical Roman numeral representation.\n\n    Raises\n    ------\n    ValueError\n        If ``n`` is not in the range 1..3999.\n    \"\"\"\n    if not isinstance(n, int):\n        raise ValueError(\"Input must be an integer.\")\n    if not (1 <= n <= 3999):\n        raise ValueError(\"Integer out of range (must be 1..3999).\")\n\n    result = []\n    remainder = n\n    for symbol, value in _ROMAN_PAIRS:\n        count, remainder = divmod(remainder, value)\n        result.append(symbol * count)\n        # For subtractive pairs (e.g., \"CM\") count will be 0 or 1; the multiplication works fine.\n    return \"\".join(result)\n\n\ndef from_roman(s: str) -> int:\n    \"\"\"\n    Convert a canonical Roman numeral to an integer.\n\n    Parameters\n    ----------\n    s : str\n        Upper‑case Roman numeral in canonical form.\n\n    Returns\n    -------\n    int\n        Integer value of the numeral.\n\n    Raises\n    ------\n    ValueError\n        If ``s`` is empty, contains non‑Roman characters, is not uppercase,\n        or is not in canonical form.\n    \"\"\"\n    if not isinstance(s, str):\n        raise ValueError(\"Input must be a string.\")\n    if not s:\n        raise ValueError(\"Empty string is not a valid Roman numeral.\")\n    if any(ch not in _SYMBOL_TO_VALUE for ch in s):\n        raise ValueError(\"String contains invalid Roman numeral characters.\")\n    if s != s.upper():\n        raise ValueError(\"Roman numerals must be uppercase.\")\n\n    # Parse left‑to‑right, handling subtractive notation.\n    i = 0\n    total = 0\n    while i < len(s):\n        # Look ahead to see if a subtractive pair is present.\n        if i + 1 < len(s) and s[i:i + 2] in {\"IV\", \"IX\", \"XL\", \"XC\", \"CD\", \"CM\"}:\n            total += _SYMBOL_TO_VALUE[s[i + 1]] - _SYMBOL_TO_VALUE[s[i]]\n            i += 2\n        else:\n            total += _SYMBOL_TO_VALUE[s[i]]\n            i += 1\n\n    # Verify canonical form by re‑encoding.\n    if to_roman(total) != s:\n        raise ValueError(\"Non‑canonical Roman numeral representation.\")\n    return total\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 265,
+      "latency_s": 2.3309,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 923,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

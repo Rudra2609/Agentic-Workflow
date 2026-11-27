@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "1d802edd6588c992dd531c63c14dbbd58e5f2480754f25795673061052185767",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `top_words(text: str, k: int) -> list[tuple[str, int]]`.\n\n- A word is a maximal run of ASCII letters `a`-`z` after lower-casing the text (so \"Don't\" gives \"don\" and \"t\").\n- Return the `k` most frequent words as `(word, count)` pairs, sorted by count descending, then word ascending.\n- If there are fewer than `k` distinct words, return all of them. `k <= 0` returns `[]`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:41:21.121397+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `top_words(text: str, k: int) -> list[tuple[str, int]]`.\n\n- A word is a maximal run of ASCII letters `a`-`z` after lower-casing the text (so \"Don't\" gives \"don\" and \"t\").\n- Return the `k` most frequent words as `(word, count)` pairs, sorted by count descending, then word ascending.\n- If there are fewer than `k` distinct words, return all of them. `k <= 0` returns `[]`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom collections import Counter\n\n\ndef top_words(text: str, k: int) -> list[tuple[str, int]]:\n    if k <= 0:\n        return []\n    # Lower-case the text\n    lower_text = text.lower()\n    # Find all maximal runs of ASCII letters a-z\n    words = re.findall(r'[a-z]+', lower_text)\n    if not words:\n        return []\n    counts = Counter(words)\n    # Sort by count descending, then word ascending\n    sorted_items = sorted(counts.items(), key=lambda x: (-x[1], x[0]))\n    return sorted_items[:k]\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 181,
+      "latency_s": 0.3859,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 147,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

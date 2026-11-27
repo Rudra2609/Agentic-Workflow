@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "5b5d63c8982de674afb41c17404d6780cac91648aa717b17aa14286ac7922004",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a thread-safe counter and a helper:\n\n- class `SafeCounter` with `increment()` (adds 1) and a `value` property.\n- `count_with_threads(n_threads: int, increments: int) -> int` starts `n_threads` threads that each call\n  `increment()` on one shared `SafeCounter` exactly `increments` times, waits for all of them, and returns the final value.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:13:26.156429+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a thread-safe counter and a helper:\n\n- class `SafeCounter` with `increment()` (adds 1) and a `value` property.\n- `count_with_threads(n_threads: int, increments: int) -> int` starts `n_threads` threads that each call\n  `increment()` on one shared `SafeCounter` exactly `increments` times, waits for all of them, and returns the final value.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport threading\nfrom typing import Callable\n\n\nclass SafeCounter:\n    \"\"\"A thread‑safe counter that can be incremented concurrently.\"\"\"\n\n    def __init__(self) -> None:\n        self._value: int = 0\n        self._lock = threading.Lock()\n\n    def increment(self) -> None:\n        \"\"\"Atomically increment the counter by 1.\"\"\"\n        with self._lock:\n            self._value += 1\n\n    @property\n    def value(self) -> int:\n        \"\"\"Return the current counter value.\"\"\"\n        with self._lock:\n            return self._value\n\n\ndef count_with_threads(n_threads: int, increments: int) -> int:\n    \"\"\"\n    Start `n_threads` threads that each increment a shared SafeCounter\n    exactly `increments` times. Wait for all threads to finish and return\n    the final counter value.\n\n    Parameters\n    ----------\n    n_threads : int\n        Number of threads to spawn.\n    increments : int\n        Number of increments each thread performs.\n\n    Returns\n    -------\n    int\n        Final value of the counter after all increments.\n    \"\"\"\n    counter = SafeCounter()\n    threads = []\n\n    def worker() -> None:\n        for _ in range(increments):\n            counter.increment()\n\n    for _ in range(n_threads):\n        t = threading.Thread(target=worker)\n        t.start()\n        threads.append(t)\n\n    for t in threads:\n        t.join()\n\n    return counter.value\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 210,
+      "latency_s": 0.8191,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 320,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

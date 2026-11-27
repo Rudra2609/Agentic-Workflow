@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "e5474b93bec941e31faba033775edb46341010df315fefe136b3b8c93921b60e",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:39.168609+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n# solution.py\nfrom __future__ import annotations\nfrom collections import defaultdict, deque\nfrom typing import Dict, List, Set\n\n\ndef topo_order(deps: Dict[str, List[str]]) -> List[str]:\n    \"\"\"\n    Return a topological ordering of tasks given a dependency mapping.\n\n    Parameters\n    ----------\n    deps : dict[str, list[str]]\n        Mapping from a task to a list of tasks that must come before it.\n\n    Returns\n    -------\n    list[str]\n        A list containing every task exactly once, sorted so that each\n        task appears after all its prerequisites.  When multiple tasks are\n        ready at the same time, they are chosen in alphabetical order.\n\n    Raises\n    ------\n    ValueError\n        If the dependency graph contains a cycle (including a task that\n        depends on itself).\n    \"\"\"\n    # Build the set of all tasks\n    all_tasks: Set[str] = set(deps.keys())\n    for prereqs in deps.values():\n        all_tasks.update(prereqs)\n\n    # Build adjacency list and indegree count\n    graph: Dict[str, Set[str]] = defaultdict(set)\n    indegree: Dict[str, int] = {task: 0 for task in all_tasks}\n\n    for task, prereqs in deps.items():\n        for p in prereqs:\n            if p == task:\n                raise ValueError(f\"Task '{task}' depends on itself\")\n            if task not in graph[p]:\n                graph[p].add(task)\n                indegree[task] += 1\n\n    # Use a deque sorted alphabetically for deterministic ordering\n    ready = deque(sorted([t for t in all_tasks if indegree[t] == 0]))\n    result: List[str] = []\n\n    while ready:\n        current = ready.popleft()\n        result.append(current)\n        for neighbor in sorted(graph[current]):\n            indegree[neighbor] -= 1\n            if indegree[neighbor] == 0:\n                # Insert in alphabetical order\n                # Since ready is sorted, we can append and sort again\n                ready.append(neighbor)\n        ready = deque(sorted(ready))\n\n    if len(result) != len(all_tasks):\n        raise ValueError(\"Cycle detected in dependencies\")\n\n    return result\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 229,
+      "latency_s": 1.0552,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 513,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

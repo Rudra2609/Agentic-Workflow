@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "0a811480c747a9a1d46e75cf139e5d9959adb738b6b35862c3aae57883aecb38",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `dict_diff(old: dict, new: dict) -> list[str]` that compares two (possibly nested) dicts.\n\n- Report `\"added: <path>\"` for keys only in `new`, `\"removed: <path>\"` for keys only in `old`, and\n  `\"changed: <path>\"` for keys in both whose values differ.\n- When both values are dicts, compare recursively instead of reporting the parent as changed.\n- `<path>` joins nested keys with dots, e.g. `db.port`. Keys are strings.\n- Return the list sorted alphabetically.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:48:13.238538+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `dict_diff(old: dict, new: dict) -> list[str]` that compares two (possibly nested) dicts.\n\n- Report `\"added: <path>\"` for keys only in `new`, `\"removed: <path>\"` for keys only in `old`, and\n  `\"changed: <path>\"` for keys in both whose values differ.\n- When both values are dicts, compare recursively instead of reporting the parent as changed.\n- `<path>` joins nested keys with dots, e.g. `db.port`. Keys are strings.\n- Return the list sorted alphabetically.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nProvides a single public function `dict_diff` that compares two possibly nested\ndictionaries and returns a sorted list of human‑readable change descriptions.\n\nThe format of each description is one of:\n    \"added: <path>\"\n    \"removed: <path>\"\n    \"changed: <path>\"\n\nwhere <path> is a dot‑separated sequence of keys leading to the differing\nelement. Keys are assumed to be strings.\n\"\"\"\n\nfrom __future__ import annotations\nfrom typing import Any, Dict, List\n\n\ndef _collect_paths(\n    old: Dict[str, Any],\n    new: Dict[str, Any],\n    prefix: str = \"\",\n) -> List[str]:\n    \"\"\"\n    Recursively walk two dictionaries and produce change messages.\n\n    Parameters\n    ----------\n    old : dict\n        The original dictionary.\n    new : dict\n        The updated dictionary.\n    prefix : str, optional\n        Dot‑separated path prefix for the current recursion level.\n\n    Returns\n    -------\n    List[str]\n        List of change messages for this subtree.\n    \"\"\"\n    messages: List[str] = []\n\n    old_keys = set(old.keys())\n    new_keys = set(new.keys())\n\n    # Keys only in new -> added\n    for key in new_keys - old_keys:\n        path = f\"{prefix}{key}\" if not prefix else f\"{prefix}.{key}\"\n        messages.append(f\"added: {path}\")\n\n    # Keys only in old -> removed\n    for key in old_keys - new_keys:\n        path = f\"{prefix}{key}\" if not prefix else f\"{prefix}.{key}\"\n        messages.append(f\"removed: {path}\")\n\n    # Keys in both -> maybe changed or recurse\n    for key in old_keys & new_keys:\n        old_val = old[key]\n        new_val = new[key]\n        path = f\"{prefix}{key}\" if not prefix else f\"{prefix}.{key}\"\n\n        if isinstance(old_val, dict) and isinstance(new_val, dict):\n            # Recurse into nested dictionaries\n            messages.extend(_collect_paths(old_val, new_val, path))\n        elif old_val != new_val:\n            messages.append(f\"changed: {path}\")\n\n    return messages\n\n\ndef dict_diff(old: Dict[str, Any], new: Dict[str, Any]) -> List[str]:\n    \"\"\"\n    Compare two (possibly nested) dictionaries and report differences.\n\n    The function returns a list of strings describing added, removed, or\n    changed keys. Nested keys are represented using dot notation.\n\n    Parameters\n    ----------\n    old : dict\n        The original dictionary.\n    new : dict\n        The dictionary to compare against.\n\n    Returns\n    -------\n    List[str]\n        Alphabetically sorted list of change descriptions.\n    \"\"\"\n    # Ensure inputs are dictionaries; raise TypeError otherwise for clearer errors.\n    if not isinstance(old, dict):\n        raise TypeError(f\"old must be a dict, got {type(old).__name__}\")\n    if not isinstance(new, dict):\n        raise TypeError(f\"new must be a dict, got {type(new).__name__}\")\n\n    changes = _collect_paths(old, new)\n    return sorted(changes)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 245,
+      "latency_s": 1.6839,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 683,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

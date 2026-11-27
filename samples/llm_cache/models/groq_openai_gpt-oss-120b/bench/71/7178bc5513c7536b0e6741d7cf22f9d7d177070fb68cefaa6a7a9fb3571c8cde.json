@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "7178bc5513c7536b0e6741d7cf22f9d7d177070fb68cefaa6a7a9fb3571c8cde",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `LRUCache`:\n\n- `LRUCache(capacity: int)` — raise `ValueError` if capacity < 1.\n- `get(key) -> value`, returning `-1` if the key is missing. A successful get marks the key as most recently used.\n- `put(key, value)` — insert or update; updating also marks the key as most recently used.\n  When inserting a new key into a full cache, first evict the least recently used key.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:45:50.315122+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `LRUCache`:\n\n- `LRUCache(capacity: int)` — raise `ValueError` if capacity < 1.\n- `get(key) -> value`, returning `-1` if the key is missing. A successful get marks the key as most recently used.\n- `put(key, value)` — insert or update; updating also marks the key as most recently used.\n  When inserting a new key into a full cache, first evict the least recently used key.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nImplementation of an LRU (Least Recently Used) cache.\n\nThe cache supports O(1) get and put operations by leveraging\n`collections.OrderedDict`, which maintains insertion order and allows\nmoving elements to the end to mark them as most‑recently used.\n\nPublic API:\n    - LRUCache(capacity: int)\n    - get(key) -> value\n    - put(key, value) -> None\n\"\"\"\n\nfrom collections import OrderedDict\nfrom typing import Any\n\n\nclass LRUCache:\n    \"\"\"\n    Least Recently Used (LRU) cache.\n\n    Parameters\n    ----------\n    capacity : int\n        Maximum number of items the cache can hold. Must be >= 1.\n\n    Methods\n    -------\n    get(key) -> Any\n        Return the value associated with *key* if present; otherwise -1.\n        Accessing a key marks it as most recently used.\n\n    put(key, value) -> None\n        Insert or update the *key* with *value*. The operation marks the\n        key as most recently used. If the cache is full and a new key is\n        inserted, the least recently used entry is evicted first.\n    \"\"\"\n\n    def __init__(self, capacity: int):\n        if capacity < 1:\n            raise ValueError(\"capacity must be at least 1\")\n        self._capacity = capacity\n        self._store: OrderedDict[Any, Any] = OrderedDict()\n\n    def get(self, key: Any) -> Any:\n        \"\"\"\n        Retrieve the value for *key*.\n\n        Returns\n        -------\n        Any\n            The stored value, or -1 if the key is not present.\n        \"\"\"\n        if key not in self._store:\n            return -1\n        # Move the key to the end to denote recent use\n        self._store.move_to_end(key, last=True)\n        return self._store[key]\n\n    def put(self, key: Any, value: Any) -> None:\n        \"\"\"\n        Insert or update *key* with *value*.\n\n        If the cache exceeds its capacity, evicts the least recently used\n        item before inserting the new one.\n        \"\"\"\n        if key in self._store:\n            # Update existing entry and mark as recently used\n            self._store[key] = value\n            self._store.move_to_end(key, last=True)\n        else:\n            # Evict if necessary\n            if len(self._store) >= self._capacity:\n                # popitem(last=False) removes the first (least recent) item\n                self._store.popitem(last=False)\n            self._store[key] = value\n            # New items are already at the end, representing most recent\n\n    # Optional: representation helpers for debugging / testing\n    def __repr__(self) -> str:\n        return f\"{self.__class__.__name__}(capacity={self._capacity}, items={list(self._store.items())})\"\n\n    def __len__(self) -> int:\n        return len(self._store)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 226,
+      "latency_s": 1.7332,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 692,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

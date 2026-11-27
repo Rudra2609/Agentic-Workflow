@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "14dc2cff7299e6f1079af69f0b68d1c16a900fd0aa0248bc6f7852e1405a7707",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `evaluate(expr: str) -> float` that evaluates an arithmetic expression **without** using\nPython's `eval`, `exec`, `compile` or the `ast` module (write a small parser yourself).\n\nSupport numbers (integers and decimals), `+ - * /`, parentheses and unary minus (e.g. `-(2+3)`, `2*-3`).\n`*` and `/` bind tighter than `+` and `-`; operators of equal precedence are left-associative.\nRaise `ZeroDivisionError` when dividing by zero and `ValueError` for malformed input\n(unknown characters, unbalanced parentheses, missing operands, empty string).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:46:00.998280+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `evaluate(expr: str) -> float` that evaluates an arithmetic expression **without** using\nPython's `eval`, `exec`, `compile` or the `ast` module (write a small parser yourself).\n\nSupport numbers (integers and decimals), `+ - * /`, parentheses and unary minus (e.g. `-(2+3)`, `2*-3`).\n`*` and `/` bind tighter than `+` and `-`; operators of equal precedence are left-associative.\nRaise `ZeroDivisionError` when dividing by zero and `ValueError` for malformed input\n(unknown characters, unbalanced parentheses, missing operands, empty string).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nProvides a single public function:\n\n    evaluate(expr: str) -> float\n\nwhich parses and evaluates a simple arithmetic expression supporting:\n    - integers and decimal numbers\n    - binary operators +, -, *, /\n    - parentheses\n    - unary plus and minus\n\nOperator precedence:\n    * and / bind tighter than + and -\n    Operators of equal precedence are left‑associative.\n\nErrors:\n    - ZeroDivisionError for division by zero\n    - ValueError for malformed input (unknown characters, unbalanced parentheses,\n      missing operands, empty string, etc.)\n\"\"\"\n\nfrom __future__ import annotations\nimport re\nfrom typing import List\n\n\nclass _Parser:\n    \"\"\"Recursive‑descent parser for the supported arithmetic grammar.\"\"\"\n\n    _NUMBER_RE = re.compile(r\"\\d+(\\.\\d*)?|\\.\\d+\")\n\n    def __init__(self, text: str) -> None:\n        self.text = text\n        self.pos = 0\n        self.length = len(text)\n\n    # --------------------------------------------------------------------- #\n    # Public entry point\n    # --------------------------------------------------------------------- #\n    def parse(self) -> float:\n        self._skip_whitespace()\n        if self.pos >= self.length:\n            raise ValueError(\"empty expression\")\n        value = self._expr()\n        self._skip_whitespace()\n        if self.pos != self.length:\n            raise ValueError(f\"unexpected character at position {self.pos}: '{self.text[self.pos]}'\")\n        return value\n\n    # --------------------------------------------------------------------- #\n    # Grammar methods\n    # --------------------------------------------------------------------- #\n    # expr   := term (('+' | '-') term)*\n    def _expr(self) -> float:\n        left = self._term()\n        while True:\n            self._skip_whitespace()\n            if self._match('+'):\n                right = self._term()\n                left = left + right\n            elif self._match('-'):\n                right = self._term()\n                left = left - right\n            else:\n                break\n        return left\n\n    # term   := factor (('*' | '/') factor)*\n    def _term(self) -> float:\n        left = self._factor()\n        while True:\n            self._skip_whitespace()\n            if self._match('*'):\n                right = self._factor()\n                left = left * right\n            elif self._match('/'):\n                right = self._factor()\n                if right == 0:\n                    raise ZeroDivisionError(\"division by zero\")\n                left = left / right\n            else:\n                break\n        return left\n\n    # factor := ('+' | '-') factor | number | '(' expr ')'\n    def _factor(self) -> float:\n        self._skip_whitespace()\n        if self._match('+'):\n            return self._factor()          # unary plus, no effect\n        if self._match('-'):\n            return -self._factor()         # unary minus\n\n        if self._match('('):\n            inner = self._expr()\n            self._skip_whitespace()\n            if not self._match(')'):\n                raise ValueError(\"unbalanced '('\")\n            return inner\n\n        return self._number()\n\n    # --------------------------------------------------------------------- #\n    # Helpers\n    # --------------------------------------------------------------------- #\n    def _number(self) -> float:\n        self._skip_whitespace()\n        start = self.pos\n        match = self._NUMBER_RE.match(self.text, self.pos)\n        if not match:\n            raise ValueError(f\"expected number at position {self.pos}\")\n        self.pos = match.end()\n        try:\n            return float(match.group())\n        except ValueError as exc:\n            raise ValueError(f\"invalid numeric literal '{match.group()}'\") from exc\n\n    def _skip_whitespace(self) -> None:\n        while self.pos < self.length and self.text[self.pos].isspace():\n            self.pos += 1\n\n    def _match(self, char: str) -> bool:\n        \"\"\"Consume *char* if it is the next non‑whitespace character.\"\"\"\n        self._skip_whitespace()\n        if self.pos < self.length and self.text[self.pos] == char:\n            self.pos += 1\n            return True\n        return False\n\n\ndef evaluate(expr: str) -> float:\n    \"\"\"\n    Evaluate an arithmetic expression given as a string.\n\n    Parameters\n    ----------\n    expr: str\n        The expression to evaluate.\n\n    Returns\n    -------\n    float\n        The numeric result.\n\n    Raises\n    ------\n    ZeroDivisionError\n        If a division by zero occurs.\n    ValueError\n        If the input is malformed (unknown characters, unbalanced parentheses,\n        missing operands, empty string, etc.).\n    \"\"\"\n    parser = _Parser(expr)\n    return parser.parse()\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 261,
+      "latency_s": 2.7145,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 1073,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

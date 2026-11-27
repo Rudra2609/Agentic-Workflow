@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "1c629f334ad10563b32109c819c9dce4b5ec9886f76774905f6cc60f9b1e1255",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:42:17.422090+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport csv\nimport io\n\n\ndef column_means(csv_text: str) -> dict[str, float]:\n    reader = csv.reader(io.StringIO(csv_text))\n    rows = list(reader)\n    if not rows:\n        return {}\n    header = rows[0]\n    data = rows[1:]\n    result = {}\n    for i, col_name in enumerate(header):\n        values = []\n        all_numeric = True\n        for row in data:\n            if i >= len(row):\n                continue\n            cell = row[i]\n            if cell == '':\n                continue\n            try:\n                values.append(float(cell))\n            except ValueError:\n                all_numeric = False\n                break\n        if all_numeric and values:\n            result[col_name] = sum(values) / len(values)\n    return result\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 152,
+      "latency_s": 0.4416,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 184,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

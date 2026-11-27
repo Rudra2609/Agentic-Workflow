@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "363d94233e2566bb10182e73aa25f01f165e9ae6f9da90c4a1f2036d7f5fda06",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `async def gather_limited(factories, limit: int) -> list` using `asyncio`.\n\n`factories` is a list of zero-argument functions; calling one returns a new awaitable (coroutine).\nRun them so that at most `limit` are in progress at the same time, and return their results in the same order as `factories`.\nIf any of them raises, the exception must propagate out of `gather_limited`. Raise `ValueError` if `limit < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:13:32.201482+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `async def gather_limited(factories, limit: int) -> list` using `asyncio`.\n\n`factories` is a list of zero-argument functions; calling one returns a new awaitable (coroutine).\nRun them so that at most `limit` are in progress at the same time, and return their results in the same order as `factories`.\nIf any of them raises, the exception must propagate out of `gather_limited`. Raise `ValueError` if `limit < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport asyncio\nfrom typing import Awaitable, Callable, Iterable, List\n\nasync def gather_limited(\n    factories: Iterable[Callable[[], Awaitable]],\n    limit: int,\n) -> List:\n    \"\"\"\n    Run zero-argument factory functions that return awaitables, with at most\n    ``limit`` coroutines running concurrently.  The results are returned in the\n    same order as the factories.  If any coroutine raises, the exception is\n    propagated and all pending coroutines are cancelled.\n\n    Parameters\n    ----------\n    factories : Iterable[Callable[[], Awaitable]]\n        Zero-argument callables that return awaitables.\n    limit : int\n        Maximum number of concurrent coroutines. Must be >= 1.\n\n    Returns\n    -------\n    List\n        Results of the awaitables in the same order as ``factories``.\n\n    Raises\n    ------\n    ValueError\n        If ``limit`` is less than 1.\n    \"\"\"\n    if limit < 1:\n        raise ValueError(\"limit must be >= 1\")\n\n    factories = list(factories)\n    n = len(factories)\n    results: List = [None] * n\n    semaphore = asyncio.Semaphore(limit)\n    tasks: List[asyncio.Task] = []\n\n    async def _run(idx: int, factory: Callable[[], Awaitable]):\n        async with semaphore:\n            return await factory()\n\n    try:\n        for idx, factory in enumerate(factories):\n            task = asyncio.create_task(_run(idx, factory))\n            tasks.append(task)\n\n        for task in asyncio.as_completed(tasks):\n            # The task result will be a tuple (idx, value) if we modify _run,\n            # but here we just await and store by index.\n            # We need to know which index it corresponds to.\n            # Instead, we can attach the index to the task.\n            pass  # placeholder\n\n    except Exception:\n        for t in tasks:\n            t.cancel()\n        raise\n\n    # The above approach is incomplete; we need to preserve order.\n    # Instead, we will schedule tasks sequentially respecting the semaphore.\n\n    results = [None] * n\n    pending = []\n\n    async def _worker(idx: int, factory: Callable[[], Awaitable]):\n        async with semaphore:\n            return await factory()\n\n    # Launch workers up to limit\n    async def _launch():\n        for idx, factory in enumerate(factories):\n            pending.append(asyncio.create_task(_worker(idx, factory)))\n            if len(pending) >= limit:\n                done, pending = await asyncio.wait(\n                    pending, return_when=asyncio.FIRST_COMPLETED\n                )\n                for d in done:\n                    idx_res, res = d.result()\n                    results[idx_res] = res\n\n    # Revised implementation\n    results = [None] * n\n    pending = []\n\n    async def _worker(idx: int, factory: Callable[[], Awaitable]):\n        async with semaphore:\n            return idx, await factory()\n\n    try:\n        for idx, factory in enumerate(factories):\n            pending.append(asyncio.create_task(_worker(idx, factory)))\n            if len(pending) >= limit:\n                done, pending = await asyncio.wait(\n                    pending, return_when=asyncio.FIRST_COMPLETED\n                )\n                for d in done:\n                    idx_res, res = d.result()\n                    results[idx_res] = res\n        # Await remaining tasks\n        if pending:\n            done, _ = await asyncio.wait(pending)\n            for d in done:\n                idx_res, res = d.result()\n                results[idx_res] = res\n    except Exception:\n        for t in pending:\n            t.cancel()\n        raise\n\n    return results\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 231,
+      "latency_s": 1.4149,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 860,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "1d802edd6588c992dd531c63c14dbbd58e5f2480754f25795673061052185767",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `top_words(text: str, k: int) -> list[tuple[str, int]]`.\n\n- A word is a maximal run of ASCII letters `a`-`z` after lower-casing the text (so \"Don't\" gives \"don\" and \"t\").\n- Return the `k` most frequent words as `(word, count)` pairs, sorted by count descending, then word ascending.\n- If there are fewer than `k` distinct words, return all of them. `k <= 0` returns `[]`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:45:43.133912+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `top_words(text: str, k: int) -> list[tuple[str, int]]`.\n\n- A word is a maximal run of ASCII letters `a`-`z` after lower-casing the text (so \"Don't\" gives \"don\" and \"t\").\n- Return the `k` most frequent words as `(word, count)` pairs, sorted by count descending, then word ascending.\n- If there are fewer than `k` distinct words, return all of them. `k <= 0` returns `[]`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nImplementation of `top_words` as specified:\n\n- Words are maximal runs of ASCII letters a‑z after lower‑casing the input.\n- The function returns the `k` most frequent words as `(word, count)` tuples,\n  sorted first by descending frequency then by ascending word.\n- Handles edge cases where `k` is non‑positive or larger than the number of\n  distinct words.\n\"\"\"\n\nimport re\nfrom collections import Counter\nfrom typing import List, Tuple\n\n\ndef _extract_words(text: str) -> List[str]:\n    \"\"\"\n    Extract words from *text* according to the problem definition.\n\n    A word is a maximal contiguous sequence of ASCII letters a‑z after the text\n    has been lower‑cased. Non‑ASCII letters, digits, punctuation, etc. act as\n    separators.\n\n    Parameters\n    ----------\n    text: str\n        The input text.\n\n    Returns\n    -------\n    List[str]\n        List of extracted words (may be empty).\n    \"\"\"\n    # Lower‑case the whole string first.\n    lowered = text.lower()\n    # Use a regular expression that matches one or more ASCII letters.\n    # The pattern `[a-z]+` satisfies the \"maximal run of ASCII letters\" rule.\n    return re.findall(r\"[a-z]+\", lowered)\n\n\ndef top_words(text: str, k: int) -> List[Tuple[str, int]]:\n    \"\"\"\n    Return the `k` most frequent words in *text*.\n\n    The words are defined as maximal runs of ASCII letters a‑z after lower‑casing\n    the text. The result is a list of `(word, count)` tuples sorted by:\n\n    1. Count descending (higher frequency first)\n    2. Word ascending (lexicographically) for ties\n\n    If there are fewer than `k` distinct words, all of them are returned.\n    If `k` is less than or equal to zero, an empty list is returned.\n\n    Parameters\n    ----------\n    text: str\n        Input string to analyse.\n    k: int\n        Number of top words to return.\n\n    Returns\n    -------\n    List[Tuple[str, int]]\n        List of `(word, count)` tuples respecting the ordering rules.\n    \"\"\"\n    if k <= 0:\n        return []\n\n    words = _extract_words(text)\n    if not words:\n        return []\n\n    # Count frequencies.\n    freq = Counter(words)\n\n    # Build a list of (word, count) and sort according to the required criteria.\n    # Sorting key: (-count, word) gives descending count then ascending word.\n    sorted_items = sorted(freq.items(), key=lambda item: (-item[1], item[0]))\n\n    # Slice to the requested number of items.\n    return sorted_items[:k]\n\n\n__all__ = [\"top_words\"]\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 234,
+      "latency_s": 1.8403,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 627,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

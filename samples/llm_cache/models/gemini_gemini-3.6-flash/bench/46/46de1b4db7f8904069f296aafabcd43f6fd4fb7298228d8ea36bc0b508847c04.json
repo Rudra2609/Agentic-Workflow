@@ -1,0 +1,381 @@
+{
+  "format": 1,
+  "key": "46de1b4db7f8904069f296aafabcd43f6fd4fb7298228d8ea36bc0b508847c04",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Algorithms Lab 3 — Empirical Analysis of Sorting\n\nImplement insertion sort, merge sort, quick sort (with random pivot) and heap sort.\n\nRequirements:\n- Each algorithm must sort a list of integers in non-decreasing order and must not use the language's built-in sort functions.\n- Measure the running time of each algorithm on inputs of size 1,000, 10,000 and 100,000 for three input types: random, already sorted and reverse sorted.\n- Repeat every measurement 5 times and report the median.\n- Plot running time versus input size for every algorithm on a log-log scale.\n- Count the number of comparisons performed by each algorithm and report them alongside the times.\n\nYou may use C++ or Java. Python is not permitted for this lab because of timing noise.\n\nDeliverables: source files, a CSV file with all measurements, and a lab write-up (max 4 pages) that compares the observed growth rates with the theoretical complexity.\n\nMarks: implementations 40, experiment design and measurements 20, plots 15, write-up 25. Total 100.\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "gemini-3.6-flash",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "gemini",
+  "recorded_at": "2026-11-02T06:53:01.838597+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Algorithms Lab 3 — Empirical Analysis of Sorting\n\nImplement insertion sort, merge sort, quick sort (with random pivot) and heap sort.\n\nRequirements:\n- Each algorithm must sort a list of integers in non-decreasing order and must not use the language's built-in sort functions.\n- Measure the running time of each algorithm on inputs of size 1,000, 10,000 and 100,000 for three input types: random, already sorted and reverse sorted.\n- Repeat every measurement 5 times and report the median.\n- Plot running time versus input size for every algorithm on a log-log scale.\n- Count the number of comparisons performed by each algorithm and report them alongside the times.\n\nYou may use C++ or Java. Python is not permitted for this lab because of timing noise.\n\nDeliverables: source files, a CSV file with all measurements, and a lab write-up (max 4 pages) that compares the observed growth rates with the theoretical complexity.\n\nMarks: implementations 40, experiment design and measurements 20, plots 15, write-up 25. Total 100.\n",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "Here is the structured extraction of all requirements, constraints, deliverables, and evaluation criteria from the document.\n\n### Requirements\n\n* **R1: Implement specific sorting algorithms**\n  * **Description:** Implement insertion sort, merge sort, quick sort (with random pivot), and heap sort.\n  * **source_quote:** \"Implement insertion sort, merge sort, quick sort (with random pivot) and heap sort.\"\n\n* **R2: Sort integers in non-decreasing order without built-ins**\n  * **Description:** Each algorithm must sort an integer list in non-decreasing order without relying on built-in sorting libraries.\n  * **source_quote:** \"Each algorithm must sort a list of integers in non-decreasing order and must not use the language's built-in sort functions.\"\n\n* **R3: Test across specific input sizes and types**\n  * **Description:** Measure running times for input sizes 1,000, 10,000, and 100,000 across three input types: random, already sorted, and reverse sorted.\n  * **source_quote:** \"Measure the running time of each algorithm on inputs of size 1,000, 10,000 and 100,000 for three input types: random, already sorted and reverse sorted.\"\n\n* **R4: Repeat measurements and use median**\n  * **Description:** Run each measurement 5 times and report the median value.\n  * **source_quote:** \"Repeat every measurement 5 times and report the median.\"\n\n* **R5: Generate log-log plots**\n  * **Description:** Create plots showing running time versus input size for each algorithm using a log-log scale.\n  * **source_quote:** \"Plot running time versus input size for every algorithm on a log-log scale.\"\n\n* **R6: Count and report comparisons**\n  * **Description:** Track the number of element comparisons made by each algorithm and report these alongside the execution times.\n  * **source_quote:** \"Count the number of comparisons performed by each algorithm and report them alongside the times.\"\n\n---\n\n### Constraints\n\n* **C1: Permitted and prohibited programming languages**\n  * **Description:** Implementations must be written in C++ or Java. Python is strictly prohibited.\n  * **source_quote:** \"You may use C++ or Java. Python is not permitted for this lab because of timing noise.\"\n\n* **C2: Lab write-up page limit**\n  * **Description:** The write-up document must not exceed 4 pages.\n  * **source_quote:** \"a lab write-up (max 4 pages)\"\n\n---\n\n### Deliverables\n\n* **D1: Source Files**\n  * **Description:** The implementation code files for the sorting algorithms and experimental setup.\n  * **source_quote:** \"source files\"\n\n* **D2: CSV File of Measurements**\n  * **Description:** A CSV file containing all collected empirical measurements (times and comparison counts).\n  * **source_quote:** \"a CSV file with all measurements\"\n\n* **D3: Lab Write-up**\n  * **Description:** A maximum 4-page report comparing the observed empirical growth rates with theoretical algorithmic complexity.\n  * **source_quote:** \"a lab write-up (max 4 pages) that compares the observed growth rates with the theoretical complexity.\"\n\n---\n\n### Evaluation Criteria\n\n* **E1: Implementations**\n  * **Description:** Evaluation of the implementation of the four sorting algorithms.\n  * **Allocation:** 40 marks\n  * **source_quote:** \"implementations 40\"\n\n* **E2: Experiment Design and Measurements**\n  * **Description:** Evaluation of the experimental setup, measurement methodology, and data collection.\n  * **Allocation:** 20 marks\n  * **source_quote:** \"experiment design and measurements 20\"\n\n* **E3: Plots**\n  * **Description:** Evaluation of the generated log-log plots for algorithm performance.\n  * **Allocation:** 15 marks\n  * **source_quote:** \"plots 15\"\n\n* **E4: Write-up**\n  * **Description:** Evaluation of the analysis comparing empirical growth rates to theoretical complexity.\n  * **Allocation:** 25 marks\n  * **source_quote:** \"write-up 25\"\n\n* **Total Marks:** 100\n  * **source_quote:** \"Total 100.\"",
+    "usage": {
+      "cached": false,
+      "input_tokens": 353,
+      "latency_s": 4.5799,
+      "model": "gemini-3.6-flash",
+      "output_tokens": 977,
+      "provider": "gemini"
+    }
+  },
+  "role": "reasoner"
+}

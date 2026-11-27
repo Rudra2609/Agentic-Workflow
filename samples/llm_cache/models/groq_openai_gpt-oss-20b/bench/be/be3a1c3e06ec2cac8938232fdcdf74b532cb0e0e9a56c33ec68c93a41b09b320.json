@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "be3a1c3e06ec2cac8938232fdcdf74b532cb0e0e9a56c33ec68c93a41b09b320",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:49.703894+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport heapq\nfrom typing import Dict, Tuple, List\n\ndef shortest_path(\n    graph: Dict[str, Dict[str, float]],\n    start: str,\n    goal: str\n) -> Tuple[float, List[str]]:\n    \"\"\"\n    Compute the cheapest directed path from `start` to `goal` in a weighted graph.\n\n    Parameters\n    ----------\n    graph : dict[str, dict[str, float]]\n        Adjacency list representation where graph[u][v] is the non‑negative weight\n        of the directed edge u -> v.\n    start : str\n        The starting node.\n    goal : str\n        The destination node.\n\n    Returns\n    -------\n    tuple[float, list[str]]\n        A tuple containing the total cost of the cheapest path and a list of\n        nodes representing that path (including both `start` and `goal`).\n        If `start == goal`, returns `(0, [start])`.\n        If `goal` is unreachable or either node is unknown, returns\n        `(float(\"inf\"), [])`.\n\n    Notes\n    -----\n    Nodes may appear only as edge targets; they are considered part of the graph\n    even if they have no outgoing edges.\n    \"\"\"\n    # Quick checks for trivial cases\n    if start == goal:\n        return 0.0, [start]\n\n    # Build a set of all nodes (keys and targets)\n    nodes = set(graph.keys())\n    for targets in graph.values():\n        nodes.update(targets.keys())\n\n    if start not in nodes or goal not in nodes:\n        return float(\"inf\"), []\n\n    # Dijkstra's algorithm\n    dist: Dict[str, float] = {node: float(\"inf\") for node in nodes}\n    prev: Dict[str, str | None] = {node: None for node in nodes}\n    dist[start] = 0.0\n\n    heap: List[Tuple[float, str]] = [(0.0, start)]\n    visited: set[str] = set()\n\n    while heap:\n        d, u = heapq.heappop(heap)\n        if u in visited:\n            continue\n        visited.add(u)\n\n        if u == goal:\n            break\n\n        for v, w in graph.get(u, {}).items():\n            if v not in nodes:\n                continue  # ignore unknown targets\n            alt = d + w\n            if alt < dist[v]:\n                dist[v] = alt\n                prev[v] = u\n                heapq.heappush(heap, (alt, v))\n\n    if dist[goal] == float(\"inf\"):\n        return float(\"inf\"), []\n\n    # Reconstruct path\n    path: List[str] = []\n    cur = goal\n    while cur is not None:\n        path.append(cur)\n        cur = prev[cur]\n    path.reverse()\n\n    return dist[goal], path\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 249,
+      "latency_s": 1.0731,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 632,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

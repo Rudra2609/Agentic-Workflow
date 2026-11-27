@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "0a811480c747a9a1d46e75cf139e5d9959adb738b6b35862c3aae57883aecb38",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `dict_diff(old: dict, new: dict) -> list[str]` that compares two (possibly nested) dicts.\n\n- Report `\"added: <path>\"` for keys only in `new`, `\"removed: <path>\"` for keys only in `old`, and\n  `\"changed: <path>\"` for keys in both whose values differ.\n- When both values are dicts, compare recursively instead of reporting the parent as changed.\n- `<path>` joins nested keys with dots, e.g. `db.port`. Keys are strings.\n- Return the list sorted alphabetically.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:44:01.246140+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `dict_diff(old: dict, new: dict) -> list[str]` that compares two (possibly nested) dicts.\n\n- Report `\"added: <path>\"` for keys only in `new`, `\"removed: <path>\"` for keys only in `old`, and\n  `\"changed: <path>\"` for keys in both whose values differ.\n- When both values are dicts, compare recursively instead of reporting the parent as changed.\n- `<path>` joins nested keys with dots, e.g. `db.port`. Keys are strings.\n- Return the list sorted alphabetically.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\ndef dict_diff(old: dict, new: dict) -> list[str]:\n    \"\"\"\n    Compare two (possibly nested) dicts and return a sorted list of differences.\n    \n    - \"added: <path>\" for keys only in new\n    - \"removed: <path>\" for keys only in old\n    - \"changed: <path>\" for keys in both whose values differ\n    - When both values are dicts, compare recursively\n    - <path> joins nested keys with dots\n    \"\"\"\n    diffs = []\n    \n    def _diff(old_dict: dict, new_dict: dict, prefix: str) -> None:\n        old_keys = set(old_dict.keys())\n        new_keys = set(new_dict.keys())\n        \n        # Keys only in new\n        for key in new_keys - old_keys:\n            path = f\"{prefix}.{key}\" if prefix else key\n            diffs.append(f\"added: {path}\")\n        \n        # Keys only in old\n        for key in old_keys - new_keys:\n            path = f\"{prefix}.{key}\" if prefix else key\n            diffs.append(f\"removed: {path}\")\n        \n        # Keys in both\n        for key in old_keys & new_keys:\n            path = f\"{prefix}.{key}\" if prefix else key\n            old_val = old_dict[key]\n            new_val = new_dict[key]\n            \n            if isinstance(old_val, dict) and isinstance(new_val, dict):\n                _diff(old_val, new_val, path)\n            elif old_val != new_val:\n                diffs.append(f\"changed: {path}\")\n    \n    _diff(old, new, \"\")\n    return sorted(diffs)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 191,
+      "latency_s": 0.817,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 363,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

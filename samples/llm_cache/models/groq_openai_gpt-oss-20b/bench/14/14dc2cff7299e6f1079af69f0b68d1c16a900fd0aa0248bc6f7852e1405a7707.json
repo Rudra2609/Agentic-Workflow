@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "14dc2cff7299e6f1079af69f0b68d1c16a900fd0aa0248bc6f7852e1405a7707",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `evaluate(expr: str) -> float` that evaluates an arithmetic expression **without** using\nPython's `eval`, `exec`, `compile` or the `ast` module (write a small parser yourself).\n\nSupport numbers (integers and decimals), `+ - * /`, parentheses and unary minus (e.g. `-(2+3)`, `2*-3`).\n`*` and `/` bind tighter than `+` and `-`; operators of equal precedence are left-associative.\nRaise `ZeroDivisionError` when dividing by zero and `ValueError` for malformed input\n(unknown characters, unbalanced parentheses, missing operands, empty string).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:37.289337+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `evaluate(expr: str) -> float` that evaluates an arithmetic expression **without** using\nPython's `eval`, `exec`, `compile` or the `ast` module (write a small parser yourself).\n\nSupport numbers (integers and decimals), `+ - * /`, parentheses and unary minus (e.g. `-(2+3)`, `2*-3`).\n`*` and `/` bind tighter than `+` and `-`; operators of equal precedence are left-associative.\nRaise `ZeroDivisionError` when dividing by zero and `ValueError` for malformed input\n(unknown characters, unbalanced parentheses, missing operands, empty string).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom typing import Tuple\n\n# Token types\nNUMBER, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, EOF = (\n    'NUMBER', 'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'LPAREN', 'RPAREN', 'EOF'\n)\n\nToken = Tuple[str, str]  # (type, value)\n\n\nclass Lexer:\n    token_specification = [\n        (NUMBER, r'\\d+(\\.\\d*)?|\\.\\d+'),\n        (PLUS, r'\\+'),\n        (MINUS, r'-'),\n        (TIMES, r'\\*'),\n        (DIVIDE, r'/'),\n        (LPAREN, r'\\('),\n        (RPAREN, r'\\)'),\n        ('SKIP', r'[ \\t]+'),\n        ('MISMATCH', r'.'),\n    ]\n\n    def __init__(self, text: str):\n        self.text = text\n        self.tokens = self.tokenize()\n        self.pos = 0\n\n    def tokenize(self):\n        tok_regex = '|'.join(f'(?P<{name}>{pattern})' for name, pattern in self.token_specification)\n        get_token = re.compile(tok_regex).match\n        pos = 0\n        tokens = []\n        while pos < len(self.text):\n            m = get_token(self.text, pos)\n            if not m:\n                raise ValueError(f'Unexpected character {self.text[pos]!r} at position {pos}')\n            typ = m.lastgroup\n            if typ == 'SKIP':\n                pass\n            elif typ == 'MISMATCH':\n                raise ValueError(f'Unexpected character {m.group()} at position {pos}')\n            else:\n                tokens.append((typ, m.group()))\n            pos = m.end()\n        tokens.append((EOF, ''))\n        return tokens\n\n    def peek(self) -> Token:\n        return self.tokens[self.pos]\n\n    def advance(self):\n        self.pos += 1\n\n    def expect(self, token_type: str):\n        typ, val = self.peek()\n        if typ != token_type:\n            raise ValueError(f'Expected {token_type} but got {typ}')\n        self.advance()\n        return val\n\n\nclass Parser:\n    def __init__(self, lexer: Lexer):\n        self.lexer = lexer\n\n    def parse(self) -> float:\n        if self.lexer.peek()[0] == EOF:\n            raise ValueError('Empty expression')\n        result = self.expr()\n        if self.lexer.peek()[0] != EOF:\n            raise ValueError('Unexpected token after end of expression')\n        return result\n\n    def expr(self) -> float:\n        \"\"\"expr : term ((PLUS|MINUS) term)*\"\"\"\n        result = self.term()\n        while True:\n            tok_type, _ = self.lexer.peek()\n            if tok_type == PLUS:\n                self.lexer.advance()\n                result += self.term()\n            elif tok_type == MINUS:\n                self.lexer.advance()\n                result -= self.term()\n            else:\n                break\n        return result\n\n    def term(self) -> float:\n        \"\"\"term : factor ((TIMES|DIVIDE) factor)*\"\"\"\n        result = self.factor()\n        while True:\n            tok_type, _ = self.lexer.peek()\n            if tok_type == TIMES:\n                self.lexer.advance()\n                result *= self.factor()\n            elif tok_type == DIVIDE:\n                self.lexer.advance()\n                denom = self.factor()\n                if denom == 0:\n                    raise ZeroDivisionError('division by zero')\n                result /= denom\n            else:\n                break\n        return result\n\n    def factor(self) -> float:\n        \"\"\"factor : (MINUS)* primary\"\"\"\n        neg = False\n        while self.lexer.peek()[0] == MINUS:\n            self.lexer.advance()\n            neg = not neg\n        value = self.primary()\n        return -value if neg else value\n\n    def primary(self) -> float:\n        \"\"\"primary : NUMBER | LPAREN expr RPAREN\"\"\"\n        tok_type, val = self.lexer.peek()\n        if tok_type == NUMBER:\n            self.lexer.advance()\n            return float(val)\n        if tok_type == LPAREN:\n            self.lexer.advance()\n            val = self.expr()\n            if self.lexer.peek()[0] != RPAREN:\n                raise ValueError('Unbalanced parentheses')\n            self.lexer.advance()\n            return val\n        raise ValueError(f'Unexpected token {tok_type}')\n\n\ndef evaluate(expr: str) -> float:\n    \"\"\"\n    Evaluate an arithmetic expression containing integers, decimals,\n    +, -, *, /, parentheses and unary minus.\n\n    Raises:\n        ValueError: for malformed input.\n        ZeroDivisionError: when division by zero occurs.\n    \"\"\"\n    lexer = Lexer(expr)\n    parser = Parser(lexer)\n    return parser.parse()\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 261,
+      "latency_s": 1.4881,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 1025,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

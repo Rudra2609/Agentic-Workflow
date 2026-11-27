@@ -1,0 +1,210 @@
+{
+  "format": 1,
+  "key": "dace591a18c1125f91e2d93d536b093f208edfac1101bfb84835d543952f9fd8",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Server accepts at least 10 concurrent clients.\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"Clients register a unique username; duplicates are rejected.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Messages are broadcast to all other clients with the sender's username.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"Private messages via /msg <user> <text>.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"All clients are notified when a user joins or leaves.\"\n  },\n  {\n   \"id\": \"R6\",\n   \"text\": \"/who lists online users.\"\n  }\n ],\n \"constraints\": [\n  \"Python 3 standard library only\",\n  \"Default port 5050, configurable\"\n ],\n \"deliverables\": [\n  \"server.py and client.py (zip)\",\n  \"README\",\n  \"2-page concurrency report (PDF)\",\n  \"demo video\"\n ]\n}",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "PlanTask": {
+          "properties": {
+            "capability": {
+              "enum": [
+                "research.run",
+                "verify.claims",
+                "code.implement",
+                "test.run",
+                "docs.generate",
+                "review.final"
+              ],
+              "title": "Capability",
+              "type": "string"
+            },
+            "depends_on": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Depends On",
+              "type": "array"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "phase": {
+              "enum": [
+                "research",
+                "design",
+                "implement",
+                "test",
+                "document",
+                "review"
+              ],
+              "title": "Phase",
+              "type": "string"
+            },
+            "requirement_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Requirement Ids",
+              "type": "array"
+            },
+            "title": {
+              "title": "Title",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "capability",
+            "requirement_ids",
+            "depends_on",
+            "phase"
+          ],
+          "title": "PlanTask",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/PlanTask"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:10:51.321815+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "tasks": {
+          "items": {
+            "properties": {
+              "capability": {
+                "enum": [
+                  "research.run",
+                  "verify.claims",
+                  "code.implement",
+                  "test.run",
+                  "docs.generate",
+                  "review.final"
+                ],
+                "title": "Capability",
+                "type": "string"
+              },
+              "depends_on": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Depends On",
+                "type": "array"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "phase": {
+                "enum": [
+                  "research",
+                  "design",
+                  "implement",
+                  "test",
+                  "document",
+                  "review"
+                ],
+                "title": "Phase",
+                "type": "string"
+              },
+              "requirement_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Requirement Ids",
+                "type": "array"
+              },
+              "title": {
+                "title": "Title",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "capability",
+              "requirement_ids",
+              "depends_on",
+              "phase"
+            ],
+            "title": "PlanTask",
+            "type": "object"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Server accepts at least 10 concurrent clients.\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"Clients register a unique username; duplicates are rejected.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Messages are broadcast to all other clients with the sender's username.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"Private messages via /msg <user> <text>.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"All clients are notified when a user joins or leaves.\"\n  },\n  {\n   \"id\": \"R6\",\n   \"text\": \"/who lists online users.\"\n  }\n ],\n \"constraints\": [\n  \"Python 3 standard library only\",\n  \"Default port 5050, configurable\"\n ],\n \"deliverables\": [\n  \"server.py and client.py (zip)\",\n  \"README\",\n  \"2-page concurrency report (PDF)\",\n  \"demo video\"\n ]\n}",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"tasks\":[{\"id\":\"T1\",\"title\":\"Research concurrency models for Python servers\",\"phase\":\"research\",\"capability\":\"research.run\",\"requirement_ids\":[],\"depends_on\":[]},{\"id\":\"T2\",\"title\":\"Verify concurrency requirements against Python 3 standard library\",\"phase\":\"verify\",\"capability\":\"verify.claims\",\"requirement_ids\":[],\"depends_on\":[\"T1\"]},{\"id\":\"T3\",\"title\":\"Design server architecture and client protocol\",\"phase\":\"design\",\"capability\":\"research.run\",\"requirement_ids\":[\"R1\",\"R2\",\"R3\",\"R4\",\"R5\",\"R6\"],\"depends_on\":[\"T2\"]},{\"id\":\"T4\",\"title\":\"Implement server and client code\",\"phase\":\"implement\",\"capability\":\"code.implement\",\"requirement_ids\":[\"R1\",\"R2\",\"R3\",\"R4\",\"R5\",\"R6\"],\"depends_on\":[\"T3\"]},{\"id\":\"T5\",\"title\":\"Write unit and integration tests for server and client\",\"phase\":\"test\",\"capability\":\"test.run\",\"requirement_ids\":[\"R1\",\"R2\",\"R3\",\"R4\",\"R5\",\"R6\"],\"depends_on\":[\"T4\"]},{\"id\":\"T6\",\"title\":\"Generate README, concurrency report, and demo video\",\"phase\":\"document\",\"capability\":\"docs.generate\",\"requirement_ids\":[],\"depends_on\":[\"T5\"]},{\"id\":\"T7\",\"title\":\"Final review of deliverables against requirements\",\"phase\":\"review\",\"capability\":\"review.final\",\"requirement_ids\":[\"R1\",\"R2\",\"R3\",\"R4\",\"R5\",\"R6\"],\"depends_on\":[\"T6\"]}]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 740,
+      "latency_s": 0.9091,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 383,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

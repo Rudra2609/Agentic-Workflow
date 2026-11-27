@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "2414fb8dc2acbb3d69dce4819048e4c708083f08efdaac3a7617da5b1a395cdd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:46:33.008492+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nImplementation of `parallel_map` that applies a function to a list of items using a\nlimited number of worker threads while preserving the order of results.\n\nThe implementation uses only the Python standard library.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport threading\nfrom queue import Queue, Empty\nfrom typing import Callable, List, TypeVar, Any\n\nT = TypeVar(\"T\")\nR = TypeVar(\"R\")\n\n__all__ = [\"parallel_map\"]\n\n\ndef parallel_map(fn: Callable[[T], R], items: List[T], workers: int) -> List[R]:\n    \"\"\"\n    Apply ``fn`` to each element of ``items`` using at most ``workers`` threads.\n\n    The results are returned in the same order as ``items``.  If ``fn`` raises an\n    exception for any item, that exception is re‑raised after all threads have\n    been cleaned up (the other pending work may be abandoned).\n\n    Parameters\n    ----------\n    fn:\n        Callable to apply to each element.\n    items:\n        List of input values.\n    workers:\n        Maximum number of concurrent threads. Must be >= 1.\n\n    Returns\n    -------\n    List[R]\n        List of results, ordered identically to ``items``.\n\n    Raises\n    ------\n    ValueError\n        If ``workers`` is less than 1.\n    Exception\n        Whatever exception ``fn`` raised for any element.\n    \"\"\"\n    if workers < 1:\n        raise ValueError(\"workers must be at least 1\")\n\n    # Fast path – no threading needed.\n    if not items:\n        return []\n    if workers == 1:\n        return [fn(item) for item in items]\n\n    # Queue holds (index, item) tuples.\n    task_queue: Queue[tuple[int, T]] = Queue()\n    for idx, itm in enumerate(items):\n        task_queue.put((idx, itm))\n\n    # Shared structures.\n    results: List[Any] = [None] * len(items)  # pre‑allocate result list\n    exception_holder: list[BaseException] = []  # will hold at most one exception\n    stop_event = threading.Event()\n\n    def worker() -> None:\n        while not stop_event.is_set():\n            try:\n                idx, itm = task_queue.get_nowait()\n            except Empty:\n                # No more work.\n                return\n            try:\n                results[idx] = fn(itm)\n            except BaseException as exc:  # capture any exception, including KeyboardInterrupt\n                # Store the first exception and signal other threads to stop.\n                if not exception_holder:\n                    exception_holder.append(exc)\n                stop_event.set()\n            finally:\n                task_queue.task_done()\n\n    # Start worker threads.\n    threads = [threading.Thread(target=worker, daemon=True) for _ in range(min(workers, len(items)))]\n    for t in threads:\n        t.start()\n\n    # Wait for all tasks to be processed or an exception to occur.\n    task_queue.join()\n\n    # Ensure all threads have terminated.\n    for t in threads:\n        t.join()\n\n    # If an exception was captured, raise it.\n    if exception_holder:\n        # Re‑raise preserving the original traceback.\n        raise exception_holder[0]\n\n    return results\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 216,
+      "latency_s": 2.0425,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 776,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

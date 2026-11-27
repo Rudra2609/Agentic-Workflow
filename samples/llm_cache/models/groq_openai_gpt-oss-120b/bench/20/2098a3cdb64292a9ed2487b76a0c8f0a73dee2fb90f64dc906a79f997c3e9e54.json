@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "2098a3cdb64292a9ed2487b76a0c8f0a73dee2fb90f64dc906a79f997c3e9e54",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:46:08.223273+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nToken bucket rate limiter.\n\nThe implementation uses a monotonic clock (by default ``time.monotonic``) to\ntrack elapsed time and refill the bucket.  It is deliberately simple and\nrelies only on the Python standard library.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport time\nfrom typing import Callable\n\n\nclass TokenBucket:\n    \"\"\"\n    A token bucket rate limiter.\n\n    Parameters\n    ----------\n    rate: float\n        Number of tokens added to the bucket each second. Must be > 0.\n    capacity: int\n        Maximum number of tokens the bucket can hold. Must be >= 1.\n    clock: Callable[[], float], optional\n        Zero‑argument function returning the current time in seconds.\n        Defaults to ``time.monotonic``.  Supplying a custom clock makes the\n        class easy to test.\n\n    The bucket starts full (i.e. ``capacity`` tokens are available).\n    \"\"\"\n\n    __slots__ = (\"_rate\", \"_capacity\", \"_clock\", \"_tokens\", \"_last\")\n\n    def __init__(\n        self,\n        rate: float,\n        capacity: int,\n        clock: Callable[[], float] = time.monotonic,\n    ) -> None:\n        if rate <= 0:\n            raise ValueError(\"rate must be greater than 0\")\n        if capacity < 1:\n            raise ValueError(\"capacity must be at least 1\")\n\n        self._rate: float = float(rate)\n        self._capacity: int = int(capacity)\n        self._clock: Callable[[], float] = clock\n\n        # Bucket starts full.\n        self._tokens: float = float(self._capacity)\n        # Record the time of the last refill (initially now).\n        self._last: float = self._clock()\n\n    def _refill(self) -> None:\n        \"\"\"Refill the bucket based on elapsed time.\"\"\"\n        now = self._clock()\n        elapsed = now - self._last\n        if elapsed > 0:\n            added = elapsed * self._rate\n            self._tokens = min(self._capacity, self._tokens + added)\n            self._last = now\n        else:\n            # No time has passed; keep the previous timestamp.\n            # This branch also protects against clocks that go backwards.\n            self._last = now\n\n    def allow(self) -> bool:\n        \"\"\"\n        Attempt to consume a single token.\n\n        Returns\n        -------\n        bool\n            ``True`` if a token was available (and consumed), ``False`` otherwise.\n        \"\"\"\n        self._refill()\n        if self._tokens >= 1.0:\n            self._tokens -= 1.0\n            return True\n        return False\n\n\n__all__ = [\"TokenBucket\"]\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 245,
+      "latency_s": 1.9104,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 684,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

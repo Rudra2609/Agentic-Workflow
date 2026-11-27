@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "1c629f334ad10563b32109c819c9dce4b5ec9886f76774905f6cc60f9b1e1255",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:33.413580+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport csv\nfrom io import StringIO\nfrom typing import Dict, List\n\n\ndef column_means(csv_text: str) -> Dict[str, float]:\n    \"\"\"\n    Compute the mean of each numeric column in a CSV string.\n\n    Parameters\n    ----------\n    csv_text : str\n        CSV data as a string. The first line must contain the header.\n\n    Returns\n    -------\n    dict[str, float]\n        Mapping from column name to the mean of its numeric values.\n        Columns that contain any non-numeric value or have no numeric\n        entries are omitted.\n    \"\"\"\n    reader = csv.reader(StringIO(csv_text))\n    try:\n        header = next(reader)\n    except StopIteration:\n        return {}\n\n    # Prepare a list for each column to collect numeric values\n    values: List[List[float]] = [[] for _ in header]\n    # Flag to mark columns that contain a non-numeric value\n    invalid: List[bool] = [False] * len(header)\n\n    for row in reader:\n        # Pad row if it has fewer columns than header\n        if len(row) < len(header):\n            row += [\"\"] * (len(header) - len(row))\n        for idx, cell in enumerate(row):\n            if invalid[idx]:\n                continue  # already invalid, skip further processing\n            cell = cell.strip()\n            if cell == \"\":\n                continue  # ignore empty cells\n            try:\n                num = float(cell)\n                values[idx].append(num)\n            except ValueError:\n                invalid[idx] = True  # mark column as invalid\n\n    result: Dict[str, float] = {}\n    for idx, col_values in enumerate(values):\n        if invalid[idx] or not col_values:\n            continue\n        mean_val = sum(col_values) / len(col_values)\n        result[header[idx]] = mean_val\n\n    return result\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 208,
+      "latency_s": 0.9294,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 431,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

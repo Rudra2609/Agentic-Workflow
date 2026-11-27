@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "e62b9ff4274a66d0603e9a7650d1395b21dd512473eb067cd7c4593801651921",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `matmul(a: list[list[float]], b: list[list[float]]) -> list[list[float]]` that multiplies two matrices\ngiven as lists of rows, without numpy.\n\nRaise `ValueError` if either matrix is empty, has an empty row, is ragged (rows of different lengths),\nor if the inner dimensions do not match.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:41:48.911270+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `matmul(a: list[list[float]], b: list[list[float]]) -> list[list[float]]` that multiplies two matrices\ngiven as lists of rows, without numpy.\n\nRaise `ValueError` if either matrix is empty, has an empty row, is ragged (rows of different lengths),\nor if the inner dimensions do not match.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\ndef matmul(a: list[list[float]], b: list[list[float]]) -> list[list[float]]:\n    # Validate matrix a\n    if not a:\n        raise ValueError(\"Matrix a is empty\")\n    if not a[0]:\n        raise ValueError(\"Matrix a has an empty row\")\n    rows_a = len(a)\n    cols_a = len(a[0])\n    for row in a:\n        if not row:\n            raise ValueError(\"Matrix a has an empty row\")\n        if len(row) != cols_a:\n            raise ValueError(\"Matrix a is ragged\")\n    \n    # Validate matrix b\n    if not b:\n        raise ValueError(\"Matrix b is empty\")\n    if not b[0]:\n        raise ValueError(\"Matrix b has an empty row\")\n    rows_b = len(b)\n    cols_b = len(b[0])\n    for row in b:\n        if not row:\n            raise ValueError(\"Matrix b has an empty row\")\n        if len(row) != cols_b:\n            raise ValueError(\"Matrix b is ragged\")\n    \n    # Check inner dimensions match\n    if cols_a != rows_b:\n        raise ValueError(\"Inner dimensions do not match\")\n    \n    # Perform matrix multiplication\n    result = [[0.0 for _ in range(cols_b)] for _ in range(rows_a)]\n    for i in range(rows_a):\n        for j in range(cols_b):\n            total = 0.0\n            for k in range(cols_a):\n                total += a[i][k] * b[k][j]\n            result[i][j] = total\n    return result\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 140,
+      "latency_s": 1.081,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 360,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

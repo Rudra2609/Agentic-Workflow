@@ -1,0 +1,381 @@
+{
+  "format": 1,
+  "key": "bba8c7dada2c4049297afc755ae956f0cdad7bc344da5d777d41ef4c686b8c12",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Mobile Application Development — Project Brief (version 2, updated for this semester)\n\nRead carefully: this brief replaces last year's version. Last year's project required smartwatch integration and a\nleaderboard; neither is required this year. The ideas listed under \"Inspiration\" at the end are optional and not graded.\n\nBuild a personal fitness tracker app. The app must let users log workouts (type, duration and calories) and must show a\nweekly summary chart. If the daily step goal has not been reached by 8 pm, the app shall send a reminder notification.\nUsers must be able to export all their data as a CSV file. The app has to work fully offline and synchronise with the\nserver when a connection becomes available. Every button needs a screen-reader label so the app is usable with\naccessibility tools.\n\nBuild it with Flutter or React Native. Paid third-party APIs are not allowed, and the installed app must be smaller than 50 MB.\n\nHand in: an installable build (APK or IPA), the link to your source repository, a user manual of at most 5 pages, and a\ntest report.\n\nMarks: features 40, user experience and accessibility 20, offline sync 15, testing 15, documentation 10.\n\nInspiration (optional, ungraded): social sharing of workouts, a dark mode theme, voice coaching.\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:10:49.415914+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Mobile Application Development — Project Brief (version 2, updated for this semester)\n\nRead carefully: this brief replaces last year's version. Last year's project required smartwatch integration and a\nleaderboard; neither is required this year. The ideas listed under \"Inspiration\" at the end are optional and not graded.\n\nBuild a personal fitness tracker app. The app must let users log workouts (type, duration and calories) and must show a\nweekly summary chart. If the daily step goal has not been reached by 8 pm, the app shall send a reminder notification.\nUsers must be able to export all their data as a CSV file. The app has to work fully offline and synchronise with the\nserver when a connection becomes available. Every button needs a screen-reader label so the app is usable with\naccessibility tools.\n\nBuild it with Flutter or React Native. Paid third-party APIs are not allowed, and the installed app must be smaller than 50 MB.\n\nHand in: an installable build (APK or IPA), the link to your source repository, a user manual of at most 5 pages, and a\ntest report.\n\nMarks: features 40, user experience and accessibility 20, offline sync 15, testing 15, documentation 10.\n\nInspiration (optional, ungraded): social sharing of workouts, a dark mode theme, voice coaching.\n",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"requirements\":[{\"id\":\"R1\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"The app must let users log workouts (type, duration and calories)\",\"source_quote\":\"The app must let users log workouts (type, duration and calories)\"},{\"id\":\"R2\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"The app must show a weekly summary chart\",\"source_quote\":\"and must show a weekly summary chart\"},{\"id\":\"R3\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"If the daily step goal has not been reached by 8 pm, the app shall send a reminder notification\",\"source_quote\":\"If the daily step goal has not been reached by 8 pm, the app shall send a reminder notification\"},{\"id\":\"R4\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"Users must be able to export all their data as a CSV file\",\"source_quote\":\"Users must be able to export all their data as a CSV file\"},{\"id\":\"R5\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"The app has to work fully offline and synchronise with the server when a connection becomes available\",\"source_quote\":\"The app has to work fully offline and synchronise with the server when a connection becomes available\"},{\"id\":\"R6\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"Every button needs a screen-reader label so the app is usable with accessibility tools\",\"source_quote\":\"Every button needs a screen-reader label so the app is usable with accessibility tools\"},{\"id\":\"R7\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"Build it with Flutter or React Native\",\"source_quote\":\"Build it with Flutter or React Native\"},{\"id\":\"R8\",\"type\":\"non_functional\",\"priority\":\"must\",\"text\":\"Paid third-party APIs are not allowed\",\"source_quote\":\"Paid third-party APIs are not allowed\"},{\"id\":\"R9\",\"type\":\"non_functional\",\"priority\":\"must\",\"text\":\"The installed app must be smaller than 50 MB\",\"source_quote\":\"the installed app must be smaller than 50 MB\"},{\"id\":\"R10\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"Hand in an installable build (APK or IPA)\",\"source_quote\":\"Hand in: an installable build (APK or IPA)\"},{\"id\":\"R11\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"Hand in the link to your source repository\",\"source_quote\":\"the link to your source repository\"},{\"id\":\"R12\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"Hand in a user manual of at most 5 pages\",\"source_quote\":\"a user manual of at most 5 pages\"},{\"id\":\"R13\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"Hand in a test report\",\"source_quote\":\"a test report\"}],\"constraints\":[{\"id\":\"C1\",\"kind\":\"technology\",\"text\":\"Build it with Flutter or React Native\"},{\"id\":\"C2\",\"kind\":\"resource\",\"text\":\"Paid third-party APIs are not allowed\"},{\"id\":\"C3\",\"kind\":\"resource\",\"text\":\"The installed app must be smaller than 50 MB\"}],\"deliverables\":[{\"id\":\"D1\",\"name\":\"Installable build (APK or IPA)\",\"format\":\"binary\"},{\"id\":\"D2\",\"name\":\"Source repository link\",\"format\":\"URL\"},{\"id\":\"D3\",\"name\":\"User manual (≤5 pages)\",\"format\":\"PDF\"},{\"id\":\"D4\",\"name\":\"Test report\",\"format\":\"PDF\"}],\"evaluation_criteria\":[{\"id\":\"E1\",\"criterion\":\"Features\",\"max_marks\":40},{\"id\":\"E2\",\"criterion\":\"User experience and accessibility\",\"max_marks\":20},{\"id\":\"E3\",\"criterion\":\"Offline sync\",\"max_marks\":15},{\"id\":\"E4\",\"criterion\":\"Testing\",\"max_marks\":15},{\"id\":\"E5\",\"criterion\":\"Documentation\",\"max_marks\":10}],\"open_questions\":[]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1021,
+      "latency_s": 1.5657,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 795,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}
