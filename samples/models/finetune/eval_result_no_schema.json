@@ -1,0 +1,39 @@
+{
+ "adapter": "samples/models/finetune/adapters/ft-20261101-2318-e599",
+ "base": {
+  "heldout_m6": {
+   "n": 56,
+   "accuracy": 0.0,
+   "invalid": 56
+  },
+  "test_split": {
+   "n": 30,
+   "accuracy": 0.0,
+   "invalid": 30
+  },
+  "regression": {
+   "critique": 0.2,
+   "extraction": 0.0
+  }
+ },
+ "heldout_n": 56,
+ "test_n": 30,
+ "lora": {
+  "heldout_m6": {
+   "n": 56,
+   "accuracy": 0.893,
+   "invalid": 0
+  },
+  "test_split": {
+   "n": 30,
+   "accuracy": 0.967,
+   "invalid": 0
+  },
+  "regression": {
+   "critique": 0.3,
+   "extraction": 0.0
+  }
+ },
+ "delta_heldout": 0.893,
+ "verdict": "better on the held-out M6 set (0.0 -> 0.893, n=56; \u00b10.03 is within noise)"
+}

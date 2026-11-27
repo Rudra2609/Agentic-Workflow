@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "533c8ebdb66409c23e4a3635b9f3a009e977ba2f24a70c01ac713c77a9be4476",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `EchoServer` using only the Python standard library (`socket`, `threading` or `socketserver`).\n\n- `EchoServer(host: str = \"127.0.0.1\", port: int = 0)`; port 0 means \"pick a free port\".\n- `start() -> int` starts serving in the background (it must return immediately) and returns the actual port.\n- For every line a client sends (terminated by `\\n`), the server replies with the same line in UPPER CASE, followed by `\\n`.\n- Several clients must be served at the same time; one idle client must not block the others.\n- `stop()` stops the server and releases the port.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:51.503388+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `EchoServer` using only the Python standard library (`socket`, `threading` or `socketserver`).\n\n- `EchoServer(host: str = \"127.0.0.1\", port: int = 0)`; port 0 means \"pick a free port\".\n- `start() -> int` starts serving in the background (it must return immediately) and returns the actual port.\n- For every line a client sends (terminated by `\\n`), the server replies with the same line in UPPER CASE, followed by `\\n`.\n- Several clients must be served at the same time; one idle client must not block the others.\n- `stop()` stops the server and releases the port.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport socket\nimport socketserver\nimport threading\nfrom typing import Tuple\n\n\nclass EchoRequestHandler(socketserver.StreamRequestHandler):\n    \"\"\"Handle a single client connection: echo each line in upper case.\"\"\"\n\n    def handle(self) -> None:\n        for line in self.rfile:\n            # line includes the trailing newline\n            self.wfile.write(line.upper())\n            self.wfile.flush()\n\n\nclass EchoServer:\n    \"\"\"TCP echo server that replies with upper‑case lines.\"\"\"\n\n    def __init__(self, host: str = \"127.0.0.1\", port: int = 0) -> None:\n        self.host = host\n        self.port = port\n        self._server: socketserver.ThreadingTCPServer | None = None\n        self._thread: threading.Thread | None = None\n        self._lock = threading.Lock()\n\n    def start(self) -> int:\n        \"\"\"Start the server in a background thread and return the listening port.\"\"\"\n        with self._lock:\n            if self._server is not None:\n                raise RuntimeError(\"Server already started\")\n\n            # Create a ThreadingTCPServer that listens on the given host/port\n            self._server = socketserver.ThreadingTCPServer(\n                (self.host, self.port), EchoRequestHandler\n            )\n            # Allow address reuse to avoid \"Address already in use\" on quick restarts\n            self._server.allow_reuse_address = True\n\n            # Retrieve the actual port (useful if port 0 was requested)\n            actual_port = self._server.server_address[1]\n\n            # Run the server in a separate daemon thread\n            self._thread = threading.Thread(\n                target=self._server.serve_forever, daemon=True\n            )\n            self._thread.start()\n            return actual_port\n\n    def stop(self) -> None:\n        \"\"\"Stop the server and release the port.\"\"\"\n        with self._lock:\n            if self._server is None:\n                return\n            self._server.shutdown()\n            self._server.server_close()\n            self._thread.join()\n            self._server = None\n            self._thread = None\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 273,
+      "latency_s": 0.99,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 473,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "key": "6762f11b173a7def71a358e382f1ad27b504d17bedbb7a4cb0ec1a49ef2287b5",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: Merge sort on arrays needs only O(1) extra memory.\nQUOTE: The standard array implementation of merge sort needs an auxiliary array of size n.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.957443+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: Merge sort on arrays needs only O(1) extra memory.\nQUOTE: The standard array implementation of merge sort needs an auxiliary array of size n.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "{ \"rationale\": \"The quote indicates that merge sort requires an auxiliary array, which implies it needs O(n) extra memory, not O(1).\", \"verdict\": \"CONTRADICTED\" }",
+    "usage": {
+      "input_tokens": 107,
+      "latency_s": 7.76,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 46,
+      "provider": "ollama"
+    }
+  },
+  "role": "judge"
+}

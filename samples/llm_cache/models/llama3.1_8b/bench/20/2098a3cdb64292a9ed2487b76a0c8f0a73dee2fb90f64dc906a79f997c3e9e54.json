@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2098a3cdb64292a9ed2487b76a0c8f0a73dee2fb90f64dc906a79f997c3e9e54",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "llama3.1:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.918977+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "llama3.1:8b"
+  },
+  "response": {
+    "text": "```python\nimport time\n\nclass TokenBucket:\n    def __init__(self, rate: float, capacity: int, clock=time.monotonic):\n        if rate <= 0:\n            raise ValueError(\"Rate must be greater than zero\")\n        if capacity < 1:\n            raise ValueError(\"Capacity must be at least one\")\n        self.rate = rate\n        self.capacity = capacity\n        self.tokens = capacity\n        self.last_refill = clock()\n\n    def allow(self) -> bool:\n        current_time = self.clock()\n        elapsed_time = current_time - self.last_refill\n        self.tokens = min(self.capacity, self.tokens + elapsed_time * self.rate)\n        self.last_refill = current_time\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\n\n    @staticmethod\n    def clock():\n        return time.monotonic()\n```",
+    "usage": {
+      "input_tokens": 186,
+      "latency_s": 34.203,
+      "model": "llama3.1:8b",
+      "output_tokens": 186,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

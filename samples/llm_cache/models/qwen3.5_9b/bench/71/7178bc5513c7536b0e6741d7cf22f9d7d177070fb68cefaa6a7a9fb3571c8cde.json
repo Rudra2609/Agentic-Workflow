@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "7178bc5513c7536b0e6741d7cf22f9d7d177070fb68cefaa6a7a9fb3571c8cde",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `LRUCache`:\n\n- `LRUCache(capacity: int)` — raise `ValueError` if capacity < 1.\n- `get(key) -> value`, returning `-1` if the key is missing. A successful get marks the key as most recently used.\n- `put(key, value)` — insert or update; updating also marks the key as most recently used.\n  When inserting a new key into a full cache, first evict the least recently used key.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.048254+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `LRUCache`:\n\n- `LRUCache(capacity: int)` — raise `ValueError` if capacity < 1.\n- `get(key) -> value`, returning `-1` if the key is missing. A successful get marks the key as most recently used.\n- `put(key, value)` — insert or update; updating also marks the key as most recently used.\n  When inserting a new key into a full cache, first evict the least recently used key.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nfrom collections import OrderedDict\n\n\nclass LRUCache:\n    \"\"\"\n    A Least Recently Used (LRU) Cache implementation using OrderedDict.\n    \n    Attributes:\n        capacity (int): The maximum number of items the cache can hold.\n    \"\"\"\n\n    def __init__(self, capacity: int):\n        \"\"\"\n        Initialize the LRU cache with a specific capacity.\n        \n        Args:\n            capacity (int): Maximum number of items in cache.\n            \n        Raises:\n            ValueError: If capacity is less than 1.\n        \"\"\"\n        if capacity < 1:\n            raise ValueError(\"Capacity must be at least 1.\")\n        \n        self.capacity = capacity\n        # OrderedDict maintains insertion order; we will use it to track LRU items.\n        # The most recently used item will be at the end (rightmost).\n        self.cache = OrderedDict()\n\n    def get(self, key: int) -> int:\n        \"\"\"\n        Get an item from the cache if it exists.\n        \n        Args:\n            key (int): The key to retrieve.\n            \n        Returns:\n            int: The value associated with the key, or -1 if not found.\n        \"\"\"\n        if key in self.cache:\n            # Move the accessed item to the end to mark it as most recently used\n            self.cache.move_to_end(key)\n            return self.cache[key]\n        \n        return -1\n\n    def put(self, key: int, value: int) -> None:\n        \"\"\"\n        Insert or update a key-value pair in the cache.\n        \n        If the cache is at capacity, evicts the least recently used item (first item).\n        \n        Args:\n            key (int): The key to insert or update.\n            value (int): The value to associate with the key.\n        \"\"\"\n        if key in self.cache:\n            # Update existing key and move it to the end (most recently used)\n            self.cache.move_to_end(key)\n            self.cache[key] = value\n        else:\n            # If cache is full, remove the first item (least recently used)\n            if len(self.cache) >= self.capacity:\n                # Popitem(last=False) removes and returns the first inserted item\n                self.cache.popitem(last=False)\n            \n            # Insert new item at the end\n            self.cache[key] = value\n```",
+    "usage": {
+      "input_tokens": 172,
+      "latency_s": 91.496,
+      "model": "qwen3.5:9b",
+      "output_tokens": 515,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

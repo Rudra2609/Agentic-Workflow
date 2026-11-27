@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "be3a1c3e06ec2cac8938232fdcdf74b532cb0e0e9a56c33ec68c93a41b09b320",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.050682+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport heapq\nfrom typing import Dict, List, Tuple, Optional\n\ndef shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> Tuple[float, List[str]]:\n    \"\"\"\n    Computes the shortest path from a start node to a goal node in a directed graph.\n    \n    Args:\n        graph: A dictionary where graph[u][v] is the weight of the directed edge u -> v.\n               If an edge does not exist, the key v will be missing or the value will be None/absent.\n               Weights are non-negative floats.\n        start: The starting node (string).\n        goal: The target node (string).\n    \n    Returns:\n        A tuple (total_cost, path) where:\n        - total_cost is the sum of weights of the edges in the shortest path.\n          If the goal is unreachable or unknown, returns float('inf').\n        - path is a list of nodes from start to goal inclusive.\n          If the goal is unreachable or unknown, returns an empty list.\n    \n    Note:\n        The function assumes that if a node appears as a key in 'graph', it exists.\n        Nodes that only appear as targets (values) are implicitly handled by checking their existence\n        when they are popped from the priority queue or encountered during traversal.\n        However, to strictly adhere to \"If goal is unreachable (or a node is unknown)\", \n        we must ensure that if 'goal' is not present in the graph structure at all (neither as key nor target),\n        it returns (inf, []). Similarly for 'start'.\n    \"\"\"\n    \n    # Check if start or goal are completely unknown based on the problem description.\n    # The problem states: \"Nodes may appear only as edge targets.\" \n    # This implies a node might not be a key in the graph dict initially.\n    # However, to traverse, we need to know outgoing edges.\n    # If 'start' is not in graph keys and has no incoming edges (so it's never a target), it's isolated/unknown.\n    # But typically in such problems, if start is provided, we assume it exists or is the source.\n    # Let's interpret \"node is unknown\" as: if the node does not exist in the graph structure at all.\n    # Since we can't easily build a reverse map without iterating everything (which might be large),\n    # and the input format is `graph[u][v]`, let's assume standard Dijkstra behavior:\n    # If 'start' is not in graph keys, it has no outgoing edges. If it also never appears as a target, \n    # it's unreachable from itself unless start==goal.\n    # However, the prompt says \"Nodes may appear only as edge targets\", suggesting sparse representation.\n    # We will treat any node not found in `graph` keys and not reachable via BFS/DFS check as unknown?\n    # Actually, standard interpretation: if 'start' is not in graph, it has no outgoing edges.\n    # If 'goal' is not in graph keys AND never reached, return inf.\n    \n    # Edge case: start == goal\n    if start == goal:\n        return (0.0, [start])\n    \n    # Check if start exists as a key. If not, it has no outgoing edges defined in the dict.\n    # Does \"unknown\" mean it's not in the graph at all? \n    # Given \"Nodes may appear only as edge targets\", a node might exist ONLY as a target.\n    # If 'start' is such a node (only target), can we start there? Yes, but it has no outgoing edges.\n    # So if 'start' is not in graph keys, its neighbors are empty {}.\n    \n    # Check if goal exists. If goal is not in graph keys and never reached, return inf.\n    # We don't need to pre-check all nodes. Dijkstra will handle reachability.\n    # However, if 'goal' is a string that was never part of the graph (neither key nor target),\n    # we can detect this if we assume the input graph covers all known nodes.\n    # But since we don't have a list of all nodes, we rely on Dijkstra.\n    # If goal is popped from heap, it's reachable. If heap empties and goal not visited -> unreachable.\n    \n    # Priority Queue: (cost, current_node)\n    pq = [(0.0, start)]\n    \n    # Keep track of the best cost to reach each node\n    min_cost: Dict[str, float] = {start: 0.0}\n    \n    # To reconstruct path, store parent pointers\n    parent: Optional[Dict[str, Optional[str]]] = {start: None}\n    \n    # We need to handle the case where a node is not in `graph` keys but might be a target.\n    # When we are at node u, we look for neighbors v in graph[u].\n    # If graph[u] doesn't exist or is empty, u has no outgoing edges.\n    \n    while pq:\n        current_cost, u = heapq.heappop(pq)\n        \n        # If we found a path to goal, return immediately (Dijkstra guarantees shortest)\n        if u == goal:\n            # Reconstruct path\n            path = []\n            node = goal\n            while node is not None:\n                path.append(node)\n                node = parent[node]\n            path.reverse()\n            return (current_cost, path)\n        \n        # If current cost is greater than known best cost for u, skip\n        if current_cost > min_cost[u]:\n            continue\n            \n        # Check if u has outgoing edges\n        if u not in graph:\n            continue\n            \n        neighbors = graph[u]\n        # Iterate over neighbors. The value might be None or missing? \n        # Problem says `graph[u][v]` is weight. Implicitly, if v is missing, no edge.\n        for v, weight in neighbors.items():\n            new_cost = current_cost + weight\n            \n            # If v is not in min_cost, it's a new node discovered\n            # Or if we found a cheaper path to v\n            if v not in min_cost or new_cost < min_cost[v]:\n                min_cost[v] = new_cost\n                parent[v] = u\n                heapq.heappush(pq, (new_cost, v))\n    \n    # If queue is empty and goal not reached\n    return (float('inf'), [])\n```",
+    "usage": {
+      "input_tokens": 194,
+      "latency_s": 237.407,
+      "model": "qwen3.5:9b",
+      "output_tokens": 1412,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

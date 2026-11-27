@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "3c187a6c60a267345c1c7b70ac965479fbb4d0ae004e0c62a1343e84fbad4023",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parse_log_line(line: str) -> dict | None`.\n\nInput is one line of an Apache \"common log format\" access log, for example:\n\n    127.0.0.1 - - [10/Oct/2025:13:55:36 +0000] \"GET /index.html HTTP/1.1\" 200 2326\n\nThe fields are separated by single spaces. The 2nd and 3rd fields (client identity and user name) may be any\nnon-space text, often `-`. Return a dict with keys:\n- `ip` (str), `timestamp` (str, the text inside the square brackets),\n- `method`, `path`, `protocol` (str, the three parts of the quoted request),\n- `status` (int), `size` (int; the log uses `-` for \"no body\", which must become 0).\n\nReturn `None` if the line does not match the format (do not raise).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.047344+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parse_log_line(line: str) -> dict | None`.\n\nInput is one line of an Apache \"common log format\" access log, for example:\n\n    127.0.0.1 - - [10/Oct/2025:13:55:36 +0000] \"GET /index.html HTTP/1.1\" 200 2326\n\nThe fields are separated by single spaces. The 2nd and 3rd fields (client identity and user name) may be any\nnon-space text, often `-`. Return a dict with keys:\n- `ip` (str), `timestamp` (str, the text inside the square brackets),\n- `method`, `path`, `protocol` (str, the three parts of the quoted request),\n- `status` (int), `size` (int; the log uses `-` for \"no body\", which must become 0).\n\nReturn `None` if the line does not match the format (do not raise).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom typing import Optional, Dict, Any\n\ndef parse_log_line(line: str) -> Optional[Dict[str, Any]]:\n    \"\"\"\n    Parse an Apache Common Log Format line into a dictionary.\n    \n    Args:\n        line: A single line from an Apache access log.\n        \n    Returns:\n        A dictionary with keys 'ip', 'timestamp', 'method', 'path', \n        'protocol', 'status', and 'size', or None if the line doesn't match.\n    \"\"\"\n    # Pattern to match Apache Common Log Format\n    # We use a regex that captures the specific fields we need.\n    # The pattern accounts for:\n    # - IP address (non-space)\n    # - Two identity fields (non-space, often '-')\n    # - Timestamp in square brackets\n    # - Request in double quotes (method, path, protocol)\n    # - Status code (integer)\n    # - Size (integer or '-')\n    \n    pattern = r'^(\\S+) (\\S+) (\\S+) \\[([^\\]]+)\\] \"([^\"]*)\" (\\d+) (\\S+)$'\n    \n    match = re.match(pattern, line.strip())\n    \n    if not match:\n        return None\n    \n    ip, identity1, identity2, timestamp, request, status, size_str = match.groups()\n    \n    # Parse the request part which is \"METHOD PATH PROTOCOL\"\n    try:\n        method, path, protocol = request.split(' ', 2)\n    except ValueError:\n        return None\n    \n    # Convert size to integer, treating '-' as 0\n    if size_str == '-':\n        size = 0\n    else:\n        try:\n            size = int(size_str)\n        except ValueError:\n            return None\n            \n    return {\n        'ip': ip,\n        'timestamp': timestamp,\n        'method': method,\n        'path': path,\n        'protocol': protocol,\n        'status': int(status),\n        'size': size\n    }\n```",
+    "usage": {
+      "input_tokens": 292,
+      "latency_s": 74.595,
+      "model": "qwen3.5:9b",
+      "output_tokens": 445,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

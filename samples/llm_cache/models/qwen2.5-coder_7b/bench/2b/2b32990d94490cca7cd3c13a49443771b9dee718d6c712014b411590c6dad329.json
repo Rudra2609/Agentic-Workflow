@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2b32990d94490cca7cd3c13a49443771b9dee718d6c712014b411590c6dad329",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a tiny URL router with exception classes `NotFound(Exception)` and `MethodNotAllowed(Exception)`.\n\n- `Router()`; `add(method: str, pattern: str, handler)` registers a route. Patterns look like `/users/{id}/posts`;\n  a `{name}` segment matches exactly one non-empty path segment.\n- `dispatch(method: str, path: str) -> tuple[handler, dict[str, str]]` returns the handler and the captured parameters.\n  Paths and patterns must have the same number of segments. A trailing slash is ignored (`/users/` == `/users`).\n- When both a static route and a parameter route match a path (e.g. `/users/me` and `/users/{id}`), the static one wins.\n- Raise `MethodNotAllowed` if some route matches the path but not the method, and `NotFound` if no route matches the path.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.966983+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a tiny URL router with exception classes `NotFound(Exception)` and `MethodNotAllowed(Exception)`.\n\n- `Router()`; `add(method: str, pattern: str, handler)` registers a route. Patterns look like `/users/{id}/posts`;\n  a `{name}` segment matches exactly one non-empty path segment.\n- `dispatch(method: str, path: str) -> tuple[handler, dict[str, str]]` returns the handler and the captured parameters.\n  Paths and patterns must have the same number of segments. A trailing slash is ignored (`/users/` == `/users`).\n- When both a static route and a parameter route match a path (e.g. `/users/me` and `/users/{id}`), the static one wins.\n- Raise `MethodNotAllowed` if some route matches the path but not the method, and `NotFound` if no route matches the path.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom typing import Callable, Dict, Tuple\n\nclass NotFound(Exception):\n    pass\n\nclass MethodNotAllowed(Exception):\n    pass\n\nclass Router:\n    def __init__(self):\n        self.routes: Dict[str, Dict[str, Tuple[Callable, Dict[str, str]]]] = {}\n\n    def add(self, method: str, pattern: str, handler: Callable):\n        if method not in self.routes:\n            self.routes[method] = {}\n        if pattern in self.routes[method]:\n            raise ValueError(f\"Route {method} {pattern} already exists\")\n        self.routes[method][pattern] = (handler, self._compile_pattern(pattern))\n\n    def dispatch(self, method: str, path: str) -> Tuple[Callable, Dict[str, str]]:\n        path = path.rstrip('/')\n        for m, routes in self.routes.items():\n            if m != method:\n                continue\n            for pattern, (handler, compiled_pattern) in routes.items():\n                match = compiled_pattern.match(path)\n                if match:\n                    return handler, match.groupdict()\n        raise NotFound(f\"No route found for {method} {path}\")\n\n    def _compile_pattern(self, pattern: str) -> re.Pattern:\n        pattern = pattern.replace('{', '(?P<').replace('}', '>.+?)')\n        return re.compile(f'^{pattern}$')\n```",
+    "usage": {
+      "input_tokens": 244,
+      "latency_s": 45.522,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 277,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

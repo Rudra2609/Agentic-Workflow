@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "3c187a6c60a267345c1c7b70ac965479fbb4d0ae004e0c62a1343e84fbad4023",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parse_log_line(line: str) -> dict | None`.\n\nInput is one line of an Apache \"common log format\" access log, for example:\n\n    127.0.0.1 - - [10/Oct/2025:13:55:36 +0000] \"GET /index.html HTTP/1.1\" 200 2326\n\nThe fields are separated by single spaces. The 2nd and 3rd fields (client identity and user name) may be any\nnon-space text, often `-`. Return a dict with keys:\n- `ip` (str), `timestamp` (str, the text inside the square brackets),\n- `method`, `path`, `protocol` (str, the three parts of the quoted request),\n- `status` (int), `size` (int; the log uses `-` for \"no body\", which must become 0).\n\nReturn `None` if the line does not match the format (do not raise).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:23.750946+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parse_log_line(line: str) -> dict | None`.\n\nInput is one line of an Apache \"common log format\" access log, for example:\n\n    127.0.0.1 - - [10/Oct/2025:13:55:36 +0000] \"GET /index.html HTTP/1.1\" 200 2326\n\nThe fields are separated by single spaces. The 2nd and 3rd fields (client identity and user name) may be any\nnon-space text, often `-`. Return a dict with keys:\n- `ip` (str), `timestamp` (str, the text inside the square brackets),\n- `method`, `path`, `protocol` (str, the three parts of the quoted request),\n- `status` (int), `size` (int; the log uses `-` for \"no body\", which must become 0).\n\nReturn `None` if the line does not match the format (do not raise).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom typing import Dict, Optional\n\n# Regular expression for the Apache common log format\n# 1: IP\n# 2: client identity (ignored)\n# 3: user name (ignored)\n# 4: timestamp inside brackets\n# 5: request inside quotes\n# 6: status code\n# 7: size (or '-')\nLOG_PATTERN = re.compile(\n    r'^(?P<ip>\\S+)\\s+\\S+\\s+\\S+\\s+\\[(?P<timestamp>[^\\]]+)\\]\\s+\"(?P<request>[^\"]+)\"\\s+'\n    r'(?P<status>\\d{3})\\s+(?P<size>\\S+)$'\n)\n\n# Regular expression to split the request into method, path, protocol\nREQUEST_PATTERN = re.compile(r'^(?P<method>\\S+)\\s+(?P<path>\\S+)\\s+(?P<protocol>\\S+)$')\n\n\ndef parse_log_line(line: str) -> Optional[Dict]:\n    \"\"\"\n    Parse a single line of an Apache common log format.\n\n    Parameters\n    ----------\n    line : str\n        A single log line.\n\n    Returns\n    -------\n    dict | None\n        Dictionary with parsed fields or None if the line does not match the format.\n    \"\"\"\n    match = LOG_PATTERN.match(line.strip())\n    if not match:\n        return None\n\n    # Extract fields from the main pattern\n    ip = match.group('ip')\n    timestamp = match.group('timestamp')\n    request = match.group('request')\n    status = int(match.group('status'))\n    size_str = match.group('size')\n    size = 0 if size_str == '-' else int(size_str)\n\n    # Parse the request part\n    req_match = REQUEST_PATTERN.match(request)\n    if not req_match:\n        return None\n\n    method = req_match.group('method')\n    path = req_match.group('path')\n    protocol = req_match.group('protocol')\n\n    return {\n        'ip': ip,\n        'timestamp': timestamp,\n        'method': method,\n        'path': path,\n        'protocol': protocol,\n        'status': status,\n        'size': size,\n    }\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 330,
+      "latency_s": 1.0261,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 486,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

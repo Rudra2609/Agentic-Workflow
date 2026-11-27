@@ -1,0 +1,210 @@
+{
+  "format": 1,
+  "key": "00dc603175663c88a894be9c4edec8e75f7e58f84a5f342dbaee8efa87e9e06c",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Librarians add, update and delete books.\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"Members search books by title or author.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Members borrow and return books when copies are available.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"A member may hold at most 3 books.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"Late returns are fined Rs. 5 per day after 14 days.\"\n  },\n  {\n   \"id\": \"R6\",\n   \"text\": \"All operations are JSON REST endpoints documented with OpenAPI.\"\n  },\n  {\n   \"id\": \"R7\",\n   \"text\": \"Passwords are stored hashed.\"\n  }\n ],\n \"constraints\": [\n  \"FastAPI or Flask\",\n  \"SQLite or PostgreSQL\",\n  \"70% test coverage\"\n ],\n \"deliverables\": [\n  \"Git repository\",\n  \"Postman collection\",\n  \"unit tests\",\n  \"design document with ER diagram\"\n ]\n}",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "PlanTask": {
+          "properties": {
+            "capability": {
+              "enum": [
+                "research.run",
+                "verify.claims",
+                "code.implement",
+                "test.run",
+                "docs.generate",
+                "review.final"
+              ],
+              "title": "Capability",
+              "type": "string"
+            },
+            "depends_on": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Depends On",
+              "type": "array"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "phase": {
+              "enum": [
+                "research",
+                "design",
+                "implement",
+                "test",
+                "document",
+                "review"
+              ],
+              "title": "Phase",
+              "type": "string"
+            },
+            "requirement_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Requirement Ids",
+              "type": "array"
+            },
+            "title": {
+              "title": "Title",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "capability",
+            "requirement_ids",
+            "depends_on",
+            "phase"
+          ],
+          "title": "PlanTask",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/PlanTask"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:10:52.356603+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "tasks": {
+          "items": {
+            "properties": {
+              "capability": {
+                "enum": [
+                  "research.run",
+                  "verify.claims",
+                  "code.implement",
+                  "test.run",
+                  "docs.generate",
+                  "review.final"
+                ],
+                "title": "Capability",
+                "type": "string"
+              },
+              "depends_on": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Depends On",
+                "type": "array"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "phase": {
+                "enum": [
+                  "research",
+                  "design",
+                  "implement",
+                  "test",
+                  "document",
+                  "review"
+                ],
+                "title": "Phase",
+                "type": "string"
+              },
+              "requirement_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Requirement Ids",
+                "type": "array"
+              },
+              "title": {
+                "title": "Title",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "capability",
+              "requirement_ids",
+              "depends_on",
+              "phase"
+            ],
+            "title": "PlanTask",
+            "type": "object"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Librarians add, update and delete books.\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"Members search books by title or author.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Members borrow and return books when copies are available.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"A member may hold at most 3 books.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"Late returns are fined Rs. 5 per day after 14 days.\"\n  },\n  {\n   \"id\": \"R6\",\n   \"text\": \"All operations are JSON REST endpoints documented with OpenAPI.\"\n  },\n  {\n   \"id\": \"R7\",\n   \"text\": \"Passwords are stored hashed.\"\n  }\n ],\n \"constraints\": [\n  \"FastAPI or Flask\",\n  \"SQLite or PostgreSQL\",\n  \"70% test coverage\"\n ],\n \"deliverables\": [\n  \"Git repository\",\n  \"Postman collection\",\n  \"unit tests\",\n  \"design document with ER diagram\"\n ]\n}",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"tasks\":[{\"id\":\"T1\",\"title\":\"Research technology stack and design database schema\",\"phase\":\"research\",\"capability\":\"research.run\",\"requirement_ids\":[],\"depends_on\":[]},{\"id\":\"T2\",\"title\":\"Verify research findings and finalize design\",\"phase\":\"design\",\"capability\":\"verify.claims\",\"requirement_ids\":[],\"depends_on\":[\"T1\"]},{\"id\":\"T3\",\"title\":\"Implement REST API for book management (add, update, delete)\",\"phase\":\"implement\",\"capability\":\"code.implement\",\"requirement_ids\":[\"R1\"],\"depends_on\":[\"T2\"]},{\"id\":\"T4\",\"title\":\"Implement REST API for member operations (search, borrow, return, hold limit)\",\"phase\":\"implement\",\"capability\":\"code.implement\",\"requirement_ids\":[\"R2\",\"R3\",\"R4\"],\"depends_on\":[\"T2\"]},{\"id\":\"T5\",\"title\":\"Implement fine calculation and security (hashed passwords)\",\"phase\":\"implement\",\"capability\":\"code.implement\",\"requirement_ids\":[\"R5\",\"R7\"],\"depends_on\":[\"T2\"]},{\"id\":\"T6\",\"title\":\"Generate OpenAPI documentation and Postman collection\",\"phase\":\"document\",\"capability\":\"docs.generate\",\"requirement_ids\":[\"R6\"],\"depends_on\":[\"T3\",\"T4\",\"T5\"]},{\"id\":\"T7\",\"title\":\"Run unit tests and achieve 70% coverage\",\"phase\":\"test\",\"capability\":\"test.run\",\"requirement_ids\":[],\"depends_on\":[\"T3\",\"T4\",\"T5\"]},{\"id\":\"T8\",\"title\":\"Final review of deliverables against requirements\",\"phase\":\"review\",\"capability\":\"review.final\",\"requirement_ids\":[\"R1\",\"R2\",\"R3\",\"R4\",\"R5\",\"R6\",\"R7\"],\"depends_on\":[\"T6\",\"T7\"]}]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 764,
+      "latency_s": 1.0331,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 428,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

@@ -1,0 +1,374 @@
+{
+  "format": 1,
+  "key": "23d4a8217430854e8f43b02c857a84630e0d8b84fbd442afae6f1088597e56b4",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "DS-210 Introduction to Data Science\nAssignment 2: Exploratory Analysis of City Air Quality\n\nDataset: air_quality.csv (provided on the course page) contains hourly PM2.5, PM10, NO2 and temperature readings for 5 cities over 2025.\n\nTasks\n(a) Load the dataset and handle missing values. You must document which strategy (dropping or imputation) you used and why.\n(b) Compute monthly average PM2.5 for every city and present them in a table.\n(c) Produce at least three plots: a time-series of PM2.5 for each city, a box plot comparing cities, and a correlation heatmap of the four variables.\n(d) Identify the city with the worst air quality and justify your answer using the data.\n(e) Test whether PM2.5 levels in winter (Dec–Feb) are significantly higher than in summer (Apr–Jun) using an appropriate statistical test at the 5% significance level.\n\nRules\n- Use Python with pandas, matplotlib or seaborn, and scipy. No spreadsheets.\n- Your notebook must run top-to-bottom without errors on a fresh kernel.\n- Work individually; plagiarism will be reported.\n\nSubmit a Jupyter notebook (.ipynb) and an exported HTML version of the same notebook.\n\nGrading\nData cleaning: 10\nMonthly averages table: 10\nPlots: 20\nWorst city analysis: 15\nHypothesis test: 25\nPresentation and clarity: 20\n(Total 100)\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.932377+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "DS-210 Introduction to Data Science\nAssignment 2: Exploratory Analysis of City Air Quality\n\nDataset: air_quality.csv (provided on the course page) contains hourly PM2.5, PM10, NO2 and temperature readings for 5 cities over 2025.\n\nTasks\n(a) Load the dataset and handle missing values. You must document which strategy (dropping or imputation) you used and why.\n(b) Compute monthly average PM2.5 for every city and present them in a table.\n(c) Produce at least three plots: a time-series of PM2.5 for each city, a box plot comparing cities, and a correlation heatmap of the four variables.\n(d) Identify the city with the worst air quality and justify your answer using the data.\n(e) Test whether PM2.5 levels in winter (Dec–Feb) are significantly higher than in summer (Apr–Jun) using an appropriate statistical test at the 5% significance level.\n\nRules\n- Use Python with pandas, matplotlib or seaborn, and scipy. No spreadsheets.\n- Your notebook must run top-to-bottom without errors on a fresh kernel.\n- Work individually; plagiarism will be reported.\n\nSubmit a Jupyter notebook (.ipynb) and an exported HTML version of the same notebook.\n\nGrading\nData cleaning: 10\nMonthly averages table: 10\nPlots: 20\nWorst city analysis: 15\nHypothesis test: 25\nPresentation and clarity: 20\n(Total 100)\n",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "{ \"requirements\": [ { \"id\": \"R1\", \"text\": \"Load the dataset and handle missing values.\",\"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"Tasks\\n(a) Load the dataset and handle missing values. You must document which strategy (dropping or imputation) you used and why.\" } ], \"constraints\": [ { \"id\": \"C1\", \"text\": \"Use Python with pandas, matplotlib or seaborn, and scipy. No spreadsheets.\", \"kind\": \"technology\" }, { \"id\": \"C2\", \"text\": \"Your notebook must run top-to-bottom without errors on a fresh kernel.\", \"kind\": \"format\" }, { \"id\": \"C3\", \"text\": \"Work individually; plagiarism will be reported.\", \"kind\": \"format\" } ], \"deliverables\": [ { \"id\": \"D1\", \"name\": \"Jupyter notebook (.ipynb)\", \"format\": \"Jupyter notebook file\" }, { \"id\": \"D2\", \"name\": \"Exported HTML version of the notebook\", \"format\": \"HTML file\" } ], \"evaluation_criteria\": [ { \"id\": \"E1\", \"criterion\": \"Data cleaning\", \"max_marks\": 10 }, { \"id\": \"E2\", \"criterion\": \"Monthly averages table\", \"max_marks\": 10 }, { \"id\": \"E3\", \"criterion\": \"Plots\", \"max_marks\": 20 }, { \"id\": \"E4\", \"criterion\": \"Worst city analysis\", \"max_marks\": 15 }, { \"id\": \"E5\", \"criterion\": \"Hypothesis test\", \"max_marks\": 25 }, { \"id\": \"E6\", \"criterion\": \"Presentation and clarity\", \"max_marks\": 20 }, { \"id\": \"E7\", \"criterion\": \"Total\", \"max_marks\": 100 } ],\"open_questions\": [] }",
+    "usage": {
+      "input_tokens": 441,
+      "latency_s": 123.336,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 434,
+      "provider": "ollama"
+    }
+  },
+  "role": "reasoner"
+}

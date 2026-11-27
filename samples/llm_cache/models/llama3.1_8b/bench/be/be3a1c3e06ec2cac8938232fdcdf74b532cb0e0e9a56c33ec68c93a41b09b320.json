@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "be3a1c3e06ec2cac8938232fdcdf74b532cb0e0e9a56c33ec68c93a41b09b320",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "llama3.1:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.923640+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "llama3.1:8b"
+  },
+  "response": {
+    "text": "```python\nimport heapq\n\ndef shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]:\n    \"\"\"\n    Find the cheapest path from start to goal in a directed graph.\n\n    Args:\n    graph: A dictionary of adjacency lists, where graph[u][v] is the non-negative weight of the edge u -> v.\n    start: The node to start the search from.\n    goal: The node to search for.\n\n    Returns:\n    A tuple (total_cost, path) where total_cost is the cheapest cost to reach the goal, and path is a list of nodes including both ends.\n    If start == goal, return (0, [start]). If goal is unreachable (or a node is unknown), return (float(\"inf\"), []).\n    \"\"\"\n    # Initialize the distance to the start node as 0, and all other nodes as infinity\n    distances = {node: float(\"inf\") for node in graph}\n    distances[start] = 0\n\n    # Initialize the previous node in the shortest path as None for all nodes\n    previous = {node: None for node in graph}\n\n    # Initialize the priority queue with the start node\n    priority_queue = [(0, start)]\n\n    while priority_queue:\n        # Extract the node with the minimum distance from the priority queue\n        current_distance, current_node = heapq.heappop(priority_queue)\n\n        # If the current node is the goal, we've found the shortest path\n        if current_node == goal:\n            path = []\n            while current_node is not None:\n                path.append(current_node)\n                current_node = previous[current_node]\n            path.reverse()\n            return current_distance, path\n\n        # If the current distance is greater than the already known distance, skip this node\n        if current_distance > distances[current_node]:\n            continue\n\n        # For each neighbor of the current node\n        for neighbor, weight in graph[current_node].items():\n            # Calculate the distance to the neighbor through the current node\n            distance = current_distance + weight\n\n            # If this distance is less than the already known distance, update the distance and previous node\n            if distance < distances[neighbor]:\n                distances[neighbor] = distance\n                previous[neighbor] = current_node\n                heapq.heappush(priority_queue, (distance, neighbor))\n\n    # If the goal is unreachable, return infinity and an empty path\n    return float(\"inf\"), []\n```",
+    "usage": {
+      "input_tokens": 189,
+      "latency_s": 77.573,
+      "model": "llama3.1:8b",
+      "output_tokens": 509,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

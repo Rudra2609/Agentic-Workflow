@@ -1,0 +1,203 @@
+{
+  "format": 1,
+  "key": "8f1a03d57d597cd1034a1c1d709e9531a6546be0f3c49865b3579c9c9541f17d",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Explain how Paxos, Raft and one BFT protocol reach agreement.\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"State each algorithm's fault model and tolerance.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Compare message complexity.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"Two real systems each for Paxos and Raft.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"One limitation per algorithm.\"\n  }\n ],\n \"constraints\": [\n  \"3000-4000 words\",\n  \"at least 8 sources, 4 peer-reviewed\",\n  \"IEEE citations\"\n ],\n \"deliverables\": [\n  \"report PDF\",\n  \"one-slide summary\"\n ]\n}",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "PlanTask": {
+          "properties": {
+            "capability": {
+              "enum": [
+                "research.run",
+                "verify.claims",
+                "code.implement",
+                "test.run",
+                "docs.generate",
+                "review.final"
+              ],
+              "title": "Capability",
+              "type": "string"
+            },
+            "depends_on": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Depends On",
+              "type": "array"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "phase": {
+              "enum": [
+                "research",
+                "design",
+                "implement",
+                "test",
+                "document",
+                "review"
+              ],
+              "title": "Phase",
+              "type": "string"
+            },
+            "requirement_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Requirement Ids",
+              "type": "array"
+            },
+            "title": {
+              "title": "Title",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "capability",
+            "requirement_ids",
+            "depends_on",
+            "phase"
+          ],
+          "title": "PlanTask",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/PlanTask"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.027972+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "tasks": {
+          "items": {
+            "properties": {
+              "capability": {
+                "enum": [
+                  "research.run",
+                  "verify.claims",
+                  "code.implement",
+                  "test.run",
+                  "docs.generate",
+                  "review.final"
+                ],
+                "title": "Capability",
+                "type": "string"
+              },
+              "depends_on": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Depends On",
+                "type": "array"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "phase": {
+                "enum": [
+                  "research",
+                  "design",
+                  "implement",
+                  "test",
+                  "document",
+                  "review"
+                ],
+                "title": "Phase",
+                "type": "string"
+              },
+              "requirement_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Requirement Ids",
+                "type": "array"
+              },
+              "title": {
+                "title": "Title",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "capability",
+              "requirement_ids",
+              "depends_on",
+              "phase"
+            ],
+            "title": "PlanTask",
+            "type": "object"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Explain how Paxos, Raft and one BFT protocol reach agreement.\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"State each algorithm's fault model and tolerance.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Compare message complexity.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"Two real systems each for Paxos and Raft.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"One limitation per algorithm.\"\n  }\n ],\n \"constraints\": [\n  \"3000-4000 words\",\n  \"at least 8 sources, 4 peer-reviewed\",\n  \"IEEE citations\"\n ],\n \"deliverables\": [\n  \"report PDF\",\n  \"one-slide summary\"\n ]\n}",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "{\n  \"tasks\": [\n    {\n      \"id\": \"T1\",\n      \"title\": \"Research Consensus Algorithms Fundamentals\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R1\", \"R2\"],\n      \"depends_on\": [],\n      \"phase\": \"research\"\n    },\n    {\n      \"id\": \"T2\",\n      \"title\": \"Research Real-World Implementations and Limitations\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R3\", \"R4\", \"R5\"],\n      \"depends_on\": [],\n      \"phase\": \"research\"\n    },\n    {\n      \"id\": \"T3\",\n      \"title\": \"Verify Research Findings and Citations\",\n      \"capability\": \"verify.claims\",\n      \"requirement_ids\": [\"R1\", \"R2\", \"R3\", \"R4\", \"R5\"],\n      \"depends_on\": [\"T1\", \"T2\"],\n      \"phase\": \"research\"\n    },\n    {\n      \"id\": \"T4\",\n      \"title\": \"Draft Report Content and Structure\",\n      \"capability\": \"docs.generate\",\n      \"requirement_ids\": [\"R1\", \"R2\", \"R3\", \"R4\", \"R5\"],\n      \"depends_on\": [\"T3\"],\n      \"phase\": \"document\"\n    },\n    {\n      \"id\": \"T5\",\n      \"title\": \"Compile Sources and Format Citations (IEEE)\",\n      \"capability\": \"docs.generate\",\n      \"requirement_ids\": [],\n      \"depends_on\": [\"T3\"],\n      \"phase\": \"document\"\n    },\n    {\n      \"id\": \"T6\",\n      \"title\": \"Generate Report PDF and One-Slide Summary\",\n      \"capability\": \"docs.generate\",\n      \"requirement_ids\": [],\n      \"depends_on\": [\"T4\", \"T5\"],\n      \"phase\": \"document\"\n    },\n    {\n      \"id\": \"T7\",\n      \"title\": \"Final Review Against Requirements and Constraints\",\n      \"capability\": \"review.final\",\n      \"requirement_ids\": [\"R1\", \"R2\", \"R3\", \"R4\", \"R5\"],\n      \"depends_on\": [\"T6\"],\n      \"phase\": \"review\"\n    }\n  ]\n}",
+    "usage": {
+      "input_tokens": 378,
+      "latency_s": 91.687,
+      "model": "qwen3.5:9b",
+      "output_tokens": 541,
+      "provider": "ollama"
+    }
+  },
+  "role": "reasoner"
+}

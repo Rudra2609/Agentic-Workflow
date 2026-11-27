@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "be3a1c3e06ec2cac8938232fdcdf74b532cb0e0e9a56c33ec68c93a41b09b320",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.004795+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nimport heapq\nfrom typing import Dict, List, Tuple, Union\n\ndef shortest_path(graph: Dict[str, Dict[str, float]], start: str, goal: str) -> Tuple[float, List[str]]:\n    \"\"\"\n    Finds the shortest path from start to goal in a directed graph with non-negative weights.\n    \n    Args:\n        graph: Dictionary representing the graph where graph[u][v] is the weight of edge u->v.\n               Nodes may only appear as targets (outgoing edges).\n        start: The starting node.\n        goal: The target node.\n    \n    Returns:\n        A tuple (total_cost, path) where total_cost is the sum of edge weights and \n        path is a list of nodes from start to goal inclusive.\n        Returns (float(\"inf\"), []) if no path exists or nodes are unknown.\n    \"\"\"\n    # Handle trivial case where start equals goal\n    if start == goal:\n        return (0, [start])\n    \n    # Validate start node exists in graph as a source (or at least is known)\n    if start not in graph and start not in graph.values():\n        return (float(\"inf\"), [])\n    \n    # Dijkstra's algorithm implementation\n    # Priority queue stores tuples: (cost, current_node, path_so_far)\n    pq = [(0, start, [start])]\n    \n    # Dictionary to keep track of minimum cost to reach each node\n    min_cost: Dict[str, float] = {start: 0}\n    \n    while pq:\n        current_cost, current_node, current_path = heapq.heappop(pq)\n        \n        # If we've reached the goal, return the result\n        if current_node == goal:\n            return (current_cost, current_path)\n        \n        # Skip if we've found a shorter path to this node already\n        if current_cost > min_cost.get(current_node, float(\"inf\")):\n            continue\n        \n        # Explore neighbors\n        if current_node in graph:\n            for neighbor, weight in graph[current_node].items():\n                new_cost = current_cost + weight\n                \n                # If this path to neighbor is better than any previously found\n                if neighbor not in min_cost or new_cost < min_cost[neighbor]:\n                    min_cost[neighbor] = new_cost\n                    heapq.heappush(pq, (new_cost, neighbor, current_path + [neighbor]))\n    \n    # Goal unreachable\n    return (float(\"inf\"), [])\n```",
+    "usage": {
+      "input_tokens": 194,
+      "latency_s": 91.119,
+      "model": "qwen3.5:4b",
+      "output_tokens": 532,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

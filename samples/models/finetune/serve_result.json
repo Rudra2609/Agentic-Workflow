@@ -1,0 +1,10 @@
+{
+ "adapter": "samples/models/finetune/adapters/ft-20261101-2318-e599",
+ "mlx_server": "uv run --no-project --with mlx-lm>=0.28 python -m mlx_lm server --model mlx-community/Qwen3.5-4B-MLX-4bit --adapter-path /Volumes/Tirth_SSD/IT_314_Project_Group23/samples/models/finetune/adapters/ft-20261101-2318-e599 --host 127.0.0.1 --port 8080",
+ "mlx_env": "HF_HOME=/Volumes/Tirth_SSD/hf_cache",
+ "ollama": {
+  "ok": false,
+  "model": null,
+  "output": "\u001b[?2026h\u001b[?25l\u001b[1G\u001b[?25h\u001b[?2026l\nError: LoRA adapters are no longer supported"
+ }
+}

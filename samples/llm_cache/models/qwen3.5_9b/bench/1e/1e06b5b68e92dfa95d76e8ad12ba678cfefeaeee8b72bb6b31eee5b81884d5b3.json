@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "1e06b5b68e92dfa95d76e8ad12ba678cfefeaeee8b72bb6b31eee5b81884d5b3",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `to_roman(n: int) -> str` and `from_roman(s: str) -> int`.\n\n- `to_roman` handles 1..3999 using standard subtractive notation (4 = IV, 9 = IX, 40 = XL, 90 = XC, 400 = CD, 900 = CM);\n  raise `ValueError` outside that range.\n- `from_roman` accepts only upper-case numerals in canonical form (exactly what `to_roman` would produce) and raises\n  `ValueError` for anything else, e.g. `\"IIII\"`, `\"IC\"`, `\"VX\"`, `\"\"`, `\"iv\"`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.052591+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `to_roman(n: int) -> str` and `from_roman(s: str) -> int`.\n\n- `to_roman` handles 1..3999 using standard subtractive notation (4 = IV, 9 = IX, 40 = XL, 90 = XC, 400 = CD, 900 = CM);\n  raise `ValueError` outside that range.\n- `from_roman` accepts only upper-case numerals in canonical form (exactly what `to_roman` would produce) and raises\n  `ValueError` for anything else, e.g. `\"IIII\"`, `\"IC\"`, `\"VX\"`, `\"\"`, `\"iv\"`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport re\n\n# Mapping of Roman numeral symbols to their integer values\nROMAN_VALUES = {\n    'I': 1,\n    'V': 5,\n    'X': 10,\n    'L': 50,\n    'C': 100,\n    'D': 500,\n    'M': 1000\n}\n\n# Valid Roman numeral symbols for input validation\nVALID_ROMAN_CHARS = set(ROMAN_VALUES.keys())\n\ndef to_roman(n: int) -> str:\n    \"\"\"\n    Convert an integer to a Roman numeral string.\n    \n    Args:\n        n (int): The integer to convert (must be between 1 and 3999 inclusive).\n        \n    Returns:\n        str: The Roman numeral representation.\n        \n    Raises:\n        ValueError: If n is outside the range [1, 3999].\n    \"\"\"\n    if not isinstance(n, int):\n        raise TypeError(\"Input must be an integer.\")\n    \n    if n < 1 or n > 3999:\n        raise ValueError(\"Input must be between 1 and 3999 inclusive.\")\n\n    # Mapping of values to Roman numerals in descending order, including subtractive forms\n    val_to_roman = [\n        (1000, 'M'),\n        (900, 'CM'),\n        (500, 'D'),\n        (400, 'CD'),\n        (100, 'C'),\n        (90, 'XC'),\n        (50, 'L'),\n        (40, 'XL'),\n        (10, 'X'),\n        (9, 'IX'),\n        (5, 'V'),\n        (4, 'IV'),\n        (1, 'I')\n    ]\n\n    result = []\n    for value, numeral in val_to_roman:\n        while n >= value:\n            n -= value\n            result.append(numeral)\n    \n    return ''.join(result)\n\n\ndef from_roman(s: str) -> int:\n    \"\"\"\n    Convert a Roman numeral string to an integer.\n    \n    This function strictly accepts only canonical Roman numerals (those produced by `to_roman`).\n    It rejects non-canonical forms like \"IIII\", subtractive pairs in wrong order (\"IC\"),\n    invalid characters, or empty strings.\n    \n    Args:\n        s (str): The Roman numeral string to convert.\n        \n    Returns:\n        int: The integer value of the Roman numeral.\n        \n    Raises:\n        ValueError: If the string is empty, contains invalid characters, \n                    or represents a non-canonical form.\n    \"\"\"\n    if not isinstance(s, str):\n        raise TypeError(\"Input must be a string.\")\n    \n    if s == \"\":\n        raise ValueError(\"Input string cannot be empty.\")\n\n    # Check for valid uppercase Roman characters only\n    if not all(char in VALID_ROMAN_CHARS for char in s):\n        raise ValueError(\"Input contains invalid characters or is not uppercase.\")\n\n    # Calculate the value assuming standard left-to-right addition/subtraction logic\n    # This handles canonical forms correctly. However, we must also ensure it's canonical.\n    # A simple way to check canonicity is to generate the expected string for this value\n    # and compare it to the input. If they match, it's canonical.\n    \n    try:\n        value = 0\n        prev_value = 0\n        \n        # First pass: calculate raw value based on standard rules (IV -> -1 + 5)\n        # This logic works for both canonical and non-canonical strings like IC or IIII\n        # if we just sum/subtract. But \"IIII\" would be 4, which is valid value but invalid form.\n        # So we calculate the value first.\n        \n        raw_value = 0\n        for char in s:\n            curr_value = ROMAN_VALUES[char]\n            if curr_value < prev_value:\n                raw_value -= curr_value\n            else:\n                raw_value += curr_value\n            prev_value = curr_value\n            \n        # Now verify that this string is actually the canonical representation of `raw_value`\n        expected_roman = to_roman(raw_value)\n        \n        if s != expected_roman:\n            raise ValueError(f\"Non-canonical Roman numeral: '{s}'\")\n            \n        return raw_value\n        \n    except KeyError:\n        # Should be caught by the character check, but for safety\n        raise ValueError(\"Input contains invalid characters.\")\n```",
+    "usage": {
+      "input_tokens": 222,
+      "latency_s": 156.594,
+      "model": "qwen3.5:9b",
+      "output_tokens": 1000,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

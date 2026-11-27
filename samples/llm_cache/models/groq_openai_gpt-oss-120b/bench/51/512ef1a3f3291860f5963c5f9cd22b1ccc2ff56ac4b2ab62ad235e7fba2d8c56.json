@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "512ef1a3f3291860f5963c5f9cd22b1ccc2ff56ac4b2ab62ad235e7fba2d8c56",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write two functions on a list sorted in non-decreasing order, using binary search\n(do not use the `bisect` module and do not scan the list linearly):\n\n- `insert_position(xs: list[int], x: int) -> int` — the leftmost index where `x` could be inserted keeping the list sorted.\n- `count_occurrences(xs: list[int], x: int) -> int` — how many times `x` appears.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:46:15.880714+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write two functions on a list sorted in non-decreasing order, using binary search\n(do not use the `bisect` module and do not scan the list linearly):\n\n- `insert_position(xs: list[int], x: int) -> int` — the leftmost index where `x` could be inserted keeping the list sorted.\n- `count_occurrences(xs: list[int], x: int) -> int` — how many times `x` appears.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nProvides two binary‑search based utilities for sorted integer lists:\n\n* insert_position(xs, x) → int\n* count_occurrences(xs, x) → int\n\"\"\"\n\nfrom __future__ import annotations\nfrom typing import List\n\n__all__ = [\"insert_position\", \"count_occurrences\"]\n\n\ndef _lower_bound(xs: List[int], x: int) -> int:\n    \"\"\"\n    Return the index of the first element in ``xs`` that is not less than ``x``.\n    Equivalent to bisect_left but implemented manually.\n    \"\"\"\n    lo, hi = 0, len(xs)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if xs[mid] < x:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n\n\ndef _upper_bound(xs: List[int], x: int) -> int:\n    \"\"\"\n    Return the index of the first element in ``xs`` that is greater than ``x``.\n    Equivalent to bisect_right but implemented manually.\n    \"\"\"\n    lo, hi = 0, len(xs)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if xs[mid] <= x:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n\n\ndef insert_position(xs: List[int], x: int) -> int:\n    \"\"\"\n    Return the leftmost index where ``x`` could be inserted into the\n    non‑decreasing list ``xs`` while keeping it sorted.\n\n    Parameters\n    ----------\n    xs : list[int]\n        A list sorted in non‑decreasing order.\n    x : int\n        The value to insert.\n\n    Returns\n    -------\n    int\n        The index at which ``x`` should be inserted.\n    \"\"\"\n    return _lower_bound(xs, x)\n\n\ndef count_occurrences(xs: List[int], x: int) -> int:\n    \"\"\"\n    Return the number of times ``x`` appears in the sorted list ``xs``.\n\n    Parameters\n    ----------\n    xs : list[int]\n        A list sorted in non‑decreasing order.\n    x : int\n        The value to count.\n\n    Returns\n    -------\n    int\n        How many times ``x`` occurs in ``xs``.\n    \"\"\"\n    left = _lower_bound(xs, x)\n    right = _upper_bound(xs, x)\n    return right - left\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 217,
+      "latency_s": 1.4202,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 539,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

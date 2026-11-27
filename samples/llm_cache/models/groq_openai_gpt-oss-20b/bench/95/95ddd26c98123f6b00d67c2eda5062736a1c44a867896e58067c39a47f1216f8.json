@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "95ddd26c98123f6b00d67c2eda5062736a1c44a867896e58067c39a47f1216f8",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `BankAccount` and an exception class `InsufficientFunds(Exception)`.\n\n- `BankAccount(owner: str, balance: float = 0)` — raise `ValueError` if the starting balance is negative.\n- `deposit(amount)` and `withdraw(amount)`: raise `ValueError` if amount <= 0;\n  `withdraw` raises `InsufficientFunds` if amount is larger than the balance (balance unchanged).\n- `balance` is a read-only property.\n- `history` is a list of `(\"deposit\", amount)` / `(\"withdraw\", amount)` tuples for successful operations only, in order.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:40.797992+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `BankAccount` and an exception class `InsufficientFunds(Exception)`.\n\n- `BankAccount(owner: str, balance: float = 0)` — raise `ValueError` if the starting balance is negative.\n- `deposit(amount)` and `withdraw(amount)`: raise `ValueError` if amount <= 0;\n  `withdraw` raises `InsufficientFunds` if amount is larger than the balance (balance unchanged).\n- `balance` is a read-only property.\n- `history` is a list of `(\"deposit\", amount)` / `(\"withdraw\", amount)` tuples for successful operations only, in order.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nclass InsufficientFunds(Exception):\n    \"\"\"Raised when attempting to withdraw more than the available balance.\"\"\"\n    pass\n\n\nclass BankAccount:\n    def __init__(self, owner: str, balance: float = 0):\n        if balance < 0:\n            raise ValueError(\"Starting balance cannot be negative\")\n        self.owner = owner\n        self._balance = float(balance)\n        self._history = []\n\n    @property\n    def balance(self) -> float:\n        \"\"\"Current account balance (read‑only).\"\"\"\n        return self._balance\n\n    @property\n    def history(self):\n        \"\"\"List of successful transactions as tuples: ('deposit'/'withdraw', amount).\"\"\"\n        return list(self._history)\n\n    def deposit(self, amount: float):\n        if amount <= 0:\n            raise ValueError(\"Deposit amount must be positive\")\n        self._balance += amount\n        self._history.append((\"deposit\", amount))\n\n    def withdraw(self, amount: float):\n        if amount <= 0:\n            raise ValueError(\"Withdrawal amount must be positive\")\n        if amount > self._balance:\n            raise InsufficientFunds(\"Insufficient funds for withdrawal\")\n        self._balance -= amount\n        self._history.append((\"withdraw\", amount))\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 252,
+      "latency_s": 0.8096,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 302,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "363d94233e2566bb10182e73aa25f01f165e9ae6f9da90c4a1f2036d7f5fda06",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `async def gather_limited(factories, limit: int) -> list` using `asyncio`.\n\n`factories` is a list of zero-argument functions; calling one returns a new awaitable (coroutine).\nRun them so that at most `limit` are in progress at the same time, and return their results in the same order as `factories`.\nIf any of them raises, the exception must propagate out of `gather_limited`. Raise `ValueError` if `limit < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:48:04.668473+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `async def gather_limited(factories, limit: int) -> list` using `asyncio`.\n\n`factories` is a list of zero-argument functions; calling one returns a new awaitable (coroutine).\nRun them so that at most `limit` are in progress at the same time, and return their results in the same order as `factories`.\nIf any of them raises, the exception must propagate out of `gather_limited`. Raise `ValueError` if `limit < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nProvides ``gather_limited`` – run a collection of coroutine factories with a\nconcurrency limit.\n\nThe implementation uses only the Python standard library (asyncio) and\npreserves the order of results.  If any coroutine raises, the exception is\npropagated and the remaining pending coroutines are cancelled.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport asyncio\nfrom typing import Awaitable, Callable, List\n\n__all__ = [\"gather_limited\"]\n\n\nasync def gather_limited(\n    factories: List[Callable[[], Awaitable]],\n    limit: int,\n) -> List:\n    \"\"\"\n    Run coroutine factories with a maximum of ``limit`` concurrent executions.\n\n    Parameters\n    ----------\n    factories:\n        A list of zero‑argument callables.  Calling a factory returns an awaitable\n        (typically a coroutine object) that produces the desired result.\n    limit:\n        Maximum number of coroutines that may be running at the same time.\n        Must be a positive integer; otherwise ``ValueError`` is raised.\n\n    Returns\n    -------\n    List\n        Results from the factories in the same order as ``factories``.\n\n    Raises\n    ------\n    ValueError\n        If ``limit`` is less than 1.\n    Exception\n        Any exception raised by one of the awaitables is propagated.\n    \"\"\"\n    if limit < 1:\n        raise ValueError(\"limit must be >= 1\")\n\n    # Fast path – no work to do.\n    if not factories:\n        return []\n\n    semaphore = asyncio.Semaphore(limit)\n    results: List = [None] * len(factories)  # pre‑allocate result list\n\n    async def _worker(idx: int, factory: Callable[[], Awaitable]) -> None:\n        \"\"\"Execute a single factory respecting the semaphore and store its result.\"\"\"\n        async with semaphore:\n            # The factory is called inside the semaphore block so that the\n            # coroutine it returns starts only when we have acquired a slot.\n            results[idx] = await factory()\n\n    # Create a task for each factory.\n    tasks = [asyncio.create_task(_worker(i, f)) for i, f in enumerate(factories)]\n\n    # Await all tasks; if any raises, asyncio.gather will re‑raise the first\n    # exception and cancel the remaining ones.\n    await asyncio.gather(*tasks, return_exceptions=False)\n\n    return results\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 231,
+      "latency_s": 1.6412,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 626,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

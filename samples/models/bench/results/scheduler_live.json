@@ -1,0 +1,16 @@
+{
+ "calls": 20,
+ "errors": [],
+ "seconds": 25.2,
+ "stats": {
+  "calls": 16,
+  "switches": 1,
+  "unloads": 1,
+  "refused": 0,
+  "max_queue": 15,
+  "waited_s": 231.18061020800008
+ },
+ "budget_gb": 8.7,
+ "peak_used_gb": 14.81,
+ "peak_swap_gb": 3.13
+}

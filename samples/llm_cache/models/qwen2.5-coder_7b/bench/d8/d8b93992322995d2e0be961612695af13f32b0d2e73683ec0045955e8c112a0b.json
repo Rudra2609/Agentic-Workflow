@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "key": "d8b93992322995d2e0be961612695af13f32b0d2e73683ec0045955e8c112a0b",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: Insertion sort is efficient on nearly sorted inputs.\nQUOTE: Insertion sort runs in O(n + d) time, where d is the number of inversions, which makes it fast when the input is already almost sorted.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.953848+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: Insertion sort is efficient on nearly sorted inputs.\nQUOTE: Insertion sort runs in O(n + d) time, where d is the number of inversions, which makes it fast when the input is already almost sorted.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "{ \"rationale\": \"The quote supports the claim by explaining that insertion sort's time complexity is O(n + d), where d is the number of inversions. When the input is nearly sorted, the number of inversions (d) is small, making the algorithm efficient.\", \"verdict\": \"SUPPORTED\" }",
+    "usage": {
+      "input_tokens": 122,
+      "latency_s": 10.668,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 67,
+      "provider": "ollama"
+    }
+  },
+  "role": "judge"
+}

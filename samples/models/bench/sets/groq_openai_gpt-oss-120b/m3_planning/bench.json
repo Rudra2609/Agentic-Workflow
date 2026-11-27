@@ -1,0 +1,1726 @@
+{
+ "mode": "live",
+ "local_only": false,
+ "summary": {
+  "cases": 9,
+  "validity": 1.0,
+  "coverage": 1.0,
+  "fully_covered_or_flagged": 9,
+  "flags": {
+   "precision": 0.75,
+   "recall": 1.0
+  },
+  "steps": {
+   "precision": 0.725,
+   "recall": 0.833,
+   "f1": 0.775
+  },
+  "dependencies": {
+   "precision": 0.932,
+   "recall": 0.924,
+   "f1": 0.928
+  },
+  "must_edge_recall": 0.957,
+  "invented_capabilities": 0,
+  "kind_correct": 9,
+  "repairs": 3,
+  "tasks_mean": 11.7,
+  "llm_calls": 11,
+  "fallbacks": 1,
+  "answered_by": {
+   "groq:openai/gpt-oss-120b": 11
+  },
+  "seconds_total": 28.9,
+  "seconds_mean": 3.21,
+  "replans": {
+   "applied": 2,
+   "kept": 2,
+   "valid": 2,
+   "total": 2
+  }
+ },
+ "replans": [
+  {
+   "case": "tcp_chat",
+   "feedback": "Don't use threads; use asyncio for all networking.",
+   "method": "llm",
+   "fallbacks": [],
+   "valid": true,
+   "finished_kept": true,
+   "covered": true,
+   "applied": true,
+   "steps_before": 15,
+   "steps_after": 16,
+   "repairs": [
+    "added T12 (feedback)"
+   ],
+   "seconds": 1.74
+  },
+  {
+   "case": "long_lab",
+   "feedback": "Merge the command-line interface steps into a single build step.",
+   "method": "llm",
+   "fallbacks": [],
+   "valid": true,
+   "finished_kept": true,
+   "covered": true,
+   "applied": true,
+   "steps_before": 18,
+   "steps_after": 17,
+   "repairs": [
+    "removed T4 (feedback)",
+    "removed T7 (feedback)",
+    "added T15 (feedback)"
+   ],
+   "seconds": 1.4
+  }
+ ],
+ "cases": [
+  {
+   "case": "tcp_chat",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 13,
+   "must_ok": 13,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 11,
+   "seconds": 3.39,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.857,
+    "recall": 0.667,
+    "f1": 0.75,
+    "tp": 6,
+    "fp": 1,
+    "fn": 3
+   },
+   "deps": {
+    "precision": 0.976,
+    "recall": 0.976,
+    "f1": 0.976,
+    "tp": 41,
+    "fp": 1,
+    "fn": 1
+   }
+  },
+  {
+   "case": "lab_manual",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 6,
+   "must_ok": 6,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 9,
+   "seconds": 2.67,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.8,
+    "recall": 0.667,
+    "f1": 0.727,
+    "tp": 4,
+    "fp": 1,
+    "fn": 2
+   },
+   "deps": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 28,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  {
+   "case": "rubric",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 2,
+   "must_ok": 2,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 5,
+   "seconds": 0.0,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 1,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 1,
+    "fp": 0,
+    "fn": 0
+   },
+   "deps": {
+    "precision": 1.0,
+    "recall": 0.7,
+    "f1": 0.824,
+    "tp": 7,
+    "fp": 0,
+    "fn": 3
+   }
+  },
+  {
+   "case": "project_brief",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 14,
+   "must_ok": 12,
+   "must_missed": [
+    "build:R2 -> build:R5",
+    "build:R4 -> build:R1"
+   ],
+   "invented": 0,
+   "tasks": 16,
+   "seconds": 4.32,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.75,
+    "recall": 0.9,
+    "f1": 0.818,
+    "tp": 9,
+    "fp": 3,
+    "fn": 1
+   },
+   "deps": {
+    "precision": 0.857,
+    "recall": 0.857,
+    "f1": 0.857,
+    "tp": 54,
+    "fp": 9,
+    "fn": 9
+   }
+  },
+  {
+   "case": "multipart",
+   "valid": true,
+   "repairs": 1,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 10,
+   "must_ok": 10,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 15,
+   "seconds": 4.51,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.727,
+    "recall": 0.8,
+    "f1": 0.762,
+    "tp": 8,
+    "fp": 3,
+    "fn": 2
+   },
+   "deps": {
+    "precision": 0.915,
+    "recall": 0.982,
+    "f1": 0.947,
+    "tp": 54,
+    "fp": 5,
+    "fn": 1
+   }
+  },
+  {
+   "case": "request",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 7,
+   "must_ok": 7,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 8,
+   "seconds": 2.08,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 4,
+    "fp": 0,
+    "fn": 0
+   },
+   "deps": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 28,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  {
+   "case": "long_lab",
+   "valid": true,
+   "repairs": 2,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 26,
+   "must_ok": 24,
+   "must_missed": [
+    "build:R8 -> build:R16",
+    "build:R10 -> build:R16"
+   ],
+   "invented": 0,
+   "tasks": 19,
+   "seconds": 5.73,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.6,
+    "recall": 0.9,
+    "f1": 0.72,
+    "tp": 9,
+    "fp": 6,
+    "fn": 1
+   },
+   "deps": {
+    "precision": 0.887,
+    "recall": 0.821,
+    "f1": 0.853,
+    "tp": 55,
+    "fp": 7,
+    "fn": 12
+   }
+  },
+  {
+   "case": "adversarial",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 8,
+   "must_ok": 8,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 9,
+   "seconds": 2.48,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 0.667,
+    "recall": 1.0,
+    "f1": 0.8,
+    "tp": 2,
+    "fp": 1,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.8,
+    "recall": 0.8,
+    "f1": 0.8,
+    "tp": 4,
+    "fp": 1,
+    "fn": 1
+   },
+   "deps": {
+    "precision": 1.0,
+    "recall": 0.964,
+    "f1": 0.982,
+    "tp": 27,
+    "fp": 0,
+    "fn": 1
+   }
+  },
+  {
+   "case": "essay",
+   "valid": true,
+   "repairs": 0,
+   "coverage": 1.0,
+   "uncovered": [],
+   "must_total": 7,
+   "must_ok": 7,
+   "must_missed": [],
+   "invented": 0,
+   "tasks": 13,
+   "seconds": 3.69,
+   "kind_ok": true,
+   "notes": [],
+   "flags": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "steps": {
+    "precision": 0.556,
+    "recall": 1.0,
+    "f1": 0.714,
+    "tp": 5,
+    "fp": 4,
+    "fn": 0
+   },
+   "deps": {
+    "precision": 0.944,
+    "recall": 1.0,
+    "f1": 0.971,
+    "tp": 34,
+    "fp": 2,
+    "fn": 0
+   }
+  }
+ ],
+ "plans": {
+  "tcp_chat": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement core chat server",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "R7"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Add private messaging and history",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R5",
+      "R6"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Test core server functionality",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "R7"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Test private messaging and history",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R5",
+      "R6"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Measure message latency",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R8"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Prepare README",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T3",
+      "T4",
+      "T5"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Prepare Design and test report",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T3",
+      "T4",
+      "T5"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T6",
+      "T7"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  },
+  "lab_manual": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Add unit tests for parse_date",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "R6"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Add optional Hypothesis property tests",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R6"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Measure coverage for dates.py",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R5"
+     ],
+     "after": [
+      "T4"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Run pytest to verify tests",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R7"
+     ],
+     "after": [
+      "T4"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Prepare coverage report screenshot",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T3"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T5"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": [
+    "Should the extra credit property-based tests be counted towards the minimum of five unit tests?"
+   ]
+  },
+  "rubric": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "T1",
+     "title": "Prepare design document",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T1",
+      "design"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  },
+  "project_brief": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement event browsing",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Implement organiser event management",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R4"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Implement booking and cancellation",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Make UI mobile\u2011responsive",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R8"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Add CSV attendee export",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R5"
+     ],
+     "after": [
+      "T3"
+     ]
+    },
+    {
+     "id": "T10",
+     "title": "Test non\u2011functional requirements",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R7",
+      "R8",
+      "R9"
+     ],
+     "after": [
+      "T6"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Test core event functionality",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R2",
+      "R3"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T8",
+     "title": "Test organiser management and export",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R4",
+      "R5"
+     ],
+     "after": [
+      "T4"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Implement reminder email feature",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R6"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T9",
+     "title": "Test reminder email delivery",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R6"
+     ],
+     "after": [
+      "T5"
+     ]
+    },
+    {
+     "id": "T11",
+     "title": "Prepare Requirements specification",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T7",
+      "T8",
+      "T9",
+      "T10"
+     ]
+    },
+    {
+     "id": "T12",
+     "title": "Prepare Test report",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T7",
+      "T8",
+      "T9",
+      "T10"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T11",
+      "T12"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": [
+    "Is there a specific email service or library that must be used for sending reminder emails?"
+   ]
+  },
+  "multipart": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Part A: Implement: Draw an ER diagram for the hostel booking system",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Part B: Implement booking REST endpoints",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R3",
+      "R4",
+      "R6"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Part A: Check: Draw an ER diagram for the hostel booking system",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Check quality of Part A",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R2"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Part B: Add token authentication to API",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R5"
+     ],
+     "after": [
+      "T4"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Part B: Test booking endpoint functionality",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R3",
+      "R4",
+      "R6"
+     ],
+     "after": [
+      "T4"
+     ]
+    },
+    {
+     "id": "T8",
+     "title": "Part C: Write integration tests for endpoints",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R7"
+     ],
+     "after": [
+      "T5"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Part B: Test token authentication enforcement",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R5"
+     ],
+     "after": [
+      "T5"
+     ]
+    },
+    {
+     "id": "T9",
+     "title": "Part C: Configure CI pipeline to run tests",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R8"
+     ],
+     "after": [
+      "T8"
+     ]
+    },
+    {
+     "id": "T10",
+     "title": "Prepare diagram",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T3",
+      "T6",
+      "T7",
+      "T9"
+     ]
+    },
+    {
+     "id": "T11",
+     "title": "Prepare test report",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T2",
+      "T3",
+      "T6",
+      "T7",
+      "T9"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T10",
+      "T11"
+     ]
+    }
+   ],
+   "repairs": [
+    "T8 had no predecessor: now after T1, T4, T5"
+   ],
+   "questions": []
+  },
+  "request": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement task list UI",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Add persistence with localStorage",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R2"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Test task list functionality and persistence",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R2"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Write the README",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T3"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T4"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  },
+  "long_lab": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement domain model classes",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R7",
+      "R3",
+      "R4",
+      "R5",
+      "R6"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T11",
+     "title": "Implement: Identify the actors that interact with the gara\u2026",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T13",
+     "title": "Implement: For each actor, describe at least two goals in\u2026",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R2"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T9",
+     "title": "Write unit tests for spot assignment and fee calculation",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R16"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Implement parking allocation logic",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R8",
+      "R11",
+      "R12"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T10",
+     "title": "Run unit tests and ensure they pass",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R16"
+     ],
+     "after": [
+      "T9"
+     ]
+    },
+    {
+     "id": "T12",
+     "title": "Check: Identify the actors that interact with the garage\u2026",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1"
+     ],
+     "after": [
+      "T11"
+     ]
+    },
+    {
+     "id": "T14",
+     "title": "Check: For each actor, describe at least two goals in on\u2026",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R2"
+     ],
+     "after": [
+      "T13"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Test domain model integrity",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R3",
+      "R4",
+      "R5",
+      "R6"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Implement ticket issuance and fee calculation",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R9",
+      "R10",
+      "R12"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Test parking allocation and spot freeing",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R8",
+      "R11"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Implement command\u2011line interface",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R13",
+      "R14",
+      "R15"
+     ],
+     "after": [
+      "T3"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Test ticket issuance and fee calculation",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R9",
+      "R10"
+     ],
+     "after": [
+      "T3"
+     ]
+    },
+    {
+     "id": "T8",
+     "title": "Test command\u2011line interface functions",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R13",
+      "R14",
+      "R15"
+     ],
+     "after": [
+      "T4"
+     ]
+    },
+    {
+     "id": "T15",
+     "title": "Prepare class diagram",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T5",
+      "T6",
+      "T7",
+      "T8",
+      "T10",
+      "T12",
+      "T14"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T15"
+     ]
+    }
+   ],
+   "repairs": [
+    "R1 was not in any step: added rule-made steps T11, T12",
+    "R2 was not in any step: added rule-made steps T13, T14"
+   ],
+   "questions": []
+  },
+  "adversarial": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the approach",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Design the solution",
+     "phase": "design",
+     "capability": "code.implement",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Implement user registration with hashed passwords",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R1",
+      "R6"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Implement password reset via email",
+     "phase": "implement",
+     "capability": "code.implement",
+     "requirements": [
+      "R2"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Test registration and password hashing",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R1",
+      "R6"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Test password reset flow",
+     "phase": "test",
+     "capability": "test.run",
+     "requirements": [
+      "R2"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Prepare User guide",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T3",
+      "T4"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T5"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": [
+    "Which email provider may be used?",
+    "Is R3 right? It was read with low confidence: \"The app should be deployed to AWS.\""
+   ]
+  },
+  "essay": {
+   "tasks": [
+    {
+     "id": "research",
+     "title": "Research the topic",
+     "phase": "research",
+     "capability": "research.run",
+     "requirements": [],
+     "after": []
+    },
+    {
+     "id": "verify",
+     "title": "Check the research findings",
+     "phase": "research",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "research"
+     ]
+    },
+    {
+     "id": "design",
+     "title": "Outline the document",
+     "phase": "design",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "verify"
+     ]
+    },
+    {
+     "id": "T1",
+     "title": "Draft report outline and introduction",
+     "phase": "implement",
+     "capability": "docs.generate",
+     "requirements": [
+      "R1"
+     ],
+     "after": [
+      "design"
+     ]
+    },
+    {
+     "id": "T2",
+     "title": "Write branching and merging analysis",
+     "phase": "implement",
+     "capability": "docs.generate",
+     "requirements": [
+      "R2"
+     ],
+     "after": [
+      "T1"
+     ]
+    },
+    {
+     "id": "T3",
+     "title": "Add academic references and citations",
+     "phase": "implement",
+     "capability": "docs.generate",
+     "requirements": [
+      "R3"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T5",
+     "title": "Create optional workflow diagrams",
+     "phase": "implement",
+     "capability": "docs.generate",
+     "requirements": [
+      "R5"
+     ],
+     "after": [
+      "T2"
+     ]
+    },
+    {
+     "id": "T4",
+     "title": "Write conclusion summarising findings",
+     "phase": "implement",
+     "capability": "docs.generate",
+     "requirements": [
+      "R4"
+     ],
+     "after": [
+      "T3"
+     ]
+    },
+    {
+     "id": "T6",
+     "title": "Verify word count and APA compliance",
+     "phase": "test",
+     "capability": "verify.claims",
+     "requirements": [],
+     "after": [
+      "T4",
+      "T5"
+     ]
+    },
+    {
+     "id": "T7",
+     "title": "Confirm presence of required references",
+     "phase": "test",
+     "capability": "verify.claims",
+     "requirements": [
+      "R3"
+     ],
+     "after": [
+      "T4",
+      "T5"
+     ]
+    },
+    {
+     "id": "T8",
+     "title": "Validate branching/merging discussion",
+     "phase": "test",
+     "capability": "verify.claims",
+     "requirements": [
+      "R2"
+     ],
+     "after": [
+      "T4",
+      "T5"
+     ]
+    },
+    {
+     "id": "T9",
+     "title": "Prepare Report",
+     "phase": "document",
+     "capability": "docs.generate",
+     "requirements": [],
+     "after": [
+      "T6",
+      "T7",
+      "T8"
+     ]
+    },
+    {
+     "id": "review",
+     "title": "Final review",
+     "phase": "review",
+     "capability": "review.final",
+     "requirements": [],
+     "after": [
+      "T9"
+     ]
+    }
+   ],
+   "repairs": [],
+   "questions": []
+  }
+ }
+}

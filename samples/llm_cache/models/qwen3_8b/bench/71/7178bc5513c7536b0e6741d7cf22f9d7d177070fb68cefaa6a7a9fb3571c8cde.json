@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "7178bc5513c7536b0e6741d7cf22f9d7d177070fb68cefaa6a7a9fb3571c8cde",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `LRUCache`:\n\n- `LRUCache(capacity: int)` — raise `ValueError` if capacity < 1.\n- `get(key) -> value`, returning `-1` if the key is missing. A successful get marks the key as most recently used.\n- `put(key, value)` — insert or update; updating also marks the key as most recently used.\n  When inserting a new key into a full cache, first evict the least recently used key.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.088536+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `LRUCache`:\n\n- `LRUCache(capacity: int)` — raise `ValueError` if capacity < 1.\n- `get(key) -> value`, returning `-1` if the key is missing. A successful get marks the key as most recently used.\n- `put(key, value)` — insert or update; updating also marks the key as most recently used.\n  When inserting a new key into a full cache, first evict the least recently used key.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3:8b"
+  },
+  "response": {
+    "text": "```python\nfrom collections import OrderedDict\n\nclass LRUCache:\n    def __init__(self, capacity: int):\n        if capacity < 1:\n            raise ValueError(\"Capacity must be at least 1\")\n        self.capacity = capacity\n        self.cache = OrderedDict()\n\n    def get(self, key):\n        if key in self.cache:\n            value = self.cache[key]\n            self.cache.move_to_end(key)\n            return value\n        return -1\n\n    def put(self, key, value):\n        if key in self.cache:\n            self.cache.move_to_end(key)\n        else:\n            if len(self.cache) >= self.capacity:\n                self.cache.popitem(last=False)\n        self.cache[key] = value\n```",
+    "usage": {
+      "input_tokens": 172,
+      "latency_s": 73.374,
+      "model": "qwen3:8b",
+      "output_tokens": 148,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

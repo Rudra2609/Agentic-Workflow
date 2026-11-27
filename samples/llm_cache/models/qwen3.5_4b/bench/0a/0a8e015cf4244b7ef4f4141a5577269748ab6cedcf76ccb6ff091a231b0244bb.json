@@ -1,0 +1,374 @@
+{
+  "format": 1,
+  "key": "0a8e015cf4244b7ef4f4141a5577269748ab6cedcf76ccb6ff091a231b0244bb",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "hi everyone, quick note about the OS mini project since a few of you asked after class. you'll be writing your own\nunix shell in C. it should run external programs with their arguments, obviously, and it has to handle a pipe between\ntwo commands like ls | wc -l. please also do input and output redirection with < and >, and running a job in the\nbackground with & at the end of the line. you need the built-ins cd, exit and history (history just prints the last 10\ncommands). pressing ctrl+c should stop the running program but must never kill the shell itself.\n\nyou must use fork, exec and wait yourselves - calling system() anywhere means zero for that part. submit the source\nwith a Makefile, and you'll demo it to the TA during the lab viva.\n\nmarking: half the marks (50) are for running commands and pipes, 20 for redirection, 15 for the built-ins and history,\nand the remaining 15 for signal handling. good luck!\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.979195+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "hi everyone, quick note about the OS mini project since a few of you asked after class. you'll be writing your own\nunix shell in C. it should run external programs with their arguments, obviously, and it has to handle a pipe between\ntwo commands like ls | wc -l. please also do input and output redirection with < and >, and running a job in the\nbackground with & at the end of the line. you need the built-ins cd, exit and history (history just prints the last 10\ncommands). pressing ctrl+c should stop the running program but must never kill the shell itself.\n\nyou must use fork, exec and wait yourselves - calling system() anywhere means zero for that part. submit the source\nwith a Makefile, and you'll demo it to the TA during the lab viva.\n\nmarking: half the marks (50) are for running commands and pipes, 20 for redirection, 15 for the built-ins and history,\nand the remaining 15 for signal handling. good luck!\n",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "{\n  \"requirements\": [\n    {\n      \"id\": \"R1\",\n      \"text\": \"run external programs with their arguments\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"it should run external programs with their arguments, obviously\"\n    },\n    {\n      \"id\": \"R2\",\n      \"text\": \"handle a pipe between two commands like ls | wc -l\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"and it has to handle a pipe between two commands like ls | wc -l\"\n    },\n    {\n      \"id\": \"R3\",\n      \"text\": \"handle input redirection with <\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"please also do input and output redirection with < and >\"\n    },\n    {\n      \"id\": \"R4\",\n      \"text\": \"handle output redirection with >\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"please also do input and output redirection with < and >\"\n    },\n    {\n      \"id\": \"R5\",\n      \"text\": \"run a job in the background with & at the end of the line\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"and running a job in the background with & at the end of the line\"\n    },\n    {\n      \"id\": \"R6\",\n      \"text\": \"implement built-in cd command\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"you need the built-ins cd, exit and history\"\n    },\n    {\n      \"id\": \"R7\",\n      \"text\": \"implement built-in exit command\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"you need the built-ins cd, exit and history\"\n    },\n    {\n      \"id\": \"R8\",\n      \"text\": \"implement built-in history command that prints the last 10 commands\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"(history just prints the last 10 commands)\"\n    },\n    {\n      \"id\": \"R9\",\n      \"text\": \"stop running programs on ctrl+c without killing the shell itself\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"pressing ctrl+c should stop the running program but must never kill the shell itself\"\n    },\n    {\n      \"id\": \"R10\",\n      \"text\": \"use fork, exec and wait\",\n      \"type\": \"functional\",\"priority\": \"must\",\"source_quote\": \"you must use fork, exec and wait yourselves\"\n    }\n  ],\n  \"constraints\": [\n    {\n      \"id\": \"C1\",\n      \"text\": \"Do not call system()\",\n      \"kind\": \"format\"\n    },\n    {\n      \"id\": \"C2\",\n      \"text\": \"Submit source with a Makefile\",\n      \"kind\": \"format\"\n    }\n  ],\n  \"deliverables\": [\n    {\n      \"id\": \"D1\",\n      \"name\": \"Source code and Makefile\",\n      \"format\": \"source files + Makefile\"\n    },\n    {\n      \"id\": \"D2\",\n      \"name\": \"Lab viva demo\",\n      \"format\": \"presentation to TA\"\n    }\n  ],\n  \"evaluation_criteria\": [\n    {\n      \"id\": \"E1\",\n      \"criterion\": \"Running commands and pipes\",\n      \"max_marks\": 50\n    },\n    {\n      \"id\": \"E2\",\n      \"criterion\": \"Redirection\",\n      \"max_marks\": 20\n    },\n    {\n      \"id\": \"E3\",\n      \"criterion\": \"Built-ins and history\",\n      \"max_marks\": 15\n    },\n    {\n      \"id\": \"E4\",\n      \"criterion\": \"Signal handling\",\n      \"max_marks\": 15\n    }\n  ],\"open_questions\": []}",
+    "usage": {
+      "input_tokens": 339,
+      "latency_s": 93.917,
+      "model": "qwen3.5:4b",
+      "output_tokens": 955,
+      "provider": "ollama"
+    }
+  },
+  "role": "reasoner"
+}

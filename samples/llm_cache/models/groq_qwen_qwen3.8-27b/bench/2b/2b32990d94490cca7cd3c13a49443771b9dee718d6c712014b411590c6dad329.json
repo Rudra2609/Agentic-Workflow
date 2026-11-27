@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "2b32990d94490cca7cd3c13a49443771b9dee718d6c712014b411590c6dad329",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a tiny URL router with exception classes `NotFound(Exception)` and `MethodNotAllowed(Exception)`.\n\n- `Router()`; `add(method: str, pattern: str, handler)` registers a route. Patterns look like `/users/{id}/posts`;\n  a `{name}` segment matches exactly one non-empty path segment.\n- `dispatch(method: str, path: str) -> tuple[handler, dict[str, str]]` returns the handler and the captured parameters.\n  Paths and patterns must have the same number of segments. A trailing slash is ignored (`/users/` == `/users`).\n- When both a static route and a parameter route match a path (e.g. `/users/me` and `/users/{id}`), the static one wins.\n- Raise `MethodNotAllowed` if some route matches the path but not the method, and `NotFound` if no route matches the path.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:43:58.339342+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a tiny URL router with exception classes `NotFound(Exception)` and `MethodNotAllowed(Exception)`.\n\n- `Router()`; `add(method: str, pattern: str, handler)` registers a route. Patterns look like `/users/{id}/posts`;\n  a `{name}` segment matches exactly one non-empty path segment.\n- `dispatch(method: str, path: str) -> tuple[handler, dict[str, str]]` returns the handler and the captured parameters.\n  Paths and patterns must have the same number of segments. A trailing slash is ignored (`/users/` == `/users`).\n- When both a static route and a parameter route match a path (e.g. `/users/me` and `/users/{id}`), the static one wins.\n- Raise `MethodNotAllowed` if some route matches the path but not the method, and `NotFound` if no route matches the path.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport re\n\n\nclass NotFound(Exception):\n    pass\n\n\nclass MethodNotAllowed(Exception):\n    pass\n\n\nclass Router:\n    def __init__(self):\n        self.routes = []  # list of (method, pattern_segments, handler, is_static)\n\n    def add(self, method: str, pattern: str, handler):\n        segments = self._split(pattern)\n        is_static = all(not self._is_param(seg) for seg in segments)\n        self.routes.append((method, segments, handler, is_static))\n\n    def dispatch(self, method: str, path: str) -> tuple:\n        path_segments = self._split(path)\n        matched_methods = set()\n        # Prefer static routes\n        for route in self.routes:\n            r_method, r_segments, handler, is_static = route\n            if len(r_segments) != len(path_segments):\n                continue\n            params = self._match(r_segments, path_segments)\n            if params is None:\n                continue\n            matched_methods.add(r_method)\n            if r_method == method:\n                if is_static:\n                    return (handler, params)\n        # If no static match, check parameter routes\n        for route in self.routes:\n            r_method, r_segments, handler, is_static = route\n            if len(r_segments) != len(path_segments):\n                continue\n            params = self._match(r_segments, path_segments)\n            if params is None:\n                continue\n            if r_method == method:\n                return (handler, params)\n        if matched_methods:\n            raise MethodNotAllowed(f\"Method {method} not allowed for path {path}\")\n        raise NotFound(f\"No route found for path {path}\")\n\n    @staticmethod\n    def _split(path: str) -> list:\n        # Remove leading/trailing slashes, split by '/'\n        path = path.strip('/')\n        if not path:\n            return []\n        return path.split('/')\n\n    @staticmethod\n    def _is_param(segment: str) -> bool:\n        return segment.startswith('{') and segment.endswith('}')\n\n    @staticmethod\n    def _match(pattern_segments: list, path_segments: list) -> dict:\n        params = {}\n        for p_seg, path_seg in zip(pattern_segments, path_segments):\n            if Router._is_param(p_seg):\n                name = p_seg[1:-1]\n                if not path_seg:\n                    return None\n                params[name] = path_seg\n            else:\n                if p_seg != path_seg:\n                    return None\n        return params\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 254,
+      "latency_s": 1.2527,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 554,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

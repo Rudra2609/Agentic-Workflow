@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "e45b125b411ad2a747d4d59f3f3eed9f987d99b3c6e5eba3d44075a1326a291d",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `tokenize(expr: str) -> list[str]` for arithmetic expressions.\n\nTokens are numbers (integers like `42` or decimals like `3.14`), the operators `+ - * / ^`, and the\nparentheses `(` `)`. Whitespace separates nothing and is skipped. A minus sign is always its own token\n(do not merge it into the number). Raise `ValueError` on any other character, or on a malformed number\nsuch as `1.2.3` or `.`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:34.983122+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `tokenize(expr: str) -> list[str]` for arithmetic expressions.\n\nTokens are numbers (integers like `42` or decimals like `3.14`), the operators `+ - * / ^`, and the\nparentheses `(` `)`. Whitespace separates nothing and is skipped. A minus sign is always its own token\n(do not merge it into the number). Raise `ValueError` on any other character, or on a malformed number\nsuch as `1.2.3` or `.`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport re\n\ndef tokenize(expr: str) -> list[str]:\n    \"\"\"\n    Tokenize an arithmetic expression.\n\n    Tokens are:\n        - integers (e.g. \"42\")\n        - decimals (e.g. \"3.14\")\n        - operators: + - * / ^\n        - parentheses: ( )\n\n    Whitespace is ignored. A minus sign is always its own token.\n    Raises ValueError on any invalid character or malformed number.\n    \"\"\"\n    tokens = []\n    i = 0\n    length = len(expr)\n\n    # Regular expression for a valid number (integer or decimal)\n    number_re = re.compile(r'^\\d+(\\.\\d+)?$')\n\n    while i < length:\n        ch = expr[i]\n\n        if ch.isspace():\n            i += 1\n            continue\n\n        if ch in '+-*/^()':\n            tokens.append(ch)\n            i += 1\n            continue\n\n        if ch.isdigit() or ch == '.':\n            start = i\n            dot_seen = False\n            while i < length and (expr[i].isdigit() or expr[i] == '.'):\n                if expr[i] == '.':\n                    if dot_seen:\n                        raise ValueError(f\"Malformed number at position {start}: multiple decimal points\")\n                    dot_seen = True\n                i += 1\n            number = expr[start:i]\n            if number == '.' or not number_re.match(number):\n                raise ValueError(f\"Malformed number at position {start}: '{number}'\")\n            tokens.append(number)\n            continue\n\n        # Any other character is invalid\n        raise ValueError(f\"Invalid character '{ch}' at position {i}\")\n\n    return tokens\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 232,
+      "latency_s": 0.8523,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 392,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

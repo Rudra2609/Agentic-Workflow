@@ -1,0 +1,41 @@
+{
+ "served_by": "mlx_lm.server --adapter-path (Ollama 0.35.1: 'LoRA adapters are no longer supported')",
+ "checks": [
+  {
+   "gold": "supports",
+   "answer": "supports",
+   "provider": "mlx",
+   "s": 3.09
+  },
+  {
+   "gold": "supports",
+   "answer": "supports",
+   "provider": "mlx",
+   "s": 1.6
+  },
+  {
+   "gold": "supports",
+   "answer": "supports",
+   "provider": "mlx",
+   "s": 1.68
+  },
+  {
+   "gold": "supports",
+   "answer": "supports",
+   "provider": "mlx",
+   "s": 1.48
+  },
+  {
+   "gold": "supports",
+   "answer": "supports",
+   "provider": "mlx",
+   "s": 1.72
+  },
+  {
+   "gold": "supports",
+   "answer": "supports",
+   "provider": "mlx",
+   "s": 2.21
+  }
+ ]
+}

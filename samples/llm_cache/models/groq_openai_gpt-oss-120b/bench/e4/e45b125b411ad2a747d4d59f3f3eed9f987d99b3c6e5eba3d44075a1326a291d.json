@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "e45b125b411ad2a747d4d59f3f3eed9f987d99b3c6e5eba3d44075a1326a291d",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `tokenize(expr: str) -> list[str]` for arithmetic expressions.\n\nTokens are numbers (integers like `42` or decimals like `3.14`), the operators `+ - * / ^`, and the\nparentheses `(` `)`. Whitespace separates nothing and is skipped. A minus sign is always its own token\n(do not merge it into the number). Raise `ValueError` on any other character, or on a malformed number\nsuch as `1.2.3` or `.`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:45:57.570667+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `tokenize(expr: str) -> list[str]` for arithmetic expressions.\n\nTokens are numbers (integers like `42` or decimals like `3.14`), the operators `+ - * / ^`, and the\nparentheses `(` `)`. Whitespace separates nothing and is skipped. A minus sign is always its own token\n(do not merge it into the number). Raise `ValueError` on any other character, or on a malformed number\nsuch as `1.2.3` or `.`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nProvides a single function `tokenize` that splits an arithmetic expression into\ntokens consisting of numbers, operators and parentheses.\n\nThe implementation uses only the Python standard library.\n\"\"\"\n\nfrom __future__ import annotations\n\n__all__ = [\"tokenize\"]\n\n\ndef _is_digit(ch: str) -> bool:\n    return \"0\" <= ch <= \"9\"\n\n\ndef _validate_number(num_str: str) -> None:\n    \"\"\"\n    Validate a numeric literal according to the specification.\n\n    - It may contain at most one decimal point.\n    - It cannot consist of only a decimal point.\n    - It cannot have a trailing or leading decimal point without digits\n      on at least one side (e.g. '.' is illegal, but '0.' and '.5' are allowed).\n    \"\"\"\n    if not num_str:\n        raise ValueError(\"empty number\")\n\n    # Count decimal points\n    dot_count = num_str.count(\".\")\n    if dot_count > 1:\n        raise ValueError(f\"malformed number '{num_str}': more than one decimal point\")\n    if dot_count == 1:\n        # '.' alone is not a number\n        if num_str == \".\":\n            raise ValueError(\"malformed number '.'\")\n        # No other characters besides digits and the single dot are allowed\n        parts = num_str.split(\".\")\n        if any(not part.isdigit() for part in parts if part):\n            raise ValueError(f\"malformed number '{num_str}'\")\n    else:\n        # No dot – must be all digits\n        if not num_str.isdigit():\n            raise ValueError(f\"malformed number '{num_str}'\")\n\n\ndef tokenize(expr: str) -> list[str]:\n    \"\"\"\n    Split an arithmetic expression into tokens.\n\n    Tokens are:\n      * numbers (integers like ``42`` or decimals like ``3.14``)\n      * operators ``+ - * / ^``\n      * parentheses ``(`` and ``)``\n\n    Whitespace is ignored. A minus sign is always a separate token.\n    Any character that does not belong to the sets above raises ``ValueError``.\n    Malformed numbers (e.g. ``1.2.3`` or ``.``) also raise ``ValueError``.\n\n    Parameters\n    ----------\n    expr: str\n        The expression to tokenize.\n\n    Returns\n    -------\n    list[str]\n        The list of token strings in the order they appear in ``expr``.\n    \"\"\"\n    tokens: list[str] = []\n    i = 0\n    n = len(expr)\n\n    while i < n:\n        ch = expr[i]\n\n        # Skip whitespace\n        if ch.isspace():\n            i += 1\n            continue\n\n        # Number (starts with digit or dot)\n        if _is_digit(ch) or ch == \".\":\n            start = i\n            dot_seen = ch == \".\"\n            i += 1\n            while i < n and ( _is_digit(expr[i]) or (expr[i] == \".\" and not dot_seen) ):\n                if expr[i] == \".\":\n                    dot_seen = True\n                i += 1\n            num_str = expr[start:i]\n            # Validate the collected number\n            _validate_number(num_str)\n            tokens.append(num_str)\n            continue\n\n        # Operators and parentheses\n        if ch in \"+-*/^()\":\n            tokens.append(ch)\n            i += 1\n            continue\n\n        # Anything else is illegal\n        raise ValueError(f\"invalid character '{ch}' at position {i}\")\n\n    return tokens\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 232,
+      "latency_s": 2.0251,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 831,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2bf04df0a870b199507dd0f0ae39c469b0c6fc7d58d44d614aabad63291dce01",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `markdown_table(rows: list[dict], columns: list[str] | None = None) -> str`.\n\n- Columns default to the keys of the first row, in order. With no rows and no columns, return `\"\"`.\n- Output: a header line, a separator line, then one line per row, joined with `\\n` (no trailing newline):\n\n      | name | age |\n      | --- | --- |\n      | ann | 20 |\n\n- Values are converted with `str()`. A missing key gives an empty cell, i.e. two spaces between the pipes: `|  |`.\n- A `|` inside a value must be escaped as `\\|`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.008305+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `markdown_table(rows: list[dict], columns: list[str] | None = None) -> str`.\n\n- Columns default to the keys of the first row, in order. With no rows and no columns, return `\"\"`.\n- Output: a header line, a separator line, then one line per row, joined with `\\n` (no trailing newline):\n\n      | name | age |\n      | --- | --- |\n      | ann | 20 |\n\n- Values are converted with `str()`. A missing key gives an empty cell, i.e. two spaces between the pipes: `|  |`.\n- A `|` inside a value must be escaped as `\\|`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nimport re\n\ndef markdown_table(rows: list[dict], columns: list[str] | None = None) -> str:\n    \"\"\"\n    Convert a list of dictionaries into a Markdown table string.\n    \n    Args:\n        rows: List of dictionaries representing table rows.\n        columns: Optional list of column headers. Defaults to keys of the first row.\n        \n    Returns:\n        A string containing the Markdown table formatted with pipes and newlines.\n    \"\"\"\n    # Handle empty input\n    if not rows:\n        return \"\"\n    \n    # Determine columns if not provided\n    if columns is None:\n        if len(rows) > 0:\n            columns = list(rows[0].keys())\n        else:\n            return \"\"\n    \n    # Build the table parts\n    lines = []\n    \n    # Header line\n    header_parts = [f\"| {col} |\" for col in columns]\n    lines.append(\"| \" + \" | \".join(header_parts) + \" |\")\n    \n    # Separator line\n    separator_parts = [\"| --- |\"] * len(columns)\n    lines.append(\"| \" + \" | \".join(separator_parts) + \" |\")\n    \n    # Data rows\n    for row in rows:\n        cell_parts = []\n        for col in columns:\n            value = row.get(col, \"\")\n            # Escape pipes in the value\n            escaped_value = str(value).replace(\"|\", \"\\\\|\")\n            cell_parts.append(f\"| {escaped_value} |\")\n        \n        lines.append(\" | \".join(cell_parts))\n    \n    return \"\\n\".join(lines)\n```",
+    "usage": {
+      "input_tokens": 215,
+      "latency_s": 34.221,
+      "model": "qwen3.5:4b",
+      "output_tokens": 350,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

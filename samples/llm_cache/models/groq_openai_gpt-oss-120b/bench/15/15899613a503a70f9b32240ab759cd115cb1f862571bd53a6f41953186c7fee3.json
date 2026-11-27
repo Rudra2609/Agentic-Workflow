@@ -1,0 +1,381 @@
+{
+  "format": 1,
+  "key": "15899613a503a70f9b32240ab759cd115cb1f862571bd53a6f41953186c7fee3",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "IT-314 Software Engineering — Lab 5\nRequirements and Design for a Hospital Appointment System\n\nThis lab does not involve coding. Your team will produce requirement and design documents for an online hospital appointment system.\n\nThe system to be described must let patients register, book, reschedule and cancel appointments with doctors; let doctors view their daily schedule and mark appointments as completed; and let administrators manage doctors' working hours. Patients must receive an SMS or email reminder 24 hours before an appointment.\n\nDocuments to produce:\n1. A Software Requirements Specification following the IEEE 830 structure, including at least 15 functional and 5 non-functional requirements.\n2. A use-case diagram covering all three actors, with at least 3 fully written use-case descriptions.\n3. A class diagram and one sequence diagram for the booking flow.\n4. A traceability matrix linking requirements to use cases.\n\nUse any UML tool (draw.io, StarUML, PlantUML). Diagrams must be exported as PNG and embedded in a single PDF. Teams have 4 or 5 members; every member's contribution must be listed on the cover page.\n\nEvaluation: SRS 35 marks, use cases 25 marks, class and sequence diagrams 25 marks, traceability matrix 15 marks.\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:44:48.819995+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "IT-314 Software Engineering — Lab 5\nRequirements and Design for a Hospital Appointment System\n\nThis lab does not involve coding. Your team will produce requirement and design documents for an online hospital appointment system.\n\nThe system to be described must let patients register, book, reschedule and cancel appointments with doctors; let doctors view their daily schedule and mark appointments as completed; and let administrators manage doctors' working hours. Patients must receive an SMS or email reminder 24 hours before an appointment.\n\nDocuments to produce:\n1. A Software Requirements Specification following the IEEE 830 structure, including at least 15 functional and 5 non-functional requirements.\n2. A use-case diagram covering all three actors, with at least 3 fully written use-case descriptions.\n3. A class diagram and one sequence diagram for the booking flow.\n4. A traceability matrix linking requirements to use cases.\n\nUse any UML tool (draw.io, StarUML, PlantUML). Diagrams must be exported as PNG and embedded in a single PDF. Teams have 4 or 5 members; every member's contribution must be listed on the cover page.\n\nEvaluation: SRS 35 marks, use cases 25 marks, class and sequence diagrams 25 marks, traceability matrix 15 marks.\n",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"requirements\": [\n    {\n      \"id\": \"R1\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"text\": \"The system must allow patients to register.\",\n      \"source_quote\": \"The system to be described must let patients register\"\n    },\n    {\n      \"id\": \"R2\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"text\": \"The system must allow patients to book appointments with doctors.\",\n      \"source_quote\": \"book ... appointments with doctors\"\n    },\n    {\n      \"id\": \"R3\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"text\": \"The system must allow patients to reschedule appointments.\",\n      \"source_quote\": \"reschedule ... appointments\"\n    },\n    {\n      \"id\": \"R4\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"text\": \"The system must allow patients to cancel appointments.\",\n      \"source_quote\": \"cancel appointments\"\n    },\n    {\n      \"id\": \"R5\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"text\": \"Doctors must be able to view their daily schedule.\",\n      \"source_quote\": \"let doctors view their daily schedule\"\n    },\n    {\n      \"id\": \"R6\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"text\": \"Doctors must be able to mark appointments as completed.\",\n      \"source_quote\": \"mark appointments as completed\"\n    },\n    {\n      \"id\": \"R7\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"text\": \"Administrators must be able to manage doctors' working hours.\",\n      \"source_quote\": \"let administrators manage doctors' working hours\"\n    },\n    {\n      \"id\": \"R8\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"text\": \"Patients must receive an SMS or email reminder 24 hours before an appointment.\",\n      \"source_quote\": \"Patients must receive an SMS or email reminder 24 hours before an appointment\"\n    }\n  ],\n  \"constraints\": [\n    {\n      \"id\": \"C1\",\n      \"kind\": \"format\",\n      \"text\": \"Diagrams must be exported as PNG and embedded in a single PDF.\"\n    },\n    {\n      \"id\": \"C2\",\n      \"kind\": \"resource\",\n      \"text\": \"Use any UML tool (draw.io, StarUML, PlantUML).\"\n    },\n    {\n      \"id\": \"C3\",\n      \"kind\": \"process\",\n      \"text\": \"Teams must have 4 or 5 members; every member's contribution must be listed on the cover page.\"\n    },\n    {\n      \"id\": \"C4\",\n      \"kind\": \"format\",\n      \"text\": \"The Software Requirements Specification must follow the IEEE 830 structure.\"\n    }\n  ],\n  \"deliverables\": [\n    {\n      \"id\": \"D1\",\n      \"name\": \"Software Requirements Specification\",\n      \"format\": \"PDF\"\n    },\n    {\n      \"id\": \"D2\",\n      \"name\": \"Use‑case diagram covering all three actors\",\n      \"format\": \"PNG (embedded in PDF)\"\n    },\n    {\n      \"id\": \"D3\",\n      \"name\": \"Three fully written use‑case descriptions\",\n      \"format\": \"PDF (embedded in PDF)\"\n    },\n    {\n      \"id\": \"D4\",\n      \"name\": \"Class diagram\",\n      \"format\": \"PNG (embedded in PDF)\"\n    },\n    {\n      \"id\": \"D5\",\n      \"name\": \"Sequence diagram for the booking flow\",\n      \"format\": \"PNG (embedded in PDF)\"\n    },\n    {\n      \"id\": \"D6\",\n      \"name\": \"Traceability matrix linking requirements to use cases\",\n      \"format\": \"PDF (embedded in PDF)\"\n    },\n    {\n      \"id\": \"D7\",\n      \"name\": \"Cover page listing each team member and their contribution\",\n      \"format\": \"PDF\"\n    }\n  ],\n  \"evaluation_criteria\": [\n    {\n      \"id\": \"E1\",\n      \"criterion\": \"Software Requirements Specification\",\n      \"max_marks\": 35\n    },\n    {\n      \"id\": \"E2\",\n      \"criterion\": \"Use cases\",\n      \"max_marks\": 25\n    },\n    {\n      \"id\": \"E3\",\n      \"criterion\": \"Class and sequence diagrams\",\n      \"max_marks\": 25\n    },\n    {\n      \"id\": \"E4\",\n      \"criterion\": \"Traceability matrix\",\n      \"max_marks\": 15\n    }\n  ],\n  \"open_questions\": []\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1001,
+      "latency_s": 2.9954,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 1216,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

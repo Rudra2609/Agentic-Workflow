@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "2098a3cdb64292a9ed2487b76a0c8f0a73dee2fb90f64dc906a79f997c3e9e54",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:42:25.240558+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport time\n\n\nclass TokenBucket:\n    def __init__(self, rate: float, capacity: int, clock=time.monotonic):\n        if rate <= 0:\n            raise ValueError(\"rate must be > 0\")\n        if capacity < 1:\n            raise ValueError(\"capacity must be >= 1\")\n        self.rate = rate\n        self.capacity = capacity\n        self.clock = clock\n        self.tokens = float(capacity)\n        self.last_refill = self.clock()\n\n    def _refill(self):\n        now = self.clock()\n        elapsed = now - self.last_refill\n        if elapsed > 0:\n            self.tokens = min(self.capacity, self.tokens + elapsed * self.rate)\n            self.last_refill = now\n\n    def allow(self) -> bool:\n        self._refill()\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 194,
+      "latency_s": 0.5392,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 210,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

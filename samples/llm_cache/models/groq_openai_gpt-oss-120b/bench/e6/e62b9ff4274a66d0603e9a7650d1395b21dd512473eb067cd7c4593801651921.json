@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "e62b9ff4274a66d0603e9a7650d1395b21dd512473eb067cd7c4593801651921",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `matmul(a: list[list[float]], b: list[list[float]]) -> list[list[float]]` that multiplies two matrices\ngiven as lists of rows, without numpy.\n\nRaise `ValueError` if either matrix is empty, has an empty row, is ragged (rows of different lengths),\nor if the inner dimensions do not match.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:45:47.917469+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `matmul(a: list[list[float]], b: list[list[float]]) -> list[list[float]]` that multiplies two matrices\ngiven as lists of rows, without numpy.\n\nRaise `ValueError` if either matrix is empty, has an empty row, is ragged (rows of different lengths),\nor if the inner dimensions do not match.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nProvides a pure‑Python implementation of matrix multiplication.\n\nThe public API consists of a single function:\n    matmul(a: list[list[float]], b: list[list[float]]) -> list[list[float]]\n\nThe function validates its inputs and raises ValueError for:\n    * empty outer list,\n    * any empty row,\n    * ragged matrices (rows of differing lengths),\n    * mismatched inner dimensions (columns of `a` != rows of `b`).\n\nOnly the Python standard library is used.\n\"\"\"\n\nfrom __future__ import annotations\nfrom typing import List\n\n\ndef _validate_matrix(m: List[List[float]], name: str) -> None:\n    \"\"\"Validate that *m* is a well‑formed non‑empty matrix.\n\n    Parameters\n    ----------\n    m : List[List[float]]\n        Matrix to validate.\n    name : str\n        Identifier used in error messages.\n\n    Raises\n    ------\n    ValueError\n        If the matrix is empty, contains an empty row, or is ragged.\n    \"\"\"\n    if not isinstance(m, list) or len(m) == 0:\n        raise ValueError(f\"{name} must be a non‑empty list of rows\")\n\n    row_length = None\n    for i, row in enumerate(m):\n        if not isinstance(row, list) or len(row) == 0:\n            raise ValueError(f\"{name} contains an empty row at index {i}\")\n        if row_length is None:\n            row_length = len(row)\n        elif len(row) != row_length:\n            raise ValueError(\n                f\"{name} is ragged: row 0 has length {row_length} but row {i} has length {len(row)}\"\n            )\n\n\ndef matmul(a: List[List[float]], b: List[List[float]]) -> List[List[float]]:\n    \"\"\"\n    Multiply two matrices represented as lists of rows.\n\n    Parameters\n    ----------\n    a : List[List[float]]\n        Left‑hand matrix with dimensions (m × n).\n    b : List[List[float]]\n        Right‑hand matrix with dimensions (n × p).\n\n    Returns\n    -------\n    List[List[float]]\n        Resulting matrix with dimensions (m × p).\n\n    Raises\n    ------\n    ValueError\n        If either matrix is empty, has an empty row, is ragged,\n        or if the inner dimensions (n) do not match.\n    \"\"\"\n    # Validate both matrices\n    _validate_matrix(a, \"a\")\n    _validate_matrix(b, \"b\")\n\n    # Dimensions\n    m = len(a)          # rows in a\n    n = len(a[0])       # cols in a\n    n_b = len(b)        # rows in b\n    p = len(b[0])       # cols in b\n\n    if n != n_b:\n        raise ValueError(\n            f\"Inner dimensions do not match: a has {n} columns but b has {n_b} rows\"\n        )\n\n    # Pre‑compute the transpose of b to improve cache locality\n    # This allows us to access columns of b as rows.\n    b_T: List[List[float]] = [[b[row][col] for row in range(n)] for col in range(p)]\n\n    # Compute the product\n    result: List[List[float]] = []\n    for i in range(m):\n        row_result: List[float] = []\n        a_row = a[i]\n        for j in range(p):\n            b_col = b_T[j]\n            # Dot product of a_row and b_col\n            dot = 0.0\n            for k in range(n):\n                dot += a_row[k] * b_col[k]\n            row_result.append(dot)\n        result.append(row_result)\n\n    return result\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 197,
+      "latency_s": 2.1826,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 816,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

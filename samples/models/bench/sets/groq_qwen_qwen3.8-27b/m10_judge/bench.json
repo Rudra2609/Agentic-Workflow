@@ -1,0 +1,471 @@
+{
+  "name": "bench",
+  "mode": "live",
+  "calibration": {
+    "items": 36,
+    "labels": {
+      "PASS": 12,
+      "FAIL": 13,
+      "PARTIAL": 11
+    },
+    "labelled_by": {
+      "reviewed 2026-11-01 against the evidence (no change); Member 10 signs, second labeller pending": 36
+    }
+  },
+  "rules_only": {
+    "n": 36,
+    "accuracy": 0.944,
+    "kappa": 0.917,
+    "confusion": {
+      "FAIL->FAIL": 12,
+      "FAIL->PARTIAL": 1,
+      "PARTIAL->PARTIAL": 10,
+      "PARTIAL->PASS": 1,
+      "PASS->PASS": 12
+    },
+    "fail_as_pass": 0,
+    "by_trap": {
+      "confident_producer": "2/2",
+      "contradicted": "1/1",
+      "doc_claim": "2/2",
+      "incomplete_coverage": "2/2",
+      "missing": "3/4",
+      "none": "16/16",
+      "short_evidence": "1/1",
+      "unsupported": "2/2",
+      "untested": "4/4",
+      "verbose_empty": "1/2"
+    },
+    "misses": [
+      {
+        "id": "C14",
+        "req": "R4",
+        "label": "FAIL",
+        "got": "PARTIAL",
+        "trap": "missing"
+      },
+      {
+        "id": "C31",
+        "req": "R9",
+        "label": "PARTIAL",
+        "got": "PASS",
+        "trap": "verbose_empty"
+      }
+    ],
+    "probe_flips": {
+      "verbosity": 0,
+      "order": 0
+    },
+    "undecided": 5
+  },
+  "human_vs_human": null,
+  "rules_plus_judge": {
+    "n": 36,
+    "accuracy": 0.944,
+    "kappa": 0.916,
+    "confusion": {
+      "FAIL->FAIL": 13,
+      "PARTIAL->FAIL": 1,
+      "PARTIAL->PARTIAL": 9,
+      "PARTIAL->PASS": 1,
+      "PASS->PASS": 12
+    },
+    "fail_as_pass": 0,
+    "by_trap": {
+      "confident_producer": "2/2",
+      "contradicted": "1/1",
+      "doc_claim": "2/2",
+      "incomplete_coverage": "2/2",
+      "missing": "4/4",
+      "none": "16/16",
+      "short_evidence": "1/1",
+      "unsupported": "2/2",
+      "untested": "3/4",
+      "verbose_empty": "1/2"
+    },
+    "misses": [
+      {
+        "id": "C03",
+        "req": "R1",
+        "label": "PARTIAL",
+        "got": "FAIL",
+        "trap": "untested"
+      },
+      {
+        "id": "C31",
+        "req": "R9",
+        "label": "PARTIAL",
+        "got": "PASS",
+        "trap": "verbose_empty"
+      }
+    ],
+    "order_sensitive": 0,
+    "not_judged": 3
+  },
+  "judge_only": {
+    "n": 36,
+    "accuracy": 0.806,
+    "kappa": 0.707,
+    "confusion": {
+      "FAIL->FAIL": 13,
+      "PARTIAL->FAIL": 3,
+      "PARTIAL->PARTIAL": 8,
+      "PASS->PARTIAL": 4,
+      "PASS->PASS": 8
+    },
+    "fail_as_pass": 0,
+    "by_trap": {
+      "confident_producer": "1/2",
+      "contradicted": "1/1",
+      "doc_claim": "2/2",
+      "incomplete_coverage": "2/2",
+      "missing": "4/4",
+      "none": "13/16",
+      "short_evidence": "1/1",
+      "unsupported": "1/2",
+      "untested": "3/4",
+      "verbose_empty": "1/2"
+    },
+    "misses": [
+      {
+        "id": "C03",
+        "req": "R1",
+        "label": "PARTIAL",
+        "got": "FAIL",
+        "trap": "untested"
+      },
+      {
+        "id": "C16",
+        "req": "R5",
+        "label": "PASS",
+        "got": "PARTIAL",
+        "trap": "none"
+      },
+      {
+        "id": "C21",
+        "req": "R7",
+        "label": "PASS",
+        "got": "PARTIAL",
+        "trap": "none"
+      },
+      {
+        "id": "C28",
+        "req": "R9",
+        "label": "PASS",
+        "got": "PARTIAL",
+        "trap": "none"
+      },
+      {
+        "id": "C31",
+        "req": "R9",
+        "label": "PARTIAL",
+        "got": "FAIL",
+        "trap": "verbose_empty"
+      },
+      {
+        "id": "C34",
+        "req": "R10",
+        "label": "PARTIAL",
+        "got": "FAIL",
+        "trap": "unsupported"
+      },
+      {
+        "id": "C36",
+        "req": "R10",
+        "label": "PASS",
+        "got": "PARTIAL",
+        "trap": "confident_producer"
+      }
+    ],
+    "order_sensitive": 4,
+    "not_judged": 4,
+    "probe_flips": {
+      "verbosity": 0
+    },
+    "probe_pairs_judged": 0,
+    "probe_flip_examples": []
+  },
+  "scenarios": [
+    {
+      "id": "multi_client_unsupported",
+      "expected": "PASS",
+      "got": "PASS",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 2
+    },
+    {
+      "id": "missing_readme",
+      "expected": "PASS",
+      "got": "PASS",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 1
+    },
+    {
+      "id": "hallucinated_doc_claim",
+      "expected": "PASS",
+      "got": "PASS",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 1
+    },
+    {
+      "id": "unsupported_research_claim",
+      "expected": "PASS",
+      "got": "PASS",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 1
+    },
+    {
+      "id": "client_side_bug",
+      "expected": "PASS",
+      "got": "PASS",
+      "attribution_ok": true,
+      "naive_attribution_ok": false,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 1
+    },
+    {
+      "id": "two_failures_one_round",
+      "expected": "PASS",
+      "got": "PASS",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 2
+    },
+    {
+      "id": "untested_requirement",
+      "expected": "PASS",
+      "got": "PASS",
+      "attribution_ok": true,
+      "naive_attribution_ok": false,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 1
+    },
+    {
+      "id": "flaky_timeout",
+      "expected": "PASS",
+      "got": "PASS",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 1
+    },
+    {
+      "id": "uncovered_requirement",
+      "expected": "PASS",
+      "got": "PASS",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 1
+    },
+    {
+      "id": "stuck_fix",
+      "expected": "ESCALATE (plateau)",
+      "got": "ESCALATE (plateau)",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 1,
+      "failures": 1
+    },
+    {
+      "id": "oscillating_fixes",
+      "expected": "ESCALATE (oscillation)",
+      "got": "ESCALATE (oscillation)",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 2,
+      "failures": 1
+    },
+    {
+      "id": "slow_progress",
+      "expected": "ESCALATE (budget)",
+      "got": "ESCALATE (budget)",
+      "attribution_ok": true,
+      "naive_attribution_ok": true,
+      "plan_ok": true,
+      "outcome_ok": true,
+      "rounds": 2,
+      "failures": 3
+    }
+  ],
+  "attribution": {
+    "correct_scenarios": 12,
+    "of": 12,
+    "failures": 16,
+    "naive_correct_scenarios": 10
+  },
+  "recovery": {
+    "as_expected": 12,
+    "of": 12,
+    "recovered": 9,
+    "escalated": 3,
+    "avg_rounds": 1.17
+  },
+  "golden": {
+    "replay_vs_live": {
+      "tcp": {
+        "final_outcome_same": true,
+        "rounds_live": [
+          "REVISE",
+          "PASS"
+        ],
+        "rounds_replay": [
+          "PASS"
+        ]
+      },
+      "essay": {
+        "final_outcome_same": true,
+        "rounds_live": [
+          "REVISE",
+          "PASS"
+        ],
+        "rounds_replay": [
+          "REVISE",
+          "PASS"
+        ]
+      },
+      "change": {
+        "final_outcome_same": true,
+        "rounds_live": [
+          "PASS",
+          "PASS"
+        ],
+        "rounds_replay": [
+          "PASS"
+        ]
+      }
+    },
+    "final_live": {
+      "tcp": {
+        "project_state": "COMPLETED",
+        "tasks": 18,
+        "review_rounds": 2,
+        "outcomes": [
+          "REVISE",
+          "PASS"
+        ],
+        "revisions": 2,
+        "stop_reason": null
+      },
+      "essay": {
+        "project_state": "COMPLETED",
+        "tasks": 19,
+        "review_rounds": 2,
+        "outcomes": [
+          "REVISE",
+          "PASS"
+        ],
+        "revisions": 6,
+        "stop_reason": null
+      },
+      "change": {
+        "project_state": "COMPLETED",
+        "tasks": 25,
+        "review_rounds": 2,
+        "outcomes": [
+          "PASS",
+          "PASS"
+        ],
+        "revisions": 0,
+        "stop_reason": null
+      }
+    },
+    "final_replay": {
+      "tcp": {
+        "project_state": "COMPLETED",
+        "tasks": 16,
+        "review_rounds": 1,
+        "outcomes": [
+          "PASS"
+        ],
+        "revisions": 0,
+        "stop_reason": null
+      },
+      "essay": {
+        "project_state": "COMPLETED",
+        "tasks": 19,
+        "review_rounds": 2,
+        "outcomes": [
+          "REVISE",
+          "PASS"
+        ],
+        "revisions": 6,
+        "stop_reason": null
+      },
+      "change": {
+        "project_state": "COMPLETED",
+        "tasks": 26,
+        "review_rounds": 1,
+        "outcomes": [
+          "PASS"
+        ],
+        "revisions": 0,
+        "stop_reason": null
+      }
+    },
+    "final_single_cloud": {
+      "tcp": {
+        "project_state": "COMPLETED",
+        "tasks": 17,
+        "review_rounds": 1,
+        "outcomes": [
+          "PASS"
+        ],
+        "revisions": 0,
+        "stop_reason": null
+      },
+      "essay": {
+        "project_state": "COMPLETED",
+        "tasks": 22,
+        "review_rounds": 2,
+        "outcomes": [
+          "REVISE",
+          "PASS"
+        ],
+        "revisions": 8,
+        "stop_reason": null
+      },
+      "change": {
+        "project_state": "COMPLETED",
+        "tasks": 22,
+        "review_rounds": 1,
+        "outcomes": [
+          "PASS"
+        ],
+        "revisions": 0,
+        "stop_reason": null
+      }
+    }
+  }
+}

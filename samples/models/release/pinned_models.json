@@ -1,0 +1,22 @@
+{
+ "at": "2026-11-02 01:56",
+ "local": {
+  "qwen3.5:9b": {
+   "digest": "56671c2ab9385f9cfcb404638e32cd62d88e3501d44822208363c010179a3c90",
+   "size_gb": 6.55,
+   "quant": "Q4_K_M"
+  },
+  "qwen3.5:4b": {
+   "digest": "d8b0f5e9760cd1682034f292d7ef72ec46f432149be0df7574bf2d6e92e38c04",
+   "size_gb": 3.32,
+   "quant": "Q4_K_M"
+  },
+  "nomic-embed-text:latest": {
+   "digest": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+   "size_gb": 0.27,
+   "quant": "F16"
+  }
+ },
+ "cloud_routes": "DEFAULT_CLOUD_ROLE_MAP in backend/src/hmap/core/config.py (provider model names; cloud models have no digest)",
+ "mlx_base": "mlx-community/Qwen3.5-4B-MLX-4bit (fine-tune experiment only, not served)"
+}

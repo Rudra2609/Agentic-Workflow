@@ -5,6 +5,7 @@ import feature_coding from "./coding";
 import feature_doc_intel from "./doc_intel";
 import feature_docgen from "./docgen";
 import feature_echo from "./echo";
+import feature_models from "./models";
 import feature_ops from "./ops";
 import feature_planning from "./planning";
 import feature_refine from "./refine";
@@ -18,6 +19,7 @@ export const FEATURE_MODULES: readonly FeatureManifest[] = [
   feature_doc_intel,
   feature_docgen,
   feature_echo,
+  feature_models,
   feature_ops,
   feature_planning,
   feature_refine,

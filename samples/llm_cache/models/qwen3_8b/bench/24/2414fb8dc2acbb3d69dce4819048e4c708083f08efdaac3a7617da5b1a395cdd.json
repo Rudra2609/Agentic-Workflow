@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2414fb8dc2acbb3d69dce4819048e4c708083f08efdaac3a7617da5b1a395cdd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.091532+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3:8b"
+  },
+  "response": {
+    "text": "```python\nimport threading\nimport queue\nfrom typing import Callable, List, Any\n\ndef parallel_map(fn: Callable[[Any], Any], items: List[Any], workers: int) -> List[Any]:\n    if workers < 1:\n        raise ValueError(\"workers must be at least 1\")\n    \n    result_queue = queue.Queue()\n    exceptions = []\n\n    def worker():\n        while True:\n            try:\n                item = result_queue.get(timeout=1)\n                if item is None:\n                    break\n                result_queue.put(fn(item))\n            except Exception as e:\n                exceptions.append(e)\n                result_queue.put(None)\n            finally:\n                result_queue.task_done()\n\n    threads = []\n    for _ in range(workers):\n        t = threading.Thread(target=worker)\n        t.start()\n        threads.append(t)\n\n    for item in items:\n        result_queue.put(item)\n\n    result_queue.join()\n\n    if exceptions:\n        raise exceptions[0]\n\n    return [result_queue.get() for _ in items]\n```",
+    "usage": {
+      "input_tokens": 163,
+      "latency_s": 107.095,
+      "model": "qwen3:8b",
+      "output_tokens": 207,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

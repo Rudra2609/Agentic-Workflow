@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "363d94233e2566bb10182e73aa25f01f165e9ae6f9da90c4a1f2036d7f5fda06",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `async def gather_limited(factories, limit: int) -> list` using `asyncio`.\n\n`factories` is a list of zero-argument functions; calling one returns a new awaitable (coroutine).\nRun them so that at most `limit` are in progress at the same time, and return their results in the same order as `factories`.\nIf any of them raises, the exception must propagate out of `gather_limited`. Raise `ValueError` if `limit < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.005831+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `async def gather_limited(factories, limit: int) -> list` using `asyncio`.\n\n`factories` is a list of zero-argument functions; calling one returns a new awaitable (coroutine).\nRun them so that at most `limit` are in progress at the same time, and return their results in the same order as `factories`.\nIf any of them raises, the exception must propagate out of `gather_limited`. Raise `ValueError` if `limit < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nimport asyncio\nfrom typing import List, Callable, Awaitable\n\nasync def gather_limited(factories: List[Callable[[], Awaitable]], limit: int) -> list:\n    \"\"\"\n    Run zero-argument async functions with a concurrency limit.\n    \n    Args:\n        factories: List of zero-argument functions that return awaitables.\n        limit: Maximum number of concurrent coroutines allowed.\n        \n    Returns:\n        List of results in the same order as input factories.\n        \n    Raises:\n        ValueError: If limit is less than 1.\n        Exception: If any factory raises an exception.\n    \"\"\"\n    if limit < 1:\n        raise ValueError(\"limit must be at least 1\")\n    \n    tasks = [asyncio.create_task(factory()) for factory in factories]\n    \n    semaphore = asyncio.Semaphore(limit)\n    \n    async def limited_factory(task):\n        async with semaphore:\n            try:\n                return await task\n            except Exception as e:\n                raise\n    \n    # Replace each task with a version that respects the semaphore\n    limited_tasks = [asyncio.create_task(limited_factory(t)) for t in tasks]\n    \n    results = []\n    for i, task in enumerate(limited_tasks):\n        try:\n            result = await asyncio.wait_for(task, timeout=None)\n            results.append(result)\n        except Exception as e:\n            raise\n    \n    return results\n```",
+    "usage": {
+      "input_tokens": 175,
+      "latency_s": 30.659,
+      "model": "qwen3.5:4b",
+      "output_tokens": 310,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

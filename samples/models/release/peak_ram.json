@@ -1,0 +1,37 @@
+{
+ "idle_before": {
+  "t": 1793602267.7,
+  "used": 9.73,
+  "swap": 3.43,
+  "models": [
+   "qwen3.5:9b"
+  ]
+ },
+ "demo_starting": {
+  "peak_used_gb": 13.04,
+  "peak_swap_gb": 3.43,
+  "models": [
+   "nomic-embed-text:latest",
+   "qwen3.5:4b",
+   "qwen3.5:9b"
+  ]
+ },
+ "demo+lite(4b)": {
+  "peak_used_gb": 13.09,
+  "peak_swap_gb": 3.4,
+  "models": [
+   "nomic-embed-text:latest",
+   "qwen3.5:4b"
+  ]
+ },
+ "demo+9b": {
+  "peak_used_gb": 15.46,
+  "peak_swap_gb": 3.7,
+  "models": [
+   "nomic-embed-text:latest",
+   "qwen3.5:4b",
+   "qwen3.5:9b"
+  ]
+ },
+ "total_gb": 17.18
+}

@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "3c187a6c60a267345c1c7b70ac965479fbb4d0ae004e0c62a1343e84fbad4023",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parse_log_line(line: str) -> dict | None`.\n\nInput is one line of an Apache \"common log format\" access log, for example:\n\n    127.0.0.1 - - [10/Oct/2025:13:55:36 +0000] \"GET /index.html HTTP/1.1\" 200 2326\n\nThe fields are separated by single spaces. The 2nd and 3rd fields (client identity and user name) may be any\nnon-space text, often `-`. Return a dict with keys:\n- `ip` (str), `timestamp` (str, the text inside the square brackets),\n- `method`, `path`, `protocol` (str, the three parts of the quoted request),\n- `status` (int), `size` (int; the log uses `-` for \"no body\", which must become 0).\n\nReturn `None` if the line does not match the format (do not raise).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:41:19.902150+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parse_log_line(line: str) -> dict | None`.\n\nInput is one line of an Apache \"common log format\" access log, for example:\n\n    127.0.0.1 - - [10/Oct/2025:13:55:36 +0000] \"GET /index.html HTTP/1.1\" 200 2326\n\nThe fields are separated by single spaces. The 2nd and 3rd fields (client identity and user name) may be any\nnon-space text, often `-`. Return a dict with keys:\n- `ip` (str), `timestamp` (str, the text inside the square brackets),\n- `method`, `path`, `protocol` (str, the three parts of the quoted request),\n- `status` (int), `size` (int; the log uses `-` for \"no body\", which must become 0).\n\nReturn `None` if the line does not match the format (do not raise).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport re\n\ndef parse_log_line(line: str) -> dict | None:\n    \"\"\"\n    Parse a single line of Apache common log format.\n    \n    Returns a dict with keys: ip, timestamp, method, path, protocol, status, size\n    Returns None if the line does not match the format.\n    \"\"\"\n    if not isinstance(line, str):\n        return None\n    \n    # Pattern for Apache common log format\n    # ip identd user [timestamp] \"request\" status size\n    pattern = r'^(\\S+) (\\S+) (\\S+) \\[([^\\]]+)\\] \"([^\"]*)\" (\\d+) (\\S+)$'\n    \n    match = re.match(pattern, line)\n    if not match:\n        return None\n    \n    ip = match.group(1)\n    # identd = match.group(2)\n    # user = match.group(3)\n    timestamp = match.group(4)\n    request = match.group(5)\n    status_str = match.group(6)\n    size_str = match.group(7)\n    \n    # Parse the request line: \"METHOD PATH PROTOCOL\"\n    # The request should have exactly 3 parts separated by spaces\n    request_parts = request.split(' ')\n    if len(request_parts) != 3:\n        return None\n    \n    method, path, protocol = request_parts\n    \n    # Validate that method, path, protocol are non-empty\n    if not method or not path or not protocol:\n        return None\n    \n    # Parse status\n    try:\n        status = int(status_str)\n    except ValueError:\n        return None\n    \n    # Parse size\n    if size_str == '-':\n        size = 0\n    else:\n        try:\n            size = int(size_str)\n        except ValueError:\n            return None\n    \n    return {\n        'ip': ip,\n        'timestamp': timestamp,\n        'method': method,\n        'path': path,\n        'protocol': protocol,\n        'status': status,\n        'size': size,\n    }\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 292,
+      "latency_s": 1.0019,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 453,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

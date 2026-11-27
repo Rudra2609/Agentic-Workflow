@@ -1,0 +1,381 @@
+{
+  "format": 1,
+  "key": "893174066c8bc1cf9b68349f0daeb813f6785389a411d98b95d207dc321003a8",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Python Programming — Mini Project 2: Polite News Scraper\n\nBuild a command-line tool that collects headlines from three news websites chosen from the approved list on the course page.\n\nThe tool shall:\n1. Fetch the home page of each site and extract every headline together with its link.\n2. Respect robots.txt and wait at least 2 seconds between requests to the same site.\n3. Store the results in a SQLite database, avoiding duplicate headlines across runs.\n4. Provide a --since option that prints only headlines collected after a given date.\n5. Retry a failed request up to 3 times with exponential backoff.\n6. Write errors to a log file instead of crashing.\n\nRestrictions: you may use requests and BeautifulSoup; do not use Scrapy or Selenium. The program must run on Python 3.10 or newer.\n\nPlease hand in your code, a requirements.txt, and a short README with example commands.\n\nRubric: scraping correctness 30, politeness (robots.txt and delays) 20, database and duplicates 20, CLI options 10, error handling and logging 10, code style 10. Total = 100.\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:10:44.729699+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Python Programming — Mini Project 2: Polite News Scraper\n\nBuild a command-line tool that collects headlines from three news websites chosen from the approved list on the course page.\n\nThe tool shall:\n1. Fetch the home page of each site and extract every headline together with its link.\n2. Respect robots.txt and wait at least 2 seconds between requests to the same site.\n3. Store the results in a SQLite database, avoiding duplicate headlines across runs.\n4. Provide a --since option that prints only headlines collected after a given date.\n5. Retry a failed request up to 3 times with exponential backoff.\n6. Write errors to a log file instead of crashing.\n\nRestrictions: you may use requests and BeautifulSoup; do not use Scrapy or Selenium. The program must run on Python 3.10 or newer.\n\nPlease hand in your code, a requirements.txt, and a short README with example commands.\n\nRubric: scraping correctness 30, politeness (robots.txt and delays) 20, database and duplicates 20, CLI options 10, error handling and logging 10, code style 10. Total = 100.\n",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"requirements\":[{\"id\":\"R1\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"The tool must fetch the home page of each selected news site and extract every headline together with its link.\",\"source_quote\":\"Fetch the home page of each site and extract every headline together with its link.\"},{\"id\":\"R2\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"The tool must respect robots.txt and wait at least 2 seconds between requests to the same site.\",\"source_quote\":\"Respect robots.txt and wait at least 2 seconds between requests to the same site.\"},{\"id\":\"R3\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"The tool must store the results in a SQLite database, avoiding duplicate headlines across runs.\",\"source_quote\":\"Store the results in a SQLite database, avoiding duplicate headlines across runs.\"},{\"id\":\"R4\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"The tool must provide a --since option that prints only headlines collected after a given date.\",\"source_quote\":\"Provide a --since option that prints only headlines collected after a given date.\"},{\"id\":\"R5\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"The tool must retry a failed request up to 3 times with exponential backoff.\",\"source_quote\":\"Retry a failed request up to 3 times with exponential backoff.\"},{\"id\":\"R6\",\"type\":\"functional\",\"priority\":\"must\",\"text\":\"The tool must write errors to a log file instead of crashing.\",\"source_quote\":\"Write errors to a log file instead of crashing.\"},{\"id\":\"R7\",\"type\":\"non_functional\",\"priority\":\"must\",\"text\":\"The program must run on Python 3.10 or newer.\",\"source_quote\":\"The program must run on Python 3.10 or newer.\"},{\"id\":\"R8\",\"type\":\"non_functional\",\"priority\":\"must\",\"text\":\"The program may use requests and BeautifulSoup but must not use Scrapy or Selenium.\",\"source_quote\":\"you may use requests and BeautifulSoup; do not use Scrapy or Selenium.\"},{\"id\":\"R9\",\"type\":\"non_functional\",\"priority\":\"must\",\"text\":\"The hand‑in must include the code, a requirements.txt, and a short README with example commands.\",\"source_quote\":\"Please hand in your code, a requirements.txt, and a short README with example commands.\"}],\"constraints\":[{\"id\":\"C1\",\"kind\":\"technology\",\"text\":\"The tool must be implemented in Python 3.10 or newer.\"},{\"id\":\"C2\",\"kind\":\"technology\",\"text\":\"Only the requests and BeautifulSoup libraries may be used for HTTP and parsing.\"},{\"id\":\"C3\",\"kind\":\"technology\",\"text\":\"The tool must not use Scrapy or Selenium.\"},{\"id\":\"C4\",\"kind\":\"format\",\"text\":\"The hand‑in must include a requirements.txt file.\"},{\"id\":\"C5\",\"kind\":\"format\",\"text\":\"The hand‑in must include a short README with example commands.\"},{\"id\":\"C6\",\"kind\":\"length\",\"text\":\"The code should be concise and well‑structured, following PEP8 style guidelines.\"}],\"deliverables\":[{\"id\":\"D1\",\"name\":\"Python source code\",\"format\":\"zip\"},{\"id\":\"D2\",\"name\":\"requirements.txt\",\"format\":\"txt\"},{\"id\":\"D3\",\"name\":\"README.md\",\"format\":\"md\"}],\"evaluation_criteria\":[{\"id\":\"E1\",\"criterion\":\"Scraping correctness\",\"max_marks\":30},{\"id\":\"E2\",\"criterion\":\"Politeness (robots.txt and delays)\",\"max_marks\":20},{\"id\":\"E3\",\"criterion\":\"Database and duplicates handling\",\"max_marks\":20},{\"id\":\"E4\",\"criterion\":\"CLI options\",\"max_marks\":10},{\"id\":\"E5\",\"criterion\":\"Error handling and logging\",\"max_marks\":10},{\"id\":\"E6\",\"criterion\":\"Code style\",\"max_marks\":10}],\"open_questions\":[]}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 980,
+      "latency_s": 1.2797,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 803,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

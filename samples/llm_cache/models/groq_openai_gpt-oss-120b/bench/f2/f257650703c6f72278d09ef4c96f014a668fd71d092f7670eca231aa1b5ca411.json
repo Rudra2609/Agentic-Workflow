@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "f257650703c6f72278d09ef4c96f014a668fd71d092f7670eca231aa1b5ca411",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:46:13.811075+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\n\"\"\"\nsolution.py\n\nImplementation of Vigenère cipher encryption and decryption for ASCII letters.\n\nFunctions\n---------\nvigenere_encrypt(text: str, key: str) -> str\n    Encrypts `text` using the Vigenère cipher with the provided `key`.\n\nvigenere_decrypt(text: str, key: str) -> str\n    Decrypts `text` that was encrypted with the Vigenère cipher using the same `key`.\n\nBoth functions raise ValueError if the key is empty or contains non‑alphabetic characters.\n\"\"\"\n\nfrom __future__ import annotations\n\nimport string\n\n\ndef _validate_key(key: str) -> str:\n    \"\"\"\n    Validate the key and return a normalized (lowercase) version.\n\n    Parameters\n    ----------\n    key : str\n        The cipher key supplied by the caller.\n\n    Returns\n    -------\n    str\n        Lower‑case version of the key.\n\n    Raises\n    ------\n    ValueError\n        If the key is empty or contains any non‑letter characters.\n    \"\"\"\n    if not key:\n        raise ValueError(\"Key must not be empty.\")\n    if any(ch not in string.ascii_letters for ch in key):\n        raise ValueError(\"Key must contain only alphabetic characters.\")\n    return key.lower()\n\n\ndef _shift_char(ch: str, shift: int, encrypt: bool = True) -> str:\n    \"\"\"\n    Shift a single ASCII letter by `shift` positions, preserving case.\n\n    Parameters\n    ----------\n    ch : str\n        A single character (guaranteed to be a letter).\n    shift : int\n        Amount to shift (0‑25).\n    encrypt : bool, optional\n        If True, shift forward (encryption); if False, shift backward (decryption).\n\n    Returns\n    -------\n    str\n        The shifted character.\n    \"\"\"\n    if ch.isupper():\n        base = ord('A')\n    else:\n        base = ord('a')\n\n    offset = ord(ch) - base\n    if encrypt:\n        new_offset = (offset + shift) % 26\n    else:\n        new_offset = (offset - shift) % 26\n    return chr(base + new_offset)\n\n\ndef vigenere_encrypt(text: str, key: str) -> str:\n    \"\"\"\n    Encrypt `text` using the Vigenère cipher.\n\n    Each alphabetic character in `text` is shifted forward by the alphabet\n    position of the corresponding character in `key` (a/A → 0, b/B → 1, …).\n    Non‑alphabetic characters are copied unchanged and do not consume a key\n    character.\n\n    Parameters\n    ----------\n    text : str\n        Plaintext to encrypt.\n    key : str\n        Cipher key (must be non‑empty and contain only letters).\n\n    Returns\n    -------\n    str\n        Encrypted ciphertext.\n\n    Raises\n    ------\n    ValueError\n        If `key` is empty or contains non‑letter characters.\n    \"\"\"\n    norm_key = _validate_key(key)\n    result = []\n    key_index = 0\n    key_len = len(norm_key)\n\n    for ch in text:\n        if ch.isalpha():\n            shift = ord(norm_key[key_index % key_len]) - ord('a')\n            result.append(_shift_char(ch, shift, encrypt=True))\n            key_index += 1\n        else:\n            result.append(ch)\n\n    return ''.join(result)\n\n\ndef vigenere_decrypt(text: str, key: str) -> str:\n    \"\"\"\n    Decrypt `text` that was encrypted with the Vigenère cipher.\n\n    Parameters\n    ----------\n    text : str\n        Ciphertext to decrypt.\n    key : str\n        Cipher key used during encryption (must be non‑empty and contain only letters).\n\n    Returns\n    -------\n    str\n        Decrypted plaintext.\n\n    Raises\n    ------\n    ValueError\n        If `key` is empty or contains non‑letter characters.\n    \"\"\"\n    norm_key = _validate_key(key)\n    result = []\n    key_index = 0\n    key_len = len(norm_key)\n\n    for ch in text:\n        if ch.isalpha():\n            shift = ord(norm_key[key_index % key_len]) - ord('a')\n            result.append(_shift_char(ch, shift, encrypt=False))\n            key_index += 1\n        else:\n            result.append(ch)\n\n    return ''.join(result)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 247,
+      "latency_s": 2.253,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 936,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

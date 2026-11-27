@@ -1,0 +1,183 @@
+{
+  "format": 1,
+  "key": "efaf2fa9dc838e53aa9db883ba1d5c191219514986bfa6c7fa0880ff62d8fb0e",
+  "key_ingredients": {
+    "max_tokens": 1024,
+    "messages": [
+      {
+        "content": "You are a strict reviewer. Given a task and the output produced for it, list concrete problems in the output: missing items, wrong logic, false facts, claims not backed by the given facts, inconsistencies, rule violations. Describe each problem specifically, naming the exact element that is wrong. If the output is correct and complete, return verdict ok and no major or critical issues.",
+        "role": "system"
+      },
+      {
+        "content": "TASK:\nProduce a task plan for: implement a CSV parser and test it. Each task lists the tasks it depends on.\n\nOUTPUT TO REVIEW:\n{\"tasks\": [{\"id\": \"T1\", \"title\": \"Design parser API\", \"depends_on\": []}, {\"id\": \"T2\", \"title\": \"Implement CSV parser\", \"depends_on\": [\"T1\"]}, {\"id\": \"T3\", \"title\": \"Write and run unit tests for the parser\", \"depends_on\": [\"T2\"]}, {\"id\": \"T4\", \"title\": \"Final review\", \"depends_on\": [\"T3\"]}]}",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "$defs": {
+        "Issue": {
+          "properties": {
+            "category": {
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Category",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "severity": {
+              "enum": [
+                "info",
+                "minor",
+                "major",
+                "critical"
+              ],
+              "title": "Severity",
+              "type": "string"
+            }
+          },
+          "required": [
+            "category",
+            "severity",
+            "description"
+          ],
+          "title": "Issue",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "ok",
+            "needs_revision"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issues",
+        "verdict"
+      ],
+      "title": "Critique",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.989431+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "issues": {
+          "items": {
+            "properties": {
+              "category": {
+                "enum": [
+                  "FORMAT",
+                  "SCHEMA",
+                  "OMISSION",
+                  "HALLUCINATION",
+                  "FACTUAL",
+                  "LOGIC",
+                  "REQUIREMENT_VIOLATION",
+                  "CONSISTENCY",
+                  "STYLE",
+                  "SAFETY"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "description": {
+                "title": "Description",
+                "type": "string"
+              },
+              "severity": {
+                "enum": [
+                  "info",
+                  "minor",
+                  "major",
+                  "critical"
+                ],
+                "title": "Severity",
+                "type": "string"
+              }
+            },
+            "required": [
+              "category",
+              "severity",
+              "description"
+            ],
+            "title": "Issue",
+            "type": "object"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "ok",
+            "needs_revision"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issues",
+        "verdict"
+      ],
+      "title": "Critique",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a strict reviewer. Given a task and the output produced for it, list concrete problems in the output: missing items, wrong logic, false facts, claims not backed by the given facts, inconsistencies, rule violations. Describe each problem specifically, naming the exact element that is wrong. If the output is correct and complete, return verdict ok and no major or critical issues.",
+        "role": "system"
+      },
+      {
+        "content": "TASK:\nProduce a task plan for: implement a CSV parser and test it. Each task lists the tasks it depends on.\n\nOUTPUT TO REVIEW:\n{\"tasks\": [{\"id\": \"T1\", \"title\": \"Design parser API\", \"depends_on\": []}, {\"id\": \"T2\", \"title\": \"Implement CSV parser\", \"depends_on\": [\"T1\"]}, {\"id\": \"T3\", \"title\": \"Write and run unit tests for the parser\", \"depends_on\": [\"T2\"]}, {\"id\": \"T4\", \"title\": \"Final review\", \"depends_on\": [\"T3\"]}]}",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "{\"issues\": [{\"category\": \"FACTUAL\", \"severity\": \"critical\", \"description\": \"The task plan is logically incomplete. A standard software development lifecycle requires a 'Design parser implementation' phase before the actual coding begins. Task T2 ('Implement CSV parser') jumps directly from API design to full implementation without an intermediate step for designing the internal logic, data structures, or parsing algorithms. This makes the dependency chain unrealistic and potentially leads to technical debt.\"}, {\"category\": \"LOGIC\", \"severity\": \"critical\", \"description\": \"The task plan lacks a 'Test integration' or 'End-to-end testing' phase. Task T3 only mentions 'unit tests'. A robust parser requires integration tests (testing how the parser interacts with other systems) and potentially acceptance tests to verify it meets business requirements. The final review (T4) depends on unit tests alone, which is insufficient for a complete verification process.\"}, {\"category\": \"LOGIC\", \"severity\": \"minor\", \"description\": \"The task plan lacks a 'Documentation' or 'Deployment' phase. After the parser is implemented and tested, there should be tasks to document the API usage and deploy the solution. These are missing from the list.\"}], \"verdict\": \"needs_revision\"}",
+    "usage": {
+      "input_tokens": 226,
+      "latency_s": 25.679,
+      "model": "qwen3.5:4b",
+      "output_tokens": 259,
+      "provider": "ollama"
+    }
+  },
+  "role": "judge"
+}

@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "7178bc5513c7536b0e6741d7cf22f9d7d177070fb68cefaa6a7a9fb3571c8cde",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `LRUCache`:\n\n- `LRUCache(capacity: int)` — raise `ValueError` if capacity < 1.\n- `get(key) -> value`, returning `-1` if the key is missing. A successful get marks the key as most recently used.\n- `put(key, value)` — insert or update; updating also marks the key as most recently used.\n  When inserting a new key into a full cache, first evict the least recently used key.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:42:15.258736+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `LRUCache`:\n\n- `LRUCache(capacity: int)` — raise `ValueError` if capacity < 1.\n- `get(key) -> value`, returning `-1` if the key is missing. A successful get marks the key as most recently used.\n- `put(key, value)` — insert or update; updating also marks the key as most recently used.\n  When inserting a new key into a full cache, first evict the least recently used key.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nclass LRUCache:\n    def __init__(self, capacity: int):\n        if capacity < 1:\n            raise ValueError(\"capacity must be at least 1\")\n        self.capacity = capacity\n        self.cache = {}\n        self.order = []\n\n    def get(self, key):\n        if key not in self.cache:\n            return -1\n        self._move_to_end(key)\n        return self.cache[key]\n\n    def put(self, key, value):\n        if key in self.cache:\n            self.cache[key] = value\n            self._move_to_end(key)\n        else:\n            if len(self.cache) >= self.capacity:\n                lru_key = self.order.pop(0)\n                del self.cache[lru_key]\n            self.cache[key] = value\n            self.order.append(key)\n\n    def _move_to_end(self, key):\n        self.order.remove(key)\n        self.order.append(key)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 172,
+      "latency_s": 0.5529,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 211,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,381 @@
+{
+  "format": 1,
+  "key": "fe3c478a666f2f45a55ff918e6398ccee0a2e025e2651bfab89b710c99bac2bc",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Software Engineering Project — Phase 2\nLibrary Management REST API\n\nYou are asked to implement the backend of a small library management system.\n\nThe system shall:\n- allow librarians to add, update and delete books (title, author, ISBN, number of copies);\n- allow members to search books by title or author;\n- allow members to borrow a book if at least one copy is available, and return it later;\n- prevent a member from borrowing more than 3 books at the same time;\n- record a fine of Rs. 5 per day for every book returned after its due date (14 days after borrowing);\n- expose all operations as JSON REST endpoints.\n\nNon-functional expectations: every endpoint should respond within 300 ms for a database of 10,000 books. Passwords must be stored hashed, never in plain text.\n\nTechnology constraints: use Python with FastAPI or Flask, and SQLite or PostgreSQL as the database. The API must be documented with OpenAPI/Swagger.\n\nWhat to submit:\n1. The Git repository link containing the source code.\n2. A Postman collection (or equivalent) that exercises every endpoint.\n3. Unit tests with at least 70% line coverage.\n4. A design document with an ER diagram.\n\nMarking scheme:\nAPI correctness — 30 marks\nBorrowing rules and fines — 20 marks\nTests and coverage — 20 marks\nDesign document — 15 marks\nCode quality — 15 marks\nTotal: 100 marks\n",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "Constraint": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "technology",
+                "format",
+                "process",
+                "resource",
+                "other"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "kind"
+          ],
+          "title": "Constraint",
+          "type": "object"
+        },
+        "Criterion": {
+          "properties": {
+            "criterion": {
+              "title": "Criterion",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "max_marks": {
+              "title": "Max Marks",
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "criterion",
+            "max_marks"
+          ],
+          "title": "Criterion",
+          "type": "object"
+        },
+        "Deliverable": {
+          "properties": {
+            "format": {
+              "title": "Format",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "format"
+          ],
+          "title": "Deliverable",
+          "type": "object"
+        },
+        "Requirement": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "priority": {
+              "enum": [
+                "must",
+                "should",
+                "could"
+              ],
+              "title": "Priority",
+              "type": "string"
+            },
+            "source_quote": {
+              "title": "Source Quote",
+              "type": "string"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "functional",
+                "non_functional"
+              ],
+              "title": "Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "text",
+            "type",
+            "priority",
+            "source_quote"
+          ],
+          "title": "Requirement",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "$ref": "#/$defs/Deliverable"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-120b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:44:35.083814+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "constraints": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "technology",
+                  "format",
+                  "process",
+                  "resource",
+                  "other"
+                ],
+                "title": "Kind",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "kind"
+            ],
+            "title": "Constraint",
+            "type": "object"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "deliverables": {
+          "items": {
+            "properties": {
+              "format": {
+                "title": "Format",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "format"
+            ],
+            "title": "Deliverable",
+            "type": "object"
+          },
+          "title": "Deliverables",
+          "type": "array"
+        },
+        "evaluation_criteria": {
+          "items": {
+            "properties": {
+              "criterion": {
+                "title": "Criterion",
+                "type": "string"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "max_marks": {
+                "title": "Max Marks",
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "max_marks"
+            ],
+            "title": "Criterion",
+            "type": "object"
+          },
+          "title": "Evaluation Criteria",
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Open Questions",
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "priority": {
+                "enum": [
+                  "must",
+                  "should",
+                  "could"
+                ],
+                "title": "Priority",
+                "type": "string"
+              },
+              "source_quote": {
+                "title": "Source Quote",
+                "type": "string"
+              },
+              "text": {
+                "title": "Text",
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "functional",
+                  "non_functional"
+                ],
+                "title": "Type",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "text",
+              "type",
+              "priority",
+              "source_quote"
+            ],
+            "title": "Requirement",
+            "type": "object"
+          },
+          "title": "Requirements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirements",
+        "constraints",
+        "deliverables",
+        "evaluation_criteria",
+        "open_questions"
+      ],
+      "title": "Extraction",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You extract structured information from assignment and project documents. List every requirement, constraint, deliverable and evaluation criterion that the document states. Requirements are things the solution must do or satisfy; constraints restrict how it is built or submitted (technology, length, format, rules); deliverables are the artifacts to hand in; evaluation criteria are the marking scheme with marks. source_quote must be copied verbatim from the document. Do not invent items. Use ids R1.., C1.., D1.., E1..",
+        "role": "system"
+      },
+      {
+        "content": "Software Engineering Project — Phase 2\nLibrary Management REST API\n\nYou are asked to implement the backend of a small library management system.\n\nThe system shall:\n- allow librarians to add, update and delete books (title, author, ISBN, number of copies);\n- allow members to search books by title or author;\n- allow members to borrow a book if at least one copy is available, and return it later;\n- prevent a member from borrowing more than 3 books at the same time;\n- record a fine of Rs. 5 per day for every book returned after its due date (14 days after borrowing);\n- expose all operations as JSON REST endpoints.\n\nNon-functional expectations: every endpoint should respond within 300 ms for a database of 10,000 books. Passwords must be stored hashed, never in plain text.\n\nTechnology constraints: use Python with FastAPI or Flask, and SQLite or PostgreSQL as the database. The API must be documented with OpenAPI/Swagger.\n\nWhat to submit:\n1. The Git repository link containing the source code.\n2. A Postman collection (or equivalent) that exercises every endpoint.\n3. Unit tests with at least 70% line coverage.\n4. A design document with an ER diagram.\n\nMarking scheme:\nAPI correctness — 30 marks\nBorrowing rules and fines — 20 marks\nTests and coverage — 20 marks\nDesign document — 15 marks\nCode quality — 15 marks\nTotal: 100 marks\n",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\n  \"requirements\": [\n    {\n      \"id\": \"R1\",\n      \"text\": \"allow librarians to add, update and delete books (title, author, ISBN, number of copies);\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"source_quote\": \"allow librarians to add, update and delete books (title, author, ISBN, number of copies);\"\n    },\n    {\n      \"id\": \"R2\",\n      \"text\": \"allow members to search books by title or author;\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"source_quote\": \"allow members to search books by title or author;\"\n    },\n    {\n      \"id\": \"R3\",\n      \"text\": \"allow members to borrow a book if at least one copy is available, and return it later;\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"source_quote\": \"allow members to borrow a book if at least one copy is available, and return it later;\"\n    },\n    {\n      \"id\": \"R4\",\n      \"text\": \"prevent a member from borrowing more than 3 books at the same time;\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"source_quote\": \"prevent a member from borrowing more than 3 books at the same time;\"\n    },\n    {\n      \"id\": \"R5\",\n      \"text\": \"record a fine of Rs. 5 per day for every book returned after its due date (14 days after borrowing);\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"source_quote\": \"record a fine of Rs. 5 per day for every book returned after its due date (14 days after borrowing);\"\n    },\n    {\n      \"id\": \"R6\",\n      \"text\": \"expose all operations as JSON REST endpoints.\",\n      \"type\": \"functional\",\n      \"priority\": \"must\",\n      \"source_quote\": \"expose all operations as JSON REST endpoints.\"\n    },\n    {\n      \"id\": \"R7\",\n      \"text\": \"every endpoint should respond within 300 ms for a database of 10,000 books.\",\n      \"type\": \"non_functional\",\n      \"priority\": \"must\",\n      \"source_quote\": \"every endpoint should respond within 300 ms for a database of 10,000 books.\"\n    },\n    {\n      \"id\": \"R8\",\n      \"text\": \"Passwords must be stored hashed, never in plain text.\",\n      \"type\": \"non_functional\",\n      \"priority\": \"must\",\n      \"source_quote\": \"Passwords must be stored hashed, never in plain text.\"\n    }\n  ],\n  \"constraints\": [\n    {\n      \"id\": \"C1\",\n      \"kind\": \"technology\",\n      \"text\": \"use Python with FastAPI or Flask\"\n    },\n    {\n      \"id\": \"C2\",\n      \"kind\": \"technology\",\n      \"text\": \"use SQLite or PostgreSQL as the database\"\n    },\n    {\n      \"id\": \"C3\",\n      \"kind\": \"format\",\n      \"text\": \"API must be documented with OpenAPI/Swagger\"\n    }\n  ],\n  \"deliverables\": [\n    {\n      \"id\": \"D1\",\n      \"name\": \"Git repository link containing the source code\",\n      \"format\": \"URL\"\n    },\n    {\n      \"id\": \"D2\",\n      \"name\": \"Postman collection (or equivalent) that exercises every endpoint\",\n      \"format\": \"Postman collection file\"\n    },\n    {\n      \"id\": \"D3\",\n      \"name\": \"Unit tests with at least 70% line coverage\",\n      \"format\": \"Test suite\"\n    },\n    {\n      \"id\": \"D4\",\n      \"name\": \"Design document with an ER diagram\",\n      \"format\": \"Document (PDF/Word)\"\n    }\n  ],\n  \"evaluation_criteria\": [\n    {\n      \"id\": \"E1\",\n      \"criterion\": \"API correctness\",\n      \"max_marks\": 30\n    },\n    {\n      \"id\": \"E2\",\n      \"criterion\": \"Borrowing rules and fines\",\n      \"max_marks\": 20\n    },\n    {\n      \"id\": \"E3\",\n      \"criterion\": \"Tests and coverage\",\n      \"max_marks\": 20\n    },\n    {\n      \"id\": \"E4\",\n      \"criterion\": \"Design document\",\n      \"max_marks\": 15\n    },\n    {\n      \"id\": \"E5\",\n      \"criterion\": \"Code quality\",\n      \"max_marks\": 15\n    }\n  ],\n  \"open_questions\": []\n}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 1046,
+      "latency_s": 3.3711,
+      "model": "openai/gpt-oss-120b",
+      "output_tokens": 1385,
+      "provider": "groq"
+    }
+  },
+  "role": "reasoner"
+}

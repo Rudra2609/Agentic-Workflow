@@ -1,0 +1,15 @@
+{
+ "set": "m10_judge",
+ "member": 10,
+ "model": "groq:openai/gpt-oss-20b",
+ "role": "judge",
+ "task": "review judge agreement (\u03ba, judge alone)",
+ "status": "ok",
+ "score": 0.627,
+ "extra": {
+  "accuracy": 0.75,
+  "fail_as_pass": 0
+ },
+ "seconds": 46.8,
+ "log_tail": ""
+}

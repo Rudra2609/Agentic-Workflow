@@ -84,14 +84,29 @@ class _UnavailableLLM:
         raise self._fail()
 
 
-def make_llm(settings: Settings) -> LLMClient:
+def make_llm(settings: Settings, plugins: Sequence[Plugin] = ()) -> LLMClient:
     try:
         build = _import_attr("hmap.core.llm", "build_llm")
     except ImportError as exc:
         _log.warning("LLM gateway not available; agents that call the LLM will fail", error=str(exc))
         return _UnavailableLLM(str(exc))
-    llm: LLMClient = build(settings)
+    llm: LLMClient = build(settings, route=route_strategy(plugins, settings))
     return llm
+
+
+def route_strategy(plugins: Sequence[Plugin], settings: Settings) -> Any:
+    """The ``llm_provider`` slot (Sprint 11): the highest-priority plug-in's strategy, configured; ``None`` = the
+    role maps decide."""
+    for plugin in sorted(plugins, key=lambda p: -p.priority):
+        impl = plugin.provides.get("llm_provider")
+        if impl is None:
+            continue
+        strategy = impl() if isinstance(impl, type) else impl
+        configure = getattr(strategy, "configure", None)
+        if configure is not None:
+            configure(settings)
+        return strategy
+    return None
 
 
 def llm_for_plugin(llm: LLMClient, plugin: str) -> LLMClient:
@@ -201,8 +216,8 @@ def resolve_refiners(plugins: Sequence[Plugin]) -> dict[str, Refiner]:
     return {cap: refiner for cap, (_, refiner) in out.items()}
 
 
-def build_deps(settings: Settings) -> HostDeps:
-    return HostDeps(bus=make_bus(settings), llm=make_llm(settings), artifacts=make_artifacts(settings),
+def build_deps(settings: Settings, plugins: Sequence[Plugin] = ()) -> HostDeps:
+    return HostDeps(bus=make_bus(settings), llm=make_llm(settings, plugins), artifacts=make_artifacts(settings),
                     contexts=make_contexts(settings), inbox=make_inbox(settings))
 
 
@@ -216,7 +231,7 @@ async def run_agents(settings: Settings, *, only: str | None = None, deps: HostD
     result = discover_all(select_enabled(settings, only))
     if not result.plugins:
         raise HmapError("no plug-ins to run" + "".join(f"\n  - {e}" for e in result.errors))
-    host = AgentHost(result.plugins, deps or build_deps(settings), heartbeat_s=heartbeat_s)
+    host = AgentHost(result.plugins, deps or build_deps(settings, result.plugins), heartbeat_s=heartbeat_s)
     stop = stop_event or asyncio.Event()
     loop = asyncio.get_running_loop()
     installed: list[signal.Signals] = []

@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "f5a7e250617143cce32f182acffaf8ca7e21c66cf5d11b087fb0cb84f7c100dd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:13:23.102849+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport socket\nimport selectors\nimport threading\nimport types\nimport sys\n\nclass ChatServer:\n    def __init__(self, host: str = \"127.0.0.1\", port: int = 0):\n        self.host = host\n        self.port = port\n        self._sel = selectors.DefaultSelector()\n        self._sock = None\n        self._thread = None\n        self._running = False\n        self._lock = threading.Lock()\n        self._clients = {}  # name -> (conn, addr)\n        self._conn_to_name = {}  # conn -> name\n\n    def start(self) -> int:\n        if self._running:\n            return self.port\n        self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n        self._sock.bind((self.host, self.port))\n        self._sock.listen()\n        self._sock.setblocking(False)\n        self.port = self._sock.getsockname()[1]\n        self._sel.register(self._sock, selectors.EVENT_READ, data=None)\n        self._running = True\n        self._thread = threading.Thread(target=self._run, daemon=True)\n        self._thread.start()\n        return self.port\n\n    def stop(self):\n        if not self._running:\n            return\n        self._running = False\n        self._sel.close()\n        try:\n            self._sock.shutdown(socket.SHUT_RDWR)\n        except OSError:\n            pass\n        self._sock.close()\n        self._thread.join()\n\n    def _run(self):\n        while self._running:\n            events = self._sel.select(timeout=1)\n            for key, mask in events:\n                if key.data is None:\n                    self._accept(key.fileobj)\n                else:\n                    self._service_connection(key, mask)\n\n    def _accept(self, sock):\n        conn, addr = sock.accept()\n        conn.setblocking(False)\n        data = types.SimpleNamespace(addr=addr, inb=b\"\", outb=b\"\", name=None)\n        self._sel.register(conn, selectors.EVENT_READ, data=data)\n\n    def _service_connection(self, key, mask):\n        sock = key.fileobj\n        data = key.data\n        try:\n            if mask & selectors.EVENT_READ:\n                recv_data = sock.recv(4096)\n                if recv_data:\n                    data.inb += recv_data\n                    while b'\\n' in data.inb:\n                        line, data.inb = data.inb.split(b'\\n', 1)\n                        self._handle_line(sock, data, line.decode('utf-8', errors='ignore'))\n                else:\n                    self._disconnect(sock, data)\n            if mask & selectors.EVENT_WRITE and data.outb:\n                sent = sock.send(data.outb)\n                data.outb = data.outb[sent:]\n                if not data.outb:\n                    self._sel.modify(sock, selectors.EVENT_READ, data=data)\n        except ConnectionResetError:\n            self._disconnect(sock, data)\n\n    def _handle_line(self, sock, data, line):\n        if data.name is None:\n            if not line.startswith(\"NAME \"):\n                self._send_and_close(sock, \"ERROR bad name\\n\")\n                return\n            name = line[5:].strip()\n            with self._lock:\n                if name in self._clients:\n                    self._send_and_close(sock, \"ERROR name taken\\n\")\n                    return\n                data.name = name\n                self._clients[name] = (sock, data.addr)\n                self._conn_to_name[sock] = name\n            self._send(sock, \"OK\\n\")\n            self._broadcast(f\"* {name} joined\\n\", exclude=sock)\n        else:\n            msg = f\"{data.name}: {line}\\n\"\n            self._broadcast(msg, exclude=sock)\n\n    def _broadcast(self, msg, exclude=None):\n        with self._lock:\n            for name, (conn, _) in self._clients.items():\n                if conn is exclude:\n                    continue\n                self._send(conn, msg)\n\n    def _send(self, sock, msg):\n        data = self._sel.get_key(sock).data\n        data.outb += msg.encode('utf-8')\n        self._sel.modify(sock, selectors.EVENT_READ | selectors.EVENT_WRITE, data=data)\n\n    def _send_and_close(self, sock, msg):\n        try:\n            sock.sendall(msg.encode('utf-8'))\n        except OSError:\n            pass\n        self._disconnect(sock, self._sel.get_key(sock).data)\n\n    def _disconnect(self, sock, data):\n        name = data.name\n        if name:\n            with self._lock:\n                self._clients.pop(name, None)\n                self._conn_to_name.pop(sock, None)\n            self._broadcast(f\"* {name} left\\n\", exclude=sock)\n        try:\n            self._sel.unregister(sock)\n        except Exception:\n            pass\n        try:\n            sock.shutdown(socket.SHUT_RDWR)\n        except OSError:\n            pass\n        sock.close()\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 341,
+      "latency_s": 1.5861,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 1084,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

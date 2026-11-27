@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "2098a3cdb64292a9ed2487b76a0c8f0a73dee2fb90f64dc906a79f997c3e9e54",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:42.609766+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `TokenBucket` for rate limiting.\n\n- `TokenBucket(rate: float, capacity: int, clock=time.monotonic)` — `rate` tokens are added per second,\n  up to `capacity`. The bucket starts full. `clock` is a zero-argument function returning seconds (tests inject a fake clock).\n- `allow() -> bool`: refill based on time elapsed since the last refill, then if at least one token is available,\n  consume one and return True; otherwise return False.\n- Raise `ValueError` if rate <= 0 or capacity < 1.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport time\nfrom typing import Callable\n\n\nclass TokenBucket:\n    \"\"\"\n    A simple token bucket rate limiter.\n\n    Parameters\n    ----------\n    rate : float\n        Tokens added per second. Must be > 0.\n    capacity : int\n        Maximum number of tokens the bucket can hold. Must be >= 1.\n    clock : Callable[[], float], optional\n        Function returning the current time in seconds. Defaults to time.monotonic.\n    \"\"\"\n\n    def __init__(self, rate: float, capacity: int, clock: Callable[[], float] = time.monotonic):\n        if rate <= 0:\n            raise ValueError(\"rate must be greater than 0\")\n        if capacity < 1:\n            raise ValueError(\"capacity must be at least 1\")\n\n        self._rate = float(rate)\n        self._capacity = int(capacity)\n        self._clock = clock\n\n        self._tokens = float(capacity)  # start full\n        self._last = self._clock()\n\n    def allow(self) -> bool:\n        \"\"\"\n        Attempt to consume a token.\n\n        Returns\n        -------\n        bool\n            True if a token was consumed, False otherwise.\n        \"\"\"\n        now = self._clock()\n        elapsed = now - self._last\n        self._last = now\n\n        # Refill tokens based on elapsed time\n        self._tokens += elapsed * self._rate\n        if self._tokens > self._capacity:\n            self._tokens = float(self._capacity)\n\n        if self._tokens >= 1.0:\n            self._tokens -= 1.0\n            return True\n        return False\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 245,
+      "latency_s": 1.0482,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 492,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

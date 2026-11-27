@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "1c629f334ad10563b32109c819c9dce4b5ec9886f76774905f6cc60f9b1e1255",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.963847+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `column_means(csv_text: str) -> dict[str, float]`.\n\nThe first line is a comma-separated header. For each column, ignore empty cells; if every non-empty cell\nparses as a float, include the column with the mean of those values. Skip columns that contain any\nnon-numeric value or that have no non-empty values. Use the `csv` module so quoted fields work.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "```python\nimport csv\nfrom typing import Dict\n\ndef column_means(csv_text: str) -> Dict[str, float]:\n    reader = csv.reader(csv_text.splitlines(), quotechar='\"')\n    header = next(reader)\n    data = {col: [] for col in header}\n    \n    for row in reader:\n        for col, value in zip(header, row):\n            if value:\n                try:\n                    data[col].append(float(value))\n                except ValueError:\n                    pass\n    \n    means = {}\n    for col, values in data.items():\n        if values:\n            means[col] = sum(values) / len(values)\n    \n    return means\n```",
+    "usage": {
+      "input_tokens": 146,
+      "latency_s": 22.188,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 133,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

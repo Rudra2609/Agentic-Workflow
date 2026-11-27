@@ -1,0 +1,105 @@
+{
+  "format": 1,
+  "key": "9adbba07fead0c6014eeced8acba40301da6f8605fd8f96fe59b3ee5a91449ab",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: PBFT needs at least 3f+1 replicas to tolerate f faulty replicas.\nQUOTE: The algorithm guarantees safety and liveness provided that at most f out of a total of 3f+1 replicas are simultaneously faulty.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "openai/gpt-oss-20b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T18:11:05.005046+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: PBFT needs at least 3f+1 replicas to tolerate f faulty replicas.\nQUOTE: The algorithm guarantees safety and liveness provided that at most f out of a total of 3f+1 replicas are simultaneously faulty.",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 512,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "{\"verdict\":\"SUPPORTED\",\"rationale\":\"The quote explicitly states that PBFT guarantees safety and liveness when there are at most f faulty replicas out of a total of 3f+1 replicas, confirming the claim that 3f+1 replicas are required to tolerate f faults.\"}",
+    "usage": {
+      "cached": false,
+      "input_tokens": 315,
+      "latency_s": 0.5658,
+      "model": "openai/gpt-oss-20b",
+      "output_tokens": 143,
+      "provider": "groq"
+    }
+  },
+  "role": "judge"
+}

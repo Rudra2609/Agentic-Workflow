@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "key": "be3a1c3e06ec2cac8938232fdcdf74b532cb0e0e9a56c33ec68c93a41b09b320",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen/qwen3.8-27b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "groq",
+  "recorded_at": "2026-11-01T17:43:21.406543+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]`.\n\n`graph[u][v]` is the non-negative weight of the directed edge u -> v. Nodes may appear only as edge targets.\nReturn `(total_cost, path)` for a cheapest path from `start` to `goal`, where `path` lists the nodes including both ends.\nIf `start == goal` return `(0, [start])`. If `goal` is unreachable (or a node is unknown) return `(float(\"inf\"), [])`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "no-local-fallback",
+    "options": {
+      "num_predict": 2048,
+      "seed": 42,
+      "temperature": 0.0
+    },
+    "think": false
+  },
+  "response": {
+    "text": "```python\nimport heapq\nfrom typing import Dict, List, Tuple\n\n\ndef shortest_path(graph: dict[str, dict[str, float]], start: str, goal: str) -> tuple[float, list[str]]:\n    if start == goal:\n        return (0, [start])\n    \n    # Check if start or goal are unknown nodes\n    # A node is \"known\" if it appears as a key in graph or as a value in any graph[u]\n    # But the problem says \"If goal is unreachable (or a node is unknown) return (inf, [])\"\n    # Let's interpret \"unknown\" as: if start is not in graph and start != goal, or if goal is not reachable.\n    # Actually, let's just run Dijkstra and if goal is not reached, return inf.\n    \n    # Initialize distances\n    dist = {start: 0.0}\n    prev = {}\n    visited = set()\n    \n    # Priority queue: (distance, node)\n    pq = [(0.0, start)]\n    \n    while pq:\n        d, u = heapq.heappop(pq)\n        if u in visited:\n            continue\n        visited.add(u)\n        \n        if u == goal:\n            break\n        \n        # Explore neighbors\n        if u in graph:\n            for v, w in graph[u].items():\n                if v in visited:\n                    continue\n                new_dist = d + w\n                if v not in dist or new_dist < dist[v]:\n                    dist[v] = new_dist\n                    prev[v] = u\n                    heapq.heappush(pq, (new_dist, v))\n    \n    if goal not in dist:\n        return (float(\"inf\"), [])\n    \n    # Reconstruct path\n    path = []\n    node = goal\n    while node != start:\n        path.append(node)\n        node = prev[node]\n    path.append(start)\n    path.reverse()\n    \n    return (dist[goal], path)\n```",
+    "usage": {
+      "cached": false,
+      "input_tokens": 194,
+      "latency_s": 0.9701,
+      "model": "qwen/qwen3.8-27b",
+      "output_tokens": 437,
+      "provider": "groq"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,31 @@
+{
+ "_machine": {
+  "chip": "Apple M3",
+  "total_gb": 17.2,
+  "swap_used_gb": 0.0,
+  "under_swap": false,
+  "at": "2026-11-02T12:03"
+ },
+ "qwen3.5:4b": {
+  "model": "qwen3.5:4b",
+  "backend": "ollama",
+  "cold_load_s": 7.09,
+  "resident_gb": 3.34,
+  "ttft_s": 0.19,
+  "tok_s": 23.75,
+  "json_tok_s": 22.66,
+  "prefill_tok_s": 133.11,
+  "runs": 3
+ },
+ "qwen3.5:9b": {
+  "model": "qwen3.5:9b",
+  "backend": "ollama",
+  "cold_load_s": 10.65,
+  "resident_gb": 5.77,
+  "ttft_s": 0.71,
+  "tok_s": 6.25,
+  "json_tok_s": 5.87,
+  "prefill_tok_s": 36.02,
+  "runs": 3
+ }
+}
