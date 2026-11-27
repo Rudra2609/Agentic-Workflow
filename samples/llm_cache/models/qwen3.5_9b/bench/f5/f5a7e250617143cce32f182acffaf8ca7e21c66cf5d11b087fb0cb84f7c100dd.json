@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "f5a7e250617143cce32f182acffaf8ca7e21c66cf5d11b087fb0cb84f7c100dd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.051145+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a multi-client TCP chat server class `ChatServer` using only the Python standard library.\n\n- `ChatServer(host: str = \"127.0.0.1\", port: int = 0)`; `start() -> int` serves in the background and returns the port;\n  `stop()` shuts everything down.\n- All messages are UTF-8 lines terminated by `\\n`.\n- A client's first line must be `NAME <username>`. If the name is free, reply `OK\\n`; if it is already taken by a\n  connected client, reply `ERROR name taken\\n` and close that connection.\n- When a client registers, every *other* registered client receives `* <username> joined\\n`.\n- Every later line `<text>` from a registered client is sent to every *other* registered client as `<username>: <text>\\n`\n  (the sender does not receive its own message).\n- When a registered client disconnects, every other registered client receives `* <username> left\\n`, and the name becomes free again.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport socket\nimport threading\nfrom typing import Optional, Set\n\nclass ChatServer:\n    def __init__(self, host: str = \"127.0.0.1\", port: int = 0):\n        self.host = host\n        self.port = port\n        self._server_socket: Optional[socket.socket] = None\n        self._clients: dict[str, socket.socket] = {}  # username -> socket\n        self._lock = threading.Lock()\n        self._is_running = False\n\n    def start(self) -> int:\n        \"\"\"Start the server in a background thread and return the bound port.\"\"\"\n        if self.port == 0:\n            # Find an available port\n            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as temp_sock:\n                temp_sock.bind((self.host, 0))\n                temp_sock.listen(1)\n                self.port = temp_sock.getsockname()[1]\n        \n        self._server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        self._server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n        self._server_socket.bind((self.host, self.port))\n        self._server_socket.listen(5)\n        \n        self._is_running = True\n        \n        def run_server():\n            while self._is_running:\n                try:\n                    conn_addr, _ = self._server_socket.accept()\n                    thread = threading.Thread(target=self._handle_client, args=(conn_addr,), daemon=True)\n                    thread.start()\n                except socket.error:\n                    if self._is_running:\n                        break\n        \n        thread = threading.Thread(target=run_server, daemon=True)\n        thread.start()\n        return self.port\n\n    def stop(self):\n        \"\"\"Shut down the server.\"\"\"\n        self._is_running = False\n        if self._server_socket:\n            try:\n                self._server_socket.close()\n            except socket.error:\n                pass\n        \n        # Close all client sockets to ensure clean shutdown\n        with self._lock:\n            for sock in self._clients.values():\n                try:\n                    sock.close()\n                except socket.error:\n                    pass\n\n    def _handle_client(self, conn: socket.socket):\n        \"\"\"Handle a single client connection.\"\"\"\n        username = None\n        \n        try:\n            # Read first line (registration)\n            data = b\"\"\n            while True:\n                chunk = conn.recv(4096)\n                if not chunk:\n                    break\n                data += chunk\n                if b\"\\n\" in data:\n                    break\n            \n            if not data:\n                return\n\n            line = data.decode(\"utf-8\").strip()\n            \n            # Check for registration format \"NAME <username>\"\n            if line.startswith(\"NAME \"):\n                username = line[5:]  # Extract username after \"NAME \"\n                \n                with self._lock:\n                    if username in self._clients:\n                        # Name taken, close connection immediately\n                        conn.close()\n                        return\n                    \n                    # Register client\n                    self._clients[username] = conn\n                \n                # Notify others of join\n                self._broadcast(f\"* {username} joined\\n\", exclude=username)\n                \n            else:\n                # Not a registration line (or malformed), close connection\n                conn.close()\n                return\n\n        except Exception:\n            try:\n                with self._lock:\n                    if username and username in self._clients:\n                        del self._clients[username]\n            except KeyError:\n                pass\n        \n        finally:\n            # Handle disconnect notification if we have a valid username registered\n            if username and username in self._clients:\n                try:\n                    conn.close()\n                    with self._lock:\n                        del self._clients[username]\n                    self._broadcast(f\"* {username} left\\n\", exclude=username)\n                except socket.error:\n                    pass\n\n    def _broadcast(self, message: str, exclude: Optional[str] = None):\n        \"\"\"Send a message to all connected clients except the specified one.\"\"\"\n        if not self._clients:\n            return\n        \n        with self._lock:\n            # Create a list of sockets to iterate over safely\n            sockets_to_send = list(self._clients.values())\n        \n        for sock in sockets_to_send:\n            try:\n                if exclude is None or sock != self._clients[exclude]:\n                    sock.sendall(message.encode(\"utf-8\"))\n            except socket.error:\n                # Client disconnected, will be cleaned up by the main loop or next recv\n                pass\n```",
+    "usage": {
+      "input_tokens": 295,
+      "latency_s": 155.955,
+      "model": "qwen3.5:9b",
+      "output_tokens": 986,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

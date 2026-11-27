@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2414fb8dc2acbb3d69dce4819048e4c708083f08efdaac3a7617da5b1a395cdd",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.051607+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parallel_map(fn, items: list, workers: int) -> list` that applies `fn` to every item using at most\n`workers` threads running at the same time, and returns the results **in the same order as `items`**.\nIf `fn` raises for any item, `parallel_map` must raise that exception (after stopping or finishing the other work).\nRaise `ValueError` if `workers < 1`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport threading\nfrom queue import Queue, Empty\nfrom concurrent.futures import ThreadPoolExecutor, Future\nfrom typing import Callable, List, Any\n\ndef parallel_map(fn: Callable[[Any], Any], items: List[Any], workers: int) -> List[Any]:\n    \"\"\"\n    Applies `fn` to every item in `items` using at most `workers` threads.\n    Returns results in the same order as `items`.\n    \n    Args:\n        fn: The function to apply to each item.\n        items: List of items to process.\n        workers: Maximum number of concurrent threads.\n        \n    Returns:\n        List of results corresponding to input items.\n        \n    Raises:\n        ValueError: If workers < 1.\n        Exception: Any exception raised by `fn` during processing.\n    \"\"\"\n    if workers < 1:\n        raise ValueError(\"workers must be at least 1\")\n\n    if not items:\n        return []\n\n    # Queue to hold (index, result_or_exception) tuples\n    result_queue = Queue()\n    \n    # We need to track futures to handle exceptions properly\n    # Since we can't easily pass 'self' or context to a simple function in ThreadPoolExecutor \n    # without a wrapper, we'll use a custom approach with a thread pool\n    \n    def worker_task(item):\n        try:\n            result = fn(item)\n            return (item, result, None)\n        except Exception as e:\n            return (item, None, e)\n\n    # Create a thread pool executor\n    with ThreadPoolExecutor(max_workers=workers) as executor:\n        # Submit all tasks\n        futures = [executor.submit(worker_task, item) for item in items]\n        \n        # Collect results in order\n        results = []\n        exceptions_raised = None\n        \n        for future in futures:\n            try:\n                result_tuple = future.result()\n                _, value, error = result_tuple\n                \n                if error is not None:\n                    # Store the exception to re-raise later if needed\n                    # But we need to stop processing or handle it gracefully?\n                    # The requirement says \"raise that exception (after stopping or finishing the other work)\"\n                    # This implies we should wait for all tasks to finish, then raise.\n                    # However, if one fails, we can't just ignore it and continue normally.\n                    # We need to collect all results first, then check for exceptions?\n                    # Or raise immediately? \n                    # \"raise that exception (after stopping or finishing the other work)\"\n                    # This is ambiguous. Does it mean wait for ALL tasks to finish before raising?\n                    # Let's assume we wait for all tasks to complete, then raise the first exception encountered.\n                    pass\n                else:\n                    results.append(value)\n            except Exception as e:\n                # If a future itself raises (which shouldn't happen with our wrapper), handle it\n                if exceptions_raised is None:\n                    exceptions_raised = e\n                # We continue to collect other results? \n                # Actually, the requirement says \"raise that exception\". \n                # It's safest to wait for all tasks to finish, then raise the first exception found.\n        \n        # Wait for all futures to complete (they are already submitted, but we need to ensure completion)\n        # The loop above calls future.result() which blocks until done.\n        # So by the time we exit the loop, all tasks are done.\n        \n        # Now check if any exception occurred\n        if exceptions_raised is not None:\n            raise exceptions_raised\n            \n        return results\n\n    # Wait, the logic above has a flaw. If an exception occurs inside worker_task, \n    # future.result() will raise it. We need to catch it and store it.\n    \n    # Let's rewrite the collection part properly.\n    \n    results = [None] * len(items)\n    exceptions_raised = None\n    \n    for i, future in enumerate(futures):\n        try:\n            result_tuple = future.result()\n            _, value, error = result_tuple\n            \n            if error is not None:\n                # We found an exception. We need to remember it.\n                # But we should continue processing other items? \n                # The requirement says \"raise that exception (after stopping or finishing the other work)\"\n                # This suggests we finish all work, then raise.\n                if exceptions_raised is None:\n                    exceptions_raised = error\n            else:\n                results[i] = value\n                \n        except Exception as e:\n            # This should not happen with our wrapper, but just in case\n            if exceptions_raised is None:\n                exceptions_raised = e\n    \n    if exceptions_raised is not None:\n        raise exceptions_raised\n        \n    return results\n```",
+    "usage": {
+      "input_tokens": 160,
+      "latency_s": 156.53,
+      "model": "qwen3.5:9b",
+      "output_tokens": 1024,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

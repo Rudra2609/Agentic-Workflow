@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "f257650703c6f72278d09ef4c96f014a668fd71d092f7670eca231aa1b5ca411",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.965319+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "```python\nimport string\n\ndef vigenere_encrypt(text: str, key: str) -> str:\n    if not key or not key.isalpha():\n        raise ValueError(\"Key must be non-empty and contain only letters.\")\n    \n    key = key.lower()\n    key_length = len(key)\n    encrypted_text = []\n    \n    for i, char in enumerate(text):\n        if char.isalpha():\n            shift = ord(key[i % key_length]) - ord('a')\n            if char.islower():\n                encrypted_text.append(chr((ord(char) - ord('a') + shift) % 26 + ord('a')))\n            else:\n                encrypted_text.append(chr((ord(char) - ord('A') + shift) % 26 + ord('A')))\n        else:\n            encrypted_text.append(char)\n    \n    return ''.join(encrypted_text)\n\ndef vigenere_decrypt(text: str, key: str) -> str:\n    if not key or not key.isalpha():\n        raise ValueError(\"Key must be non-empty and contain only letters.\")\n    \n    key = key.lower()\n    key_length = len(key)\n    decrypted_text = []\n    \n    for i, char in enumerate(text):\n        if char.isalpha():\n            shift = ord(key[i % key_length]) - ord('a')\n            if char.islower():\n                decrypted_text.append(chr((ord(char) - ord('a') - shift) % 26 + ord('a')))\n            else:\n                decrypted_text.append(chr((ord(char) - ord('A') - shift) % 26 + ord('A')))\n        else:\n            decrypted_text.append(char)\n    \n    return ''.join(decrypted_text)\n```",
+    "usage": {
+      "input_tokens": 185,
+      "latency_s": 55.144,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 346,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

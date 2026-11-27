@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "3c187a6c60a267345c1c7b70ac965479fbb4d0ae004e0c62a1343e84fbad4023",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parse_log_line(line: str) -> dict | None`.\n\nInput is one line of an Apache \"common log format\" access log, for example:\n\n    127.0.0.1 - - [10/Oct/2025:13:55:36 +0000] \"GET /index.html HTTP/1.1\" 200 2326\n\nThe fields are separated by single spaces. The 2nd and 3rd fields (client identity and user name) may be any\nnon-space text, often `-`. Return a dict with keys:\n- `ip` (str), `timestamp` (str, the text inside the square brackets),\n- `method`, `path`, `protocol` (str, the three parts of the quoted request),\n- `status` (int), `size` (int; the log uses `-` for \"no body\", which must become 0).\n\nReturn `None` if the line does not match the format (do not raise).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.011051+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `parse_log_line(line: str) -> dict | None`.\n\nInput is one line of an Apache \"common log format\" access log, for example:\n\n    127.0.0.1 - - [10/Oct/2025:13:55:36 +0000] \"GET /index.html HTTP/1.1\" 200 2326\n\nThe fields are separated by single spaces. The 2nd and 3rd fields (client identity and user name) may be any\nnon-space text, often `-`. Return a dict with keys:\n- `ip` (str), `timestamp` (str, the text inside the square brackets),\n- `method`, `path`, `protocol` (str, the three parts of the quoted request),\n- `status` (int), `size` (int; the log uses `-` for \"no body\", which must become 0).\n\nReturn `None` if the line does not match the format (do not raise).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom typing import Optional, Dict, Any\n\ndef parse_log_line(line: str) -> Optional[Dict[str, Any]]:\n    \"\"\"\n    Parses an Apache Common Log Format line into a dictionary.\n    \n    Args:\n        line: A string representing a single log line.\n        \n    Returns:\n        A dictionary with keys 'ip', 'timestamp', 'method', 'path', 'protocol', \n        'status', and 'size' if the line matches the expected format, otherwise None.\n    \"\"\"\n    # Regex pattern for Apache Common Log Format\n    # Structure: IP - - [timestamp] \"METHOD PATH PROTOCOL\" STATUS SIZE\n    pattern = r'^(\\S+)\\s+\\S+\\s+\\S+\\s+\\[([^\\]]+)\\]\\s+\"([^\"]+)\"\\s+(\\d+)\\s+(\\S+)$'\n    \n    match = re.match(pattern, line.strip())\n    \n    if not match:\n        return None\n    \n    ip = match.group(1)\n    timestamp = match.group(2)\n    request_line = match.group(3)\n    status = int(match.group(4))\n    size_str = match.group(5)\n    \n    # Parse the request line (METHOD PATH PROTOCOL)\n    request_parts = request_line.split()\n    if len(request_parts) != 3:\n        return None\n    \n    method, path, protocol = request_parts\n    \n    # Handle size: '-' means 0\n    size = 0 if size_str == '-' else int(size_str)\n    \n    return {\n        'ip': ip,\n        'timestamp': timestamp,\n        'method': method,\n        'path': path,\n        'protocol': protocol,\n        'status': status,\n        'size': size\n    }\n```",
+    "usage": {
+      "input_tokens": 292,
+      "latency_s": 42.609,
+      "model": "qwen3.5:4b",
+      "output_tokens": 389,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

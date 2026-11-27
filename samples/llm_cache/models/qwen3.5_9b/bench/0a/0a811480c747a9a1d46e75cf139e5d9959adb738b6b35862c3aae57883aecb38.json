@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "0a811480c747a9a1d46e75cf139e5d9959adb738b6b35862c3aae57883aecb38",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `dict_diff(old: dict, new: dict) -> list[str]` that compares two (possibly nested) dicts.\n\n- Report `\"added: <path>\"` for keys only in `new`, `\"removed: <path>\"` for keys only in `old`, and\n  `\"changed: <path>\"` for keys in both whose values differ.\n- When both values are dicts, compare recursively instead of reporting the parent as changed.\n- `<path>` joins nested keys with dots, e.g. `db.port`. Keys are strings.\n- Return the list sorted alphabetically.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.052387+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `dict_diff(old: dict, new: dict) -> list[str]` that compares two (possibly nested) dicts.\n\n- Report `\"added: <path>\"` for keys only in `new`, `\"removed: <path>\"` for keys only in `old`, and\n  `\"changed: <path>\"` for keys in both whose values differ.\n- When both values are dicts, compare recursively instead of reporting the parent as changed.\n- `<path>` joins nested keys with dots, e.g. `db.port`. Keys are strings.\n- Return the list sorted alphabetically.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\ndef dict_diff(old: dict, new: dict) -> list[str]:\n    \"\"\"\n    Compares two nested dictionaries and returns a list of strings describing\n    differences.\n    \n    - \"added: <path>\" for keys only in `new`\n    - \"removed: <path>\" for keys only in `old`\n    - \"changed: <path>\" for keys in both whose values differ\n    \n    If both values are dicts, comparison is recursive.\n    Paths are joined with dots (e.g., \"db.port\").\n    \n    Returns a list sorted alphabetically.\n    \"\"\"\n    def get_diff(old_val, new_val, path: str = \"\") -> list[str]:\n        results = []\n        \n        # If both are dicts, recurse\n        if isinstance(old_val, dict) and isinstance(new_val, dict):\n            all_keys = set(old_val.keys()) | set(new_val.keys())\n            \n            for key in all_keys:\n                current_path = f\"{path}.{key}\" if path else key\n                \n                if key not in old_val:\n                    results.append(f\"added: {current_path}\")\n                elif key not in new_val:\n                    results.append(f\"removed: {current_path}\")\n                else:\n                    # Both exist, check types and values\n                    old_type = type(old_val[key])\n                    new_type = type(new_val[key])\n                    \n                    if old_type != new_type:\n                        # Type mismatch is considered a change\n                        results.append(f\"changed: {current_path}\")\n                    elif isinstance(old_val[key], dict) and isinstance(new_val[key], dict):\n                        # Recurse into nested dicts\n                        results.extend(get_diff(old_val[key], new_val[key], current_path))\n                    else:\n                        # Compare values directly\n                        if old_val[key] != new_val[key]:\n                            results.append(f\"changed: {current_path}\")\n        \n        return results\n\n    diff_list = get_diff(old, new)\n    return sorted(diff_list)\n```",
+    "usage": {
+      "input_tokens": 191,
+      "latency_s": 67.495,
+      "model": "qwen3.5:9b",
+      "output_tokens": 429,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

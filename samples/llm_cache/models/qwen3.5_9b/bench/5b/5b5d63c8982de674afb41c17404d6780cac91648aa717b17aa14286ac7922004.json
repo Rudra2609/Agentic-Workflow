@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "5b5d63c8982de674afb41c17404d6780cac91648aa717b17aa14286ac7922004",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a thread-safe counter and a helper:\n\n- class `SafeCounter` with `increment()` (adds 1) and a `value` property.\n- `count_with_threads(n_threads: int, increments: int) -> int` starts `n_threads` threads that each call\n  `increment()` on one shared `SafeCounter` exactly `increments` times, waits for all of them, and returns the final value.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.051406+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a thread-safe counter and a helper:\n\n- class `SafeCounter` with `increment()` (adds 1) and a `value` property.\n- `count_with_threads(n_threads: int, increments: int) -> int` starts `n_threads` threads that each call\n  `increment()` on one shared `SafeCounter` exactly `increments` times, waits for all of them, and returns the final value.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport threading\n\n\nclass SafeCounter:\n    \"\"\"A thread-safe counter implementation.\"\"\"\n\n    def __init__(self):\n        self._value = 0\n        self._lock = threading.Lock()\n\n    def increment(self):\n        \"\"\"Atomically increments the counter by 1.\"\"\"\n        with self._lock:\n            self._value += 1\n\n    @property\n    def value(self):\n        \"\"\"Returns the current value of the counter.\"\"\"\n        with self._lock:\n            return self._value\n\n\ndef count_with_threads(n_threads: int, increments: int) -> int:\n    \"\"\"\n    Starts n_threads threads that each increment a shared SafeCounter \n    exactly 'increments' times. Waits for all threads to finish and returns the final value.\n\n    Args:\n        n_threads (int): Number of threads to spawn.\n        increments (int): Number of increments per thread.\n\n    Returns:\n        int: The final value of the counter.\n    \"\"\"\n    counter = SafeCounter()\n    threads = []\n\n    for _ in range(n_threads):\n        t = threading.Thread(target=counter.increment, args=(increments,), daemon=False)\n        # We need to bind 'increments' to the thread's closure correctly.\n        # Since increment() doesn't take arguments, we wrap it or use a loop inside the thread.\n        # However, the signature of increment is fixed in SafeCounter.\n        # So we must create a wrapper or just call increment in a loop inside the thread target.\n        \n        def make_target(increments_count):\n            for _ in range(increments_count):\n                counter.increment()\n        \n        t = threading.Thread(target=make_target, args=(increments,))\n        threads.append(t)\n        t.start()\n\n    for t in threads:\n        t.join()\n\n    return counter.value\n```",
+    "usage": {
+      "input_tokens": 156,
+      "latency_s": 64.527,
+      "model": "qwen3.5:9b",
+      "output_tokens": 401,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

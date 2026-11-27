@@ -1,0 +1,203 @@
+{
+  "format": 1,
+  "key": "d0612eaafe892973f191d088d074bba53670b86bb1e1756f7d7507687d02e234",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Define the REST API specification (endpoints, payloads) for the attendance service.\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"Implement the face-registration endpoint that stores a student's face embedding.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Implement the attendance-marking endpoint that matches a camera frame against registered faces.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"Compare at least two open-source face-recognition libraries and choose one.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"Build a web dashboard for teachers showing attendance per lecture.\"\n  },\n  {\n   \"id\": \"R6\",\n   \"text\": \"Export attendance reports as CSV.\"\n  },\n  {\n   \"id\": \"R7\",\n   \"text\": \"Integration tests covering every endpoint.\"\n  },\n  {\n   \"id\": \"R8\",\n   \"text\": \"User manual for teachers.\"\n  },\n  {\n   \"id\": \"R9\",\n   \"text\": \"A privacy note explaining how biometric data is stored and deleted, based on current data-protection guidance.\"\n  },\n  {\n   \"id\": \"R10\",\n   \"text\": \"Load test showing the marking endpoint handles 100 requests per second.\"\n  }\n ],\n \"constraints\": [\n  \"Python backend\",\n  \"open-source libraries only\"\n ],\n \"deliverables\": [\n  \"source repository\",\n  \"user manual\",\n  \"privacy note\",\n  \"test and load-test report\"\n ],\n \"notes\": \"The face library must be chosen (R4) before registration (R2) is built. The dashboard (R5) consumes the API defined in R1. Attendance marking (R3) needs faces registered by R2. The privacy note (R9) needs research on data-protection guidance first.\"\n}",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "reasoner",
+    "schema": {
+      "$defs": {
+        "PlanTask": {
+          "properties": {
+            "capability": {
+              "enum": [
+                "research.run",
+                "verify.claims",
+                "code.implement",
+                "test.run",
+                "docs.generate",
+                "review.final"
+              ],
+              "title": "Capability",
+              "type": "string"
+            },
+            "depends_on": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Depends On",
+              "type": "array"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "phase": {
+              "enum": [
+                "research",
+                "design",
+                "implement",
+                "test",
+                "document",
+                "review"
+              ],
+              "title": "Phase",
+              "type": "string"
+            },
+            "requirement_ids": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Requirement Ids",
+              "type": "array"
+            },
+            "title": {
+              "title": "Title",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "capability",
+            "requirement_ids",
+            "depends_on",
+            "phase"
+          ],
+          "title": "PlanTask",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/PlanTask"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.983279+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "tasks": {
+          "items": {
+            "properties": {
+              "capability": {
+                "enum": [
+                  "research.run",
+                  "verify.claims",
+                  "code.implement",
+                  "test.run",
+                  "docs.generate",
+                  "review.final"
+                ],
+                "title": "Capability",
+                "type": "string"
+              },
+              "depends_on": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Depends On",
+                "type": "array"
+              },
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "phase": {
+                "enum": [
+                  "research",
+                  "design",
+                  "implement",
+                  "test",
+                  "document",
+                  "review"
+                ],
+                "title": "Phase",
+                "type": "string"
+              },
+              "requirement_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Requirement Ids",
+                "type": "array"
+              },
+              "title": {
+                "title": "Title",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "capability",
+              "requirement_ids",
+              "depends_on",
+              "phase"
+            ],
+            "title": "PlanTask",
+            "type": "object"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tasks"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a project planner for a multi-agent system. Break the project into tasks executed by these agents: research.run (gather information from sources), verify.claims (fact-check research), code.implement (write code), test.run (run tests against written code), docs.generate (write reports, READMEs, documents), review.final (final review against the requirements). Rules: every requirement id must appear in at least one task's requirement_ids; depends_on lists ids of tasks that must finish first; no cycles; finish with one review.final task that depends on the other work; use code.implement and test.run only if software must be delivered. Use ids T1, T2, ...",
+        "role": "system"
+      },
+      {
+        "content": "{\n \"requirements\": [\n  {\n   \"id\": \"R1\",\n   \"text\": \"Define the REST API specification (endpoints, payloads) for the attendance service.\"\n  },\n  {\n   \"id\": \"R2\",\n   \"text\": \"Implement the face-registration endpoint that stores a student's face embedding.\"\n  },\n  {\n   \"id\": \"R3\",\n   \"text\": \"Implement the attendance-marking endpoint that matches a camera frame against registered faces.\"\n  },\n  {\n   \"id\": \"R4\",\n   \"text\": \"Compare at least two open-source face-recognition libraries and choose one.\"\n  },\n  {\n   \"id\": \"R5\",\n   \"text\": \"Build a web dashboard for teachers showing attendance per lecture.\"\n  },\n  {\n   \"id\": \"R6\",\n   \"text\": \"Export attendance reports as CSV.\"\n  },\n  {\n   \"id\": \"R7\",\n   \"text\": \"Integration tests covering every endpoint.\"\n  },\n  {\n   \"id\": \"R8\",\n   \"text\": \"User manual for teachers.\"\n  },\n  {\n   \"id\": \"R9\",\n   \"text\": \"A privacy note explaining how biometric data is stored and deleted, based on current data-protection guidance.\"\n  },\n  {\n   \"id\": \"R10\",\n   \"text\": \"Load test showing the marking endpoint handles 100 requests per second.\"\n  }\n ],\n \"constraints\": [\n  \"Python backend\",\n  \"open-source libraries only\"\n ],\n \"deliverables\": [\n  \"source repository\",\n  \"user manual\",\n  \"privacy note\",\n  \"test and load-test report\"\n ],\n \"notes\": \"The face library must be chosen (R4) before registration (R2) is built. The dashboard (R5) consumes the API defined in R1. Attendance marking (R3) needs faces registered by R2. The privacy note (R9) needs research on data-protection guidance first.\"\n}",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "{\n  \"tasks\": [\n    {\n      \"id\": \"T1\",\n      \"title\": \"Research face-recognition libraries and data protection guidelines\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R4\", \"R9\"],\n      \"depends_on\": [],\n      \"phase\": \"research\"\n    },\n    {\n      \"id\": \"T2\",\n      \"title\": \"Verify chosen face-recognition library and data protection guidance\",\n      \"capability\": \"verify.claims\",\n      \"requirement_ids\": [\"R4\", \"R9\"],\n      \"depends_on\": [\"T1\"],\n      \"phase\": \"research\"\n    },\n    {\n      \"id\": \"T3\",\n      \"title\": \"Define REST API specification for attendance service\",\n      \"capability\": \"research.run\",\n      \"requirement_ids\": [\"R1\"],\n      \"depends_on\": [],\n      \"phase\": \"research\"\n    },\n    {\n      \"id\": \"T4\",\n      \"title\": \"Verify API specification against requirements\",\n      \"capability\": \"verify.claims\",\n      \"requirement_ids\": [\"R1\"],\n      \"depends_on\": [\"T3\"],\n      \"phase\": \"research\"\n    },\n    {\n      \"id\": \"T5\",\n      \"title\": \"Implement face-registration endpoint\",\n      \"capability\": \"code.implement\",\n      \"requirement_ids\": [\"R2\"],\n      \"depends_on\": [\"T2\", \"T4\"],\n      \"phase\": \"implement\"\n    },\n    {\n      \"id\": \"T6\",\n      \"title\": \"Implement attendance-marking endpoint\",\n      \"capability\": \"code.implement\",\n      \"requirement_ids\": [\"R3\"],\n      \"depends_on\": [\"T2\", \"T4\", \"T5\"],\n      \"phase\": \"implement\"\n    },\n    {\n      \"id\": \"T7\",\n      \"title\": \"Build web dashboard for teachers\",\n      \"capability\": \"code.implement\",\n      \"requirement_ids\": [\"R5\"],\n      \"depends_on\": [\"T4\", \"T6\"],\n      \"phase\": \"implement\"\n    },\n    {\n      \"id\": \"T8\",\n      \"title\": \"Implement CSV export functionality\",\n      \"capability\": \"code.implement\",\n      \"requirement_ids\": [\"R6\"],\n      \"depends_on\": [\"T4\", \"T6\", \"T7\"],\n      \"phase\": \"implement\"\n    },\n    {\n      \"id\": \"T9\",\n      \"title\": \"Write integration tests for all endpoints\",\n      \"capability\": \"test.run\",\n      \"requirement_ids\": [\"R7\"],\n      \"depends_on\": [\"T5\", \"T6\", \"T7\", \"T8\"],\n      \"phase\": \"test\"\n    },\n    {\n      \"id\": \"T10\",\n      \"title\": \"Generate load test report (100 req/s)\",\n      \"capability\": \"test.run\",\n      \"requirement_ids\": [\"R10\"],\n      \"depends_on\": [\"T6\", \"T7\"],\n      \"phase\": \"test\"\n    },\n    {\n      \"id\": \"T11\",\n      \"title\": \"Generate user manual for teachers\",\n      \"capability\": \"docs.generate\",\n      \"requirement_ids\": [\"R8\"],\n      \"depends_on\": [\"T5\", \"T6\", \"T7\", \"T8\", \"T9\", \"T10\"],\n      \"phase\": \"document\"\n    },\n    {\n      \"id\": \"T12\",\n      \"title\": \"Generate privacy note based on verified guidance\",\n      \"capability\": \"docs.generate\",\n      \"requirement_ids\": [\"R9\"],\n      \"depends_on\": [\"T2\"],\n      \"phase\": \"document\"\n    },\n    {\n      \"id\": \"T13\",\n      \"title\": \"Final review of all deliverables against requirements\",\n      \"capability\": \"review.final\",\n      \"requirement_ids\": [\"R1\", \"R2\", \"R3\", \"R4\", \"R5\", \"R6\", \"R7\", \"R8\", \"R9\", \"R10\"],\n      \"depends_on\": [\"T1\", \"T2\", \"T3\", \"T4\", \"T5\", \"T6\", \"T7\", \"T8\", \"T9\", \"T10\", \"T11\", \"T12\"],\n      \"phase\": \"review\"\n    }\n  ]\n}",
+    "usage": {
+      "input_tokens": 622,
+      "latency_s": 108.155,
+      "model": "qwen3.5:4b",
+      "output_tokens": 1064,
+      "provider": "ollama"
+    }
+  },
+  "role": "reasoner"
+}

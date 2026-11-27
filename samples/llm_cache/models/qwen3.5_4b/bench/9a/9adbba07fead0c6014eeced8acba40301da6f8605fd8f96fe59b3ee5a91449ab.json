@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "key": "9adbba07fead0c6014eeced8acba40301da6f8605fd8f96fe59b3ee5a91449ab",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: PBFT needs at least 3f+1 replicas to tolerate f faulty replicas.\nQUOTE: The algorithm guarantees safety and liveness provided that at most f out of a total of 3f+1 replicas are simultaneously faulty.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.990832+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: PBFT needs at least 3f+1 replicas to tolerate f faulty replicas.\nQUOTE: The algorithm guarantees safety and liveness provided that at most f out of a total of 3f+1 replicas are simultaneously faulty.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "{\n\"rationale\": \"The quote explicitly states the condition for PBFT's operation as having 'at most f out of a total of 3f+1 replicas' which is mathematically equivalent to requiring at least 3f+1 replicas to tolerate f faults.\",\n\"verdict\": \"SUPPORTED\"\n}",
+    "usage": {
+      "input_tokens": 128,
+      "latency_s": 8.008,
+      "model": "qwen3.5:4b",
+      "output_tokens": 69,
+      "provider": "ollama"
+    }
+  },
+  "role": "judge"
+}

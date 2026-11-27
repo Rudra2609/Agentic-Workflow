@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "533c8ebdb66409c23e4a3635b9f3a009e977ba2f24a70c01ac713c77a9be4476",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `EchoServer` using only the Python standard library (`socket`, `threading` or `socketserver`).\n\n- `EchoServer(host: str = \"127.0.0.1\", port: int = 0)`; port 0 means \"pick a free port\".\n- `start() -> int` starts serving in the background (it must return immediately) and returns the actual port.\n- For every line a client sends (terminated by `\\n`), the server replies with the same line in UPPER CASE, followed by `\\n`.\n- Several clients must be served at the same time; one idle client must not block the others.\n- `stop()` stops the server and releases the port.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.965955+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `EchoServer` using only the Python standard library (`socket`, `threading` or `socketserver`).\n\n- `EchoServer(host: str = \"127.0.0.1\", port: int = 0)`; port 0 means \"pick a free port\".\n- `start() -> int` starts serving in the background (it must return immediately) and returns the actual port.\n- For every line a client sends (terminated by `\\n`), the server replies with the same line in UPPER CASE, followed by `\\n`.\n- Several clients must be served at the same time; one idle client must not block the others.\n- `stop()` stops the server and releases the port.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "```python\nimport socket\nimport threading\n\nclass EchoServer:\n    def __init__(self, host: str = \"127.0.0.1\", port: int = 0):\n        self.host = host\n        self.port = port\n        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        self.server_socket.bind((self.host, self.port))\n        self.server_socket.listen(5)\n        self.server_socket.setblocking(False)\n        self.clients = []\n        self.stop_event = threading.Event()\n\n    def start(self) -> int:\n        self.port = self.server_socket.getsockname()[1]\n        threading.Thread(target=self._handle_clients).start()\n        return self.port\n\n    def stop(self):\n        self.stop_event.set()\n        for client in self.clients:\n            client.close()\n        self.server_socket.close()\n\n    def _handle_clients(self):\n        while not self.stop_event.is_set():\n            try:\n                client_socket, addr = self.server_socket.accept()\n                client_socket.setblocking(False)\n                self.clients.append(client_socket)\n                threading.Thread(target=self._handle_client, args=(client_socket,)).start()\n            except BlockingIOError:\n                pass\n\n    def _handle_client(self, client_socket):\n        try:\n            while not self.stop_event.is_set():\n                try:\n                    data = client_socket.recv(1024)\n                    if not data:\n                        break\n                    message = data.decode('utf-8').strip()\n                    response = message.upper() + '\\n'\n                    client_socket.sendall(response.encode('utf-8'))\n                except BlockingIOError:\n                    pass\n        finally:\n            client_socket.close()\n            self.clients.remove(client_socket)\n```",
+    "usage": {
+      "input_tokens": 211,
+      "latency_s": 55.11,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 350,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

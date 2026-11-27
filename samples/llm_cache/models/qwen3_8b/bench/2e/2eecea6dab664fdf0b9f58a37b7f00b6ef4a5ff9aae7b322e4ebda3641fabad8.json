@@ -1,0 +1,183 @@
+{
+  "format": 1,
+  "key": "2eecea6dab664fdf0b9f58a37b7f00b6ef4a5ff9aae7b322e4ebda3641fabad8",
+  "key_ingredients": {
+    "max_tokens": 1024,
+    "messages": [
+      {
+        "content": "You are a strict reviewer. Given a task and the output produced for it, list concrete problems in the output: missing items, wrong logic, false facts, claims not backed by the given facts, inconsistencies, rule violations. Describe each problem specifically, naming the exact element that is wrong. If the output is correct and complete, return verdict ok and no major or critical issues.",
+        "role": "system"
+      },
+      {
+        "content": "TASK:\nExtract all functional requirements: 'The tool fetches headlines from three sites, respects robots.txt with a 2-second delay, stores results in SQLite without duplicates, offers a --since option, retries failed requests 3 times with exponential backoff, and logs errors instead of crashing.'\n\nOUTPUT TO REVIEW:\n{\"requirements\": [{\"id\": \"R1\", \"text\": \"Fetch headlines and links from three news sites\"}, {\"id\": \"R2\", \"text\": \"Respect robots.txt and wait 2 seconds between requests\"}, {\"id\": \"R3\", \"text\": \"Store results in SQLite without duplicates\"}, {\"id\": \"R4\", \"text\": \"--since option filters headlines by date\"}, {\"id\": \"R5\", \"text\": \"Retry failed requests up to 3 times with exponential backoff\"}, {\"id\": \"R6\", \"text\": \"Log errors instead of crashing\"}]}",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "$defs": {
+        "Issue": {
+          "properties": {
+            "category": {
+              "enum": [
+                "FORMAT",
+                "SCHEMA",
+                "OMISSION",
+                "HALLUCINATION",
+                "FACTUAL",
+                "LOGIC",
+                "REQUIREMENT_VIOLATION",
+                "CONSISTENCY",
+                "STYLE",
+                "SAFETY"
+              ],
+              "title": "Category",
+              "type": "string"
+            },
+            "description": {
+              "title": "Description",
+              "type": "string"
+            },
+            "severity": {
+              "enum": [
+                "info",
+                "minor",
+                "major",
+                "critical"
+              ],
+              "title": "Severity",
+              "type": "string"
+            }
+          },
+          "required": [
+            "category",
+            "severity",
+            "description"
+          ],
+          "title": "Issue",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "issues": {
+          "items": {
+            "$ref": "#/$defs/Issue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "ok",
+            "needs_revision"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issues",
+        "verdict"
+      ],
+      "title": "Critique",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.073409+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "issues": {
+          "items": {
+            "properties": {
+              "category": {
+                "enum": [
+                  "FORMAT",
+                  "SCHEMA",
+                  "OMISSION",
+                  "HALLUCINATION",
+                  "FACTUAL",
+                  "LOGIC",
+                  "REQUIREMENT_VIOLATION",
+                  "CONSISTENCY",
+                  "STYLE",
+                  "SAFETY"
+                ],
+                "title": "Category",
+                "type": "string"
+              },
+              "description": {
+                "title": "Description",
+                "type": "string"
+              },
+              "severity": {
+                "enum": [
+                  "info",
+                  "minor",
+                  "major",
+                  "critical"
+                ],
+                "title": "Severity",
+                "type": "string"
+              }
+            },
+            "required": [
+              "category",
+              "severity",
+              "description"
+            ],
+            "title": "Issue",
+            "type": "object"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "ok",
+            "needs_revision"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issues",
+        "verdict"
+      ],
+      "title": "Critique",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "You are a strict reviewer. Given a task and the output produced for it, list concrete problems in the output: missing items, wrong logic, false facts, claims not backed by the given facts, inconsistencies, rule violations. Describe each problem specifically, naming the exact element that is wrong. If the output is correct and complete, return verdict ok and no major or critical issues.",
+        "role": "system"
+      },
+      {
+        "content": "TASK:\nExtract all functional requirements: 'The tool fetches headlines from three sites, respects robots.txt with a 2-second delay, stores results in SQLite without duplicates, offers a --since option, retries failed requests 3 times with exponential backoff, and logs errors instead of crashing.'\n\nOUTPUT TO REVIEW:\n{\"requirements\": [{\"id\": \"R1\", \"text\": \"Fetch headlines and links from three news sites\"}, {\"id\": \"R2\", \"text\": \"Respect robots.txt and wait 2 seconds between requests\"}, {\"id\": \"R3\", \"text\": \"Store results in SQLite without duplicates\"}, {\"id\": \"R4\", \"text\": \"--since option filters headlines by date\"}, {\"id\": \"R5\", \"text\": \"Retry failed requests up to 3 times with exponential backoff\"}, {\"id\": \"R6\", \"text\": \"Log errors instead of crashing\"}]}",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3:8b"
+  },
+  "response": {
+    "text": "{\"issues\": [{\"category\": \"OMISSION\", \"severity\": \"critical\", \"description\": \"The requirement 'offers a --since option' is not fully captured. The output describes it as 'filters headlines by date', but the original statement specifies it as an option, which is a command-line argument, not a filtering mechanism.\"}, {\"category\": \"OMISSION\", \"severity\": \"major\", \"description\": \"The requirement 'retries failed requests 3 times with exponential backoff' is partially captured. The output describes it as 'Retry failed requests up to 3 times with exponential backoff', which is correct, but the original statement specifies 'retries failed requests 3 times', which is more precise and should be explicitly mentioned.\"}],\"verdict\": \"needs_revision\"}",
+    "usage": {
+      "input_tokens": 283,
+      "latency_s": 63.112,
+      "model": "qwen3:8b",
+      "output_tokens": 161,
+      "provider": "ollama"
+    }
+  },
+  "role": "judge"
+}

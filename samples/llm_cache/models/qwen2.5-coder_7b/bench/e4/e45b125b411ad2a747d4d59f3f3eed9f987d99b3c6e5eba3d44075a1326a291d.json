@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "e45b125b411ad2a747d4d59f3f3eed9f987d99b3c6e5eba3d44075a1326a291d",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `tokenize(expr: str) -> list[str]` for arithmetic expressions.\n\nTokens are numbers (integers like `42` or decimals like `3.14`), the operators `+ - * / ^`, and the\nparentheses `(` `)`. Whitespace separates nothing and is skipped. A minus sign is always its own token\n(do not merge it into the number). Raise `ValueError` on any other character, or on a malformed number\nsuch as `1.2.3` or `.`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.964022+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `tokenize(expr: str) -> list[str]` for arithmetic expressions.\n\nTokens are numbers (integers like `42` or decimals like `3.14`), the operators `+ - * / ^`, and the\nparentheses `(` `)`. Whitespace separates nothing and is skipped. A minus sign is always its own token\n(do not merge it into the number). Raise `ValueError` on any other character, or on a malformed number\nsuch as `1.2.3` or `.`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "```python\nimport re\n\ndef tokenize(expr: str) -> list[str]:\n    # Regular expression to match tokens\n    token_pattern = re.compile(r'\\s*(\\d+\\.\\d+|\\d+|\\+|-|\\*|/|\\^|\\(|\\))\\s*')\n    \n    # Find all tokens in the expression\n    tokens = token_pattern.findall(expr)\n    \n    # Check for malformed numbers\n    for token in tokens:\n        if token.replace('.', '', 1).isdigit():\n            continue\n        raise ValueError(f\"Malformed number: {token}\")\n    \n    # Filter out empty strings\n    tokens = [token for token in tokens if token]\n    \n    return tokens\n```",
+    "usage": {
+      "input_tokens": 173,
+      "latency_s": 24.561,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 145,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

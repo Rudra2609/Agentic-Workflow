@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "512ef1a3f3291860f5963c5f9cd22b1ccc2ff56ac4b2ab62ad235e7fba2d8c56",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write two functions on a list sorted in non-decreasing order, using binary search\n(do not use the `bisect` module and do not scan the list linearly):\n\n- `insert_position(xs: list[int], x: int) -> int` — the leftmost index where `x` could be inserted keeping the list sorted.\n- `count_occurrences(xs: list[int], x: int) -> int` — how many times `x` appears.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.004592+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write two functions on a list sorted in non-decreasing order, using binary search\n(do not use the `bisect` module and do not scan the list linearly):\n\n- `insert_position(xs: list[int], x: int) -> int` — the leftmost index where `x` could be inserted keeping the list sorted.\n- `count_occurrences(xs: list[int], x: int) -> int` — how many times `x` appears.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nfrom typing import List, Tuple\n\ndef insert_position(xs: List[int], x: int) -> int:\n    \"\"\"\n    Returns the leftmost index where x could be inserted into xs \n    while maintaining non-decreasing order.\n    \n    Uses binary search (lower bound logic).\n    Time Complexity: O(log n)\n    \"\"\"\n    left, right = 0, len(xs)\n    \n    # Binary search for the first element >= x\n    while left < right:\n        mid = (left + right) // 2\n        if xs[mid] < x:\n            left = mid + 1\n        else:\n            right = mid\n            \n    return left\n\ndef count_occurrences(xs: List[int], x: int) -> int:\n    \"\"\"\n    Returns the number of times x appears in xs.\n    \n    Uses binary search to find the range of indices where x is located.\n    Time Complexity: O(log n)\n    \"\"\"\n    # Find the first index where x could be inserted (leftmost occurrence)\n    left = insert_position(xs, x)\n    \n    # Find the first index where x+1 could be inserted (rightmost occurrence + 1)\n    right = insert_position(xs, x + 1)\n    \n    return right - left\n```",
+    "usage": {
+      "input_tokens": 163,
+      "latency_s": 27.988,
+      "model": "qwen3.5:4b",
+      "output_tokens": 281,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

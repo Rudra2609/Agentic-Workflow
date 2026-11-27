@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "key": "1b51d2723c4a06cd83a0443689ee9eb21ee25db0e6df9fd45b6f7ebdec3f2e8a",
+  "key_ingredients": {
+    "max_tokens": 512,
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: robots.txt lets site owners indicate which paths crawlers should not fetch.\nQUOTE: The robots exclusion protocol allows a website to tell crawlers which parts of the site they are not allowed to access by listing Disallow rules in a robots.txt file.",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "judge",
+    "schema": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.954982+00:00",
+  "request": {
+    "format": {
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "NOT_SUPPORTED",
+            "CONTRADICTED"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rationale",
+        "verdict"
+      ],
+      "title": "Verdict",
+      "type": "object"
+    },
+    "messages": [
+      {
+        "content": "Decide whether the evidence quote supports the claim, judging ONLY from the quote. SUPPORTED: the quote clearly establishes the claim. CONTRADICTED: the quote states something incompatible with the claim. NOT_SUPPORTED: the quote is related but does not establish the claim. Give a one-sentence rationale first.",
+        "role": "system"
+      },
+      {
+        "content": "CLAIM: robots.txt lets site owners indicate which paths crawlers should not fetch.\nQUOTE: The robots exclusion protocol allows a website to tell crawlers which parts of the site they are not allowed to access by listing Disallow rules in a robots.txt file.",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "{ \"rationale\": \"The quote directly states that robots.txt allows site owners to specify which parts of a website should not be accessed by crawlers, which supports the claim.\", \"verdict\": \"SUPPORTED\" }",
+    "usage": {
+      "input_tokens": 126,
+      "latency_s": 7.896,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 46,
+      "provider": "ollama"
+    }
+  },
+  "role": "judge"
+}

@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "1d802edd6588c992dd531c63c14dbbd58e5f2480754f25795673061052185767",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `top_words(text: str, k: int) -> list[tuple[str, int]]`.\n\n- A word is a maximal run of ASCII letters `a`-`z` after lower-casing the text (so \"Don't\" gives \"don\" and \"t\").\n- Return the `k` most frequent words as `(word, count)` pairs, sorted by count descending, then word ascending.\n- If there are fewer than `k` distinct words, return all of them. `k <= 0` returns `[]`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.047571+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `top_words(text: str, k: int) -> list[tuple[str, int]]`.\n\n- A word is a maximal run of ASCII letters `a`-`z` after lower-casing the text (so \"Don't\" gives \"don\" and \"t\").\n- Return the `k` most frequent words as `(word, count)` pairs, sorted by count descending, then word ascending.\n- If there are fewer than `k` distinct words, return all of them. `k <= 0` returns `[]`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom collections import Counter\nfrom typing import List, Tuple\n\ndef top_words(text: str, k: int) -> List[Tuple[str, int]]:\n    \"\"\"\n    Returns the k most frequent words in the text.\n    \n    A word is defined as a maximal run of ASCII letters (a-z, case-insensitive).\n    Punctuation and non-letter characters act as delimiters.\n    \n    Args:\n        text: The input string to analyze.\n        k: The number of top words to return.\n        \n    Returns:\n        A list of tuples (word, count) sorted by count descending, then word ascending.\n        If k <= 0, returns an empty list.\n    \"\"\"\n    if k <= 0:\n        return []\n\n    # Convert text to lowercase\n    lower_text = text.lower()\n    \n    # Extract words using regex: find all maximal runs of ASCII letters a-z\n    # We use [a-z]+ to match one or more ASCII letters.\n    words = re.findall(r'[a-z]+', lower_text)\n    \n    # Count frequencies\n    counter = Counter(words)\n    \n    # Sort by count descending, then by word ascending\n    sorted_words = sorted(counter.items(), key=lambda x: (-x[1], x[0]))\n    \n    # Return top k\n    return sorted_words[:k]\n```",
+    "usage": {
+      "input_tokens": 181,
+      "latency_s": 48.74,
+      "model": "qwen3.5:9b",
+      "output_tokens": 299,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

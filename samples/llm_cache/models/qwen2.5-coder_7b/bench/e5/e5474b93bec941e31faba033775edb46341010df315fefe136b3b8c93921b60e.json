@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "e5474b93bec941e31faba033775edb46341010df315fefe136b3b8c93921b60e",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.964442+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `topo_order(deps: dict[str, list[str]]) -> list[str]`.\n\n`deps[task]` lists the tasks that must come **before** `task`. Tasks that appear only as prerequisites are\nalso part of the result. Return every task exactly once so that each task comes after all its prerequisites.\nWhen several tasks are ready at the same time, pick them in alphabetical order (so the result is deterministic).\nRaise `ValueError` if there is a cycle (including a task depending on itself).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "```python\nfrom collections import deque, defaultdict\n\ndef topo_order(deps: dict[str, list[str]]) -> list[str]:\n    in_degree = defaultdict(int)\n    graph = defaultdict(list)\n    \n    # Build the graph and in-degree count\n    for task, prerequisites in deps.items():\n        for prereq in prerequisites:\n            graph[prereq].append(task)\n            in_degree[task] += 1\n    \n    # Initialize the queue with tasks that have no prerequisites\n    queue = deque([task for task in deps if in_degree[task] == 0])\n    \n    # Sort tasks alphabetically\n    queue = deque(sorted(queue))\n    \n    topo_order = []\n    while queue:\n        task = queue.popleft()\n        topo_order.append(task)\n        \n        for dependent in graph[task]:\n            in_degree[dependent] -= 1\n            if in_degree[dependent] == 0:\n                queue.append(dependent)\n                queue = deque(sorted(queue))  # Re-sort alphabetically after adding new tasks\n    \n    # Check for cycles\n    if len(topo_order) != len(deps):\n        raise ValueError(\"Cycle detected in the dependency graph\")\n    \n    return topo_order\n```",
+    "usage": {
+      "input_tokens": 168,
+      "latency_s": 39.055,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 247,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

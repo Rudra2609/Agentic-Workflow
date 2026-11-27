@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "533c8ebdb66409c23e4a3635b9f3a009e977ba2f24a70c01ac713c77a9be4476",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `EchoServer` using only the Python standard library (`socket`, `threading` or `socketserver`).\n\n- `EchoServer(host: str = \"127.0.0.1\", port: int = 0)`; port 0 means \"pick a free port\".\n- `start() -> int` starts serving in the background (it must return immediately) and returns the actual port.\n- For every line a client sends (terminated by `\\n`), the server replies with the same line in UPPER CASE, followed by `\\n`.\n- Several clients must be served at the same time; one idle client must not block the others.\n- `stop()` stops the server and releases the port.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.005011+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write a class `EchoServer` using only the Python standard library (`socket`, `threading` or `socketserver`).\n\n- `EchoServer(host: str = \"127.0.0.1\", port: int = 0)`; port 0 means \"pick a free port\".\n- `start() -> int` starts serving in the background (it must return immediately) and returns the actual port.\n- For every line a client sends (terminated by `\\n`), the server replies with the same line in UPPER CASE, followed by `\\n`.\n- Several clients must be served at the same time; one idle client must not block the others.\n- `stop()` stops the server and releases the port.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nimport socket\nimport threading\nfrom typing import Optional\n\nclass EchoServer:\n    def __init__(self, host: str = \"127.0.0.1\", port: int = 0):\n        self.host = host\n        self.port = port if port != 0 else None\n        self.server_socket: Optional[socket.socket] = None\n        self.running = False\n        self.lock = threading.Lock()\n\n    def _handle_client(self, client_socket: socket.socket) -> None:\n        \"\"\"Handle a single client connection.\"\"\"\n        try:\n            while True:\n                data = client_socket.recv(1024)\n                if not data:\n                    break\n                \n                # Decode, uppercase, and encode back\n                response_data = data.decode('utf-8').upper() + '\\n'\n                client_socket.sendall(response_data.encode('utf-8'))\n        except Exception:\n            pass\n        finally:\n            client_socket.close()\n\n    def start(self) -> int:\n        \"\"\"Start the server in the background and return the actual port.\"\"\"\n        if self.server_socket is not None:\n            return self.server_socket.getsockname()[1]\n\n        # Create a socket\n        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n        self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\n\n        # Bind and listen\n        if self.port is None:\n            self.server_socket.bind((self.host, 0))\n            actual_port = self.server_socket.getsockname()[1]\n            self.port = actual_port\n        else:\n            self.server_socket.bind((self.host, self.port))\n\n        self.server_socket.listen(5)\n        self.running = True\n\n        # Start the server thread\n        server_thread = threading.Thread(target=self._accept_loop, daemon=True)\n        server_thread.start()\n\n        return self.port\n\n    def _accept_loop(self) -> None:\n        \"\"\"Accept incoming connections and handle them.\"\"\"\n        while self.running:\n            try:\n                client_socket, addr = self.server_socket.accept()\n                # Handle client in a new thread to avoid blocking\n                t = threading.Thread(target=self._handle_client, args=(client_socket,), daemon=True)\n                t.start()\n            except Exception:\n                if not self.running:\n                    break\n\n    def stop(self) -> None:\n        \"\"\"Stop the server and release the port.\"\"\"\n        self.running = False\n        if self.server_socket is not None:\n            try:\n                self.server_socket.close()\n            except Exception:\n                pass\n            self.server_socket = None\n```",
+    "usage": {
+      "input_tokens": 220,
+      "latency_s": 70.962,
+      "model": "qwen3.5:4b",
+      "output_tokens": 573,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

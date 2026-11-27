@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "14dc2cff7299e6f1079af69f0b68d1c16a900fd0aa0248bc6f7852e1405a7707",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `evaluate(expr: str) -> float` that evaluates an arithmetic expression **without** using\nPython's `eval`, `exec`, `compile` or the `ast` module (write a small parser yourself).\n\nSupport numbers (integers and decimals), `+ - * /`, parentheses and unary minus (e.g. `-(2+3)`, `2*-3`).\n`*` and `/` bind tighter than `+` and `-`; operators of equal precedence are left-associative.\nRaise `ZeroDivisionError` when dividing by zero and `ValueError` for malformed input\n(unknown characters, unbalanced parentheses, missing operands, empty string).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3:8b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.089304+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `evaluate(expr: str) -> float` that evaluates an arithmetic expression **without** using\nPython's `eval`, `exec`, `compile` or the `ast` module (write a small parser yourself).\n\nSupport numbers (integers and decimals), `+ - * /`, parentheses and unary minus (e.g. `-(2+3)`, `2*-3`).\n`*` and `/` bind tighter than `+` and `-`; operators of equal precedence are left-associative.\nRaise `ZeroDivisionError` when dividing by zero and `ValueError` for malformed input\n(unknown characters, unbalanced parentheses, missing operands, empty string).\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3:8b"
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom typing import Tuple, List, Optional\n\ndef evaluate(expr: str) -> float:\n    if not expr:\n        raise ValueError(\"empty string\")\n    \n    # Tokenize the expression\n    tokens = tokenize(expr)\n    if not tokens:\n        raise ValueError(\"malformed input\")\n    \n    # Parse the expression into an abstract syntax tree (AST)\n    ast = parse(tokens)\n    if not ast:\n        raise ValueError(\"malformed input\")\n    \n    # Evaluate the AST\n    return evaluate_ast(ast)\n\ndef tokenize(expr: str) -> List[str]:\n    # Match numbers, operators, and parentheses\n    token_pattern = r'(\\d+\\.?\\d*|\\+|\\-|\\*|/|\\(|\\))'\n    tokens = re.findall(token_pattern, expr)\n    \n    # Handle unary minus\n    i = 0\n    while i < len(tokens):\n        if tokens[i] == '-' and (i == 0 or tokens[i-1] in '()'):\n            tokens[i] = 'UNARY-'\n        i += 1\n    \n    return tokens\n\ndef parse(tokens: List[str]) -> Optional[Tuple[str, List]]:\n    # Parse expressions with precedence\n    return parse_expression(tokens)\n\ndef parse_expression(tokens: List[str]) -> Optional[Tuple[str, List]]:\n    left = parse_term(tokens)\n    if not left:\n        return None\n    while tokens and tokens[0] in ('+', '-'):\n        op = tokens.pop(0)\n        right = parse_term(tokens)\n        if not right:\n            return None\n        left = ('BINOP', op, left, right)\n    return left\n\ndef parse_term(tokens: List[str]) -> Optional[Tuple[str, List]]:\n    left = parse_factor(tokens)\n    if not left:\n        return None\n    while tokens and tokens[0] in ('*', '/'):\n        op = tokens.pop(0)\n        right = parse_factor(tokens)\n        if not right:\n            return None\n        left = ('BINOP', op, left, right)\n    return left\n\ndef parse_factor(tokens: List[str]) -> Optional[Tuple[str, List]]:\n    if not tokens:\n        return None\n    token = tokens[0]\n    if token == '(':\n        tokens.pop(0)\n        expr = parse_expression(tokens)\n        if not expr or tokens[0] != ')':\n            return None\n        tokens.pop(0)\n        return expr\n    elif token == 'UNARY-':\n        tokens.pop(0)\n        right = parse_factor(tokens)\n        if not right:\n            return None\n        return ('UNARY-', right)\n    elif re.fullmatch(r'\\d+\\.?\\d*', token):\n        tokens.pop(0)\n        return ('NUMBER', float(token))\n    else:\n        return None\n\ndef evaluate_ast(node: Tuple[str, List]) -> float:\n    if node[0] == 'NUMBER':\n        return node[1]\n    elif node[0] == 'UNARY-':\n        return -evaluate_ast(node[1])\n    elif node[0] == 'BINOP':\n        left = evaluate_ast(node[2])\n        right = evaluate_ast(node[3])\n        op = node[1]\n        if op == '+':\n            return left + right\n        elif op == '-':\n            return left - right\n        elif op == '*':\n            return left * right\n        elif op == '/':\n            if right == 0:\n                raise ZeroDivisionError(\"division by zero\")\n            return left / right\n        else:\n            raise ValueError(\"malformed input\")\n    else:\n        raise ValueError(\"malformed input\")\n```",
+    "usage": {
+      "input_tokens": 207,
+      "latency_s": 146.601,
+      "model": "qwen3:8b",
+      "output_tokens": 755,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "f257650703c6f72278d09ef4c96f014a668fd71d092f7670eca231aa1b5ca411",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:4b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.004382+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `vigenere_encrypt(text: str, key: str) -> str` and `vigenere_decrypt(text: str, key: str) -> str`.\n\n- Shift each ASCII letter of `text` by the alphabet position of the current key letter (a/A = 0, b/B = 1, ...),\n  wrapping around and keeping the letter's case.\n- Non-letters are copied unchanged and do **not** advance the key position.\n- The key is case-insensitive and is repeated as needed. Raise `ValueError` if the key is empty or contains a non-letter.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:4b"
+  },
+  "response": {
+    "text": "```python\nimport re\nfrom typing import Tuple\n\ndef vigenere_encrypt(text: str, key: str) -> str:\n    \"\"\"\n    Encrypts the input text using the Vigenère cipher.\n    \n    Args:\n        text: The plaintext string to encrypt.\n        key: The encryption key (must contain only letters).\n        \n    Returns:\n        The encrypted ciphertext string.\n        \n    Raises:\n        ValueError: If the key is empty or contains non-letter characters.\n    \"\"\"\n    if not key:\n        raise ValueError(\"Key cannot be empty.\")\n    \n    # Validate key contains only letters (case-insensitive)\n    if not re.match(r'^[a-zA-Z]+$', key):\n        raise ValueError(\"Key must contain only letters.\")\n    \n    # Normalize key to lowercase for processing\n    key_lower = key.lower()\n    \n    result = []\n    key_index = 0\n    \n    for char in text:\n        if not char.isalpha():\n            # Non-letters are copied unchanged and do not advance the key position\n            result.append(char)\n        else:\n            # Calculate shift based on current key letter\n            shift = ord(key_lower[key_index % len(key_lower)]) - ord('a')\n            \n            # Determine if character is uppercase or lowercase\n            is_upper = char.isupper()\n            \n            # Apply shift with wrapping\n            if is_upper:\n                base_ord = ord('A')\n                new_ord = (ord(char) - base_ord + shift) % 26 + base_ord\n                result.append(chr(new_ord))\n            else:\n                base_ord = ord('a')\n                new_ord = (ord(char) - base_ord + shift) % 26 + base_ord\n                result.append(chr(new_ord))\n            \n            # Advance key position only for letters\n            key_index += 1\n    \n    return ''.join(result)\n\n\ndef vigenere_decrypt(text: str, key: str) -> str:\n    \"\"\"\n    Decrypts the input text using the Vigenère cipher.\n    \n    Args:\n        text: The ciphertext string to decrypt.\n        key: The decryption key (must contain only letters).\n        \n    Returns:\n        The decrypted plaintext string.\n        \n    Raises:\n        ValueError: If the key is empty or contains non-letter characters.\n    \"\"\"\n    if not key:\n        raise ValueError(\"Key cannot be empty.\")\n    \n    # Validate key contains only letters (case-insensitive)\n    if not re.match(r'^[a-zA-Z]+$', key):\n        raise ValueError(\"Key must contain only letters.\")\n    \n    # Normalize key to lowercase for processing\n    key_lower = key.lower()\n    \n    result = []\n    key_index = 0\n    \n    for char in text:\n        if not char.isalpha():\n            # Non-letters are copied unchanged and do not advance the key position\n            result.append(char)\n        else:\n            # Calculate shift based on current key letter\n            shift = ord(key_lower[key_index % len(key_lower)]) - ord('a')\n            \n            # Determine if character is uppercase or lowercase\n            is_upper = char.isupper()\n            \n            # Apply reverse shift with wrapping\n            if is_upper:\n                base_ord = ord('A')\n                new_ord = (ord(char) - base_ord - shift) % 26 + base_ord\n                result.append(chr(new_ord))\n            else:\n                base_ord = ord('a')\n                new_ord = (ord(char) - base_ord - shift) % 26 + base_ord\n                result.append(chr(new_ord))\n            \n            # Advance key position only for letters\n            key_index += 1\n    \n    return ''.join(result)\n```",
+    "usage": {
+      "input_tokens": 194,
+      "latency_s": 97.295,
+      "model": "qwen3.5:4b",
+      "output_tokens": 804,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2bf04df0a870b199507dd0f0ae39c469b0c6fc7d58d44d614aabad63291dce01",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `markdown_table(rows: list[dict], columns: list[str] | None = None) -> str`.\n\n- Columns default to the keys of the first row, in order. With no rows and no columns, return `\"\"`.\n- Output: a header line, a separator line, then one line per row, joined with `\\n` (no trailing newline):\n\n      | name | age |\n      | --- | --- |\n      | ann | 20 |\n\n- Values are converted with `str()`. A missing key gives an empty cell, i.e. two spaces between the pipes: `|  |`.\n- A `|` inside a value must be escaped as `\\|`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen3.5:9b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:15.052212+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `markdown_table(rows: list[dict], columns: list[str] | None = None) -> str`.\n\n- Columns default to the keys of the first row, in order. With no rows and no columns, return `\"\"`.\n- Output: a header line, a separator line, then one line per row, joined with `\\n` (no trailing newline):\n\n      | name | age |\n      | --- | --- |\n      | ann | 20 |\n\n- Values are converted with `str()`. A missing key gives an empty cell, i.e. two spaces between the pipes: `|  |`.\n- A `|` inside a value must be escaped as `\\|`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen3.5:9b"
+  },
+  "response": {
+    "text": "```python\ndef markdown_table(rows: list[dict], columns: list[str] | None = None) -> str:\n    if not rows:\n        return \"\"\n    \n    if columns is None:\n        if not rows:\n            return \"\"\n        first_row = rows[0]\n        columns = list(first_row.keys())\n    \n    # Determine column widths based on header and all row values\n    def get_cell_value(row, col):\n        val = row.get(col, \"\")\n        return str(val) if val is not None else \"\"\n\n    max_widths = []\n    for col in columns:\n        width = len(str(get_cell_value(rows[0], col)))\n        for row in rows:\n            cell_val = get_cell_value(row, col)\n            if len(cell_val) > width:\n                width = len(cell_val)\n        max_widths.append(width)\n\n    # Build header line\n    header_parts = []\n    for i, col in enumerate(columns):\n        val = str(get_cell_value(rows[0], col))\n        # Escape pipes in the value\n        escaped_val = val.replace(\"|\", \"\\\\|\")\n        header_parts.append(f\"{escaped_val:<{max_widths[i]}}\")\n    header_line = \"|\" + \"|\".join(header_parts) + \"|\"\n\n    # Build separator line\n    separator_parts = []\n    for width in max_widths:\n        separator_parts.append(\"-\" * (width + 2))\n    separator_line = \"|\" + \"|\".join(separator_parts) + \"|\"\n\n    # Build data lines\n    data_lines = []\n    for row in rows:\n        line_parts = []\n        for i, col in enumerate(columns):\n            val = get_cell_value(row, col)\n            escaped_val = str(val).replace(\"|\", \"\\\\|\")\n            line_parts.append(f\"{escaped_val:<{max_widths[i]}}\")\n        data_lines.append(\"|\" + \"|\".join(line_parts) + \"|\")\n\n    return \"\\n\".join([header_line, separator_line] + data_lines)\n```",
+    "usage": {
+      "input_tokens": 215,
+      "latency_s": 75.609,
+      "model": "qwen3.5:9b",
+      "output_tokens": 446,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}

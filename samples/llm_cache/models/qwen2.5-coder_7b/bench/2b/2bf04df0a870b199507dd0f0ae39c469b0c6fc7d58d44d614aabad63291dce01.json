@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "key": "2bf04df0a870b199507dd0f0ae39c469b0c6fc7d58d44d614aabad63291dce01",
+  "key_ingredients": {
+    "max_tokens": 2048,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `markdown_table(rows: list[dict], columns: list[str] | None = None) -> str`.\n\n- Columns default to the keys of the first row, in order. With no rows and no columns, return `\"\"`.\n- Output: a header line, a separator line, then one line per row, joined with `\\n` (no trailing newline):\n\n      | name | age |\n      | --- | --- |\n      | ann | 20 |\n\n- Values are converted with `str()`. A missing key gives an empty cell, i.e. two spaces between the pipes: `|  |`.\n- A `|` inside a value must be escaped as `\\|`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "plugin": "bench",
+    "role": "coder",
+    "schema": null,
+    "seed": 42,
+    "temperature": 0.0,
+    "think": false
+  },
+  "model": "qwen2.5-coder:7b",
+  "model_digest": null,
+  "plugin": "bench",
+  "prompt_version": "1",
+  "provider": "ollama (imported from the bake-off)",
+  "recorded_at": "2026-11-01T17:25:14.967171+00:00",
+  "request": {
+    "format": null,
+    "messages": [
+      {
+        "content": "You are an expert Python developer. Reply with one complete Python module inside a single ```python code block and nothing else. Use only the Python standard library.",
+        "role": "system"
+      },
+      {
+        "content": "Write `markdown_table(rows: list[dict], columns: list[str] | None = None) -> str`.\n\n- Columns default to the keys of the first row, in order. With no rows and no columns, return `\"\"`.\n- Output: a header line, a separator line, then one line per row, joined with `\\n` (no trailing newline):\n\n      | name | age |\n      | --- | --- |\n      | ann | 20 |\n\n- Values are converted with `str()`. A missing key gives an empty cell, i.e. two spaces between the pipes: `|  |`.\n- A `|` inside a value must be escaped as `\\|`.\n\n\nThe module will be saved as solution.py and tested with pytest (tests import from solution).",
+        "role": "user"
+      }
+    ],
+    "model": "qwen2.5-coder:7b"
+  },
+  "response": {
+    "text": "```python\ndef markdown_table(rows: list[dict], columns: list[str] | None = None) -> str:\n    if not rows and not columns:\n        return \"\"\n    \n    if columns is None:\n        columns = list(rows[0].keys())\n    \n    header = \" | \".join(columns)\n    separator = \" | \".join([\"---\"] * len(columns))\n    \n    lines = [header, separator]\n    \n    for row in rows:\n        line = \" | \".join(str(row.get(col, \"\")).replace(\"|\", \"\\\\|\") for col in columns)\n        lines.append(line)\n    \n    return \"\\n\".join(lines)\n```",
+    "usage": {
+      "input_tokens": 204,
+      "latency_s": 22.49,
+      "model": "qwen2.5-coder:7b",
+      "output_tokens": 134,
+      "provider": "ollama"
+    }
+  },
+  "role": "coder"
+}
