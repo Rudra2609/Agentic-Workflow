@@ -170,7 +170,9 @@ def check_model(mode: str, file: dict[str, str], fetch: Callable[[str], object] 
                          "documents still need the local embedder)" if keys else ""), OLLAMA_START))
         return out
     names = {m.get("name", "") for m in (tags.get("models", []) if isinstance(tags, dict) else [])}
-    out.append(Check("ollama", "OK", f"answering at {url} ({len(names)} models)"))
+    local = "127.0.0.1" in url or "localhost" in url
+    out.append(Check("ollama", "OK", f"answering at {url} ({len(names)} models)" + ("" if local else
+                                                                                    " - the model host (Sprint 11)")))
     for want in (model, "nomic-embed-text"):
         if not any(n == want or n.startswith(want + ":") or n.split(":")[0] == want for n in names):
             out.append(Check(f"model {want}", "FAIL" if not keys or want == "nomic-embed-text" else "WARN",

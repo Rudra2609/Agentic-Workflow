@@ -51,6 +51,11 @@ fi
 if [ -z "${HMAP_DEMO_SKIP_PREFLIGHT:-}" ]; then
   python3 scripts/demo_preflight.py --mode "$MODE" || fail "pre-flight (fix the FAIL lines above, or HMAP_DEMO_SKIP_PREFLIGHT=1)"
 fi
+# Sprint 11 (item 11.18): load the local model + embedder in the background while the rest starts, so the first
+# step is not a cold load (HMAP_WARMUP=false to skip; logs/demo/warmup.log has the seconds)
+if [ "$MODE" = live ] && [ "$(envval HMAP_WARMUP)" != false ] && up "$ollama_url/api/version" && [ -d backend/.venv ]; then
+  (cd backend && nohup uv run --frozen python -m hmap.agents.models.warmup >"$logs/warmup.log" 2>&1 &)
+fi
 
 say "2/7 toolchain (a clean copy installs the locked dependencies once)"
 [ -d backend/.venv ] || uv --directory backend sync --frozen --all-extras >"$logs/setup.log" 2>&1 || fail "uv sync (logs/demo/setup.log)"
