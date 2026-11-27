@@ -1,0 +1,171 @@
+{
+ "at": "2026-11-02 12:15",
+ "cells": {
+  "fake / router off / tier 0": {
+   "cell": "fake / router off / tier 0",
+   "status": "green",
+   "seconds": null,
+   "command": "HMAP_ROUTER=off scripts/check_sprint.sh 11",
+   "tail": [
+    "1462 backend passed (with infra), 169 frontend, security 31 passed, Sprint 11 demo in memory + RabbitMQ/Postgres: SPRINT 11 CHECK: PASS"
+   ]
+  },
+  "fake / router on / tier 0": {
+   "cell": "fake / router on / tier 0",
+   "status": "green",
+   "seconds": null,
+   "command": "HMAP_ROUTER=on scripts/check_sprint.sh 11",
+   "tail": [
+    "1462 backend passed (with infra), 169 frontend, security 31 passed, Sprint 11 demo in memory + RabbitMQ/Postgres: SPRINT 11 CHECK: PASS"
+   ]
+  },
+  "replay / router off / tier 0": {
+   "cell": "replay / router off / tier 0",
+   "status": "green",
+   "seconds": 26.6,
+   "env": {
+    "HMAP_ROUTER": "off",
+    "HMAP_LLM_MODE": "replay"
+   },
+   "command": "scripts/demo_final.sh",
+   "tail": [
+    "   review round 0: PASS (14/16 PASS, completeness 0.923)",
+    "  [ok] the change request was planned in (plan.replan)",
+    "  [ok] finished steps are kept, not run again (2/2)",
+    "  [ok] the final review checks the change request",
+    "  [ok] code.implement ran and completed",
+    "  [ok] test.run ran and completed",
+    "  [ok] review.final ran and completed",
+    "  [ok] the final review ran",
+    "  [ok] the project completed after a PASS review",
+    "",
+    "Final demo OK: tcp -> COMPLETED, essay -> COMPLETED, change -> COMPLETED",
+    "model calls without a recording (incl. ones that failed while recording): 283"
+   ]
+  },
+  "replay / router on / tier 0": {
+   "cell": "replay / router on / tier 0",
+   "status": "green",
+   "seconds": 29.0,
+   "env": {
+    "HMAP_ROUTER": "on",
+    "HMAP_LLM_MODE": "replay"
+   },
+   "command": "scripts/demo_final.sh",
+   "tail": [
+    "   review round 0: PASS (14/16 PASS, completeness 0.923)",
+    "  [ok] the change request was planned in (plan.replan)",
+    "  [ok] finished steps are kept, not run again (3/3)",
+    "  [ok] the final review checks the change request",
+    "  [ok] code.implement ran and completed",
+    "  [ok] test.run ran and completed",
+    "  [ok] review.final ran and completed",
+    "  [ok] the final review ran",
+    "  [ok] the project completed after a PASS review",
+    "",
+    "Final demo OK: tcp -> COMPLETED, essay -> COMPLETED, change -> COMPLETED",
+    "model calls without a recording (incl. ones that failed while recording): 283"
+   ]
+  },
+  "live-smoke / router off / cloud": {
+   "cell": "live-smoke / router off / cloud",
+   "status": "green",
+   "seconds": 7.0,
+   "env": {
+    "HMAP_ROUTER": "off",
+    "HMAP_LLM_MODE": "live"
+   },
+   "command": "uv run --directory backend --frozen python -m hmap.agents.models.smoke",
+   "tail": [
+    "2026-11-02 02:25:36 [info     ] llm.call                       cached=False input_tokens=0 latency_s=3.5756 mode=live model=nomic-embed-text output_tokens=0 plugin=smoke provider=ollama role=embed texts=1",
+    "{",
+    " \"router\": \"off\",",
+    " \"mode\": \"live\",",
+    " \"fast\": \"groq:openai/gpt-oss-20b\",",
+    " \"reasoner\": \"gemini:gemini-3.6-flash\",",
+    " \"classify\": \"network\",",
+    " \"embed_dims\": 768,",
+    " \"ok\": true,",
+    " \"decisions\": 0,",
+    " \"seconds\": 6.4",
+    "}"
+   ]
+  },
+  "live-smoke / router on / cloud": {
+   "cell": "live-smoke / router on / cloud",
+   "status": "green",
+   "seconds": 3.8,
+   "env": {
+    "HMAP_ROUTER": "on",
+    "HMAP_LLM_MODE": "live"
+   },
+   "command": "uv run --directory backend --frozen python -m hmap.agents.models.smoke",
+   "tail": [
+    "2026-11-02 02:25:40 [info     ] llm.call                       cached=False input_tokens=0 latency_s=0.0301 mode=live model=nomic-embed-text output_tokens=0 plugin=smoke provider=ollama role=embed texts=1",
+    "{",
+    " \"router\": \"on\",",
+    " \"mode\": \"live\",",
+    " \"fast\": \"groq:openai/gpt-oss-20b\",",
+    " \"reasoner\": \"gemini:gemini-3.6-flash\",",
+    " \"classify\": \"network\",",
+    " \"embed_dims\": 768,",
+    " \"ok\": true,",
+    " \"decisions\": 3,",
+    " \"seconds\": 3.2",
+    "}"
+   ]
+  },
+  "live-smoke / router off / tier 1 (local only)": {
+   "cell": "live-smoke / router off / tier 1 (local only)",
+   "status": "green",
+   "seconds": 19.1,
+   "env": {
+    "HMAP_ROUTER": "off",
+    "HMAP_LLM_MODE": "live",
+    "HMAP_CLOUD_OK": "false",
+    "HMAP_ROLE_MAP": "reasoner=qwen3.5:9b,judge=qwen3.5:9b,coder=qwen3.5:9b,fast=qwen3.5:9b,classify=qwen3.5:9b,embed=nomic-embed-text"
+   },
+   "command": "uv run --directory backend --frozen python -m hmap.agents.models.smoke",
+   "tail": [
+    "2026-11-02 12:14:56 [info     ] llm.call                       cached=False input_tokens=0 latency_s=1.0265 mode=live model=nomic-embed-text output_tokens=0 plugin=smoke provider=ollama role=embed texts=1",
+    "{",
+    " \"router\": \"off\",",
+    " \"mode\": \"live\",",
+    " \"fast\": \"ollama:qwen3.5:9b\",",
+    " \"reasoner\": \"ollama:qwen3.5:9b\",",
+    " \"classify\": \"network\",",
+    " \"embed_dims\": 768,",
+    " \"ok\": true,",
+    " \"decisions\": 0,",
+    " \"seconds\": 17.5",
+    "}"
+   ]
+  },
+  "live-smoke / router on / tier 1 (local only)": {
+   "cell": "live-smoke / router on / tier 1 (local only)",
+   "status": "green",
+   "seconds": 5.4,
+   "env": {
+    "HMAP_ROUTER": "on",
+    "HMAP_LLM_MODE": "live",
+    "HMAP_CLOUD_OK": "false",
+    "HMAP_ROLE_MAP": "reasoner=qwen3.5:9b,judge=qwen3.5:9b,coder=qwen3.5:9b,fast=qwen3.5:9b,classify=qwen3.5:9b,embed=nomic-embed-text"
+   },
+   "command": "uv run --directory backend --frozen python -m hmap.agents.models.smoke",
+   "tail": [
+    "2026-11-02 12:15:01 [info     ] llm.call                       cached=False input_tokens=0 latency_s=0.0413 mode=live model=nomic-embed-text output_tokens=0 plugin=smoke provider=ollama role=embed texts=1",
+    "{",
+    " \"router\": \"on\",",
+    " \"mode\": \"live\",",
+    " \"fast\": \"ollama:qwen3.5:9b\",",
+    " \"reasoner\": \"ollama:qwen3.5:9b\",",
+    " \"classify\": \"network\",",
+    " \"embed_dims\": 768,",
+    " \"ok\": true,",
+    " \"decisions\": 3,",
+    " \"seconds\": 4.1",
+    "}"
+   ]
+  }
+ }
+}
