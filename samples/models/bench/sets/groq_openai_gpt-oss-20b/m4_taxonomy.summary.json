@@ -1,0 +1,14 @@
+{
+ "set": "m4_taxonomy",
+ "member": 4,
+ "model": "groq:openai/gpt-oss-20b",
+ "role": "classify",
+ "task": "issue category (accuracy)",
+ "status": "ok",
+ "score": 0.625,
+ "extra": {
+  "failed": 1
+ },
+ "seconds": 90.8,
+ "log_tail": ""
+}

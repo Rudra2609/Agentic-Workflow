@@ -1,0 +1,15 @@
+{
+ "set": "m3_planning",
+ "member": 3,
+ "model": "groq:openai/gpt-oss-120b",
+ "role": "reasoner",
+ "task": "plan validity",
+ "status": "ok",
+ "score": 1.0,
+ "extra": {
+  "steps_f1": 0.775,
+  "fallbacks": 1
+ },
+ "seconds": 42.1,
+ "log_tail": ""
+}
