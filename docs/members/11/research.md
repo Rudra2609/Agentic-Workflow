@@ -21,8 +21,8 @@ adapter); llama.cpp server is optional. All sit behind one provider interface (i
   be measured on our tasks, not assumed.
 
 **→ plan:**
-- Item 11.6: Q4_K_M vs Q8_0 of `qwen3.5:4b` (Q8 4b ≈ the memory of Q4 9b) on the bake-off sets, so "bigger model
-  vs better quant" is answered with data.
+- Item 11.6: the installed sizes (`qwen3.5:4b` vs `qwen3.5:9b`, both Q4_K_M) on the bake-off sets, so "which size
+  for this laptop" is answered with data.
 - The GGUF reader already reports each model's quant type.
 
 ## 3. Memory: weights + KV cache
