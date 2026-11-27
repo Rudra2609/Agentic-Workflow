@@ -96,6 +96,68 @@ class NoRecovery:
         return None
 
 
+@dataclass(frozen=True)
+class RouteQuery:
+    """What the gateway knows about one chat call when it asks the ``llm_provider`` slot (Sprint 11)."""
+
+    role: str
+    plugin: str                                   # the plug-in the client is bound to (the task type)
+    est_tokens: int                               # prompt estimate (characters / 3.5) + max_tokens
+    max_tokens: int
+    structured: bool                              # a JSON schema is attached
+    cloud_allowed: bool                           # this call may use the team key pool
+    default_model: str | None                     # the role map's local model (None: role not mapped)
+    default_routes: tuple[tuple[str, str], ...]   # the key pool's routes for the role, in their configured order
+    pool: dict[str, int] = field(default_factory=dict)   # provider -> keys usable right now
+
+
+@dataclass
+class RoutePlan:
+    """The slot's answer. ``cloud_routes``: ``None`` = the configured order, ``[]`` = no cloud for this call, else
+    the ``(provider, model)`` routes to try in this order. ``local_model`` / ``local`` replace the role map's model
+    and the gateway's Ollama provider for the local step (``local`` serialises its own calls: the gateway semaphore
+    is not taken)."""
+
+    cloud_routes: list[tuple[str, str]] | None = None
+    local_model: str | None = None
+    local: Any = None
+    reason: str = ""
+    decision_id: str = ""
+
+
+@dataclass(frozen=True)
+class RouteOutcome:
+    provider: str                                 # who answered (a cloud provider, ollama, mlx, ...) or "error"
+    model: str
+    ok: bool
+    latency_s: float
+    input_tokens: int = 0
+    output_tokens: int = 0
+    error: str = ""
+
+
+class RouteStrategy(Protocol):
+    """The ``llm_provider`` strategy slot (Sprint 11). For every live chat call (not replay hits, not fake mode,
+    not embeddings) the gateway asks ``decide``; ``None`` keeps today's role maps. After the call ``observe`` gets
+    the outcome, and ``observe_attempt`` (optional) each key-pool HTTP attempt (``outcome``: ok / rate_limited /
+    auth_error / rejected / error). Both must be quick and must not raise (errors are logged and ignored). Where the
+    platform builds the gateway it calls ``configure(settings)`` first when the strategy has one."""
+
+    def decide(self, query: RouteQuery) -> RoutePlan | None: ...
+
+    def observe(self, query: RouteQuery, plan: RoutePlan | None, outcome: RouteOutcome) -> None: ...
+
+
+class NoRouting:
+    """Before Sprint 11: the role maps decide."""
+
+    def decide(self, query: RouteQuery) -> RoutePlan | None:
+        return None
+
+    def observe(self, query: RouteQuery, plan: RoutePlan | None, outcome: RouteOutcome) -> None:
+        return None
+
+
 HookFn = Callable[[DomainEvent, ManagerHandle], Awaitable[None]]
 
 
